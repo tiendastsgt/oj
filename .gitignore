@@ -14,6 +14,9 @@ npm-debug.log
 dist/
 coverage/
 
+# Angular (caches/outputs)
+.angular/
+
 # IDE
 .vscode/
 .idea/
