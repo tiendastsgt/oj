@@ -1,0 +1,38 @@
+.documentos-page {
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+.error {
+  color: #b00020;
+}
+
+.visor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.visor-container {
+  background: #ffffff;
+  width: 90%;
+  height: 90%;
+  padding: 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.close-btn {
+  align-self: flex-end;
+  background: #e53935;
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}

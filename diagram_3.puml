@@ -1,0 +1,11 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing true
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  RoundCorner 15
+  BorderColor #777777
+  FontSize 16
+}
+rectangle "<b>FLUJO DE AUTENTICACIÓN</b>\n\n1. Ingresa        │                     │\nusuario/password  │                     │\n───────────────────>│                     │\n\n2. POST /auth/login│\n{user, password}   │\n────────────────────>│\n\n3. Buscar usuario\n───────────────────>\n\n4. Usuario + hash\n<───────────────────\n\n5. Verificar:\nPassword válido\nUsuario activo\nNo bloqueado\n\n6. Registrar\nauditoría\n───────────────────>\n\n7. JWT Token       │\n+ datos usuario    │\n<────────────────────│\n\n8. Guardar token   │\nen localStorage    │\n\n9. Redirigir      │                     │\nal dashboard      │                     │\n<───────────────────│                     │\n" as B1 #C7E3FF
+@enduml

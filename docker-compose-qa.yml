@@ -1,0 +1,138 @@
+version: '3.8'
+
+# Docker Compose para QA - SGED Stack
+# Contiene: NGINX + Backend (Java) + Frontend (Angular) + BD Oracle/H2
+# Uso:
+#   docker-compose -f docker-compose-qa.yml up -d
+
+services:
+  # ========================================
+  # NGINX Reverse Proxy + TLS + Frontend
+  # ========================================
+  nginx:
+    image: nginx:latest-alpine
+    container_name: sged-nginx-qa
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Configuración NGINX
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      # Frontend compilado Angular
+      - ./sGED-frontend/dist/sged-frontend:/var/www/sged-frontend/dist/sged-frontend:ro
+      # Certificados TLS (generar previamente con openssl)
+      - ./nginx/certs:/etc/nginx/certs:ro
+      # Logs
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - sged-net
+    depends_on:
+      - sged-backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ========================================
+  # Backend Spring Boot (Java 21)
+  # ========================================
+  sged-backend:
+    build:
+      context: ./sGED-backend
+      dockerfile: Dockerfile
+      args:
+        JAVA_VERSION: 21
+    container_name: sged-backend-qa
+    environment:
+      # Spring profiles
+      SPRING_PROFILES_ACTIVE: qa
+      
+      # Database
+      DB_URL: jdbc:oracle:thin:@sged-db:1521/SGED
+      DB_USER: ${DB_USER:-sged}
+      DB_PASSWORD: ${DB_PASSWORD:?error}
+      DB_POOL_MAX: 10
+      DB_POOL_MIN: 2
+      
+      # JWT
+      JWT_SECRET: ${JWT_SECRET:?error}
+      JWT_EXPIRATION_MS: 28800000
+      
+      # Documents storage
+      DOCUMENTOS_BASE_PATH: /data/documentos
+      DOCUMENTOS_CONVERSION_ENABLED: "true"
+      
+      # Logging
+      LOGGING_LEVEL_COM_OJ_SGED: INFO
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: INFO
+      LOGGING_LEVEL_ORG_HIBERNATE: WARN
+      
+      # Management endpoints
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info
+      
+    ports:
+      - "8080:8080"
+    volumes:
+      # Storage de documentos
+      - ./data/documentos:/data/documentos
+      # Logs
+      - ./logs/backend:/var/log/sged
+    networks:
+      - sged-net
+    depends_on:
+      sged-db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # ========================================
+  # Base de Datos Oracle / H2
+  # ========================================
+  # Para QA: usar Oracle real o H2 modo Oracle
+  # Esta es una plantilla con H2 en memoria (no persiste)
+  # En producción, usar Oracle Database en contenedor o externa
+  sged-db:
+    image: oracle-xe:21.3.0
+    # ALTERNATIVA para desarrollo (sin licencia):
+    # image: orafce/oracle-xe:21.3.0
+    # O usar contenedor H2:
+    # build:
+    #   context: ./db
+    #   dockerfile: Dockerfile.h2
+    container_name: sged-db-qa
+    environment:
+      ORACLE_PWD: ${ORACLE_PWD:?error}
+      ORACLE_SID: SGED
+    ports:
+      - "1521:1521"
+    volumes:
+      # Datos persistentes
+      - ./data/oracle-db:/opt/oracle/oradata
+      # Scripts de inicialización (Flyway/Liquibase)
+      - ./sGED-backend/src/main/resources/db/migration:/docker-entrypoint-initdb.d:ro
+    networks:
+      - sged-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "sqlplus", "-s", "sys/as sysdba"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+networks:
+  sged-net:
+    driver: bridge
+    name: sged-qa-network
+
+volumes:
+  oracle-data:
+    driver: local

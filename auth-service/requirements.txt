@@ -1,0 +1,29 @@
+# FastAPI y servidor
+fastapi==0.123.5
+uvicorn[standard]==0.38.0
+pydantic==2.12.5
+pydantic-settings==2.12.0
+email-validator>=2.0.0
+
+# Base de datos
+psycopg2-binary==2.9.9
+
+# Utilidades
+python-dotenv==1.0.0
+python-multipart==0.0.6
+
+# Autenticación (JWT y Supabase)
+python-jose[cryptography]==3.3.0
+supabase==2.24.0
+
+# HTTP Client (opcional, para comunicarse con otros servicios)
+httpx>=0.26.0,<0.29.0
+
+# Testing (desarrollo)
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# Observabilidad (Prometheus)
+prometheus-client==0.20.0
+prometheus-fastapi-instrumentator==7.0.0
+slowapi==0.1.9

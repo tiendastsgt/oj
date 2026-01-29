@@ -1,0 +1,11 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing true
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  RoundCorner 15
+  BorderColor #777777
+  FontSize 16
+}
+rectangle "<b>PIRÁMIDE DE PRUEBAS</b>" as B1 #C7E3FF
+@enduml

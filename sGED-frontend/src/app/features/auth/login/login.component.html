@@ -1,0 +1,40 @@
+<div class="auth-container">
+  <p-card header="Iniciar sesión" styleClass="auth-card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="username">Usuario</label>
+        <input
+          id="username"
+          type="text"
+          pInputText
+          formControlName="username"
+          autocomplete="username"
+        />
+        <small class="error" *ngIf="isInvalid('username')">El usuario es requerido</small>
+      </div>
+
+      <div class="form-field">
+        <label for="password">Contraseña</label>
+        <p-password
+          id="password"
+          formControlName="password"
+          [feedback]="false"
+          toggleMask="true"
+          autocomplete="current-password"
+        ></p-password>
+        <small class="error" *ngIf="isInvalid('password')">La contraseña es requerida</small>
+      </div>
+
+      <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+
+      <button
+        pButton
+        type="submit"
+        label="Iniciar sesión"
+        [loading]="loading"
+        [disabled]="loading"
+        class="submit-button"
+      ></button>
+    </form>
+  </p-card>
+</div>

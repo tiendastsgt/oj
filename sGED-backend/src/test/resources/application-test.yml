@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:sged;DB_CLOSE_DELAY=-1;MODE=Oracle
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
+
+jwt:
+  secret: ${JWT_SECRET:sged-test-secret-key-should-be-at-least-32-bytes}
+  expiration-ms: ${JWT_EXPIRATION_MS:28800000}
+
+sged:
+  documentos:
+    storage:
+      base-path: ${DOCUMENTOS_BASE_PATH:${java.io.tmpdir}/sged-docs-test}
+      max-size-bytes: ${DOCUMENTOS_MAX_SIZE:104857600}
+      conversion:
+        enabled: false

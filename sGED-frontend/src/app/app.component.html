@@ -1,0 +1,9 @@
+<header class="app-header" *ngIf="(currentUser$ | async) as user">
+  <div class="app-title">SGED</div>
+  <div class="user-info">
+    <span>{{ user.nombreCompleto }} ({{ user.rol }})</span>
+    <button pButton type="button" label="Cerrar sesión" icon="pi pi-sign-out" (click)="onLogout()"></button>
+  </div>
+</header>
+
+<router-outlet></router-outlet>

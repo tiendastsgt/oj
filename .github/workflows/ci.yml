@@ -1,0 +1,207 @@
+name: CI
+
+on:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+    branches: [ develop, main ]
+
+jobs:
+  # ========================================
+  # CodeQL Security Analysis (SAST)
+  # ========================================
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['java', 'javascript']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+
+      - name: Autobuild (Java)
+        if: matrix.language == 'java'
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Build Frontend (TypeScript)
+        if: matrix.language == 'javascript'
+        working-directory: sGED-frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:${{ matrix.language }}
+
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Run backend tests with coverage
+        working-directory: sGED-backend
+        run: ./mvnw -B verify -Ptest-coverage
+
+      - name: Upload JaCoCo report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: sGED-backend/target/site/jacoco/**
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: sGED-frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: sGED-frontend
+        run: npm ci
+
+      - name: Run frontend tests with coverage
+        working-directory: sGED-frontend
+        run: npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: sGED-frontend/coverage/**
+  # ========================================
+  # Build Docker Images
+  # ========================================
+  build-docker-images:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests, codeql-analysis]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./sGED-backend
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/sged-backend:${{ github.sha }}
+            ${{ secrets.DOCKER_REGISTRY }}/sged-backend:latest-${{ github.ref_name }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/sged-backend:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/sged-backend:buildcache,mode=max
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./sGED-frontend
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/sged-frontend:${{ github.sha }}
+            ${{ secrets.DOCKER_REGISTRY }}/sged-frontend:latest-${{ github.ref_name }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/sged-frontend:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_REGISTRY }}/sged-frontend:buildcache,mode=max
+
+  # ========================================
+  # Deploy to QA (opcional, triggered en develop)
+  # ========================================
+  deploy-qa:
+    name: Deploy to QA
+    runs-on: ubuntu-latest
+    needs: build-docker-images
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    environment:
+      name: qa
+      url: https://sged-qa.example.com
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to QA
+        env:
+          QA_DEPLOY_KEY: ${{ secrets.QA_DEPLOY_KEY }}
+          QA_DEPLOY_HOST: ${{ secrets.QA_DEPLOY_HOST }}
+        run: |
+          # Placeholder: Script de despliegue (SSH, Ansible, etc.)
+          echo "Deploying to QA environment..."
+          # ssh -i $QA_DEPLOY_KEY qa-deployer@$QA_DEPLOY_HOST "cd /opt/sged && docker-compose pull && docker-compose up -d"
+
+  # ========================================
+  # DAST: OWASP ZAP Scan (nightly o manual)
+  # ========================================
+  dast-zap-scan:
+    name: DAST - OWASP ZAP Scan
+    runs-on: ubuntu-latest
+    if: |
+      (github.event_name == 'schedule' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch')
+    services:
+      sged-backend:
+        image: ${{ secrets.DOCKER_REGISTRY }}/sged-backend:latest-main
+        options: >-
+          --health-cmd="curl -f http://localhost:8080/health || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+      nginx:
+        image: nginx:latest-alpine
+        options: >-
+          --health-cmd="wget --quiet --tries=1 --spider http://localhost/health || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+          target: 'http://nginx'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+      - name: Upload ZAP report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-scan-report
+          path: report_md.md

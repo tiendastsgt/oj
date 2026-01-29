@@ -1,0 +1,197 @@
+version: '3.8'
+
+# Docker Compose para PRODUCCIÓN - SGED Stack
+# Contiene: NGINX + Backend (Java) + Frontend (Angular) + BD Oracle
+# Diferencias con QA:
+#   - Secretos desde archivos/vault (no variables inline)
+#   - HTTPS obligatorio con certificados reales
+#   - Recursos limitados
+#   - Healthchecks más estrictos
+#   - Sin volumes de logs en local (usar logging driver remoto)
+# Uso:
+#   docker-compose -f docker-compose-prod.yml up -d
+
+services:
+  # ========================================
+  # NGINX Reverse Proxy + TLS + Frontend
+  # ========================================
+  nginx:
+    image: nginx:latest-alpine
+    container_name: sged-nginx-prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Configuración NGINX (prod-specific)
+      - ./nginx/nginx-prod.conf:/etc/nginx/nginx.conf:ro
+      # Frontend compilado Angular
+      - ./sGED-frontend/dist/sged-frontend:/var/www/sged-frontend/dist/sged-frontend:ro
+      # Certificados TLS reales (Let's Encrypt o similar)
+      - /etc/letsencrypt/live/sged.example.com:/etc/nginx/certs:ro
+      # Logs → remoto (CloudWatch, ELK, etc.)
+    networks:
+      - sged-prod-net
+    depends_on:
+      - sged-backend
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    logging:
+      driver: "splunk"
+      options:
+        splunk-token: "${SPLUNK_TOKEN}"
+        splunk-url: "https://splunk.example.com:8088"
+
+  # ========================================
+  # Backend Spring Boot (Java 21)
+  # ========================================
+  sged-backend:
+    build:
+      context: ./sGED-backend
+      dockerfile: Dockerfile
+      args:
+        JAVA_VERSION: 21
+        BUILD_ENV: prod
+    image: sged-backend:latest
+    container_name: sged-backend-prod
+    environment:
+      # Spring profiles
+      SPRING_PROFILES_ACTIVE: prod
+      
+      # Database
+      DB_URL: ${DB_URL}  # e.g., jdbc:oracle:thin:@oracle.sged.internal:1521/SGED
+      DB_USER_FILE: /run/secrets/db_user
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      DB_POOL_MAX: 20
+      DB_POOL_MIN: 5
+      
+      # JWT (desde secretos)
+      JWT_SECRET_FILE: /run/secrets/jwt_secret
+      JWT_EXPIRATION_MS: 28800000
+      
+      # Documents storage (en producción, usar S3 u otro blob storage)
+      DOCUMENTOS_BASE_PATH: /mnt/sged/documentos
+      DOCUMENTOS_CONVERSION_ENABLED: "true"
+      
+      # Logging
+      LOGGING_LEVEL_COM_OJ_SGED: INFO
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: WARN
+      LOGGING_LEVEL_ORG_HIBERNATE: ERROR
+      
+      # Management endpoints (solo health/info en prod)
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info
+      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: when-authorized
+      
+    secrets:
+      - db_user
+      - db_password
+      - jwt_secret
+    ports:
+      - "8080:8080"
+    volumes:
+      # Storage de documentos (NFS o similar)
+      - /mnt/sged/documentos:/mnt/sged/documentos
+    networks:
+      - sged-prod-net
+    depends_on:
+      sged-db:
+        condition: service_healthy
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: "/sged/backend"
+        awslogs-region: "us-east-1"
+        awslogs-stream-prefix: "prod"
+
+  # ========================================
+  # Base de Datos Oracle (Producción)
+  # ========================================
+  sged-db:
+    image: oracle:21-full
+    # En producción real, considerar usar RDS/managed DB
+    container_name: sged-db-prod
+    environment:
+      ORACLE_PWD_FILE: /run/secrets/oracle_pwd
+      ORACLE_SID: SGED
+    secrets:
+      - oracle_pwd
+    ports:
+      - "1521:1521"  # Restringir a IPs internas en producción
+    volumes:
+      # Datos persistentes (NFS o storage empresarial)
+      - /mnt/sged/oracle-data:/opt/oracle/oradata
+      # Backups
+      - /mnt/sged/oracle-backups:/opt/oracle/backups
+    networks:
+      - sged-prod-net
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 8G
+        reservations:
+          cpus: '4'
+          memory: 4G
+    healthcheck:
+      test: ["CMD", "sqlplus", "-s", "sys/as sysdba @health_check.sql"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-group: "/sged/database"
+        awslogs-region: "us-east-1"
+        awslogs-stream-prefix: "prod"
+
+# ========================================
+# Secretos (desde archivos o Vault)
+# ========================================
+secrets:
+  db_user:
+    file: /run/secrets/db_user
+  db_password:
+    file: /run/secrets/db_password
+  jwt_secret:
+    file: /run/secrets/jwt_secret
+  oracle_pwd:
+    file: /run/secrets/oracle_pwd
+
+# ========================================
+# Red aislada para producción
+# ========================================
+networks:
+  sged-prod-net:
+    driver: bridge
+    name: sged-prod-network
+    driver_opts:
+      com.docker.network.bridge.name: sged-prod-br0

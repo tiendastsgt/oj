@@ -1,0 +1,82 @@
+<p-card header="Búsqueda avanzada">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="busqueda-form">
+    <div class="form-field">
+      <label for="numero">Número</label>
+      <input id="numero" pInputText formControlName="numero" />
+    </div>
+
+    <div class="form-field">
+      <label for="fechaDesde">Fecha desde</label>
+      <p-datepicker id="fechaDesde" formControlName="fechaDesde" dateFormat="yy-mm-dd"></p-datepicker>
+    </div>
+
+    <div class="form-field">
+      <label for="fechaHasta">Fecha hasta</label>
+      <p-datepicker id="fechaHasta" formControlName="fechaHasta" dateFormat="yy-mm-dd"></p-datepicker>
+      <small class="error" *ngIf="form.hasError('dateRange')">La fecha desde debe ser menor o igual a la fecha hasta</small>
+    </div>
+
+    <div class="form-field">
+      <label for="estadoId">Estado</label>
+      <p-select
+        id="estadoId"
+        formControlName="estadoId"
+        [options]="estados"
+        optionLabel="nombre"
+        optionValue="id"
+        placeholder="Seleccione estado"
+      ></p-select>
+    </div>
+
+    <div class="form-field">
+      <label for="tipoProcesoId">Tipo de proceso</label>
+      <p-select
+        id="tipoProcesoId"
+        formControlName="tipoProcesoId"
+        [options]="tiposProceso"
+        optionLabel="nombre"
+        optionValue="id"
+        placeholder="Seleccione tipo"
+      ></p-select>
+    </div>
+
+    <div class="form-field">
+      <label for="juzgadoId">Juzgado</label>
+      <p-select
+        id="juzgadoId"
+        formControlName="juzgadoId"
+        [options]="juzgados"
+        optionLabel="nombre"
+        optionValue="id"
+        placeholder="Seleccione juzgado"
+      ></p-select>
+    </div>
+
+    <div class="form-field">
+      <label for="actorPrincipal">Actor principal</label>
+      <input id="actorPrincipal" pInputText formControlName="actorPrincipal" />
+    </div>
+
+    <div class="form-field">
+      <label for="demandadoPrincipal">Demandado principal</label>
+      <input id="demandadoPrincipal" pInputText formControlName="demandadoPrincipal" />
+    </div>
+
+    <div class="form-field">
+      <label for="referenciaSgt">Referencia SGT</label>
+      <input id="referenciaSgt" pInputText formControlName="referenciaSgt" />
+    </div>
+
+    <button pButton type="submit" label="Buscar" [disabled]="loading"></button>
+  </form>
+
+  <div class="messages">
+    <p-message *ngFor="let message of errorMessages" severity="error" [text]="message"></p-message>
+  </div>
+
+  <app-resultados-busqueda
+    [resultados]="resultados"
+    [loading]="loading"
+    (lazyLoad)="onLazyLoad($event)"
+  ></app-resultados-busqueda>
+</p-card>

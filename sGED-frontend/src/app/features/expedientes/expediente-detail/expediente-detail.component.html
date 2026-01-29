@@ -1,0 +1,55 @@
+<p-card header="Detalle de expediente">
+  <ng-container *ngIf="expediente; else loadingOrError">
+    <p-tabs>
+      <p-tablist>
+        <p-tab value="detalle">Detalle</p-tab>
+        <p-tab value="documentos">Documentos</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="detalle">
+          <div class="detail-grid">
+            <div><strong>Número:</strong> {{ expediente.numero }}</div>
+            <div><strong>Tipo de proceso:</strong> {{ getTipoProcesoName(expediente.tipoProcesoId) }}</div>
+            <div><strong>Estado:</strong> {{ getEstadoName(expediente.estadoId) }}</div>
+            <div><strong>Juzgado:</strong> {{ getJuzgadoName(expediente.juzgadoId) }}</div>
+            <div><strong>Fecha inicio:</strong> {{ expediente.fechaInicio | date: 'yyyy-MM-dd' }}</div>
+            <div><strong>Descripción:</strong> {{ expediente.descripcion }}</div>
+            <div><strong>Observaciones:</strong> {{ expediente.observaciones || 'N/A' }}</div>
+            <div><strong>Referencia SGT:</strong> {{ expediente.referenciaSgt || 'N/A' }}</div>
+            <div><strong>Fuente referencia:</strong> {{ expediente.referenciaFuente || 'N/A' }}</div>
+            <div><strong>Usuario creación:</strong> {{ expediente.usuarioCreacion }}</div>
+            <div><strong>Fecha creación:</strong> {{ expediente.fechaCreacion | date: 'yyyy-MM-dd HH:mm' }}</div>
+            <div><strong>Usuario modificación:</strong> {{ expediente.usuarioModificacion || 'N/A' }}</div>
+            <div><strong>Fecha modificación:</strong> {{ expediente.fechaModificacion | date: 'yyyy-MM-dd HH:mm' }}</div>
+          </div>
+
+          <div class="detail-actions">
+            <button
+              pButton
+              type="button"
+              label="Editar"
+              icon="pi pi-pencil"
+              *ngIf="canEdit()"
+              [routerLink]="['/expedientes', expediente.id, 'editar']"
+            ></button>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel value="documentos">
+          <app-documentos-list
+            [expedienteId]="expediente.id"
+            (viewDocumento)="onViewDocumento($event)"
+          ></app-documentos-list>
+          <app-documento-viewer
+            [documento]="selectedDocumento"
+            (close)="onCloseViewer()"
+          ></app-documento-viewer>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </ng-container>
+
+  <ng-template #loadingOrError>
+    <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+    <p-message *ngIf="!errorMessage && loading" severity="info" text="Cargando expediente..."></p-message>
+  </ng-template>
+</p-card>

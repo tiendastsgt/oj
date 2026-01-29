@@ -1,0 +1,30 @@
+<p-card header="Vista previa de documento" *ngIf="documento; else emptyState">
+  <div class="viewer-actions">
+    <button pButton type="button" label="Descargar" icon="pi pi-download" class="p-button-text" (click)="download()"></button>
+    <button pButton type="button" label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="close.emit()"></button>
+  </div>
+
+  <div class="viewer-content">
+    <iframe *ngIf="isPdf" [src]="inlineUrl" title="PDF"></iframe>
+    <img *ngIf="isImage" [src]="inlineUrl" [alt]="documento?.nombreOriginal" />
+
+    <audio *ngIf="isAudio" [src]="inlineUrl" controls></audio>
+    <video *ngIf="isVideo" [src]="inlineUrl" controls></video>
+
+    <p-message
+      *ngIf="isWord"
+      severity="info"
+      text="El documento Word no se puede previsualizar. Use Descargar."
+    ></p-message>
+
+    <p-message
+      *ngIf="!isPdf && !isImage && !isAudio && !isVideo && !isWord"
+      severity="warn"
+      text="Este tipo de documento no se puede mostrar en el navegador."
+    ></p-message>
+  </div>
+</p-card>
+
+<ng-template #emptyState>
+  <p-message severity="info" text="Seleccione un documento para visualizar."></p-message>
+</ng-template>

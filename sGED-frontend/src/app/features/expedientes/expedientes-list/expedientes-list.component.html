@@ -1,0 +1,74 @@
+<p-card header="Expedientes">
+  <div class="expedientes-actions">
+    <button
+      pButton
+      type="button"
+      label="Nuevo expediente"
+      icon="pi pi-plus"
+      *ngIf="canCreate()"
+      routerLink="/expedientes/nuevo"
+    ></button>
+  </div>
+
+  <p-table
+    [value]="expedientes"
+    [lazy]="true"
+    [paginator]="true"
+    [rows]="rows"
+    [first]="first"
+    [totalRecords]="totalRecords"
+    [loading]="loading"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    (onLazyLoad)="onLazyLoad($event)"
+    sortField="fechaCreacion"
+    sortOrder="-1"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="numero">Número <p-sortIcon field="numero"></p-sortIcon></th>
+        <th>Tipo</th>
+        <th>Estado</th>
+        <th>Juzgado</th>
+        <th pSortableColumn="fechaInicio">Fecha inicio <p-sortIcon field="fechaInicio"></p-sortIcon></th>
+        <th pSortableColumn="fechaCreacion">Fecha creación <p-sortIcon field="fechaCreacion"></p-sortIcon></th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-expediente>
+      <tr>
+        <td>{{ expediente.numero }}</td>
+        <td>{{ expediente.tipoProcesoId }}</td>
+        <td>{{ expediente.estadoId }}</td>
+        <td>{{ expediente.juzgadoId }}</td>
+        <td>{{ expediente.fechaInicio | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ expediente.fechaCreacion | date: 'yyyy-MM-dd HH:mm' }}</td>
+        <td class="acciones">
+          <button
+            pButton
+            type="button"
+            label="Ver"
+            icon="pi pi-eye"
+            class="p-button-text"
+            [routerLink]="['/expedientes', expediente.id]"
+          ></button>
+          <button
+            pButton
+            type="button"
+            label="Editar"
+            icon="pi pi-pencil"
+            class="p-button-text"
+            *ngIf="canEdit()"
+            [routerLink]="['/expedientes', expediente.id, 'editar']"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">No hay expedientes para mostrar.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+</p-card>

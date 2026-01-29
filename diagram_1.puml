@@ -1,0 +1,17 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing true
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  RoundCorner 15
+  BorderColor #777777
+  FontSize 16
+}
+rectangle "<b>FRONTEND (Angular 19)</b>\n── UI, navegación, validaciones, llamadas HTTP" as B1 #C7E3FF
+rectangle "<b>BACKEND (Spring Boot 3.4)</b>\n── Controllers: endpoints REST\n── Services: lógica de negocio\n── Repositories: acceso a datos" as B2 #CFEFD0
+rectangle "<b>BASE DE DATOS (Oracle)</b>\n── SGED: expedientes, documentos, usuarios, auditoría\n── SGTv1: solo lectura\n── SGTv2: solo lectura" as B3 #FFE4C4
+rectangle "<b>SISTEMA DE ARCHIVOS</b>\n── Almacenamiento de documentos (PDF, imágenes, etc.)" as B4 #E3E3E3
+B1 -down-> B2
+B2 -down-> B3
+B3 -down-> B4
+@enduml

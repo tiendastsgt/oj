@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="SGED-LoadTest-Scenario1-50Users" enabled="true">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="BASE_URL" elementType="Argument">
+            <stringProp name="Argument.name">BASE_URL</stringProp>
+            <stringProp name="Argument.value">http://localhost:4200</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="API_URL" elementType="Argument">
+            <stringProp name="Argument.name">API_URL</stringProp>
+            <stringProp name="Argument.value">http://localhost:8080</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="THINK_TIME" elementType="Argument">
+            <stringProp name="Argument.name">THINK_TIME</stringProp>
+            <stringProp name="Argument.value">2000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="RAMP_UP_TIME" elementType="Argument">
+            <stringProp name="Argument.name">RAMP_UP_TIME</stringProp>
+            <stringProp name="Argument.value">60</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <stringProp name="TestPlan.comments">Escenario 1: 50 usuarios concurrentes (carga baseline)
+- Ramp-up: 60 segundos (0-60s)
+- Hold: 10 minutos (60-660s)
+- Endpoints: Auth, Búsqueda, Expedientes, Documentos
+- Métricas: P95, P99, Error Rate, Throughput</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="ThreadGroup-50Users" enabled="true">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${RAMP_UP_TIME}</stringProp>
+        <longProp name="ThreadGroup.start_time">1234567890000</longProp>
+        <longProp name="ThreadGroup.end_time">1234567890000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">600</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1</stringProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout">5000</stringProp>
+          <stringProp name="HTTPSampler.response_timeout">30000</stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+          <elementProp name="collectorData">
+            <collectionProp name="SampleResults"/>
+          </elementProp>
+          <stringProp name="filename">results-scenario1.jtl</stringProp>
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <boolProp name="collectorData.clear_results">true</boolProp>
+          <boolProp name="collectorData.save_config">true</boolProp>
+          <boolProp name="collectorData.trim_results">true</boolProp>
+          <boolProp name="collectorData.save_successful">true</boolProp>
+          <boolProp name="collectorData.save_failed">true</boolProp>
+          <boolProp name="collectorData.save_all_fields">true</boolProp>
+          <stringProp name="collectorData.save_assertion_results_failure_message">true</stringProp>
+          <stringProp name="collectorData.assertion_results_to_save">0</stringProp>
+          <stringProp name="collectorData.assertions_result_to_save">0</stringProp>
+          <stringProp name="collectorData.bytes">true</stringProp>
+          <stringProp name="collectorData.code">true</stringProp>
+          <stringProp name="collectorData.connect_time">true</stringProp>
+          <stringProp name="collectorData.encoding">true</stringProp>
+          <stringProp name="collectorData.exception">true</stringProp>
+          <stringProp name="collectorData.failure_data">true</stringProp>
+          <stringProp name="collectorData.failure_message">true</stringProp>
+          <stringProp name="collectorData.idle_time">true</stringProp>
+          <stringProp name="collectorData.label">true</stringProp>
+          <stringProp name="collectorData.latency">true</stringProp>
+          <stringProp name="collectorData.message">true</stringProp>
+          <stringProp name="collectorData.response_data">false</stringProp>
+          <stringProp name="collectorData.response_headers">false</stringProp>
+          <stringProp name="collectorData.sample_count">true</stringProp>
+          <stringProp name="collectorData.sample_time">true</stringProp>
+          <stringProp name="collectorData.success">true</stringProp>
+          <stringProp name="collectorData.thread_counts">true</stringProp>
+          <stringProp name="collectorData.thread_name">true</stringProp>
+          <stringProp name="collectorData.timestamp">true</stringProp>
+          <stringProp name="collectorData.url">true</stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="1. Login" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{"username":"secretario.qa","password":"QAPassword123!"}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1/auth/login</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract JWT Token" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">jwt_token</stringProp>
+            <stringProp name="RegexExtractor.regex">"token":"([^"]+)"</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <AssertionSampler guiclass="AssertionGui" testclass="AssertionSampler" testname="Assert 200 OK" enabled="true">
+            <elementProp name="Asserion.test_type" elementType="Assertion" guiclass="AssertionGui" testclass="Assertion" testname="Response Assertion" enabled="true">
+              <intProp name="Assertion.test_type">6</intProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <elementProp name="Asserion.test_strings" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Assertion.test_strings" enabled="true">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.value">200</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </elementProp>
+          </AssertionSampler>
+          <hashTree/>
+        </hashTree>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Think Time 2s" enabled="true">
+          <stringProp name="ConstantTimer.delay">${THINK_TIME}</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="2. Search Expedientes" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="texto" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">texto</stringProp>
+                <stringProp name="Argument.value">2024</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="page" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">page</stringProp>
+                <stringProp name="Argument.value">0</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1/expedientes/busqueda</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${jwt_token}</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <AssertionSampler guiclass="AssertionGui" testclass="AssertionSampler" testname="Assert 200 OK" enabled="true">
+            <elementProp name="Asserion.test_type" elementType="Assertion" guiclass="AssertionGui" testclass="Assertion" testname="Response Assertion" enabled="true">
+              <intProp name="Assertion.test_type">6</intProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <elementProp name="Asserion.test_strings" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Assertion.test_strings" enabled="true">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.value">200</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </elementProp>
+          </AssertionSampler>
+          <hashTree/>
+        </hashTree>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Think Time 2s" enabled="true">
+          <stringProp name="ConstantTimer.delay">${THINK_TIME}</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="3. Get Expediente Detail" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1/expedientes/2024-001</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${jwt_token}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <AssertionSampler guiclass="AssertionGui" testclass="AssertionSampler" testname="Assert 200 OK" enabled="true">
+            <elementProp name="Asserion.test_type" elementType="Assertion" guiclass="AssertionGui" testclass="Assertion" testname="Response Assertion" enabled="true">
+              <intProp name="Assertion.test_type">6</intProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <elementProp name="Asserion.test_strings" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Assertion.test_strings" enabled="true">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.value">200</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </elementProp>
+          </AssertionSampler>
+          <hashTree/>
+        </hashTree>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Think Time 2s" enabled="true">
+          <stringProp name="ConstantTimer.delay">${THINK_TIME}</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="4. List Documentos" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="expedienteId" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">expedienteId</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${API_URL}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/v1/expedientes/1/documentos</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">Bearer ${jwt_token}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <AssertionSampler guiclass="AssertionGui" testclass="AssertionSampler" testname="Assert 200 OK" enabled="true">
+            <elementProp name="Asserion.test_type" elementType="Assertion" guiclass="AssertionGui" testclass="Assertion" testname="Response Assertion" enabled="true">
+              <intProp name="Assertion.test_type">6</intProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <elementProp name="Asserion.test_strings" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Assertion.test_strings" enabled="true">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.value">200</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </elementProp>
+          </AssertionSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -1,0 +1,11 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing true
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  RoundCorner 15
+  BorderColor #777777
+  FontSize 16
+}
+rectangle "<b>│                     │</b>\n1. Acción            │                     │\n─────────────────────>│                     │\n2. HTTP Request    │\n───────────────────>│\n3. Query/Save\n─────────────────────>\n\n4. Result\n<─────────────────────\n5. HTTP Response   │\n<───────────────────│\n6. Actualizar UI     │                     │\n<─────────────────────│                     │\n" as B1 #C7E3FF
+@enduml

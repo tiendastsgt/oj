@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing true
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  RoundCorner 15
+  BorderColor #777777
+  FontSize 16
+}
+rectangle "<b>CHECKLIST POST-DESPLIEGUE SGED</b>\nFecha: ______________  Responsable: _____________________\nVersión desplegada: ______________" as B1 #C7E3FF
+rectangle "<b>SERVICIOS</b>\n[ ] Contenedor backend ejecutándose\n[ ] Contenedor frontend ejecutándose\n[ ] Health check backend OK\n[ ] Health check frontend OK\n[ ] Sin errores en logs de inicio" as B2 #CFEFD0
+rectangle "<b>FUNCIONALIDAD BÁSICA</b>\n[ ] Página de login carga\n[ ] Login con admin funciona\n[ ] Cambio de contraseña funciona\n[ ] Navegación general funciona\n[ ] Listado de expedientes carga" as B3 #FFE4C4
+rectangle "<b>FUNCIONALIDAD COMPLETA</b>\n[ ] Crear expediente funciona\n[ ] Editar expediente funciona\n[ ] Cargar documento funciona\n[ ] Visualizar PDF funciona\n[ ] Visualizar imagen funciona\n[ ] Reproducir audio funciona\n[ ] Reproducir video funciona\n[ ] Descargar documento funciona\n[ ] Búsqueda rápida funciona\n[ ] Búsqueda avanzada funciona\n[ ] Consulta SGT funciona (si disponible)\n[ ] Gestión de usuarios funciona\n[ ] Auditoría registrando eventos" as B4 #E3E3E3
+rectangle "<b>SEGURIDAD</b>\n[ ] HTTPS funcionando\n[ ] Redirección HTTP a HTTPS\n[ ] Certificado válido (sin advertencias)\n[ ] Headers de seguridad presentes\n[ ] Login incorrecto muestra error apropiado\n[ ] Bloqueo de cuenta funciona" as B5 #D9C2FF
+rectangle "<b>RENDIMIENTO</b>\n[ ] Tiempo de carga < 3 segundos\n[ ] APIs responden < 2 segundos\n[ ] Sin errores de timeout" as B6 #C7E3FF
+rectangle "<b>RESULTADO</b>" as B7 #CFEFD0
+rectangle "<b>[ ] DESPLIEGUE EXITOSO</b>\n[ ] DESPLIEGUE CON OBSERVACIONES (documentar abajo)\n[ ] REQUIERE ROLLBACK" as B8 #FFE4C4
+rectangle "<b>Observaciones:</b>\n___________________________________________________________________________\n___________________________________________________________________________" as B9 #E3E3E3
+rectangle "<b>Verificado por: _________________________ Fecha/Hora: ___________</b>" as B10 #D9C2FF
+B1 -down-> B2
+B2 -down-> B3
+B3 -down-> B4
+B4 -down-> B5
+B5 -down-> B6
+B6 -down-> B7
+B7 -down-> B8
+B8 -down-> B9
+B9 -down-> B10
+@enduml

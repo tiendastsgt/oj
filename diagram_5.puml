@@ -1,0 +1,13 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing true
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  RoundCorner 15
+  BorderColor #777777
+  FontSize 16
+}
+rectangle "<b>NAVEGADOR</b>\n(Usuario)\nNGINX (Puerto 443)\nReverse Proxy + SSL + Static" as B1 #C7E3FF
+rectangle "<b>BACKEND (8080)         │              │      FRONTEND</b>\nSpring Boot 3.4        │              │      Angular 19\n(Archivos estáticos)\nControllers       │\n───────────────────────┤\nServices         │\n───────────────────────┤\nRepositories       │\n───────────────────────┘\n\nSGED  │ │ SGTv1  │ │ SGTv2  │    │   STORAGE\nOracle │ │ Oracle │ │ Oracle │    │ File System\n(RW)  │ │  (RO)  │ │  (RO)  │    │" as B2 #CFEFD0
+B1 -down-> B2
+@enduml
