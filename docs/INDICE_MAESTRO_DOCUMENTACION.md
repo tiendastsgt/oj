@@ -40,10 +40,17 @@ Documentación central del proyecto SGED que define alcance, arquitectura y visi
 | [ROADMAP_PROYECTO_SGED.md](./general/ROADMAP_PROYECTO_SGED.md) | Hoja de ruta con 8 fases (0-7) y estado actual. Desglose de tareas, objetivos y timeline. Actualizado post-QA. | ✅ v1.0.0+ | Agente de Documentación |
 | [STACK_TECNICO_ACTUALIZADO.md](./general/STACK_TECNICO_ACTUALIZADO.md) | Stack técnico definido: Angular 21, Spring Boot 3.5, Java 21, Oracle 19c, etc. Versiones exactas de todas las dependencias. | ✅ v1.0.0+ | DevOps Team |
 
+### Auditorías Técnicas
+
+| Documento | Descripción | Vigencia | Responsable |
+|-----------|-------------|----------|-------------|
+| [auditorias/AUDITORIA_JAVA_RESUMEN.md](./general/auditorias/AUDITORIA_JAVA_RESUMEN.md) | Auditoría de versión Java en build y runtime. Confirma Java 21 en todas las capas (Maven, Docker, CI, tests). Recomendación baseline: Java 21 LTS. | ✅ v1.0.0+ | DevOps Team |
+
 **Cuándo consultar:**
 - Antes de empezar cualquier tarea (ver ROADMAP)
 - Para entender requisitos: plan_detallado.md
 - Para verificar versiones: STACK_TECNICO_ACTUALIZADO.md
+- Para confirmar Java en todos lados: auditorias/AUDITORIA_JAVA_RESUMEN.md
 
 ---
 
