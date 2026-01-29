@@ -1,3 +1,0 @@
-"""
-Microservicio de Autenticación - Koyova
-"""
