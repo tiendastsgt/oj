@@ -53,12 +53,23 @@ services:
       # Database
       DB_URL: jdbc:oracle:thin:@sged-db:1521/SGED
       DB_USER: ${DB_USER:-sged}
+      
+      # OPCIÓN 1: Variables directo (desarrollo)
+      # DB_PASSWORD: ${DB_PASSWORD:?error}
+      
+      # OPCIÓN 2: Variables desde archivo (Docker secrets pattern)
+      # Descomenta para usar secrets de archivo
+      # DB_PASSWORD_FILE: /run/secrets/db_password
+      # JWT_SECRET_FILE: /run/secrets/jwt_secret
+      
+      # Por ahora, usa método simple (desarrollo)
       DB_PASSWORD: ${DB_PASSWORD:?error}
+      JWT_SECRET: ${JWT_SECRET:?error}
+      
       DB_POOL_MAX: 10
       DB_POOL_MIN: 2
       
       # JWT
-      JWT_SECRET: ${JWT_SECRET:?error}
       JWT_EXPIRATION_MS: 28800000
       
       # Documents storage

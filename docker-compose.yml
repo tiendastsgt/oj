@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # sGED Backend - Spring Boot
+  sged-backend:
+    container_name: sged-backend
+    build:
+      context: ./sGED-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/sged_db
+      SPRING_DATASOURCE_USERNAME: sged_user
+      SPRING_DATASOURCE_PASSWORD: sged_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+    depends_on:
+      - mysql
+    networks:
+      - sged-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # sGED Frontend - Angular + Nginx
+  sged-frontend:
+    container_name: sged-frontend
+    build:
+      context: ./sGED-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - sged-backend
+    networks:
+      - sged-network
+    environment:
+      - BACKEND_URL=http://sged-backend:8080
+
+  # MySQL Database
+  mysql:
+    container_name: sged-mysql
+    image: mysql:8.0-debian
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: sged_db
+      MYSQL_USER: sged_user
+      MYSQL_PASSWORD: sged_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - sged-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Auth Service (Python FastAPI)
+  auth-service:
+    container_name: auth-service
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      DATABASE_URL: mysql+pymysql://sged_user:sged_password@mysql:3306/sged_db
+      JWT_SECRET_KEY: your-secret-key-change-in-production
+    depends_on:
+      - mysql
+    networks:
+      - sged-network
+
+networks:
+  sged-network:
+    driver: bridge
+
+volumes:
+  mysql_data:

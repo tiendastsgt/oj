@@ -7,8 +7,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AdminUsuariosService } from '../../../core/services/admin-usuarios.service';
-import { UsuarioAdminResponse } from '../../../core/models/admin-usuarios.model';
+import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
+import { UsuarioAdminResponse } from '../../../../core/models/admin-usuarios.model';
+import { ApiResponse } from '../../../../core/models/api-response.model';
 
 @Component({
   selector: 'app-usuario-detail',
@@ -146,16 +147,16 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
       .getUsuario(this.usuarioId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => {
+        next: (response: ApiResponse<UsuarioAdminResponse>) => {
           if (response.data) {
             this.usuario = response.data;
           }
         },
-        error: (err) => {
+        error: (err: any) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: err.error?.message || 'Error al cargar usuario'
+            detail: err?.error?.message || 'Error al cargar usuario'
           });
         }
       });
