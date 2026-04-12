@@ -21,7 +21,7 @@ services:
       JWT_SECRET: sged-vps-lite-secret-key-minimum-32-chars-ok
       DOCUMENTOS_BASE_PATH: /opt/sged-docs
       DOCUMENTOS_CONVERSION_ENABLED: "false"
-      JAVA_OPTS: "-Xms128m -Xmx256m"
+      JAVA_OPTS: "-Xms128m -Xmx256m --add-opens java.base/sun.security.util=ALL-UNNAMED"
     deploy:
       resources:
         limits:
