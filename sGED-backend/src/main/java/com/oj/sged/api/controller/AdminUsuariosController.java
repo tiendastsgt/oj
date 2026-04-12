@@ -6,6 +6,7 @@ import com.oj.sged.api.dto.request.ResetPasswordRequest;
 import com.oj.sged.api.dto.response.ApiResponse;
 import com.oj.sged.api.dto.response.UsuarioAdminResponse;
 import com.oj.sged.application.service.AdminUsuarioService;
+import java.util.Objects;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,7 +66,7 @@ public class AdminUsuariosController {
             activo,
             bloqueado,
             username,
-            pageable
+            Objects.requireNonNull(pageable)
         );
         return ResponseEntity.ok(ApiResponse.ok("Usuarios listados correctamente", resultado));
     }
@@ -78,7 +79,7 @@ public class AdminUsuariosController {
     public ResponseEntity<ApiResponse<UsuarioAdminResponse>> crearUsuario(
         @Valid @RequestBody CrearUsuarioRequest request
     ) {
-        UsuarioAdminResponse resultado = adminUsuarioService.crearUsuario(request);
+        UsuarioAdminResponse resultado = adminUsuarioService.crearUsuario(Objects.requireNonNull(request));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.ok("Usuario creado correctamente", resultado));
     }
@@ -91,7 +92,7 @@ public class AdminUsuariosController {
     public ResponseEntity<ApiResponse<UsuarioAdminResponse>> obtenerUsuario(
         @PathVariable Long id
     ) {
-        UsuarioAdminResponse resultado = adminUsuarioService.obtenerUsuario(id);
+        UsuarioAdminResponse resultado = adminUsuarioService.obtenerUsuario(Objects.requireNonNull(id));
         return ResponseEntity.ok(ApiResponse.ok("Usuario obtenido correctamente", resultado));
     }
 
@@ -104,7 +105,7 @@ public class AdminUsuariosController {
         @PathVariable Long id,
         @Valid @RequestBody ActualizarUsuarioRequest request
     ) {
-        UsuarioAdminResponse resultado = adminUsuarioService.actualizarUsuario(id, request);
+        UsuarioAdminResponse resultado = adminUsuarioService.actualizarUsuario(Objects.requireNonNull(id), Objects.requireNonNull(request));
         return ResponseEntity.ok(ApiResponse.ok("Usuario actualizado correctamente", resultado));
     }
 
@@ -118,7 +119,7 @@ public class AdminUsuariosController {
         @PathVariable Long id,
         @RequestBody(required = false) ResetPasswordRequest request
     ) {
-        adminUsuarioService.resetPassword(id);
+        adminUsuarioService.resetPassword(Objects.requireNonNull(id));
         return ResponseEntity.ok(ApiResponse.ok("Contraseña reseteada correctamente", null));
     }
 
@@ -130,7 +131,7 @@ public class AdminUsuariosController {
     public ResponseEntity<ApiResponse<Void>> bloquearUsuario(
         @PathVariable Long id
     ) {
-        adminUsuarioService.bloquearUsuario(id);
+        adminUsuarioService.bloquearUsuario(Objects.requireNonNull(id));
         return ResponseEntity.ok(ApiResponse.ok("Usuario bloqueado correctamente", null));
     }
 
@@ -142,7 +143,7 @@ public class AdminUsuariosController {
     public ResponseEntity<ApiResponse<Void>> desbloquearUsuario(
         @PathVariable Long id
     ) {
-        adminUsuarioService.desbloquearUsuario(id);
+        adminUsuarioService.desbloquearUsuario(Objects.requireNonNull(id));
         return ResponseEntity.ok(ApiResponse.ok("Usuario desbloqueado correctamente", null));
     }
 }

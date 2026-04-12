@@ -13,7 +13,7 @@ import com.oj.sged.shared.exception.ResourceNotFoundException;
 import com.oj.sged.shared.util.AuditAction;
 import com.oj.sged.shared.util.SecurityUtil;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Objects;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -60,8 +60,7 @@ public class AdminUsuarioService {
         String username,
         Pageable pageable
     ) {
-        Specification<Usuario> spec = Specification
-            .where((root, query, cb) -> {
+        Specification<Usuario> spec = (root, query, cb) -> {
                 var predicates = new java.util.ArrayList<>();
 
                 if (rolId != null) {
@@ -86,9 +85,9 @@ public class AdminUsuarioService {
                 }
 
                 return cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0]));
-            });
+            };
 
-        return usuarioRepository.findAll(spec, pageable)
+        return usuarioRepository.findAll(spec, Objects.requireNonNull(pageable))
             .map(this::mapToResponse);
     }
 
@@ -98,12 +97,12 @@ public class AdminUsuarioService {
      */
     public UsuarioAdminResponse crearUsuario(CrearUsuarioRequest request) {
         // Validar que el rol existe y está activo
-        CatRol rol = rolRepository.findById(request.getRolId())
+        CatRol rol = rolRepository.findById(Objects.requireNonNull(request.getRolId()))
             .filter(r -> r.getActivo() == 1)
             .orElseThrow(() -> new ResourceNotFoundException("El rol especificado no existe o no está activo"));
 
         // Validar que el juzgado existe
-        CatJuzgado juzgado = juzgadoRepository.findById(request.getJuzgadoId())
+        CatJuzgado juzgado = juzgadoRepository.findById(Objects.requireNonNull(request.getJuzgadoId()))
             .orElseThrow(() -> new ResourceNotFoundException("El juzgado especificado no existe"));
 
         // Validar username único
@@ -130,7 +129,7 @@ public class AdminUsuarioService {
             .fechaCreacion(LocalDateTime.now())
             .build();
 
-        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+        Usuario usuarioGuardado = usuarioRepository.save(Objects.requireNonNull(usuario));
 
         // Auditoría
         String detalleAuditoria = "Usuario " + request.getUsername() + " creado con rol " + rol.getNombre();
@@ -150,7 +149,7 @@ public class AdminUsuarioService {
      */
     @Transactional(readOnly = true)
     public UsuarioAdminResponse obtenerUsuario(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
+        Usuario usuario = usuarioRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         return mapToResponse(usuario);
     }
@@ -160,7 +159,7 @@ public class AdminUsuarioService {
      * Registra cambios en auditoría.
      */
     public UsuarioAdminResponse actualizarUsuario(Long id, ActualizarUsuarioRequest request) {
-        Usuario usuario = usuarioRepository.findById(id)
+        Usuario usuario = usuarioRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         StringBuilder detalleAuditoria = new StringBuilder("Usuario " + usuario.getUsername() + " actualizado: ");
@@ -180,7 +179,7 @@ public class AdminUsuarioService {
 
         // Actualizar rol
         if (request.getRolId() != null && !request.getRolId().equals(usuario.getRol().getId())) {
-            CatRol nuevoRol = rolRepository.findById(request.getRolId())
+            CatRol nuevoRol = rolRepository.findById(Objects.requireNonNull(request.getRolId()))
                 .filter(r -> r.getActivo() == 1)
                 .orElseThrow(() -> new ResourceNotFoundException("El rol especificado no existe o no está activo"));
             String rolAnterior = usuario.getRol().getNombre();
@@ -191,7 +190,7 @@ public class AdminUsuarioService {
 
         // Actualizar juzgado
         if (request.getJuzgadoId() != null && !request.getJuzgadoId().equals(usuario.getJuzgado().getId())) {
-            CatJuzgado nuevoJuzgado = juzgadoRepository.findById(request.getJuzgadoId())
+            CatJuzgado nuevoJuzgado = juzgadoRepository.findById(Objects.requireNonNull(request.getJuzgadoId()))
                 .orElseThrow(() -> new ResourceNotFoundException("El juzgado especificado no existe"));
             usuario.setJuzgado(nuevoJuzgado);
             cambioRegistrado = true;
@@ -237,7 +236,7 @@ public class AdminUsuarioService {
      * Genera contraseña temporal y marca debeCambiarPass = true.
      */
     public void resetPassword(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
+        Usuario usuario = usuarioRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         String passwordTemporal = generarPasswordTemporal();
@@ -261,7 +260,7 @@ public class AdminUsuarioService {
      * Bloquea un usuario (impide login).
      */
     public void bloquearUsuario(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
+        Usuario usuario = usuarioRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         usuario.setBloqueado(1);
@@ -282,7 +281,7 @@ public class AdminUsuarioService {
      * Desbloquea un usuario (permite login nuevamente).
      */
     public void desbloquearUsuario(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
+        Usuario usuario = usuarioRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         usuario.setBloqueado(0);
@@ -310,12 +309,12 @@ public class AdminUsuarioService {
             .username(usuario.getUsername())
             .nombreCompleto(usuario.getNombreCompleto())
             .email(usuario.getEmail())
-            .rol(usuario.getRol().getNombre())
-            .juzgado(usuario.getJuzgado().getNombre())
-            .activo(usuario.getActivo() == 1)
-            .bloqueado(usuario.getBloqueado() == 1)
-            .intentosFallidos(0)  // Simplificado: Intentos se manejan internamente
-            .debeCambiarPassword(usuario.getDebeCambiarPass() == 1)
+            .rol(usuario.getRol() != null ? usuario.getRol().getNombre() : "SIN ROL")
+            .juzgado(usuario.getJuzgado() != null ? usuario.getJuzgado().getNombre() : "SIN JUZGADO")
+            .activo(usuario.getActivo() != null && usuario.getActivo() == 1)
+            .bloqueado(usuario.getBloqueado() != null && usuario.getBloqueado() == 1)
+            .intentosFallidos(0)
+            .debeCambiarPassword(usuario.getDebeCambiarPass() != null && usuario.getDebeCambiarPass() == 1)
             .fechaCreacion(usuario.getFechaCreacion())
             .fechaModificacion(usuario.getFechaModificacion())
             .build();

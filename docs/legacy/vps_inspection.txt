@@ -1,0 +1,48 @@
+--- UPTIME ---
+ 00:05:21 up 12 min,  2 users,  load average: 0.17, 0.34, 0.32
+--- OS ---
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+--- MEMORY ---
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       1.1Gi        98Mi        11Mi       876Mi       776Mi
+Swap:          2.0Gi       241Mi       1.8Gi
+--- DISK ---
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           192M  1.9M  191M   1% /run
+/dev/sda1        38G   20G   19G  51% /
+tmpfs           960M     0  960M   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+/dev/sda16      881M  115M  705M  14% /boot
+/dev/sda15      105M  6.2M   99M   6% /boot/efi
+tmpfs           192M   12K  192M   1% /run/user/1000
+--- DOCKER CONTAINERS ---
+CONTAINER ID   IMAGE                          COMMAND                  CREATED        STATUS                      PORTS       NAMES
+490f4127aa48   n8nio/n8n:latest               "tini -- /docker-ent…"   2 months ago   Up 12 minutes               5678/tcp    n8n-n8n-1
+936d10da7631   nginx:stable-alpine            "/docker-entrypoint.…"   6 months ago   Exited (0) 15 minutes ago               n8n-nginx-1
+21daaed80fcf   n8n-chatbot                    "/bin/sh -c 'gunicor…"   6 months ago   Up 12 minutes               8000/tcp    n8n-chatbot-1
+da11b8da01cb   atendai/evolution-api:latest   "/bin/bash -c '. ./D…"   6 months ago   Up 12 minutes               8080/tcp    n8n-evolution-api-1
+afdfcf3ba7e0   wordpress:latest               "docker-entrypoint.s…"   6 months ago   Up 12 minutes               80/tcp      n8n-wordpress-1
+839b01c861e8   n8n-sts-ai                     "docker-entrypoint.s…"   6 months ago   Up 12 minutes               3000/tcp    n8n-sts-ai-1
+a9ebb5b263c3   n8n-sts-nutricion              "/docker-entrypoint.…"   6 months ago   Up 12 minutes               80/tcp      n8n-sts-nutricion-1
+0e5c58fb2c6e   certbot/certbot:latest         "certbot certonly --…"   6 months ago   Exited (1) 6 months ago                 n8n-certbot-1
+c0dcfa822a6f   redis:7-alpine                 "docker-entrypoint.s…"   6 months ago   Up 12 minutes               6379/tcp    n8n-redis-1
+b1b6c4538188   postgres:latest                "docker-entrypoint.s…"   6 months ago   Up 12 minutes               5432/tcp    n8n-postgres-1
+6c0706b74ad1   mongo:latest                   "docker-entrypoint.s…"   6 months ago   Up 12 minutes               27017/tcp   n8n-mongodb-1
+9aa617313eb7   mariadb:latest                 "docker-entrypoint.s…"   6 months ago   Up 12 minutes               3306/tcp    n8n-wordpress_db-1
+--- PORTS ---
+tcp   LISTEN 0      4096              0.0.0.0:52022      0.0.0.0:*    users:(("sshd",pid=1840,fd=3),("systemd",pid=1,fd=94))
+tcp   LISTEN 0      4096        127.0.0.53%lo:53         0.0.0.0:*    users:(("systemd-resolve",pid=499,fd=15))             
+tcp   LISTEN 0      4096           127.0.0.54:53         0.0.0.0:*    users:(("systemd-resolve",pid=499,fd=17))             
+tcp   LISTEN 0      4096                 [::]:52022         [::]:*    users:(("sshd",pid=1840,fd=4),("systemd",pid=1,fd=95))

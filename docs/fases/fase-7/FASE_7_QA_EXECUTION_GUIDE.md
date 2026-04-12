@@ -1,3 +1,13 @@
+---
+Documento: FASE_7_QA_EXECUTION_GUIDE
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # GUÍA DE EJECUCIÓN - FASE 7 QA ACCEPTANCE TESTING
 
 **Versión:** 1.0  

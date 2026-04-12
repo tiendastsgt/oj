@@ -9,8 +9,9 @@ import { VisorPdfComponent } from './visor-pdf/visor-pdf.component';
 import { VisorImagenComponent } from './visor-imagen/visor-imagen.component';
 import { ReproductorAudioComponent } from './reproductor-audio/reproductor-audio.component';
 import { ReproductorVideoComponent } from './reproductor-video/reproductor-video.component';
+import { DialogModule } from 'primeng/dialog';
 
-type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | null;
+type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | 'WORD' | null;
 
 @Component({
   selector: 'app-documentos-page',
@@ -22,7 +23,8 @@ type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | null;
     VisorPdfComponent,
     VisorImagenComponent,
     ReproductorAudioComponent,
-    ReproductorVideoComponent
+    ReproductorVideoComponent,
+    DialogModule
   ],
   templateUrl: './documentos-page.component.html',
   styleUrls: ['./documentos-page.component.scss']

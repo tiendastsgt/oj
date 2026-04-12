@@ -1,3 +1,13 @@
+---
+Documento: AUDITORIA_JAVA_RESUMEN
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # ✅ AUDITORÍA JAVA - RESUMEN EJECUTIVO
 
 **Fecha**: 28 de enero de 2026 | **Estado**: ✅ COMPLETO
@@ -107,11 +117,11 @@
 
 ## 📄 Documentos Auditados
 
-1. [sGED-backend/pom.xml](sGED-backend/pom.xml)
-2. [.github/workflows/ci.yml](.github/workflows/ci.yml)
-3. [docker-compose-prod.yml](docker-compose-prod.yml)
-4. [STACK_TECNICO_ACTUALIZADO.md](STACK_TECNICO_ACTUALIZADO.md)
-5. [plan detallado.md](plan detallado.md)
+1. [sGED-backend/pom.xml](../../../sGED-backend/pom.xml)
+2. [.github/workflows/ci.yml](../../../.github/workflows/ci.yml)
+3. [docker-compose-prod.yml](../../../docker-compose-prod.yml)
+4. [STACK_TECNICO_ACTUALIZADO.md](../STACK_TECNICO_ACTUALIZADO.md)
+5. [plan_detallado.md](../plan_detallado.md)
 6. target/surefire-reports (test execution logs)
 
 ---

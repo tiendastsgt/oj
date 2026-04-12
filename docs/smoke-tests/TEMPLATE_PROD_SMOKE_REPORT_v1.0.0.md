@@ -1,3 +1,13 @@
+---
+Documento: TEMPLATE_PROD_SMOKE_REPORT_v1.0.0
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # 📊 SMOKE TEST REPORT - Producción
 ## SGED v1.0.0 Post-Deployment Validation
 

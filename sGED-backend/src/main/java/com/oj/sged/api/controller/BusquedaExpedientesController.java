@@ -4,6 +4,7 @@ import com.oj.sged.api.dto.request.BusquedaAvanzadaRequest;
 import com.oj.sged.api.dto.response.ApiResponse;
 import com.oj.sged.api.dto.response.ExpedienteBusquedaResponse;
 import com.oj.sged.application.service.BusquedaExpedientesService;
+import java.util.Objects;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,11 @@ public class BusquedaExpedientesController {
         HttpServletRequest request
     ) {
         String ip = request.getRemoteAddr();
-        Page<ExpedienteBusquedaResponse> response = busquedaExpedientesService.buscarRapida(numero, pageable, ip);
+        Page<ExpedienteBusquedaResponse> response = busquedaExpedientesService.buscarRapida(
+            Objects.requireNonNull(numero),
+            Objects.requireNonNull(pageable),
+            Objects.requireNonNull(ip)
+        );
         return ResponseEntity.ok(ApiResponse.ok("Búsqueda rápida", response));
     }
 
@@ -49,7 +54,11 @@ public class BusquedaExpedientesController {
         HttpServletRequest request
     ) {
         String ip = request.getRemoteAddr();
-        Page<ExpedienteBusquedaResponse> response = busquedaExpedientesService.buscarAvanzada(filtros, pageable, ip);
+        Page<ExpedienteBusquedaResponse> response = busquedaExpedientesService.buscarAvanzada(
+            Objects.requireNonNull(filtros),
+            Objects.requireNonNull(pageable),
+            Objects.requireNonNull(ip)
+        );
         return ResponseEntity.ok(ApiResponse.ok("Búsqueda avanzada", response));
     }
 }

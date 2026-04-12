@@ -4,6 +4,7 @@ import com.oj.sged.api.dto.response.ApiResponse;
 import com.oj.sged.api.dto.response.AuditoriaResponse;
 import com.oj.sged.application.service.AuditoriaConsultaService;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -62,7 +63,7 @@ public class AuditoriaController {
             fechaDesde,
             fechaHasta,
             recursoId,
-            pageable
+            Objects.requireNonNull(pageable)
         );
         return ResponseEntity.ok(ApiResponse.ok("Auditoría consultada correctamente", resultado));
     }
@@ -75,7 +76,7 @@ public class AuditoriaController {
     public ResponseEntity<ApiResponse<AuditoriaResponse>> obtener(
         @PathVariable Long id
     ) {
-        AuditoriaResponse resultado = auditoriaConsultaService.obtener(id);
+        AuditoriaResponse resultado = auditoriaConsultaService.obtener(Objects.requireNonNull(id));
         return ResponseEntity.ok(ApiResponse.ok("Log de auditoría obtenido correctamente", resultado));
     }
 }

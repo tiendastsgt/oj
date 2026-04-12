@@ -16,6 +16,7 @@ import com.oj.sged.infrastructure.persistence.expediente.repository.CatEstadoRep
 import com.oj.sged.infrastructure.persistence.expediente.repository.CatTipoProcesoRepository;
 import com.oj.sged.infrastructure.security.JwtTokenProvider;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,21 +74,21 @@ class CatalogosControllerIntegrationTest {
         catTipoProcesoRepository.deleteAll();
         catEstadoRepository.deleteAll();
 
-        CatRol rol = catRolRepository.save(CatRol.builder()
+        CatRol rol = catRolRepository.save(Objects.requireNonNull(CatRol.builder()
             .nombre("ADMINISTRADOR")
             .descripcion("Administrador")
             .activo(1)
-            .build());
-        catTipoProcesoRepository.save(CatTipoProceso.builder()
+            .build()));
+        catTipoProcesoRepository.save(Objects.requireNonNull(CatTipoProceso.builder()
             .nombre("Proceso Civil")
             .descripcion("Proceso civil")
             .activo(1)
-            .build());
-        catEstadoRepository.save(CatEstado.builder()
+            .build()));
+        catEstadoRepository.save(Objects.requireNonNull(CatEstado.builder()
             .nombre("Activo")
             .descripcion("Expediente activo")
             .activo(1)
-            .build());
+            .build()));
 
         List<CatJuzgado> juzgados = new ArrayList<>();
         for (int i = 1; i <= 6; i++) {
@@ -99,7 +100,7 @@ class CatalogosControllerIntegrationTest {
         }
         List<CatJuzgado> savedJuzgados = catJuzgadoRepository.saveAll(juzgados);
 
-        Usuario usuario = Usuario.builder()
+        Usuario usuario = Objects.requireNonNull(Usuario.builder()
             .username("admin")
             .password(passwordEncoder.encode("Password1"))
             .nombreCompleto("Admin")
@@ -111,7 +112,7 @@ class CatalogosControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
         usuarioRepository.save(usuario);
         token = jwtTokenProvider.generateToken(usuario);
     }

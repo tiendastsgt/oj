@@ -1,0 +1,11 @@
+C:\Users\PC\.ssh\config
+C:\Users\PC\.ssh\id_ecdsa
+C:\Users\PC\.ssh\id_ecdsa.pub
+C:\Users\PC\.ssh\id_ed25519
+C:\Users\PC\.ssh\id_ed25519_conta
+C:\Users\PC\.ssh\id_ed25519_conta.pub
+C:\Users\PC\.ssh\id_ed25519.pub
+C:\Users\PC\.ssh\known_hosts
+C:\Users\PC\.ssh\known_hosts.old
+C:\Users\PC\.ssh\backup\config
+C:\Users\PC\.ssh\backup\known_hosts

@@ -15,7 +15,6 @@ import com.oj.sged.infrastructure.persistence.expediente.repository.ExpedienteRe
 import com.oj.sged.shared.exception.AuthException;
 import com.oj.sged.shared.exception.InvalidReferenceException;
 import com.oj.sged.shared.util.SecurityUtil;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -215,7 +214,7 @@ public class BusquedaExpedientesService {
         int start = (int) Math.min(pageable.getOffset(), combined.size());
         int end = (int) Math.min(start + pageable.getPageSize(), combined.size());
         List<ExpedienteBusquedaResponse> slice = combined.subList(start, end);
-        return new PageImpl<>(slice, pageable, combined.size());
+        return new PageImpl<>(Objects.requireNonNull(slice), Objects.requireNonNull(pageable), combined.size());
     }
 
     private void addUnique(Map<String, ExpedienteBusquedaResponse> target, List<ExpedienteBusquedaResponse> items) {
@@ -235,11 +234,11 @@ public class BusquedaExpedientesService {
         Set<Long> estadoIds = expedientes.stream().map(Expediente::getEstadoId).filter(Objects::nonNull).collect(Collectors.toSet());
         Set<Long> juzgadoIds = expedientes.stream().map(Expediente::getJuzgadoId).filter(Objects::nonNull).collect(Collectors.toSet());
 
-        Map<Long, String> tipoMap = catTipoProcesoRepository.findAllById(tipoIds)
+        Map<Long, String> tipoMap = catTipoProcesoRepository.findAllById(Objects.requireNonNull(tipoIds))
             .stream().collect(Collectors.toMap(item -> item.getId(), item -> item.getNombre()));
-        Map<Long, String> estadoMap = catEstadoRepository.findAllById(estadoIds)
+        Map<Long, String> estadoMap = catEstadoRepository.findAllById(Objects.requireNonNull(estadoIds))
             .stream().collect(Collectors.toMap(item -> item.getId(), item -> item.getNombre()));
-        Map<Long, String> juzgadoMap = catJuzgadoRepository.findAllById(juzgadoIds)
+        Map<Long, String> juzgadoMap = catJuzgadoRepository.findAllById(Objects.requireNonNull(juzgadoIds))
             .stream().collect(Collectors.toMap(item -> item.getId(), item -> item.getNombre()));
 
         return expedientes.stream()

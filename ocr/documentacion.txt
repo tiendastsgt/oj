@@ -1,0 +1,513 @@
+```bash
+cat > ~/MODULO_OCR_DOCUMENTACION_v1.1.md << 'EOF'
+# 📚 MÓDULO OCR - DOCUMENTACIÓN TÉCNICA v1.1
+
+## Fecha: 6 de Febrero 2026
+## Versión: ocr-stack:1.1
+## Servidor: VPS 148.230.88.220
+
+---
+
+## 1. RESUMEN EJECUTIVO
+
+### 1.1 ¿Qué es este módulo?
+
+Sistema de **OCR + Extracción Inteligente** para documentos (facturas, recibos, contratos, certificaciones, expedientes) que combina:
+
+- **OCR local** (Tesseract) para extraer texto de PDF/imágenes
+- **LLM local** (Ollama/Qwen) para clasificación y estructuración JSON
+- **LLM remoto** (DeepSeek API) como alternativa de alta calidad
+
+### 1.2 Capacidades Actuales
+
+| Capacidad | Estado | Descripción |
+|-----------|--------|-------------|
+| OCR de imágenes | ✅ Funciona | JPG, PNG → texto |
+| OCR de PDFs | ✅ Funciona | PDF multipágina → texto |
+| Idiomas | ✅ Configurado | Español + Inglés |
+| Clasificación automática | ✅ Funciona | Detecta tipo de documento |
+| Extracción JSON (local) | ✅ Funciona | Ollama + qwen2.5-coder:7b |
+| Extracción JSON (API) | ✅ Funciona | DeepSeek API |
+| Flujo automatizado | ✅ Funciona | Script process-document.sh |
+
+### 1.3 Arquitectura
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    VPS 148.230.88.220 - Red: ai-internal                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────────┐                                                   │
+│  │   ocr-tesseract     │  Tesseract OCR (CPU)                              │
+│  │   127.0.0.1:8101    │  Extrae texto de PDF/imágenes                     │
+│  │                     │  Idiomas: eng+spa                                 │
+│  └──────────┬──────────┘                                                   │
+│             │                                                               │
+│             │ texto extraído                                                │
+│             ▼                                                               │
+│  ┌─────────────────────┐          ┌─────────────────────┐                  │
+│  │ llm-ollama-proxy    │    O     │ llm-deepseek-proxy  │                  │
+│  │ 127.0.0.1:8202      │          │ 127.0.0.1:8201      │                  │
+│  │                     │          │                     │                  │
+│  │ Modelo: qwen2.5-7b  │          │ API: deepseek-chat  │                  │
+│  │ Backend: Ollama     │          │ Backend: DeepSeek   │                  │
+│  │ Costo: GRATIS       │          │ Costo: $0.14/1M tok │                  │
+│  │ Timeout: 300s       │          │                     │                  │
+│  └─────────────────────┘          └─────────────────────┘                  │
+│             │                               │                               │
+│             └───────────────┬───────────────┘                               │
+│                             ▼                                               │
+│                    JSON estructurado                                        │
+│                                                                             │
+│  ════════════════════════════════════════════════════════════════════════  │
+│                                                                             │
+│  [ServiceForge - NO TOCADO]                                                │
+│  • agent-service:8000                                                      │
+│  • conta-ollama:11434                                                      │
+│  • forge-runner                                                            │
+│  • n8n-standalone                                                          │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2. SERVICIOS DESPLEGADOS
+
+### 2.1 ocr-tesseract (Puerto 8101)
+
+**Función:** Extrae texto de documentos PDF e imágenes usando Tesseract OCR.
+
+**Contenedor:** `ocr-tesseract`
+
+**Imagen:** `sts-ocr-tesseract`
+
+**Configuración:**
+
+| Variable | Valor | Descripción |
+|----------|-------|-------------|
+| Puerto | 127.0.0.1:8101 | Solo localhost |
+| Idiomas | eng+spa | Inglés y Español |
+| Motor | Tesseract | OCR de código abierto |
+
+**Endpoints:**
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/health` | Health check |
+| POST | `/ocr` | Procesar documento |
+
+**Request `/ocr`:**
+```bash
+curl -X POST http://localhost:8101/ocr \
+  -F "file=@documento.pdf" \
+  -F "lang=eng+spa" \
+  -F "dpi=200"
+```
+
+**Response:**
+```json
+{
+  "filename": "documento.pdf",
+  "pages": [
+    {
+      "page": 1,
+      "lines": [
+        {"text": "FACTURA #12345", "confidence": 0.95},
+        {"text": "Total: $1,250.00", "confidence": 0.92}
+      ]
+    }
+  ],
+  "text": "FACTURA #12345\nTotal: $1,250.00\n..."
+}
+```
+
+**Ubicación del código:** `~/ocr-tesseract/`
+
+---
+
+### 2.2 llm-ollama-proxy (Puerto 8202)
+
+**Función:** Proxy para clasificación y extracción estructurada usando Ollama local (GRATIS).
+
+**Contenedor:** `llm-ollama-proxy`
+
+**Imagen:** `sts-llm-ollama-proxy`
+
+**Versión:** 1.3
+
+**Configuración:**
+
+| Variable | Valor | Descripción |
+|----------|-------|-------------|
+| Puerto | 127.0.0.1:8202 | Solo localhost |
+| OLLAMA_BASE_URL | http://conta-ollama:11434 | Ollama interno |
+| OLLAMA_MODEL | qwen2.5-coder:7b | Modelo por defecto |
+| OLLAMA_TIMEOUT | 300 | Timeout en segundos |
+
+**Endpoints:**
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/health` | Health check |
+| GET | `/templates` | Lista tipos de documentos |
+| POST | `/extract` | Extracción con instrucción custom |
+| POST | `/analyze` | Clasificación + extracción automática |
+
+**Request `/analyze`:**
+```bash
+curl -X POST http://localhost:8202/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "CONTRATO de servicios entre Empresa A y B...",
+    "document_type": "contract"
+  }'
+```
+
+**Response:**
+```json
+{
+  "document_type": "contract",
+  "confidence": 0.85,
+  "data": {
+    "title": "SAMPLE AGREEMENT",
+    "effective_date": "XX day of October, 200X",
+    "parties": [
+      {"role": "Committee", "name": null},
+      {"role": "Contractor", "name": null}
+    ],
+    "sections": ["Independent Contractor", "Duties", "Expenses"]
+  },
+  "model": "qwen2.5-coder:7b"
+}
+```
+
+**Tipos de documento soportados:**
+
+| Tipo | Campos extraídos |
+|------|------------------|
+| `invoice` | invoice_number, date, vendor_name, client_name, items, subtotal, tax, total, currency |
+| `purchase_order` | po_number, date, buyer_name, vendor_name, items, total, terms |
+| `contract` | title, effective_date, parties, sections, termination_terms |
+| `certificate` | certificate_type, issue_date, expiry_date, issued_to, issued_by, certificate_number |
+| `generic` | document_type, title, date, key_information |
+
+**Ubicación del código:** `~/llm-ollama-proxy/`
+
+---
+
+### 2.3 llm-deepseek-proxy (Puerto 8201)
+
+**Función:** Proxy para extracción estructurada usando DeepSeek API (PAGO).
+
+**Contenedor:** `llm-deepseek-proxy`
+
+**Imagen:** `sts-llm-proxy`
+
+**Configuración:**
+
+| Variable | Valor | Descripción |
+|----------|-------|-------------|
+| Puerto | 127.0.0.1:8201 | Solo localhost |
+| DEEPSEEK_API_KEY | sk-d1ef...*** | API key (protegida) |
+| DEEPSEEK_MODEL | deepseek-chat | Modelo |
+| DEEPSEEK_BASE_URL | https://api.deepseek.com | Endpoint |
+
+**Endpoints:**
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/health` | Health check |
+| POST | `/extract` | Extraer información |
+
+**Ubicación del código:** `~/llm-proxy/`
+
+**Costos DeepSeek:**
+- Input: $0.14 / 1M tokens
+- Output: $0.28 / 1M tokens
+
+---
+
+## 3. FLUJO AUTOMATIZADO
+
+### 3.1 Script process-document.sh
+
+**Ubicación:** `~/process-document.sh`
+
+**Función:** Orquesta OCR + LLM en un solo comando, sin intervención humana.
+
+**Uso:**
+```bash
+# Auto-detectar tipo de documento
+~/process-document.sh /ruta/documento.pdf
+
+# Forzar tipo de documento
+~/process-document.sh /ruta/factura.pdf invoice
+```
+
+**Tipos soportados:** `invoice`, `purchase_order`, `contract`, `certificate`, `generic`
+
+**Ejemplo:**
+```bash
+~/process-document.sh /tmp/contrato.jpg | jq
+```
+
+**Salida:**
+```json
+{
+  "document_type": "contract",
+  "confidence": 0.85,
+  "data": {
+    "title": "SAMPLE AGREEMENT",
+    "effective_date": "XX day of October, 200X",
+    "parties": [
+      {"role": "Committee", "name": null},
+      {"role": "Contractor", "name": null}
+    ],
+    "sections": ["Independent Contractor", "Duties", "Expenses"]
+  },
+  "model": "qwen2.5-coder:7b"
+}
+```
+
+### 3.2 Diagrama de flujo
+
+```
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│   Documento  │────▶│  OCR Service │────▶│  LLM Analyze │────▶│     JSON     │
+│  PDF/Imagen  │     │   (8101)     │     │    (8202)    │     │ Estructurado │
+└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+      input            ~2-5 seg            ~2 min              output
+```
+
+### 3.3 Tiempos de procesamiento
+
+| Operación | Tiempo típico |
+|-----------|---------------|
+| OCR (1 página) | 2-5 segundos |
+| Clasificación + Extracción LLM | ~2 minutos |
+| **Total** | **~2.5 minutos** |
+
+**Nota:** El tiempo de LLM depende de la carga del servidor y memoria disponible (7.8 GB RAM).
+
+---
+
+## 4. COMPARACIÓN DE BACKENDS LLM
+
+| Aspecto | Ollama Local (8202) | DeepSeek API (8201) |
+|---------|---------------------|---------------------|
+| **Costo** | Gratis | ~$0.14/1M tokens |
+| **Velocidad** | ~2 minutos | 2-4 segundos |
+| **Privacidad** | 100% local | Datos salen a internet |
+| **Calidad** | Muy buena | Excelente |
+| **Disponibilidad** | Depende del VPS | 99.9% uptime |
+| **Modelo** | qwen2.5-coder:7b | deepseek-chat |
+| **Uso recomendado** | Desarrollo, datos sensibles | Producción, alto volumen |
+
+---
+
+## 5. OPERACIONES
+
+### 5.1 Ver estado de servicios
+
+```bash
+echo "=== Estado de servicios OCR ==="
+curl -s http://localhost:8101/health && echo ""
+curl -s http://localhost:8202/health && echo ""
+curl -s http://localhost:8201/health && echo ""
+
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | grep -E "ocr|llm"
+```
+
+### 5.2 Ver logs
+
+```bash
+# OCR Tesseract
+docker logs ocr-tesseract --tail 50
+
+# LLM Ollama
+docker logs llm-ollama-proxy --tail 50
+
+# LLM DeepSeek
+docker logs llm-deepseek-proxy --tail 50
+```
+
+### 5.3 Reiniciar servicios
+
+```bash
+docker restart ocr-tesseract
+docker restart llm-ollama-proxy
+docker restart llm-deepseek-proxy
+```
+
+### 5.4 Pre-calentar modelo Ollama
+
+Para mejorar tiempos de respuesta, pre-cargar el modelo:
+```bash
+curl -s -X POST http://localhost:11434/api/generate \
+  -d '{"model":"qwen2.5-coder:7b","prompt":"hola","stream":false}' \
+  --max-time 120 | jq -r '.response'
+```
+
+---
+
+## 6. ESTRUCTURA DE ARCHIVOS
+
+```
+~/
+├── process-document.sh        # Script orquestador OCR+LLM
+├── MODULO_OCR_DOCUMENTACION_v1.1.md  # Esta documentación
+│
+├── ocr-tesseract/
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── main.py.bak            # Backup
+│   └── requirements.txt
+│
+├── llm-proxy/                 # DeepSeek proxy
+│   ├── Dockerfile
+│   ├── main.py
+│   └── requirements.txt
+│
+└── llm-ollama-proxy/          # Ollama proxy
+    ├── Dockerfile
+    ├── main.py
+    ├── main.py.bak            # Backup v1.0
+    ├── main.py.bak2           # Backup v1.1
+    ├── main.py.bak3           # Backup v1.2
+    └── requirements.txt
+```
+
+---
+
+## 7. CONFIGURACIÓN DE RED
+
+### 7.1 Contenedores en red ai-internal
+
+| Contenedor | IP | Puerto interno |
+|------------|-----|----------------|
+| ocr-tesseract | 172.21.0.x | 8101 |
+| llm-deepseek-proxy | 172.21.0.x | 8201 |
+| llm-ollama-proxy | 172.21.0.x | 8202 |
+| conta-ollama | 172.21.0.3 | 11434 |
+
+### 7.2 Puertos expuestos al host
+
+| Puerto | Servicio | Bind | Acceso |
+|--------|----------|------|--------|
+| 8101 | ocr-tesseract | 127.0.0.1 | Solo localhost |
+| 8201 | llm-deepseek-proxy | 127.0.0.1 | Solo localhost |
+| 8202 | llm-ollama-proxy | 127.0.0.1 | Solo localhost |
+
+### 7.3 Acceso desde n8n
+
+Desde n8n (red `ai-internal`), usar nombres de contenedor:
+- OCR: `http://ocr-tesseract:8101/ocr`
+- LLM Ollama: `http://llm-ollama-proxy:8202/analyze`
+- LLM DeepSeek: `http://llm-deepseek-proxy:8201/extract`
+
+---
+
+## 8. TROUBLESHOOTING
+
+### 8.1 Error "Ollama timeout"
+
+**Causa:** El modelo tarda más del timeout configurado.
+
+**Soluciones:**
+1. Pre-calentar el modelo (ver sección 5.4)
+2. Verificar memoria disponible: `free -h`
+3. Aumentar timeout al recrear contenedor:
+```bash
+docker run -d --name llm-ollama-proxy \
+  ... \
+  -e OLLAMA_TIMEOUT=600 \
+  ...
+```
+
+### 8.2 Error "JSON decode error"
+
+**Causa:** Caracteres especiales en el texto.
+
+**Solución:** El script `process-document.sh` ya usa `jq --rawfile` para escapar correctamente.
+
+### 8.3 OCR devuelve texto vacío
+
+**Causas:**
+- Imagen muy pequeña o borrosa
+- PDF escaneado sin texto
+- Idioma incorrecto
+
+**Solución:**
+```bash
+curl -X POST http://localhost:8101/ocr \
+  -F "file=@documento.pdf" \
+  -F "lang=spa" \
+  -F "dpi=300"
+```
+
+### 8.4 Memoria insuficiente
+
+Con 7.8 GB RAM, el modelo qwen2.5-coder:7b consume ~5 GB.
+
+```bash
+# Ver uso de memoria
+free -h
+docker stats --no-stream
+```
+
+---
+
+## 9. CHANGELOG
+
+| Versión | Fecha | Cambios |
+|---------|-------|---------|
+| **1.0** | 2026-02-06 | Setup inicial: OCR Tesseract + LLM proxies |
+| **1.1** | 2026-02-06 | Endpoint /analyze optimizado (1 llamada), timeout 300s, script process-document.sh |
+
+---
+
+## 10. PRÓXIMOS PASOS
+
+| Tarea | Estado | Prioridad |
+|-------|--------|-----------|
+| ✅ Flujo automatizado OCR+LLM | Completado | - |
+| Workflow n8n para OCR | ⏳ Pendiente | Alta |
+| Endpoint HTTP unificado /process | ⏳ Pendiente | Media |
+| Usar modelo más pequeño (3b) para velocidad | ⏳ Pendiente | Media |
+| Cache de resultados | ⏳ Pendiente | Baja |
+
+---
+
+## 11. COMANDOS RÁPIDOS
+
+```bash
+# Health check de todos los servicios
+curl -s http://localhost:8101/health && curl -s http://localhost:8202/health
+
+# Procesar documento (flujo completo)
+~/process-document.sh /ruta/documento.pdf | jq
+
+# Solo OCR
+curl -s -X POST http://localhost:8101/ocr -F "file=@doc.pdf" | jq -r '.text'
+
+# Solo análisis LLM
+curl -s -X POST http://localhost:8202/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"text": "contenido..."}' | jq
+
+# Ver templates disponibles
+curl -s http://localhost:8202/templates | jq
+```
+
+---
+
+**Documentación actualizada:** 6 de Febrero 2026  
+**Versión:** 1.1  
+**Estado:** ✅ Operativo  
+**Servicios:** OCR (8101), LLM Ollama (8202), LLM DeepSeek (8201)
+EOF
+
+echo "✅ Documentación guardada en ~/MODULO_OCR_DOCUMENTACION_v1.1.md"
+ls -la ~/MODULO_OCR_DOCUMENTACION_v1.1.md
+```

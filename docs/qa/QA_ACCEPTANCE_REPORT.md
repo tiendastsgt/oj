@@ -1,3 +1,13 @@
+---
+Documento: QA_ACCEPTANCE_REPORT
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # QA ACCEPTANCE REPORT - SGED v1.0.0
 
 **Fecha:** 28 de enero de 2026  

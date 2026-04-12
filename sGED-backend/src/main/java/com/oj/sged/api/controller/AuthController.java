@@ -9,6 +9,7 @@ import com.oj.sged.application.service.AuthService;
 import com.oj.sged.shared.exception.AuthException;
 import com.oj.sged.shared.exception.PasswordValidationException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Objects;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,11 @@ public class AuthController {
     ) {
         String ip = httpRequest.getRemoteAddr();
         try {
-            LoginResponseData responseData = authService.login(request.getUsername(), request.getPassword(), ip);
+            LoginResponseData responseData = authService.login(
+                Objects.requireNonNull(request.getUsername()),
+                Objects.requireNonNull(request.getPassword()),
+                Objects.requireNonNull(ip)
+            );
             ApiResponse<LoginResponseData> response = ApiResponse.<LoginResponseData>builder()
                 .success(true)
                 .data(responseData)
@@ -61,7 +66,7 @@ public class AuthController {
                 .body(ApiResponse.error("Token inválido"));
         }
         String token = authHeader.substring(7);
-        authService.logout(token, ip);
+        authService.logout(Objects.requireNonNull(token), Objects.requireNonNull(ip));
         return ResponseEntity.ok(ApiResponse.ok("Sesión cerrada correctamente", null));
     }
 
@@ -77,7 +82,11 @@ public class AuthController {
                 .body(ApiResponse.error("Usuario o contraseña incorrectos"));
         }
         try {
-            authService.changePassword(username, request, ip);
+            authService.changePassword(
+                Objects.requireNonNull(username),
+                Objects.requireNonNull(request),
+                Objects.requireNonNull(ip)
+            );
             return ResponseEntity.ok(ApiResponse.ok("Contraseña actualizada correctamente", null));
         } catch (PasswordValidationException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

@@ -17,14 +17,12 @@
     (eliminar)="onEliminar($event)"
   ></app-documentos-list>
 
-  <div class="visor-overlay" *ngIf="viewerType">
-    <div class="visor-container">
-      <button class="close-btn" type="button" (click)="cerrarVisor()">Cerrar</button>
-
+  <p-dialog [visible]="viewerType !== null" [modal]="true" [maximizable]="true" [style]="{width: '85vw', height: '85vh'}" (onHide)="cerrarVisor()" header="{{ selectedDocumento?.nombreOriginal || 'Visor de Documentos' }}">
+    <div class="visor-content" style="height: 100%; display: flex; flex-direction: column;">
       <app-visor-pdf *ngIf="viewerType === 'PDF' || viewerType === 'WORD'" [url]="viewerUrl"></app-visor-pdf>
       <app-visor-imagen *ngIf="viewerType === 'IMAGEN'" [url]="viewerUrl"></app-visor-imagen>
       <app-reproductor-audio *ngIf="viewerType === 'AUDIO'" [url]="viewerUrl"></app-reproductor-audio>
       <app-reproductor-video *ngIf="viewerType === 'VIDEO'" [url]="viewerUrl"></app-reproductor-video>
     </div>
-  </div>
+  </p-dialog>
 </section>

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ContentDisposition;
@@ -81,7 +82,10 @@ public class DocumentoController {
         Resource resource = toResource(contenido.getPath());
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         try {
-            mediaType = MediaType.parseMediaType(contenido.getContentType());
+            String contentType = contenido.getContentType();
+            if (contentType != null) {
+                mediaType = MediaType.parseMediaType(contentType);
+            }
         } catch (Exception ignored) {
             mediaType = MediaType.APPLICATION_OCTET_STREAM;
         }
@@ -92,7 +96,7 @@ public class DocumentoController {
         }
 
         return ResponseEntity.ok()
-            .contentType(mediaType)
+            .contentType(Objects.requireNonNull(mediaType))
             .header(HttpHeaders.CONTENT_DISPOSITION, disposition.toString())
             .contentLength(resource.contentLength())
             .body(resource);
@@ -109,7 +113,10 @@ public class DocumentoController {
         Resource resource = toResource(contenido.getPath());
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
         try {
-            mediaType = MediaType.parseMediaType(contenido.getContentType());
+            String contentType = contenido.getContentType();
+            if (contentType != null) {
+                mediaType = MediaType.parseMediaType(contentType);
+            }
         } catch (Exception ignored) {
             mediaType = MediaType.APPLICATION_OCTET_STREAM;
         }
@@ -120,7 +127,7 @@ public class DocumentoController {
         }
 
         return ResponseEntity.ok()
-            .contentType(mediaType)
+            .contentType(Objects.requireNonNull(mediaType))
             .header(HttpHeaders.CONTENT_DISPOSITION, disposition.toString())
             .contentLength(resource.contentLength())
             .body(resource);
@@ -179,7 +186,7 @@ public class DocumentoController {
     }
 
     private Resource toResource(Path path) throws IOException {
-        UrlResource resource = new UrlResource(path.toUri());
+        UrlResource resource = new UrlResource(Objects.requireNonNull(path.toUri()));
         if (!resource.exists() || !resource.isReadable()) {
             throw new IOException("Recurso no disponible");
         }

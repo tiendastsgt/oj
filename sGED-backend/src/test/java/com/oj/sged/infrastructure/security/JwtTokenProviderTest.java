@@ -7,6 +7,7 @@ import com.oj.sged.infrastructure.persistence.auth.repository.RevokedTokenReposi
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -27,14 +28,14 @@ class JwtTokenProviderTest {
         when(revokedTokenRepository.existsByTokenJti(anyString())).thenReturn(false);
         JwtTokenProvider provider = new JwtTokenProvider(SECRET, 28_800_000L, revokedTokenRepository);
 
-        CatRol rol = CatRol.builder().id(1L).nombre("ADMINISTRADOR").build();
-        CatJuzgado juzgado = CatJuzgado.builder().id(2L).nombre("Juzgado Central").build();
-        Usuario usuario = Usuario.builder()
+        CatRol rol = Objects.requireNonNull(CatRol.builder().id(1L).nombre("ADMINISTRADOR").build());
+        CatJuzgado juzgado = Objects.requireNonNull(CatJuzgado.builder().id(2L).nombre("Juzgado Central").build());
+        Usuario usuario = Objects.requireNonNull(Usuario.builder()
             .id(99L)
             .username("usuario")
             .rol(rol)
             .juzgado(juzgado)
-            .build();
+            .build());
 
         LocalDateTime before = LocalDateTime.now();
         String token = provider.generateToken(usuario);
@@ -57,7 +58,7 @@ class JwtTokenProviderTest {
         when(revokedTokenRepository.existsByTokenJti(anyString())).thenReturn(true);
         JwtTokenProvider provider = new JwtTokenProvider(SECRET, 28_800_000L, revokedTokenRepository);
 
-        Usuario usuario = Usuario.builder().username("usuario").build();
+        Usuario usuario = Objects.requireNonNull(Usuario.builder().username("usuario").build());
         String token = provider.generateToken(usuario);
 
         assertFalse(provider.validateToken(token));
@@ -69,7 +70,7 @@ class JwtTokenProviderTest {
         when(revokedTokenRepository.existsByTokenJti(anyString())).thenThrow(new RuntimeException("db error"));
         JwtTokenProvider provider = new JwtTokenProvider(SECRET, 28_800_000L, revokedTokenRepository);
 
-        Usuario usuario = Usuario.builder().username("usuario").build();
+        Usuario usuario = Objects.requireNonNull(Usuario.builder().username("usuario").build());
         String token = provider.generateToken(usuario);
 
         assertFalse(provider.validateToken(token));

@@ -7,6 +7,7 @@ import com.oj.sged.shared.exception.ResourceNotFoundException;
 import com.oj.sged.shared.util.AuditAction;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class AuditoriaConsultaServiceTest {
     void setUp() {
         ahora = LocalDateTime.now();
 
-        auditoriaTest = Auditoria.builder()
+        auditoriaTest = Objects.requireNonNull(Auditoria.builder()
             .id(1L)
             .fecha(ahora)
             .usuario("usuario.test")
@@ -59,7 +60,7 @@ class AuditoriaConsultaServiceTest {
             .modulo(AuditAction.MODULO_ADMIN)
             .recursoId(100L)
             .detalle("Usuario test creado")
-            .build();
+            .build());
     }
 
     /**

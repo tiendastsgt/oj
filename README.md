@@ -1,8 +1,8 @@
 # SGED - Sistema de Gestión de Expedientes Digitales
 
-**Versión:** v1.0.0  
-**Estado:** ✅ En Producción  
-**Fecha:** 28 enero 2026
+**Versión:** v1.1.0  
+**Estado:** 🛠️ En Desarrollo (Sprint 2)  
+**Fecha:** 11 abril 2026
 
 ---
 
@@ -81,7 +81,7 @@ SGED/
 
 - **Framework:** Spring Boot 3.5
 - **Lenguaje:** Java 21 LTS
-- **Database:** Oracle 19c
+- **Database:** Oracle 21c (compatible 19c)
 - **Puertos:** 8080 (local), 8443 (HTTPS prod)
 
 ```bash
@@ -107,9 +107,13 @@ npm test
 
 ### Autenticación: Integrada en sGED-Backend (Java/Spring Security)
 
+> [!IMPORTANT]
+> Toda la lógica de seguridad reside en el backend de Java. Se ha **descartado y eliminado** por completo el antiguo servicio `auth-service` en Python/FastAPI para simplificar la arquitectura y mejorar la mantenibilidad.
+
 - **Framework:** Spring Boot 3.5 + Spring Security 6.5
-- **Token:** JWT con expiración de 8 horas
-- **Algoritmo:** JJWT (JSON Web Token con firma HS256)
+- **Token:** JWT con expiración de 8 horas (configurable vía variables de entorno)
+- **Algoritmo:** JJWT (JSON Web Token con firma HMAC-SHA256)
+- **Revocación:** Gestionada mediante tabla `revoked_token` (Blacklist de JTI) en Oracle.
 
 **Endpoints auditados y vigentes:**
 
@@ -128,7 +132,7 @@ POST /api/v1/auth/cambiar-password  # Cambiar contraseña del usuario
 
 **NUNCA commitear secretos al repositorio.**
 
-Ver: [SECRETS_MANAGEMENT.md](./docs/infra/SECRETS_MANAGEMENT.md)
+Ver: [Índice maestro → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.md#infraestructura)
 
 ---
 
@@ -140,11 +144,11 @@ Ver: [SECRETS_MANAGEMENT.md](./docs/infra/SECRETS_MANAGEMENT.md)
 docker-compose -f docker-compose-qa.yml up -d
 ```
 
-Ver: [DEPLOYMENT_GUIDE.md](./docs/infra/DEPLOYMENT_GUIDE.md)
+Ver: [Índice maestro → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.md#infraestructura)
 
 ### Ambiente Producción
 
-Leer primero: [PLAN_DESPLIEGUE_PRODUCCION.md](./docs/infra/PLAN_DESPLIEGUE_PRODUCCION.md)
+Leer primero: [Índice maestro → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.md#infraestructura)
 
 Rollout gradual (10% → 50% → 100%)
 
@@ -157,7 +161,7 @@ Sistema en **producción requiere monitoreo 24/7**:
 - Primeras 72h: Monitoreo intenso (cada 5-30 min)
 - Después: Alertas automáticas en PagerDuty
 
-Ver: [MONITOREO_OPERACIONES_PRODUCCION.md](./docs/infra/MONITOREO_OPERACIONES_PRODUCCION.md)
+Ver: [Índice maestro → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.md#infraestructura)
 
 ---
 
@@ -232,11 +236,11 @@ Documentos antiguos (.docx, scripts viejos) están en:
 
 ## 🔗 Enlaces Útiles
 
-- **Documentación General:** [/docs/general/](./docs/general/)
-- **Guías Operativas:** [/docs/infra/](./docs/infra/)
-- **Reportes QA:** [/docs/qa/](./docs/qa/)
-- **Diagramas:** [/docs/diagramas/](./docs/diagramas/)
-- **Índice Maestro:** [/docs/INDICE_MAESTRO_DOCUMENTACION.md](./docs/INDICE_MAESTRO_DOCUMENTACION.md)
+- **Documentación General:** [docs/general/](./docs/general/)
+- **Guías Operativas:** [Índice → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.md#infraestructura)
+- **Reportes QA:** [docs/qa/](./docs/qa/)
+- **Diagramas:** [Índice → Diagramas](./docs/INDICE_MAESTRO_DOCUMENTACION.md#diagramas)
+- **Índice Maestro:** [docs/INDICE_MAESTRO_DOCUMENTACION.md](./docs/INDICE_MAESTRO_DOCUMENTACION.md)
 
 ---
 
@@ -249,6 +253,6 @@ Documentos antiguos (.docx, scripts viejos) están en:
 
 ---
 
-**Última actualización:** 28 enero 2026  
+**Última actualización:** 30 enero 2026  
 **Responsable:** Agente de Documentación  
 **Estado:** ✅ Vigente para v1.0.0+

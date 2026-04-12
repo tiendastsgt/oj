@@ -1,82 +1,62 @@
-<p-card header="Búsqueda avanzada">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="busqueda-form">
-    <div class="form-field">
-      <label for="numero">Número</label>
-      <input id="numero" pInputText formControlName="numero" />
-    </div>
-
-    <div class="form-field">
-      <label for="fechaDesde">Fecha desde</label>
-      <p-datepicker id="fechaDesde" formControlName="fechaDesde" dateFormat="yy-mm-dd"></p-datepicker>
-    </div>
-
-    <div class="form-field">
-      <label for="fechaHasta">Fecha hasta</label>
-      <p-datepicker id="fechaHasta" formControlName="fechaHasta" dateFormat="yy-mm-dd"></p-datepicker>
-      <small class="error" *ngIf="form.hasError('dateRange')">La fecha desde debe ser menor o igual a la fecha hasta</small>
-    </div>
-
-    <div class="form-field">
-      <label for="estadoId">Estado</label>
-      <p-select
-        id="estadoId"
-        formControlName="estadoId"
-        [options]="estados"
-        optionLabel="nombre"
-        optionValue="id"
-        placeholder="Seleccione estado"
-      ></p-select>
-    </div>
-
-    <div class="form-field">
-      <label for="tipoProcesoId">Tipo de proceso</label>
-      <p-select
-        id="tipoProcesoId"
-        formControlName="tipoProcesoId"
-        [options]="tiposProceso"
-        optionLabel="nombre"
-        optionValue="id"
-        placeholder="Seleccione tipo"
-      ></p-select>
-    </div>
-
-    <div class="form-field">
-      <label for="juzgadoId">Juzgado</label>
-      <p-select
-        id="juzgadoId"
-        formControlName="juzgadoId"
-        [options]="juzgados"
-        optionLabel="nombre"
-        optionValue="id"
-        placeholder="Seleccione juzgado"
-      ></p-select>
-    </div>
-
-    <div class="form-field">
-      <label for="actorPrincipal">Actor principal</label>
-      <input id="actorPrincipal" pInputText formControlName="actorPrincipal" />
-    </div>
-
-    <div class="form-field">
-      <label for="demandadoPrincipal">Demandado principal</label>
-      <input id="demandadoPrincipal" pInputText formControlName="demandadoPrincipal" />
-    </div>
-
-    <div class="form-field">
-      <label for="referenciaSgt">Referencia SGT</label>
-      <input id="referenciaSgt" pInputText formControlName="referenciaSgt" />
-    </div>
-
-    <button pButton type="submit" label="Buscar" [disabled]="loading"></button>
-  </form>
-
-  <div class="messages">
-    <p-message *ngFor="let message of errorMessages" severity="error" [text]="message"></p-message>
+<div class="search-container glass-panel fade-in-up">
+  <div class="search-header">
+    <h2>Búsqueda Avanzada</h2>
+    <p class="subtitle">Encuentre expedientes filtrando por múltiples criterios</p>
   </div>
 
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="search-form">
+    
+    <!-- Sección: Criterios Generales -->
+    <div class="filter-section">
+      <h3 class="section-title"><i class="pi pi-folder"></i> Criterios Generales</h3>
+      <app-criterios-generales 
+        [formGroup]="form"
+        [tiposProceso]="tiposProceso"
+        [estados]="estados"
+        [juzgados]="juzgados">
+      </app-criterios-generales>
+    </div>
+
+    <!-- Sección: Fechas -->
+    <div class="filter-section">
+      <h3 class="section-title"><i class="pi pi-calendar"></i> Fechas</h3>
+      <app-criterios-fechas [formGroup]="form"></app-criterios-fechas>
+    </div>
+
+    <!-- Sección: Sujetos Procesales -->
+    <div class="filter-section">
+      <h3 class="section-title"><i class="pi pi-users"></i> Sujetos Procesales</h3>
+      <app-criterios-sujetos [formGroup]="form"></app-criterios-sujetos>
+    </div>
+
+    <!-- Sección: Referencias -->
+    <div class="filter-section">
+      <h3 class="section-title"><i class="pi pi-link"></i> Referencias SGT</h3>
+      <app-criterios-referencia [formGroup]="form"></app-criterios-referencia>
+    </div>
+
+    <!-- Acciones -->
+    <div class="form-actions">
+      <button 
+        pButton 
+        type="submit" 
+        label="Buscar Expedientes" 
+        icon="pi pi-search" 
+        class="p-button-primary btn-neon"
+        [loading]="loading">
+      </button>
+    </div>
+  </form>
+
+  <div class="messages-container" *ngIf="errorMessages.length > 0">
+    <p-message *ngFor="let message of errorMessages" severity="error" [text]="message" styleClass="w-full"></p-message>
+  </div>
+</div>
+
+<div class="results-container slide-up" *ngIf="resultados">
   <app-resultados-busqueda
     [resultados]="resultados"
     [loading]="loading"
     (lazyLoad)="onLazyLoad($event)"
   ></app-resultados-busqueda>
-</p-card>
+</div>

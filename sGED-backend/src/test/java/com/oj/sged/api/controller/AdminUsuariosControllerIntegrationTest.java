@@ -15,6 +15,7 @@ import com.oj.sged.infrastructure.persistence.auth.repository.UsuarioRepository;
 import com.oj.sged.infrastructure.security.JwtTokenProvider;
 import com.oj.sged.shared.util.AuditAction;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,33 +79,33 @@ class AdminUsuariosControllerIntegrationTest {
         catRolRepository.deleteAll();
 
         // Crear roles
-        rolAdmin = catRolRepository.save(CatRol.builder()
+        rolAdmin = catRolRepository.save(Objects.requireNonNull(CatRol.builder()
             .nombre("ADMINISTRADOR")
             .descripcion("Administrador")
             .activo(1)
-            .build());
+            .build()));
 
-        rolJuez = catRolRepository.save(CatRol.builder()
+        rolJuez = catRolRepository.save(Objects.requireNonNull(CatRol.builder()
             .nombre("JUEZ")
             .descripcion("Juez")
             .activo(1)
-            .build());
+            .build()));
 
         // Crear juzgados
-        juzgadoCentral = catJuzgadoRepository.save(CatJuzgado.builder()
+        juzgadoCentral = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JUZ-001")
             .nombre("Juzgado Central")
             .activo(1)
-            .build());
+            .build()));
 
-        CatJuzgado juzgadoSegundo = catJuzgadoRepository.save(CatJuzgado.builder()
+        CatJuzgado juzgadoSegundo = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JUZ-002")
             .nombre("Juzgado Segundo")
             .activo(1)
-            .build());
+            .build()));
 
         // Crear usuario admin
-        usuarioAdmin = usuarioRepository.save(Usuario.builder()
+        usuarioAdmin = usuarioRepository.save(Objects.requireNonNull(Usuario.builder()
             .username("admin")
             .password(passwordEncoder.encode("AdminPassword1"))
             .nombreCompleto("Administrador")
@@ -116,10 +117,10 @@ class AdminUsuariosControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build());
+            .build()));
 
         // Crear usuario no admin
-        usuarioNoAdmin = usuarioRepository.save(Usuario.builder()
+        usuarioNoAdmin = usuarioRepository.save(Objects.requireNonNull(Usuario.builder()
             .username("usuario")
             .password(passwordEncoder.encode("UserPassword1"))
             .nombreCompleto("Usuario Regular")
@@ -131,7 +132,7 @@ class AdminUsuariosControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build());
+            .build()));
 
         // Generar token
         tokenAdmin = jwtTokenProvider.generateToken(usuarioAdmin);
@@ -283,7 +284,7 @@ class AdminUsuariosControllerIntegrationTest {
             .andExpect(jsonPath("$.data.rol").value("ADMINISTRADOR"));
 
         // Verificar en BD - refrescar desde BD para evitar lazy initialization
-        Usuario usuarioActualizado = usuarioRepository.findById(usuarioNoAdmin.getId()).orElseThrow();
+        Usuario usuarioActualizado = usuarioRepository.findById(Objects.requireNonNull(usuarioNoAdmin.getId())).orElseThrow();
         assertThat(usuarioActualizado)
             .hasFieldOrPropertyWithValue("nombreCompleto", "Usuario Renombrado")
             .hasFieldOrPropertyWithValue("email", "renombrado@oj.local");
@@ -310,7 +311,7 @@ class AdminUsuariosControllerIntegrationTest {
             .andExpect(jsonPath("$.success").value(true));
 
         // Verificar en BD
-        Usuario usuarioBloqueado = usuarioRepository.findById(usuarioNoAdmin.getId()).orElseThrow();
+        Usuario usuarioBloqueado = usuarioRepository.findById(Objects.requireNonNull(usuarioNoAdmin.getId())).orElseThrow();
         assertThat(usuarioBloqueado)
             .hasFieldOrPropertyWithValue("bloqueado", 1);
 
@@ -344,7 +345,7 @@ class AdminUsuariosControllerIntegrationTest {
             .andExpect(jsonPath("$.success").value(true));
 
         // Verificar en BD
-        Usuario usuarioDesbloqueado = usuarioRepository.findById(usuarioNoAdmin.getId()).orElseThrow();
+        Usuario usuarioDesbloqueado = usuarioRepository.findById(Objects.requireNonNull(usuarioNoAdmin.getId())).orElseThrow();
         assertThat(usuarioDesbloqueado)
             .hasFieldOrPropertyWithValue("bloqueado", 0);
 
@@ -372,7 +373,7 @@ class AdminUsuariosControllerIntegrationTest {
             .andExpect(jsonPath("$.success").value(true));
 
         // Verificar en BD
-        Usuario usuarioReseteado = usuarioRepository.findById(usuarioNoAdmin.getId()).orElseThrow();
+        Usuario usuarioReseteado = usuarioRepository.findById(Objects.requireNonNull(usuarioNoAdmin.getId())).orElseThrow();
         assertThat(usuarioReseteado)
             .hasFieldOrPropertyWithValue("debeCambiarPass", 1);
 

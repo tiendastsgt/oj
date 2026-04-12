@@ -14,6 +14,7 @@ import com.oj.sged.infrastructure.security.JwtTokenProvider;
 import com.oj.sged.shared.exception.AuthException;
 import com.oj.sged.shared.exception.PasswordValidationException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,9 +59,9 @@ class AuthServiceTest {
 
     @BeforeEach
     void setUp() {
-        CatRol rol = CatRol.builder().id(1L).nombre("ADMINISTRADOR").build();
-        CatJuzgado juzgado = CatJuzgado.builder().id(10L).nombre("Juzgado 1").build();
-        usuario = Usuario.builder()
+        CatRol rol = Objects.requireNonNull(CatRol.builder().id(1L).nombre("ADMINISTRADOR").build());
+        CatJuzgado juzgado = Objects.requireNonNull(CatJuzgado.builder().id(10L).nombre("Juzgado 1").build());
+        usuario = Objects.requireNonNull(Usuario.builder()
             .id(100L)
             .username("usuario")
             .password("hash")
@@ -73,7 +74,7 @@ class AuthServiceTest {
             .intentosFallidos(0)
             .debeCambiarPass(1)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     @Test

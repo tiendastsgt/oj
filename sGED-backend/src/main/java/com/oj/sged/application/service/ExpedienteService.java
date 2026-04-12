@@ -14,6 +14,7 @@ import com.oj.sged.shared.exception.InvalidReferenceException;
 import com.oj.sged.shared.exception.ResourceNotFoundException;
 import com.oj.sged.shared.util.SecurityUtil;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +78,7 @@ public class ExpedienteService {
     public Page<ExpedienteResponse> listarExpedientes(Pageable pageable) {
         Page<Expediente> page;
         if (isAdmin()) {
-            page = expedienteRepository.findAll(pageable);
+            page = expedienteRepository.findAll(Objects.requireNonNull(pageable));
         } else {
             Usuario usuario = getCurrentUser();
             Long juzgadoId = getUserJuzgadoId(usuario);
@@ -88,7 +89,7 @@ public class ExpedienteService {
 
     @Transactional(readOnly = true)
     public ExpedienteResponse obtenerDetalleExpediente(Long id, String ip) {
-        Expediente expediente = expedienteRepository.findById(id)
+        Expediente expediente = expedienteRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Expediente no encontrado"));
         if (!canAccessExpediente(expediente)) {
             throw new AccessDeniedException("Acceso denegado");
@@ -101,7 +102,7 @@ public class ExpedienteService {
 
     @Transactional
     public ExpedienteResponse editarExpediente(Long id, ExpedienteRequest request, String ip) {
-        Expediente expediente = expedienteRepository.findById(id)
+        Expediente expediente = expedienteRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Expediente no encontrado"));
         if (!canAccessExpediente(expediente)) {
             throw new AccessDeniedException("Acceso denegado");

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Objects;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,7 +123,7 @@ public class AuthService {
                 .fechaRevocacion(LocalDateTime.now())
                 .fechaExpiracion(expiration)
                 .build();
-            revokedTokenRepository.save(revokedToken);
+            revokedTokenRepository.save(Objects.requireNonNull(revokedToken));
         }
 
         String username = jwtTokenProvider.getUsername(token);
@@ -158,7 +159,7 @@ public class AuthService {
             .ip(ip)
             .fechaIntento(LocalDateTime.now())
             .build();
-        authAttemptRepository.save(attempt);
+        authAttemptRepository.save(Objects.requireNonNull(attempt));
     }
 
     private List<String> validatePasswordChange(ChangePasswordRequest request) {

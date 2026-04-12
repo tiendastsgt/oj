@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,16 +92,16 @@ class DocumentoControllerIntegrationTest {
         catJuzgadoRepository.deleteAll();
         catRolRepository.deleteAll();
 
-        juzgado1 = catJuzgadoRepository.save(CatJuzgado.builder()
+        juzgado1 = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JZ-001")
             .nombre("Juzgado 1")
             .activo(1)
-            .build());
-        juzgado2 = catJuzgadoRepository.save(CatJuzgado.builder()
+            .build()));
+        juzgado2 = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JZ-002")
             .nombre("Juzgado 2")
             .activo(1)
-            .build());
+            .build()));
 
         expedienteJ1 = expedienteRepository.save(buildExpediente("EXP-001", juzgado1.getId()));
         expedienteJ2 = expedienteRepository.save(buildExpediente("EXP-002", juzgado2.getId()));
@@ -255,7 +256,7 @@ class DocumentoControllerIntegrationTest {
                 .descripcion(roleName)
                 .activo(1)
                 .build()));
-        Usuario usuario = Usuario.builder()
+        Usuario usuario = Objects.requireNonNull(Usuario.builder()
             .username(username)
             .password(passwordEncoder.encode("Password1"))
             .nombreCompleto("Usuario " + username)
@@ -267,12 +268,12 @@ class DocumentoControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
         return usuarioRepository.save(usuario);
     }
 
     private Expediente buildExpediente(String numero, Long juzgadoId) {
-        return Expediente.builder()
+        return Objects.requireNonNull(Expediente.builder()
             .numero(numero)
             .tipoProcesoId(1L)
             .juzgadoId(juzgadoId)
@@ -281,12 +282,12 @@ class DocumentoControllerIntegrationTest {
             .descripcion("Expediente de prueba")
             .usuarioCreacion("admin")
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     private Documento buildDocumento(Expediente expediente, String nombreOriginal, boolean eliminado) {
         String ruta = "2026/01/" + expediente.getId() + "/10";
-        return Documento.builder()
+        return Objects.requireNonNull(Documento.builder()
             .expediente(expediente)
             .nombreOriginal(nombreOriginal)
             .nombreStorage("10_" + nombreOriginal)
@@ -297,6 +298,6 @@ class DocumentoControllerIntegrationTest {
             .usuarioCreacion("admin")
             .fechaCreacion(LocalDateTime.now())
             .eliminado(eliminado)
-            .build();
+            .build());
     }
 }

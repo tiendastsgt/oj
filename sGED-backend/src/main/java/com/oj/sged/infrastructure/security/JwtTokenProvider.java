@@ -101,14 +101,14 @@ public class JwtTokenProvider {
         Instant expiration = now.plusMillis(expirationMs);
 
         return Jwts.builder()
-            .setSubject(usuario.getUsername())
-            .setId(jti)
+            .subject(usuario.getUsername())
+            .id(jti)
             .claim("jti", jti)
             .claim("roles", List.of(role))
             .claim("juzgado", juzgado)
             .claim("user_id", usuario.getId())
-            .setIssuedAt(Date.from(now))
-            .setExpiration(Date.from(expiration))
+            .issuedAt(Date.from(now))
+            .expiration(Date.from(expiration))
             .signWith(secretKey)
             .compact();
     }

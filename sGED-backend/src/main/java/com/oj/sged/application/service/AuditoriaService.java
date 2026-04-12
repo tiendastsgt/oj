@@ -4,6 +4,7 @@ import com.oj.sged.infrastructure.persistence.auth.Auditoria;
 import com.oj.sged.infrastructure.persistence.auth.repository.AuditoriaRepository;
 import com.oj.sged.shared.util.SecurityUtil;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -48,7 +49,7 @@ public class AuditoriaService {
                 .recursoId(recursoId)
                 .detalle(detalle)
                 .build();
-            auditoriaRepository.save(auditoria);
+            auditoriaRepository.save(Objects.requireNonNull(auditoria));
         } catch (Exception ex) {
             logger.warn("operation=audit_log status=error message={}", ex.getMessage());
         }

@@ -18,6 +18,7 @@ import com.oj.sged.shared.exception.AuthException;
 import com.oj.sged.shared.exception.PasswordValidationException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -48,14 +49,14 @@ class AuthControllerTest {
         request.setUsername("jperez");
         request.setPassword("Secret123");
 
-        LoginResponseData data = LoginResponseData.builder()
+        LoginResponseData data = Objects.requireNonNull(LoginResponseData.builder()
             .token("jwt-token")
             .username("jperez")
             .nombreCompleto("Juan Perez")
             .rol("SECRETARIO")
             .juzgado("Juzgado Primero")
             .debeCambiarPassword(false)
-            .build();
+            .build());
 
         when(authService.login(eq("jperez"), eq("Secret123"), any())).thenReturn(data);
 

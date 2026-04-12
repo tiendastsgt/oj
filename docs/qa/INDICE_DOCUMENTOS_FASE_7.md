@@ -1,3 +1,13 @@
+---
+Documento: INDICE_DOCUMENTOS_FASE_7
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # 📚 ÍNDICE DE DOCUMENTOS - FASE 7 (Despliegue QA)
 ## SGED: Sistema de Gestión de Expedientes Digitales
 

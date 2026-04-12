@@ -21,6 +21,7 @@ import com.oj.sged.infrastructure.persistence.expediente.repository.ExpedienteRe
 import com.oj.sged.infrastructure.security.JwtTokenProvider;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,26 +88,26 @@ class BusquedaExpedientesControllerIntegrationTest {
         catTipoProcesoRepository.deleteAll();
         catEstadoRepository.deleteAll();
 
-        juzgado1 = catJuzgadoRepository.save(CatJuzgado.builder()
+        juzgado1 = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JZ-001")
             .nombre("Juzgado 1")
             .activo(1)
-            .build());
-        juzgado2 = catJuzgadoRepository.save(CatJuzgado.builder()
+            .build()));
+        juzgado2 = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JZ-002")
             .nombre("Juzgado 2")
             .activo(1)
-            .build());
-        tipoProceso = catTipoProcesoRepository.save(CatTipoProceso.builder()
+            .build()));
+        tipoProceso = catTipoProcesoRepository.save(Objects.requireNonNull(CatTipoProceso.builder()
             .nombre("Civil")
             .descripcion("Proceso civil")
             .activo(1)
-            .build());
-        estado = catEstadoRepository.save(CatEstado.builder()
+            .build()));
+        estado = catEstadoRepository.save(Objects.requireNonNull(CatEstado.builder()
             .nombre("Activo")
             .descripcion("Estado activo")
             .activo(1)
-            .build());
+            .build()));
     }
 
     @Test
@@ -187,7 +188,7 @@ class BusquedaExpedientesControllerIntegrationTest {
                 .descripcion(roleName)
                 .activo(1)
                 .build()));
-        Usuario usuario = Usuario.builder()
+        Usuario usuario = Objects.requireNonNull(Usuario.builder()
             .username(username)
             .password(passwordEncoder.encode("Password1"))
             .nombreCompleto("Usuario " + username)
@@ -199,12 +200,12 @@ class BusquedaExpedientesControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
         return usuarioRepository.save(usuario);
     }
 
     private Expediente buildExpediente(String numero, Long juzgadoId) {
-        return Expediente.builder()
+        return Objects.requireNonNull(Expediente.builder()
             .numero(numero)
             .tipoProcesoId(tipoProceso.getId())
             .juzgadoId(juzgadoId)
@@ -213,6 +214,6 @@ class BusquedaExpedientesControllerIntegrationTest {
             .descripcion("Expediente de prueba")
             .usuarioCreacion("admin")
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 }

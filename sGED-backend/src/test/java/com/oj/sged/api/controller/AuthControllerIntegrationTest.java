@@ -14,6 +14,7 @@ import com.oj.sged.infrastructure.persistence.auth.repository.RevokedTokenReposi
 import com.oj.sged.infrastructure.persistence.auth.repository.UsuarioRepository;
 import com.oj.sged.infrastructure.security.JwtTokenProvider;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -227,17 +228,17 @@ class AuthControllerIntegrationTest {
     }
 
     private Usuario createUser(String username, String rawPassword) {
-        CatRol rol = catRolRepository.save(CatRol.builder()
+        CatRol rol = catRolRepository.save(Objects.requireNonNull(CatRol.builder()
             .nombre("ADMINISTRADOR")
             .descripcion("Administrador")
             .activo(1)
-            .build());
-        CatJuzgado juzgado = catJuzgadoRepository.save(CatJuzgado.builder()
+            .build()));
+        CatJuzgado juzgado = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JUZ-001")
             .nombre("Juzgado Central")
             .activo(1)
-            .build());
-        Usuario usuario = Usuario.builder()
+            .build()));
+        Usuario usuario = Objects.requireNonNull(Usuario.builder()
             .username(username)
             .password(passwordEncoder.encode(rawPassword))
             .nombreCompleto("Usuario Prueba")
@@ -249,7 +250,7 @@ class AuthControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(1)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
         return usuarioRepository.save(usuario);
     }
 

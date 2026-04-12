@@ -13,6 +13,7 @@ import com.oj.sged.infrastructure.persistence.auth.repository.UsuarioRepository;
 import com.oj.sged.infrastructure.security.JwtTokenProvider;
 import com.oj.sged.shared.util.AuditAction;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,27 +79,27 @@ class AuditoriaControllerIntegrationTest {
         ahora = LocalDateTime.now();
 
         // Crear roles
-        rolAdmin = catRolRepository.save(CatRol.builder()
+        rolAdmin = catRolRepository.save(Objects.requireNonNull(CatRol.builder()
             .nombre("ADMINISTRADOR")
             .descripcion("Administrador")
             .activo(1)
-            .build());
+            .build()));
 
-        rolJuez = catRolRepository.save(CatRol.builder()
+        rolJuez = catRolRepository.save(Objects.requireNonNull(CatRol.builder()
             .nombre("JUEZ")
             .descripcion("Juez")
             .activo(1)
-            .build());
+            .build()));
 
         // Crear juzgados
-        juzgadoCentral = catJuzgadoRepository.save(CatJuzgado.builder()
+        juzgadoCentral = catJuzgadoRepository.save(Objects.requireNonNull(CatJuzgado.builder()
             .codigo("JUZ-001")
             .nombre("Juzgado Central")
             .activo(1)
-            .build());
+            .build()));
 
         // Crear usuario admin
-        usuarioAdmin = usuarioRepository.save(Usuario.builder()
+        usuarioAdmin = usuarioRepository.save(Objects.requireNonNull(Usuario.builder()
             .username("admin")
             .password(passwordEncoder.encode("AdminPassword1"))
             .nombreCompleto("Administrador")
@@ -110,10 +111,10 @@ class AuditoriaControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build());
+            .build()));
 
         // Crear usuario no admin
-        usuarioNoAdmin = usuarioRepository.save(Usuario.builder()
+        usuarioNoAdmin = usuarioRepository.save(Objects.requireNonNull(Usuario.builder()
             .username("usuario")
             .password(passwordEncoder.encode("UserPassword1"))
             .nombreCompleto("Usuario Regular")
@@ -125,10 +126,10 @@ class AuditoriaControllerIntegrationTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build());
+            .build()));
 
         // Crear data de auditoría de prueba
-        auditoriaRepository.save(Auditoria.builder()
+        auditoriaRepository.save(Objects.requireNonNull(Auditoria.builder()
             .fecha(ahora.minusHours(2))
             .usuario("admin")
             .ip("192.168.1.1")
@@ -136,9 +137,9 @@ class AuditoriaControllerIntegrationTest {
             .modulo(AuditAction.MODULO_ADMIN)
             .recursoId(1L)
             .detalle("Usuario creado por admin")
-            .build());
+            .build()));
 
-        auditoriaRepository.save(Auditoria.builder()
+        auditoriaRepository.save(Objects.requireNonNull(Auditoria.builder()
             .fecha(ahora.minusHours(1))
             .usuario("admin")
             .ip("192.168.1.1")
@@ -146,9 +147,9 @@ class AuditoriaControllerIntegrationTest {
             .modulo(AuditAction.MODULO_ADMIN)
             .recursoId(2L)
             .detalle("Usuario bloqueado")
-            .build());
+            .build()));
 
-        auditoriaRepository.save(Auditoria.builder()
+        auditoriaRepository.save(Objects.requireNonNull(Auditoria.builder()
             .fecha(ahora)
             .usuario("usuario")
             .ip("192.168.1.2")
@@ -156,7 +157,7 @@ class AuditoriaControllerIntegrationTest {
             .modulo(AuditAction.MODULO_AUTH)
             .recursoId(null)
             .detalle("Login exitoso")
-            .build());
+            .build()));
 
         // Generar token
         tokenAdmin = jwtTokenProvider.generateToken(usuarioAdmin);

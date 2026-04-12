@@ -1,3 +1,13 @@
+---
+Documento: PLAN_SMOKE_TESTS_PRODUCCION_v1.0.0
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # 🚀 PLAN DE SMOKE TESTS - PRODUCCIÓN
 ## SGED v1.0.0+ - Post-Deployment Validation
 

@@ -5,13 +5,13 @@ import com.oj.sged.infrastructure.persistence.auth.Auditoria;
 import com.oj.sged.infrastructure.persistence.auth.repository.AuditoriaRepository;
 import com.oj.sged.shared.exception.ResourceNotFoundException;
 import com.oj.sged.shared.util.AuditAction;
-import com.oj.sged.shared.util.SecurityUtil;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Objects;
 
 /**
  * Servicio de consulta de auditoría (HU-018 – Consulta de Auditoría).
@@ -46,8 +46,7 @@ public class AuditoriaConsultaService {
         Pageable pageable
     ) {
         // Construir especificación con filtros dinámicos
-        Specification<Auditoria> spec = Specification
-            .where((root, query, cb) -> {
+        Specification<Auditoria> spec = (root, query, cb) -> {
                 var predicates = new java.util.ArrayList<>();
 
                 if (usuario != null && !usuario.isEmpty()) {
@@ -93,10 +92,10 @@ public class AuditoriaConsultaService {
                 }
 
                 return cb.and(predicates.toArray(new jakarta.persistence.criteria.Predicate[0]));
-            });
+            };
 
         // Ejecutar consulta y mapear resultados
-        Page<AuditoriaResponse> resultado = auditoriaRepository.findAll(spec, pageable)
+        Page<AuditoriaResponse> resultado = auditoriaRepository.findAll(spec, Objects.requireNonNull(pageable))
             .map(this::mapToResponse);
 
         // Registrar consulta de auditoría (opcional, si es muy verboso puede omitirse)
@@ -109,7 +108,7 @@ public class AuditoriaConsultaService {
      * Obtiene detalle de un log de auditoría específico.
      */
     public AuditoriaResponse obtener(Long id) {
-        Auditoria auditoria = auditoriaRepository.findById(id)
+        Auditoria auditoria = auditoriaRepository.findById(Objects.requireNonNull(id))
             .orElseThrow(() -> new ResourceNotFoundException("Log de auditoría no encontrado"));
         return mapToResponse(auditoria);
     }

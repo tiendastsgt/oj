@@ -1,0 +1,43 @@
+# Configuración SSH para proyectos múltiples
+
+# Configuración por defecto (GitHub personal) - USANDO CLAVE EXISTENTE
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+# Configuración para proyectos de agencia
+Host github-agencia
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_conta
+    IdentitiesOnly yes
+
+# Configuración para proyectos de cliente específico
+Host github-cliente
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_conta_nueva
+    IdentitiesOnly yes
+
+# Configuración para GitLab
+Host gitlab.com
+    HostName gitlab.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+# Configuración para Bitbucket
+Host bitbucket.org
+    HostName bitbucket.org
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+# Configuración para servidor CONTA (ACTUALIZADA)
+Host conta
+    HostName 148.230.88.220
+    User sts
+    IdentityFile ~/.ssh/id_ed25519_conta
+    IdentitiesOnly yes

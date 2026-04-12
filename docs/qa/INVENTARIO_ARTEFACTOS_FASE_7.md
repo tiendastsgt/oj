@@ -1,3 +1,13 @@
+---
+Documento: INVENTARIO_ARTEFACTOS_FASE_7
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # INVENTARIO COMPLETO DE ARTEFACTOS - FASE 7
 
 **Fecha de Generación:** 2024-01-15  

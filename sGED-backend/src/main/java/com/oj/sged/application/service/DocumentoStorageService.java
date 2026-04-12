@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +56,7 @@ public class DocumentoStorageService {
     private String sanitizeFilename(String originalFilename) {
         String cleaned = StringUtils.cleanPath(originalFilename == null ? "documento" : originalFilename);
         String baseName = StringUtils.getFilename(cleaned);
-        if (!StringUtils.hasText(baseName)) {
+        if (baseName == null || !StringUtils.hasText(baseName)) {
             baseName = "documento";
         }
         String safe = baseName.replaceAll("[^A-Za-z0-9._-]", "_");

@@ -44,20 +44,12 @@ management:
       exposure:
         include: health,info
 
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
----
-spring:
-  config:
-    activate:
-      on-profile: qa
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
+# ========================================
+# Spring Profiles:
+# - default (production-like)
+# - dev (local development with H2)
+# - qa (QA environment with H2)
+# - test (unit tests with H2)
+# 
+# Use: export SPRING_PROFILES_ACTIVE=qa
+# ========================================

@@ -1,38 +1,15 @@
 .documentos-page {
   padding: 1.5rem;
-  background: #ffffff;
+  background: var(--surface-section);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .error {
-  color: #b00020;
-}
-
-.visor-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.visor-container {
-  background: #ffffff;
-  width: 90%;
-  height: 90%;
+  color: #ef4444;
+  background: #fef2f2;
   padding: 1rem;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.close-btn {
-  align-self: flex-end;
-  background: #e53935;
-  border: none;
-  color: #ffffff;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+  border-radius: 0.5rem;
+  border: 1px solid #fecaca;
+  font-weight: 500;
 }

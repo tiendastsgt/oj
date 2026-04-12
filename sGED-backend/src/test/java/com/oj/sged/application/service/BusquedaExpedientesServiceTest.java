@@ -28,6 +28,7 @@ import com.oj.sged.shared.exception.InvalidReferenceException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -221,15 +222,15 @@ class BusquedaExpedientesServiceTest {
 
     private void stubCatalogs(List<Expediente> expedientes) {
         when(catTipoProcesoRepository.findAllById(any()))
-            .thenReturn(List.of(CatTipoProceso.builder().id(1L).nombre("Civil").activo(1).build()));
+            .thenReturn(List.of(Objects.requireNonNull(CatTipoProceso.builder().id(1L).nombre("Civil").activo(1).build())));
         when(catEstadoRepository.findAllById(any()))
-            .thenReturn(List.of(CatEstado.builder().id(1L).nombre("Activo").activo(1).build()));
+            .thenReturn(List.of(Objects.requireNonNull(CatEstado.builder().id(1L).nombre("Activo").activo(1).build())));
         when(catJuzgadoRepository.findAllById(any()))
-            .thenReturn(List.of(CatJuzgado.builder().id(expedientes.get(0).getJuzgadoId()).nombre("Juzgado").build()));
+            .thenReturn(List.of(Objects.requireNonNull(CatJuzgado.builder().id(expedientes.get(0).getJuzgadoId()).nombre("Juzgado").build())));
     }
 
     private Expediente buildExpediente(Long id, String numero, Long juzgadoId) {
-        return Expediente.builder()
+        return Objects.requireNonNull(Expediente.builder()
             .id(id)
             .numero(numero)
             .juzgadoId(juzgadoId)
@@ -237,22 +238,22 @@ class BusquedaExpedientesServiceTest {
             .estadoId(1L)
             .fechaInicio(LocalDate.now())
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     private Usuario buildUsuario(String username, Long juzgadoId, String juzgadoCodigo) {
-        CatRol rol = CatRol.builder()
+        CatRol rol = Objects.requireNonNull(CatRol.builder()
             .id(1L)
             .nombre("SECRETARIO")
             .activo(1)
-            .build();
-        CatJuzgado juzgado = CatJuzgado.builder()
+            .build());
+        CatJuzgado juzgado = Objects.requireNonNull(CatJuzgado.builder()
             .id(juzgadoId)
             .codigo(juzgadoCodigo)
             .nombre("Juzgado " + juzgadoId)
             .activo(1)
-            .build();
-        return Usuario.builder()
+            .build());
+        return Objects.requireNonNull(Usuario.builder()
             .id(100L)
             .username(username)
             .rol(rol)
@@ -262,7 +263,7 @@ class BusquedaExpedientesServiceTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     private void setAuthentication(String username, String role) {

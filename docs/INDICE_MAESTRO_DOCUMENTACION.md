@@ -1,8 +1,8 @@
 # 📑 ÍNDICE MAESTRO DE DOCUMENTACIÓN - SGED
 
-**Versión:** 1.0.0  
-**Fecha de última actualización:** 28 enero 2026  
-**Vigente para:** SGED v1.0.0 y superior  
+**Versión:** 1.2.0  
+**Fecha de última actualización:** 11 abril 2026  
+**Vigente para:** SGED v1.1.0 (en desarrollo) y superior  
 **Responsable:** Agente de Documentación  
 **Estado:** ✅ Vigente  
 
@@ -19,12 +19,13 @@ Este documento es el **punto de entrada único** para navegar toda la documentac
 ## 📚 TABLA DE CONTENIDOS
 
 1. [General](#general) - Documentación de proyecto y arquitectura
-2. [Infraestructura](#infraestructura) - Deployment, secretos, monitoreo
-3. [QA y Validación](#qa-y-validación) - Reportes de QA, transiciones
-4. [Smoke Tests](#smoke-tests) - Planes y ejecución de smoke testing
-5. [Fases de Desarrollo](#fases-de-desarrollo) - Documentación por fase
-6. [Diagramas](#diagramas) - Arquitectura y diagramas de flujo
-7. [Legacy](#legacy) - Documentos históricos/archivados
+2. [Entregables contractuales](#entregables-contractuales) - Informes de avance EA1–EA4 (Día 35/65/75/90)
+3. [Infraestructura](#infraestructura) - Deployment, secretos, monitoreo
+4. [QA y Validación](#qa-y-validación) - Reportes de QA, transiciones
+5. [Smoke Tests](#smoke-tests) - Planes y ejecución de smoke testing
+6. [Fases de Desarrollo](#fases-de-desarrollo) - Documentación por fase
+7. [Diagramas](#diagramas) - Arquitectura y diagramas de flujo
+8. [Legacy](#legacy) - Documentos históricos/archivados
 
 ---
 
@@ -36,21 +37,41 @@ Documentación central del proyecto SGED que define alcance, arquitectura y visi
 
 | Documento | Descripción | Vigencia | Responsable |
 |-----------|-------------|----------|-------------|
-| [plan_detallado.md](./general/plan_detallado.md) | Especificación técnica completa del sistema. Incluye requisitos (RF/RNF), arquitectura, APIs, seguridad y testing. **Verdad única** para el proyecto. | ✅ v1.0.0+ | Agente de Documentación |
-| [ROADMAP_PROYECTO_SGED.md](./general/ROADMAP_PROYECTO_SGED.md) | Hoja de ruta con 8 fases (0-7) y estado actual. Desglose de tareas, objetivos y timeline. Actualizado post-QA. | ✅ v1.0.0+ | Agente de Documentación |
-| [STACK_TECNICO_ACTUALIZADO.md](./general/STACK_TECNICO_ACTUALIZADO.md) | Stack técnico definido: Angular 21, Spring Boot 3.5, Java 21, Oracle 19c, etc. Versiones exactas de todas las dependencias. | ✅ v1.0.0+ | DevOps Team |
+| [plan_detallado.md](./general/plan_detallado.md) | Especificación técnica v1.2. Nueva arquitectura SP + DB Links Failover. **Verdad única** para el proyecto. | ✅ v1.1.0+ | Agente de Documentación |
+| [ROADMAP_PROYECTO_SGED.md](./general/ROADMAP_PROYECTO_SGED.md) | Hoja de ruta v1.1. Nueva línea base de 10 Sprints (5 meses). Actualizado post-rearquitectura. | ✅ v1.1.0+ | Agente de Documentación |
+| [STACK_TECNICO_ACTUALIZADO.md](./general/STACK_TECNICO_ACTUALIZADO.md) | Stack técnico definido: Angular 21, Spring Boot 3.5, Java 21, Oracle 21c (compatible 19c). | ✅ v1.0.0+ | DevOps Team |
+| [SEGURIDAD_AUTH_IMPLEMENTATION.md](./general/SEGURIDAD_AUTH_IMPLEMENTATION.md) | **[NUEVO]** Detalle técnico de la implementación de Spring Security, JWT y Lockout. | ✅ v1.0.0+ | Seguridad |
 
 ### Auditorías Técnicas
 
 | Documento | Descripción | Vigencia | Responsable |
 |-----------|-------------|----------|-------------|
-| [auditorias/AUDITORIA_JAVA_RESUMEN.md](./general/auditorias/AUDITORIA_JAVA_RESUMEN.md) | Auditoría de versión Java en build y runtime. Confirma Java 21 en todas las capas (Maven, Docker, CI, tests). Recomendación baseline: Java 21 LTS. | ✅ v1.0.0+ | DevOps Team |
+| [qa/audits/AUDIT_BACKEND_AUTH_JAVA.md](./qa/audits/AUDIT_BACKEND_AUTH_JAVA.md) | Auditoría de autenticación backend Java. Endpoints, JWT, lockout, RBAC. | ✅ v1.0.0+ | DevOps Team |
 
 **Cuándo consultar:**
 - Antes de empezar cualquier tarea (ver ROADMAP)
 - Para entender requisitos: plan_detallado.md
 - Para verificar versiones: STACK_TECNICO_ACTUALIZADO.md
 - Para confirmar Java en todos lados: auditorias/AUDITORIA_JAVA_RESUMEN.md
+
+---
+
+## ENTREGABLES CONTRACTUALES
+
+**Ubicación:** `/docs/entregables/`
+
+Plantillas oficiales de Informes de Avance según bases del contrato, alineadas al proyecto SGED vNext (React 19.2.4 + Node 22.20.0 + Oracle 21c). Cada entregable incluye: informe de avances, evidencias y checklist de validación. Días relativos a la firma del contrato.
+
+| Entregable | Hito | Contenido | Documentos |
+|------------|------|-----------|------------|
+| **EA1** — Documentación (20%) | Día 35 | Arquitectura, modelos de datos, prototipos, especificaciones técnicas aprobadas | [EA1_20pct_35dias/](./entregables/EA1_20pct_35dias/) — [INFORME_DE_AVANCES](./entregables/EA1_20pct_35dias/INFORME_DE_AVANCES.md), [EVIDENCIAS](./entregables/EA1_20pct_35dias/EVIDENCIAS.md), [CHECKLIST_VALIDACION](./entregables/EA1_20pct_35dias/CHECKLIST_VALIDACION.md) |
+| **EA2** — Código fuente y pruebas (30%) | Día 65 | Código backend/frontend, pruebas unitarias e integración, pipelines CI | [EA2_30pct_65dias/](./entregables/EA2_30pct_65dias/) — [INFORME_DE_AVANCES](./entregables/EA2_30pct_65dias/INFORME_DE_AVANCES.md), [EVIDENCIAS](./entregables/EA2_30pct_65dias/EVIDENCIAS.md), [CHECKLIST_VALIDACION](./entregables/EA2_30pct_65dias/CHECKLIST_VALIDACION.md) |
+| **EA3** — UAT (20%) | Día 75 | Plan UAT, acta de resultados aprobada por juzgados piloto, incidencias y resolución | [EA3_20pct_75dias/](./entregables/EA3_20pct_75dias/) — [INFORME_DE_AVANCES](./entregables/EA3_20pct_75dias/INFORME_DE_AVANCES.md), [EVIDENCIAS](./entregables/EA3_20pct_75dias/EVIDENCIAS.md), [CHECKLIST_VALIDACION](./entregables/EA3_20pct_75dias/CHECKLIST_VALIDACION.md) |
+| **EA4** — Despliegue, manuales y capacitación (15%) | Día 90 | Despliegue en entorno operativo, manual de usuario y técnico, acta de capacitación | [EA4_15pct_90dias/](./entregables/EA4_15pct_90dias/) — [INFORME_DE_AVANCES](./entregables/EA4_15pct_90dias/INFORME_DE_AVANCES.md), [EVIDENCIAS](./entregables/EA4_15pct_90dias/EVIDENCIAS.md), [CHECKLIST_VALIDACION](./entregables/EA4_15pct_90dias/CHECKLIST_VALIDACION.md) |
+
+**Cuándo consultar:**
+- Para presentar avances contractuales: usar la plantilla INFORME_DE_AVANCES y EVIDENCIAS del entregable correspondiente.
+- Para validación de cierre: completar CHECKLIST_VALIDACION y obtener aprobación del PM (Alejandro).
 
 ---
 
@@ -64,8 +85,10 @@ Guías operativas para despliegue, seguridad, secretos y monitoreo en producció
 
 | Documento | Descripción | Vigencia | Responsable |
 |-----------|-------------|----------|-------------|
-| [NGINX_SECURITY_GUIDE.md](./infra/NGINX_SECURITY_GUIDE.md) | Configuración de seguridad para reverse proxy Nginx. Headers, HTTPS, CORS, rate limiting, SSL/TLS. | ✅ v1.0.0+ | Infraestructura |
-| [SECRETS_MANAGEMENT.md](./infra/SECRETS_MANAGEMENT.md) | Cómo gestionar secretos (DB credentials, API keys, JWT). Rotación, almacenamiento en vault, ciclado 90 días. | ✅ v1.0.0+ | Infraestructura |
+| [NGINX_SECURITY_GUIDE.md](./infra/NGINX_SECURITY_GUIDE.md) | Configuración de seguridad para reverse proxy Nginx. Headers, HTTPS, CORS, SSL/TLS. | ✅ v1.0.0+ | Infraestructura |
+| [RATE_LIMITING_NGINX.md](./infra/RATE_LIMITING_NGINX.md) | **[NUEVO]** Guía técnica sobre la configuración de límites de peticiones en Nginx. | ✅ v1.0.0+ | Infraestructura |
+| [SECRETS_MANAGEMENT.md](./infra/SECRETS_MANAGEMENT.md) | Cómo gestionar secretos (DB credentials, API keys, JWT). Rotación, almacenamiento en vault. | ✅ v1.0.0+ | Infraestructura |
+| [GUIA_SECRETS_INYECCION.md](./infra/GUIA_SECRETS_INYECCION.md) | Procedimiento de inyección de secretos en contenedores. | ✅ v1.0.0+ | Infraestructura |
 | [README_INFRAESTRUCTURA.md](./infra/README_INFRAESTRUCTURA.md) | Vista general de componentes infra: Docker, Oracle, Nginx, volumes, networking. | ✅ v1.0.0+ | DevOps Team |
 
 ### Guías Operativas
@@ -100,8 +123,9 @@ Reportes de QA, guías de validación y transición entre entornos.
 
 | Documento | Descripción | Vigencia | Responsable |
 |-----------|-------------|----------|-------------|
-| [QA_ACCEPTANCE_REPORT.md](./qa/QA_ACCEPTANCE_REPORT.md) | **Acta formal de QA Fase 7.** Resumen ejecutivo, E2E (F1-F6), carga (P95/P99), seguridad (ZAP/CodeQL), conclusión: APTO PARA PRODUCCIÓN. | ✅ v1.0.0+ | QA Team |
-| [GUIA_TRANSICION_ENTORNOS.md](./qa/GUIA_TRANSICION_ENTORNOS.md) | Cómo validar el paso QA→Staging→Producción. Smoke tests, checkpoints, rollback si es necesario. | ✅ v1.0.0+ | QA Team |
+| [QA_ACCEPTANCE_REPORT.md](./qa/QA_ACCEPTANCE_REPORT.md) | **Acta formal de QA Fase 7.** Resumen ejecutivo, E2E (F1-F6), carga (P95/P99), seguridad. | ✅ v1.0.0+ | QA Team |
+| [GUIA_PRUEBAS_SISTEMA.md](./qa/GUIA_PRUEBAS_SISTEMA.md) | Guía detallada para la ejecución de pruebas integrales. | ✅ v1.0.0+ | QA Team |
+| [QUICK_START_PRUEBAS.md](./qa/QUICK_START_PRUEBAS.md) | Guía rápida para inicio de pruebas automatizadas. | ✅ v1.0.0+ | QA Team |
 | [VERIFICACION_RAPIDA_QA.md](./qa/VERIFICACION_RAPIDA_QA.md) | Quick reference para validaciones manuales rápidas. Checklist de 10 minutos. | ✅ v1.0.0+ | QA Team |
 
 **Cuándo consultar:**
@@ -265,13 +289,14 @@ Ver [README_LEGACY.md](./legacy/README_LEGACY.md) para lista completa de documen
 
 | Sección | Estado | Última Actualización | Próxima Revisión |
 |---------|--------|----------------------|------------------|
-| General | ✅ Vigente | 2026-01-28 | 2026-02-28 |
-| Infraestructura | ✅ Vigente | 2026-01-28 | 2026-02-28 |
-| QA y Validación | ✅ Vigente | 2026-01-28 | 2026-02-28 |
-| Smoke Tests | ✅ Vigente | 2026-01-28 | 2026-02-28 |
-| Fases 6-7 | ✅ Vigente | 2026-01-28 | 2026-02-28 |
-| Diagramas | ✅ Vigente | 2026-01-28 | TBD |
-| Legacy | ✅ Vigente (histórico) | 2026-01-28 | 2026-02-28 |
+| General | ✅ Vigente (v1.2) | 2026-04-11 | 2026-04-25 |
+| Entregables contractuales | ✅ Vigente | 2026-04-11 | 2026-04-25 |
+| Infraestructura | ✅ Vigente | 2026-04-11 | 2026-04-25 |
+| QA y Validación | ✅ Vigente | 2026-04-11 | 2026-04-25 |
+| Smoke Tests | ✅ Vigente | 2026-04-11 | 2026-04-25 |
+| Fases / Sprints | ✅ Vigente | 2026-04-11 | 2026-04-25 |
+| Diagramas | ✅ Vigente | 2026-04-11 | TBD |
+| Legacy | ✅ Vigente | 2026-04-11 | 2026-04-25 |
 
 ---
 
@@ -287,20 +312,21 @@ Ver [README_LEGACY.md](./legacy/README_LEGACY.md) para lista completa de documen
 
 Verifica que todos los documentos mencionados existan:
 
-- [ ] `/docs/general/` contiene plan, roadmap, stack
-- [ ] `/docs/infra/` contiene guías de deployment, secretos, monitoreo
-- [ ] `/docs/qa/` contiene acta de QA
-- [ ] `/docs/smoke-tests/` contiene planes de smoke
-- [ ] `/docs/fases/fase-6/` y `/fase-7/` con resúmenes
-- [ ] `/docs/diagramas/` contiene diagram_*.puml y .png
-- [ ] `/docs/legacy/` contiene documentos archivados + README_LEGACY.md
-- [ ] `/docs/PROTOCOLO_DOCUMENTACION.md` define el protocolo
-- [ ] Este archivo: `/docs/INDICE_MAESTRO_DOCUMENTACION.md`
+- [x] `/docs/general/` contiene plan, roadmap, stack
+- [x] `/docs/entregables/` contiene plantillas EA1–EA4 (informes, evidencias, checklist)
+- [x] `/docs/infra/` contiene guías de deployment, secretos, monitoreo
+- [x] `/docs/qa/` contiene acta de QA
+- [x] `/docs/smoke-tests/` contiene planes de smoke
+- [x] `/docs/fases/fase-6/` y `/fase-7/` con resúmenes
+- [x] `/docs/diagramas/` contiene diagram_*.puml y .png
+- [x] `/docs/legacy/` contiene documentos archivados + README_LEGACY.md
+- [x] `/docs/PROTOCOLO_DOCUMENTACION.md` define el protocolo
+- [x] Este archivo: `/docs/INDICE_MAESTRO_DOCUMENTACION.md`
 
 ---
 
-**Versión:** 1.0.0  
-**Última actualización:** 28 enero 2026  
-**Próxima revisión:** 2026-02-28  
+**Versión:** 1.2.0  
+**Última actualización:** 11 abril 2026  
+**Próxima revisión:** Inicio Sprint 3  
 **Responsable:** Agente de Documentación  
 **Estado:** ✅ Vigente

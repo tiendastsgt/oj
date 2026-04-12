@@ -16,6 +16,7 @@ import com.oj.sged.shared.util.SecurityUtil;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +99,7 @@ public class DocumentoService {
             .eliminado(false)
             .build();
 
-        Documento saved = documentoRepository.save(documento);
+        Documento saved = documentoRepository.save(Objects.requireNonNull(documento));
         DocumentoStorageService.StoredFileInfo stored = null;
         try {
             stored = storageService.store(expedienteId, saved.getId(), file, extension);
@@ -107,7 +108,7 @@ public class DocumentoService {
             saved = documentoRepository.save(saved);
         } catch (Exception ex) {
             if (saved.getId() != null) {
-                documentoRepository.deleteById(saved.getId());
+                documentoRepository.deleteById(Objects.requireNonNull(saved.getId()));
             }
             throw ex;
         }
@@ -197,7 +198,7 @@ public class DocumentoService {
     }
 
     private Expediente validarExpedienteExiste(Long expedienteId) {
-        return expedienteRepository.findById(expedienteId)
+        return expedienteRepository.findById(Objects.requireNonNull(expedienteId))
             .orElseThrow(() -> new ResourceNotFoundException("Expediente no encontrado"));
     }
 

@@ -5,6 +5,7 @@ import com.oj.sged.api.dto.response.ApiResponse;
 import com.oj.sged.api.dto.response.ExpedienteResponse;
 import com.oj.sged.application.service.ExpedienteService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Objects;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class ExpedienteController {
     @PreAuthorize("hasAnyRole('ADMINISTRADOR','SECRETARIO','AUXILIAR','CONSULTA')")
     @GetMapping
     public ResponseEntity<ApiResponse<Page<ExpedienteResponse>>> listar(Pageable pageable) {
-        Page<ExpedienteResponse> response = expedienteService.listarExpedientes(pageable);
+        Page<ExpedienteResponse> response = expedienteService.listarExpedientes(Objects.requireNonNull(pageable));
         return ResponseEntity.ok(ApiResponse.ok("Listado de expedientes", response));
     }
 
@@ -42,7 +43,7 @@ public class ExpedienteController {
         HttpServletRequest httpRequest
     ) {
         String ip = httpRequest.getRemoteAddr();
-        ExpedienteResponse response = expedienteService.crearExpediente(request, ip);
+        ExpedienteResponse response = expedienteService.crearExpediente(Objects.requireNonNull(request), Objects.requireNonNull(ip));
         return ResponseEntity.ok(ApiResponse.ok("Expediente creado", response));
     }
 
@@ -53,7 +54,7 @@ public class ExpedienteController {
         HttpServletRequest httpRequest
     ) {
         String ip = httpRequest.getRemoteAddr();
-        ExpedienteResponse response = expedienteService.obtenerDetalleExpediente(id, ip);
+        ExpedienteResponse response = expedienteService.obtenerDetalleExpediente(Objects.requireNonNull(id), Objects.requireNonNull(ip));
         return ResponseEntity.ok(ApiResponse.ok("Detalle de expediente", response));
     }
 
@@ -65,7 +66,11 @@ public class ExpedienteController {
         HttpServletRequest httpRequest
     ) {
         String ip = httpRequest.getRemoteAddr();
-        ExpedienteResponse response = expedienteService.editarExpediente(id, request, ip);
+        ExpedienteResponse response = expedienteService.editarExpediente(
+            Objects.requireNonNull(id),
+            Objects.requireNonNull(request),
+            Objects.requireNonNull(ip)
+        );
         return ResponseEntity.ok(ApiResponse.ok("Expediente actualizado", response));
     }
 }

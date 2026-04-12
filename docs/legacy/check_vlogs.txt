@@ -1,0 +1,68 @@
+--- sudo docker ps -a | grep sged ---
+
+
+--- sudo docker logs sged-frontend-lite --tail 20 ---
+
+Error response from daemon: No such container: sged-frontend-lite
+
+--- sudo docker logs sged-backend-lite --tail 20 ---
+
+Error response from daemon: No such container: sged-backend-lite
+
+--- sudo ufw status ---
+Status: active
+
+To                         Action      From
+--                         ------      ----
+80                         ALLOW       Anywhere                  
+443/tcp                    ALLOW       Anywhere                   # Allow HTTPS
+52022/tcp                  ALLOW       Anywhere                   # Allow SSH on new port
+80/tcp                     ALLOW       Anywhere                  
+443                        ALLOW       Anywhere                  
+Anywhere                   DENY        93.123.109.230            
+Anywhere                   DENY        143.202.56.233            
+Anywhere                   DENY        45.9.168.192              
+Anywhere                   ALLOW       190.14.143.72             
+Anywhere                   ALLOW       51.161.32.204             
+Anywhere                   DENY        45.248.151.129            
+Anywhere                   DENY        142.119.104.4             
+Anywhere                   DENY        177.239.39.237            
+Anywhere                   DENY        35.205.145.126            
+Anywhere                   DENY        118.89.233.234            
+Anywhere                   DENY        184.72.108.150            
+Anywhere                   DENY        103.4.250.220             
+Anywhere                   DENY        103.4.250.52              
+Anywhere                   DENY        103.92.235.17             
+Anywhere                   DENY        143.198.40.119            
+Anywhere                   DENY        65.49.1.94                
+Anywhere                   DENY        171.244.43.14             
+Anywhere                   DENY        45.62.99.7                
+Anywhere                   DENY        18.204.152.114            
+Anywhere                   DENY        167.94.145.107            
+Anywhere                   DENY        20.127.187.7              
+Anywhere                   DENY        165.154.173.211           
+Anywhere                   DENY        178.249.211.86            
+Anywhere                   DENY        185.180.140.105           
+Anywhere                   DENY        185.180.140.5             
+Anywhere                   DENY        185.242.226.75            
+Anywhere                   DENY        185.12.59.118             
+Anywhere                   DENY        134.209.173.54            
+Anywhere                   DENY        87.236.176.223            
+Anywhere                   DENY        138.197.132.153           
+Anywhere                   DENY        52.90.25.178              
+Anywhere                   ALLOW       190.148.42.75             
+Anywhere                   DENY        40.113.89.18              
+Anywhere                   DENY        80.82.77.202              
+Anywhere                   DENY        66.240.205.34             
+Anywhere                   DENY        78.153.140.251            
+Anywhere                   DENY        34.61.75.192              
+80 (v6)                    ALLOW       Anywhere (v6)             
+443/tcp (v6)               ALLOW       Anywhere (v6)              # Allow HTTPS
+52022/tcp (v6)             ALLOW       Anywhere (v6)              # Allow SSH on new port
+80/tcp (v6)                ALLOW       Anywhere (v6)             
+443 (v6)                   ALLOW       Anywhere (v6)             
+Anywhere (v6)              ALLOW       2607:5300:205:200::2ab9   
+Anywhere (v6)              ALLOW       2800:98:1110:1f7:649a:95e1:667b:eca
+
+
+

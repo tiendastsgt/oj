@@ -1,3 +1,13 @@
+---
+Documento: ENTREGA_FINAL_FASE_7
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # 📦 ENTREGA FINAL - FASE 7 COMPLETADA
 
 **Fecha:** 2024-01-15  

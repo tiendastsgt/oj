@@ -24,6 +24,7 @@ import com.oj.sged.shared.exception.ResourceNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -296,7 +297,7 @@ class ExpedienteServiceTest {
     }
 
     private Expediente buildExpediente(Long juzgadoId) {
-        return Expediente.builder()
+        return Objects.requireNonNull(Expediente.builder()
             .numero("EXP-2026-0001")
             .tipoProcesoId(1L)
             .juzgadoId(juzgadoId)
@@ -308,11 +309,11 @@ class ExpedienteServiceTest {
             .referenciaFuente("SGTV2")
             .usuarioCreacion("sistema")
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     private ExpedienteResponse buildResponse(Long id, Long juzgadoId) {
-        return ExpedienteResponse.builder()
+        return Objects.requireNonNull(ExpedienteResponse.builder()
             .id(id)
             .numero("EXP-2026-0001")
             .tipoProcesoId(1L)
@@ -320,22 +321,22 @@ class ExpedienteServiceTest {
             .estadoId(1L)
             .fechaInicio(LocalDate.now())
             .descripcion("Expediente de prueba")
-            .build();
+            .build());
     }
 
     private Usuario buildUsuario(String username, Long juzgadoId) {
-        CatRol rol = CatRol.builder()
+        CatRol rol = Objects.requireNonNull(CatRol.builder()
             .id(1L)
             .nombre("ADMINISTRADOR")
             .activo(1)
-            .build();
-        CatJuzgado juzgado = CatJuzgado.builder()
+            .build());
+        CatJuzgado juzgado = Objects.requireNonNull(CatJuzgado.builder()
             .id(juzgadoId)
             .codigo("JZ-" + juzgadoId)
             .nombre("Juzgado " + juzgadoId)
             .activo(1)
-            .build();
-        return Usuario.builder()
+            .build());
+        return Objects.requireNonNull(Usuario.builder()
             .id(100L)
             .username(username)
             .rol(rol)
@@ -345,7 +346,7 @@ class ExpedienteServiceTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     private void setAuthentication(String username, String role) {

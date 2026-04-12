@@ -1,3 +1,13 @@
+---
+Documento: VERIFICACION_RAPIDA_QA
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # ✅ VERIFICACIÓN RÁPIDA - QA SGED
 ## Validación Post-Despliegue
 

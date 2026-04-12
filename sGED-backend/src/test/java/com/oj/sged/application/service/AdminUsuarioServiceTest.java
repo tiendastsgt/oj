@@ -12,6 +12,7 @@ import com.oj.sged.infrastructure.persistence.auth.repository.UsuarioRepository;
 import com.oj.sged.shared.exception.ResourceNotFoundException;
 import com.oj.sged.shared.util.AuditAction;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,21 +60,21 @@ class AdminUsuarioServiceTest {
 
     @BeforeEach
     void setUp() {
-        rolAdmin = CatRol.builder()
+        rolAdmin = Objects.requireNonNull(CatRol.builder()
             .id(1L)
             .nombre("ADMINISTRADOR")
             .descripcion("Administrador del sistema")
             .activo(1)
-            .build();
+            .build());
 
-        juzgadoCentral = CatJuzgado.builder()
+        juzgadoCentral = Objects.requireNonNull(CatJuzgado.builder()
             .id(10L)
             .nombre("Juzgado Central")
             .codigo("JUZ-001")
             .activo(1)
-            .build();
+            .build());
 
-        usuarioExistente = Usuario.builder()
+        usuarioExistente = Objects.requireNonNull(Usuario.builder()
             .id(100L)
             .username("usuario.test")
             .password("$2a$10$hashedPassword")
@@ -86,7 +87,7 @@ class AdminUsuarioServiceTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     /**
@@ -109,7 +110,7 @@ class AdminUsuarioServiceTest {
         when(usuarioRepository.findByUsername("nuevo.usuario")).thenReturn(Optional.empty());
         when(passwordEncoder.encode(any(String.class))).thenReturn("$2a$10$encodedPassword");
 
-        Usuario usuarioGuardado = Usuario.builder()
+        Usuario usuarioGuardado = Objects.requireNonNull(Usuario.builder()
             .id(101L)
             .username("nuevo.usuario")
             .password("$2a$10$encodedPassword")
@@ -122,7 +123,7 @@ class AdminUsuarioServiceTest {
             .intentosFallidos(0)
             .debeCambiarPass(1)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
 
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuarioGuardado);
 
@@ -220,19 +221,19 @@ class AdminUsuarioServiceTest {
     @Test
     void actualizarUsuario_cambiaRolYJuzgado_shouldUpdateAndAudit() {
         // Arrange
-        CatRol rolJuez = CatRol.builder()
+        CatRol rolJuez = Objects.requireNonNull(CatRol.builder()
             .id(2L)
             .nombre("JUEZ")
             .descripcion("Juez")
             .activo(1)
-            .build();
+            .build());
 
-        CatJuzgado juzgadoSegundo = CatJuzgado.builder()
+        CatJuzgado juzgadoSegundo = Objects.requireNonNull(CatJuzgado.builder()
             .id(11L)
             .nombre("Juzgado Segundo")
             .codigo("JUZ-002")
             .activo(1)
-            .build();
+            .build());
 
         ActualizarUsuarioRequest request = ActualizarUsuarioRequest.builder()
             .nombreCompleto("Usuario Actualizado")

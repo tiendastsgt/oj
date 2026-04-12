@@ -1,3 +1,13 @@
+---
+Documento: STACK_TECNICO_ACTUALIZADO
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # STACK TÉCNICO ACTUALIZADO - SGED
 **Fecha de actualización: 25 de enero de 2026**
 
@@ -51,12 +61,12 @@
 
 | Tecnología | Versión | Propósito |
 |---|---|---|
-| **Oracle Database** | **19c** | Base de datos principal SGED (compatible con 21c) ✅ |
+| **Oracle Database** | **21c** | Base de datos principal SGED (compatible con 19c) ✅ |
 | **Oracle JDBC Driver** | **Compatible** | Conector |
 | **HikariCP** | **5.1.x** | Pool de conexiones |
 | **Flyway** | **10.x** | Migraciones DB |
 
-**Nota:** Oracle 19c validado en docker-compose-prod.yml. Compatible con versión 21c si infraestructura lo requiere.
+**Nota:** Stack vigente: **Java 21**, **Oracle 21c**. Oracle 19c compatible si infraestructura lo requiere.
 
 ---
 
@@ -76,7 +86,7 @@
 
 | Herramienta | Versión | Propósito |
 |---|---|---|
-| **VS Code / Cursor** | Latest | IDE con IA |
+| **VS Code** | Latest | IDE |
 | **Postman** | **11.x** | Testing API |
 | **DBeaver** | **24.x** | Cliente SQL |
 | **Docker Desktop** | **4.27.x** | Entorno Docker local |

@@ -47,36 +47,26 @@ services:
         JAVA_VERSION: 21
     container_name: sged-backend-qa
     environment:
-      # Spring profiles
+      # ========================================
+      # Spring Profile: qa (uses H2 in-memory DB)
+      # ========================================
       SPRING_PROFILES_ACTIVE: qa
       
-      # Database
-      DB_URL: jdbc:oracle:thin:@sged-db:1521/SGED
-      DB_USER: ${DB_USER:-sged}
-      
-      # OPCIÓN 1: Variables directo (desarrollo)
-      # DB_PASSWORD: ${DB_PASSWORD:?error}
-      
-      # OPCIÓN 2: Variables desde archivo (Docker secrets pattern)
-      # Descomenta para usar secrets de archivo
-      # DB_PASSWORD_FILE: /run/secrets/db_password
-      # JWT_SECRET_FILE: /run/secrets/jwt_secret
-      
-      # Por ahora, usa método simple (desarrollo)
-      DB_PASSWORD: ${DB_PASSWORD:?error}
-      JWT_SECRET: ${JWT_SECRET:?error}
-      
-      DB_POOL_MAX: 10
-      DB_POOL_MIN: 2
-      
-      # JWT
+      # ========================================
+      # Secrets (required by SecretsPropertySourceLocator)
+      # Note: Database connection is via H2 in-memory
+      # ========================================
+      JWT_SECRET: ${JWT_SECRET:sged-qa-jwt-secret-key-minimum-32-characters-long}
       JWT_EXPIRATION_MS: 28800000
       
-      # Documents storage
-      DOCUMENTOS_BASE_PATH: /data/documentos
-      DOCUMENTOS_CONVERSION_ENABLED: "true"
+      # ========================================
+      # Document Storage (uses temp directory)
+      # ========================================
+      DOCUMENTOS_CONVERSION_ENABLED: "false"
       
-      # Logging
+      # ========================================
+      # Logging Configuration
+      # ========================================
       LOGGING_LEVEL_COM_OJ_SGED: INFO
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: INFO
       LOGGING_LEVEL_ORG_HIBERNATE: WARN
@@ -87,57 +77,43 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      # Storage de documentos
-      - ./data/documentos:/data/documentos
-      # Logs
+      # Storage de documentos (uses temp directory in QA)
       - ./logs/backend:/var/log/sged
     networks:
       - sged-net
-    depends_on:
-      sged-db:
-        condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
 
   # ========================================
-  # Base de Datos Oracle / H2
+  # Base de Datos Oracle (COMENTADA para QA)
+  # En QA usamos H2 in-memory configurado en application-qa.yml
+  # Descomenta esta sección si necesitas una BD Oracle real
   # ========================================
-  # Para QA: usar Oracle real o H2 modo Oracle
-  # Esta es una plantilla con H2 en memoria (no persiste)
-  # En producción, usar Oracle Database en contenedor o externa
-  sged-db:
-    image: oracle-xe:21.3.0
-    # ALTERNATIVA para desarrollo (sin licencia):
-    # image: orafce/oracle-xe:21.3.0
-    # O usar contenedor H2:
-    # build:
-    #   context: ./db
-    #   dockerfile: Dockerfile.h2
-    container_name: sged-db-qa
-    environment:
-      ORACLE_PWD: ${ORACLE_PWD:?error}
-      ORACLE_SID: SGED
-    ports:
-      - "1521:1521"
-    volumes:
-      # Datos persistentes
-      - ./data/oracle-db:/opt/oracle/oradata
-      # Scripts de inicialización (Flyway/Liquibase)
-      - ./sGED-backend/src/main/resources/db/migration:/docker-entrypoint-initdb.d:ro
-    networks:
-      - sged-net
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "sqlplus", "-s", "sys/as sysdba"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 120s
+  # sged-db:
+  #   image: oracle-xe:21.3.0
+  #   container_name: sged-db-qa
+  #   environment:
+  #     ORACLE_PWD: ${ORACLE_PWD:?error}
+  #     ORACLE_SID: SGED
+  #   ports:
+  #     - "1521:1521"
+  #   volumes:
+  #     - ./data/oracle-db:/opt/oracle/oradata
+  #     - ./sGED-backend/src/main/resources/db/migration:/docker-entrypoint-initdb.d:ro
+  #   networks:
+  #     - sged-net
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD", "sqlplus", "-s", "sys/as sysdba"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 120s
 
 networks:
   sged-net:

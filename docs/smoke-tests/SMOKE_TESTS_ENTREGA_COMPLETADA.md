@@ -1,3 +1,13 @@
+---
+Documento: SMOKE_TESTS_ENTREGA_COMPLETADA
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # ✅ AGENTE DE SMOKE TESTS - ENTREGA COMPLETADA
 ## SGED v1.0.0+ Post-Deployment Smoke Testing
 

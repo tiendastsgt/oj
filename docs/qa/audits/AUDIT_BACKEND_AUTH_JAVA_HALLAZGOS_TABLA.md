@@ -1,3 +1,13 @@
+---
+Documento: AUDIT_BACKEND_AUTH_JAVA_HALLAZGOS_TABLA
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # AUDIT_BACKEND_AUTH_JAVA - TABLA DE HALLAZGOS TÉCNICOS
 
 **Fecha:** 28 enero 2026 | **Auditor:** Agente Auditor Backend Auth Java (Read-only)

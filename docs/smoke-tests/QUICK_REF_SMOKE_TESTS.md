@@ -1,3 +1,13 @@
+---
+Documento: QUICK_REF_SMOKE_TESTS
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # QUICK REFERENCE - POST-DEPLOYMENT SMOKE TESTS
 
 **Para DevOps y Tech Teams**  

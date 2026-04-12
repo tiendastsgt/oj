@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -216,18 +217,18 @@ class DocumentoServiceTest {
     }
 
     private Usuario buildUsuario(String username, Long juzgadoId) {
-        CatRol rol = CatRol.builder()
+        CatRol rol = Objects.requireNonNull(CatRol.builder()
             .id(1L)
             .nombre("ADMINISTRADOR")
             .activo(1)
-            .build();
-        CatJuzgado juzgado = CatJuzgado.builder()
+            .build());
+        CatJuzgado juzgado = Objects.requireNonNull(CatJuzgado.builder()
             .id(juzgadoId)
             .codigo("JZ-" + juzgadoId)
             .nombre("Juzgado " + juzgadoId)
             .activo(1)
-            .build();
-        return Usuario.builder()
+            .build());
+        return Objects.requireNonNull(Usuario.builder()
             .id(100L)
             .username(username)
             .rol(rol)
@@ -237,11 +238,11 @@ class DocumentoServiceTest {
             .intentosFallidos(0)
             .debeCambiarPass(0)
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     private Expediente buildExpediente(Long id, Long juzgadoId) {
-        return Expediente.builder()
+        return Objects.requireNonNull(Expediente.builder()
             .id(id)
             .numero("EXP-2026-0001")
             .tipoProcesoId(1L)
@@ -251,15 +252,15 @@ class DocumentoServiceTest {
             .descripcion("Expediente de prueba")
             .usuarioCreacion("admin")
             .fechaCreacion(LocalDateTime.now())
-            .build();
+            .build());
     }
 
     private Documento buildDocumento(Expediente expediente, Long id, boolean eliminado) {
-        CatTipoDocumento tipo = CatTipoDocumento.builder()
+        CatTipoDocumento tipo = Objects.requireNonNull(CatTipoDocumento.builder()
             .id(1L)
             .nombre("OFICIO")
-            .build();
-        return Documento.builder()
+            .build());
+        return Objects.requireNonNull(Documento.builder()
             .id(id)
             .expediente(expediente)
             .tipoDocumento(tipo)
@@ -272,7 +273,7 @@ class DocumentoServiceTest {
             .usuarioCreacion("admin")
             .fechaCreacion(LocalDateTime.now())
             .eliminado(eliminado)
-            .build();
+            .build());
     }
 
     private void setAuthentication(String username, String role) {

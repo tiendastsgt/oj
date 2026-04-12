@@ -1,3 +1,13 @@
+---
+Documento: AGENTE_TESTING_SMOKE_REPORT
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # 📋 AGENTE DE TESTING - INFORME DE SMOKE TESTS PRODUCCIÓN
 
 **Fecha:** 28 Enero, 2026  

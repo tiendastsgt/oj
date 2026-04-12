@@ -1,3 +1,13 @@
+---
+Documento: OPERACIONES_DIARIAS_QUICK_REFERENCE
+Proyecto: SGED
+Versión del sistema: v1.0.0
+Versión del documento: 1.0
+Última actualización: 2026-04-11
+Vigente para: v1.0.0 y superiores
+Estado: ✅ Vigente
+---
+
 # Operaciones Diarias - SGED Infraestructura (Quick Reference)
 
 ## Monitoreo de Salud

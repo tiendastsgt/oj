@@ -1,7 +1,16 @@
+---
+Documento: README_LEGACY
+Proyecto: SGED
+Tipo: Documentación de Archive
+Última actualización: 2026-04-11
+Versión del documento: 1.1
+Estado: ⚠️ Histórico (NO USAR)
+---
+
 # 📦 LEGACY - Documentos Históricos
 
-**Versión:** 1.0.0  
-**Fecha de creación:** 28 enero 2026  
+**Versión:** 1.1.0  
+**Última actualización:** 11 abril 2026  
 **Responsable:** Agente de Documentación  
 
 ---
@@ -25,27 +34,37 @@ Esta carpeta contiene **documentos históricos y obsoletos** del proyecto SGED q
 |-----------|-----------------|-----------------|
 | `Documento_Final.docx` | Versión antigua del plan técnico; reemplazado por plan_detallado.md | 2026-01-28 |
 | `Documento_Profesional.docx` | Documento de presentación inicial; información obsoleta | 2026-01-28 |
-| `Documento_con_Diagramas.docx` | Borrador con diagramas iniciales; reemplazado por archivos PNG/PlantUML | 2026-01-28 |
-| `FORMULARIOS DE LEVANTAMIENTO DE INFORMACIÓN.docx` | Formularios de levantamiento completados; información histórica | 2026-01-28 |
-| `📋 ÍNDICE TÉCNICO.docx` | Índice técnico v1; reemplazado por plan_detallado.md y ROADMAP | 2026-01-28 |
-| `📋 ÍNDICE TÉCNICO ACTUALIZADO.docx` | Índice técnico v2; reemplazado por documentación en /docs | 2026-01-28 |
+| `Documento_con_Diagramas.docx` | Borrador con diagramas iniciales | 2026-01-28 |
+| `FORMULARIOS DE LEVANTAMIENTO DE INFORMACIÓN.docx` | Formularios de levantamiento completados | 2026-01-28 |
+| `📋 ÍNDICE TÉCNICO.docx` | Índices v1 y v2 obsoletos | 2026-01-28 |
+| `📋 ÍNDICE TÉCNICO ACTUALIZADO.docx` | Índices v1 y v2 obsoletos | 2026-01-28 |
 | `PLAN DE TRABAJO DETALLADO industrial.docx` | Borrador industrial; información parcialmente desactualizada | 2026-01-28 |
-| `plan detallado.docx` | Versión Word antigua; reemplazada por plan detallado.md | 2026-01-28 |
-| `Carta de interés y disponibilidad..docx` | Documento administrativo externo; no es documentación técnica | 2026-01-28 |
+| `plan detallado.docx` | Versión Word antigua | 2026-01-28 |
+| `Carta de interés y disponibilidad..docx` | Documento administrativo externo | 2026-01-28 |
 
 ### Scripts y Utilidades Antiguas
 
 | Documento | Razón de Archivo | Fecha Archivado |
 |-----------|-----------------|-----------------|
-| `convertidor.py` | Script de conversión de formato; ya no se usa en operación | 2026-01-28 |
-| `convertidor_con_diagrama.py` | Versión mejorada del anterior; funcionalidad incluida en backend | 2026-01-28 |
+| `convertidor.py` | Script de conversión desusado | 2026-01-28 |
+| `convertidor_con_diagrama.py` | Funcionalidad integrada en backend | 2026-01-28 |
+| `generar_propuesta_react_node_docx.py`| Script de propuesta descartada | 2026-04-11 |
+| `humanize_roadmap.py` | Utilidad de formateo puntual | 2026-04-11 |
+| `check_vps.py` | Script de inspección puntual | 2026-04-11 |
 
-### Archivos de Configuración Antiguos
+### Otros Archivos Archivados
 
 | Documento | Razón de Archivo | Fecha Archivado |
 |-----------|-----------------|-----------------|
-| `.env.qa` | Configuración QA antigua; reemplazada por .env en /sGED-backend/config | 2026-01-28 |
-| `entrada.txt` | Archivo de prueba; sin valor operacional | 2026-01-28 |
+| `.env.qa` | Configuración QA antigua | 2026-01-28 |
+| `entrada.txt` | Archivo de prueba sin valor | 2026-01-28 |
+| `check_vlogs.txt` | Log de verificación temporal | 2026-04-11 |
+| `vps_inspection.txt` | Resultado de inspección temporal | 2026-04-11 |
+| `PR_DOCS_AUTH_CLEANUP_SUMMARY.md` | Resumen de cleanup previo | 2026-04-11 |
+| `PROPUESTA_ESTRUCTURA_DOCS.md` | Borrador de estructura de docs | 2026-04-11 |
+| `PLAN_ACCION_REORGANIZACION_DOCS.md` | Plan de acción ejecutado hoy | 2026-04-11 |
+| `bundle.zip` | Comprimido de despliegue antiguo | 2026-04-11 |
+| `plan_detallado_v1.1_OBSOLETO_2026-04-11.md` | Versión v1.1 redundante; reemplazada por v1.2 con nueva arquitectura SP | 2026-04-11 |
 
 ### PlantUML Jar (Utilidad)
 
@@ -71,21 +90,17 @@ La documentación vigente y actualizada se encuentra en:
 └── PROTOCOLO_DOCUMENTACION.md
 ```
 
-**Los documentos .docx antiguos aquí en legacy/ ya NO aplican.**
+**Los documentos antiguos aquí en legacy/ ya NO aplican.**
 
 ---
 
 ## 🔄 Cómo Fue Archivado Este Contenido
 
-### Proceso de Migración (28 enero 2026)
+### Proceso de Saneamiento (11 abril 2026)
 
-1. **Análisis:** Se identificaron todos los documentos en raíz `/proyectos/oj`
-2. **Clasificación:**
-   - Vigentes → Movidos a `/docs/` en subcarpetas temáticas
-   - Obsoletos → Movidos a `/docs/legacy/`
-   - Sin valor → Descartados
-3. **Conversión:** Documentos .docx se convirtieron a Markdown vigentes cuando aplicaba
-4. **Protocolo:** Se definió `PROTOCOLO_DOCUMENTACION.md` para futuros cambios
+1. **Limpieza de Raíz:** Se movieron todos los archivos sueltos de la raíz a sus carpetas correspondientes.
+2. **Archivado de Scripts:** Scripts que no son de uso diario o son de borradores se movieron aquí.
+3. **Preservación de Auditoría:** Planes de acción y reportes temporales se archivan para trazabilidad.
 
 ### Documentación Equivalente Vigente
 
@@ -97,7 +112,7 @@ Para cada documento legacy, aquí hay su equivalente vigente:
 | `plan detallado.docx` | [plan_detallado.md](../general/plan_detallado.md) |
 | `📋 ÍNDICE TÉCNICO*.docx` | [ROADMAP_PROYECTO_SGED.md](../general/ROADMAP_PROYECTO_SGED.md) + [STACK_TECNICO_ACTUALIZADO.md](../general/STACK_TECNICO_ACTUALIZADO.md) |
 | `FORMULARIOS DE LEVANTAMIENTO...docx` | [STACK_TECNICO_ACTUALIZADO.md](../general/STACK_TECNICO_ACTUALIZADO.md) |
-| `Documento_con_Diagramas.docx` | [/docs/diagramas/](../diagramas/) |
+| `Documento_con_Diagramas.docx` | [Índice maestro → Diagramas](../INDICE_MAESTRO_DOCUMENTACION.md#diagramas) |
 
 ---
 
@@ -137,7 +152,7 @@ Si tienes dudas sobre un documento legacy:
 1. Consulta este README
 2. Lee la cabecera del documento (si la tiene)
 3. Verifica el documento vigente equivalente en `/docs/`
-4. Pregunta al **Agente de Documentación** si no está claro
+4. Consulta al equipo de documentación o a Arquitectura si no está claro
 
 ---
 
@@ -150,5 +165,5 @@ Si tienes dudas sobre un documento legacy:
 ---
 
 **Último actualizado:** 28 enero 2026  
-**Responsable:** Agente de Documentación  
+**Responsable:** Equipo de Documentación  
 **Próxima revisión:** 2026-02-28 (con cierre de Fase 7 formal)

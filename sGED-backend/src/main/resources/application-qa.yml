@@ -1,0 +1,78 @@
+spring:
+  # ========================================
+  # H2 In-Memory Database (QA Environment)
+  # ========================================
+  datasource:
+    url: jdbc:h2:mem:sged;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=Oracle
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:10}
+      minimum-idle: ${DB_POOL_MIN:2}
+      connection-timeout: ${DB_POOL_TIMEOUT_MS:30000}
+  
+  jpa:
+    open-in-view: false
+    hibernate:
+      # Create schema on startup, drop on shutdown
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        # H2 dialect for compatibility
+        dialect: org.hibernate.dialect.H2Dialect
+        # Format SQL for debugging
+        format_sql: true
+        use_sql_comments: true
+  
+  # ========================================
+  # Flyway - Disabled for H2 (Hibernate DDL)
+  # ========================================
+  flyway:
+    enabled: false
+
+# ========================================
+# JWT Configuration
+# ========================================
+jwt:
+  secret: ${JWT_SECRET:sged-qa-jwt-secret-key-minimum-32-characters-long}
+  expiration-ms: ${JWT_EXPIRATION_MS:28800000}
+
+# ========================================
+# Document Storage Configuration
+# ========================================
+sged:
+  documentos:
+    storage:
+      # Use system temp directory for QA
+      base-path: ${DOCUMENTOS_BASE_PATH:${java.io.tmpdir}/sged-docs-qa}
+      max-size-bytes: ${DOCUMENTOS_MAX_SIZE:104857600}
+      conversion:
+        # Disable PDF conversion in QA (faster startup)
+        enabled: ${DOCUMENTOS_CONVERSION_ENABLED:false}
+        temp-suffix: ${DOCUMENTOS_CONVERSION_SUFFIX:.preview.pdf}
+
+# ========================================
+# Management & Monitoring
+# ========================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  
+  # Show datasource details
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+
+# ========================================
+# Logging Configuration
+# ========================================
+logging:
+  level:
+    com.oj.sged: DEBUG
+    org.springframework: INFO
+    org.springframework.boot.actuate: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
