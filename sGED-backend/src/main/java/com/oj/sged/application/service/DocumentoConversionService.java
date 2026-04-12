@@ -14,10 +14,10 @@ public class DocumentoConversionService {
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentoConversionService.class);
 
-    private final DocumentConverter documentConverter;
+    private final java.util.Optional<DocumentConverter> documentConverter;
     private final DocumentoStorageProperties properties;
 
-    public DocumentoConversionService(DocumentConverter documentConverter, DocumentoStorageProperties properties) {
+    public DocumentoConversionService(java.util.Optional<DocumentConverter> documentConverter, DocumentoStorageProperties properties) {
         this.documentConverter = documentConverter;
         this.properties = properties;
     }
@@ -31,7 +31,10 @@ public class DocumentoConversionService {
             if (Files.exists(targetPath)) {
                 return targetPath;
             }
-            documentConverter.convert(sourcePath.toFile()).to(targetPath.toFile()).execute();
+            if (documentConverter.isEmpty()) {
+                throw new StorageException("Motor de conversión (JODConverter) no disponible", null);
+            }
+            documentConverter.get().convert(sourcePath.toFile()).to(targetPath.toFile()).execute();
             logger.info("operation=document_convert source={} target={}", sourcePath, targetPath);
             return targetPath;
         } catch (Exception ex) {
