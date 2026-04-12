@@ -17,12 +17,16 @@ import java.util.List;
 import java.util.UUID;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.oj.sged.infrastructure.persistence.auth.Usuario;
 
 @Component
 public class JwtTokenProvider {
+
+    private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     private final SecretKey secretKey;
     private final long expirationMs;
@@ -47,8 +51,10 @@ public class JwtTokenProvider {
             }
             return jti == null || !revokedTokenRepository.existsByTokenJti(jti);
         } catch (JwtException | IllegalArgumentException ex) {
+            log.warn("Invalid JWT token: {}", ex.getMessage());
             return false;
         } catch (Exception ex) {
+            log.error("Unexpected error during JWT validation: ", ex);
             return false;
         }
     }
