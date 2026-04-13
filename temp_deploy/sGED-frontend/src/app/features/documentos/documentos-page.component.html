@@ -1,0 +1,28 @@
+<section class="documentos-page">
+  <h2>Documentos del expediente</h2>
+
+  <app-documentos-upload
+    [expedienteId]="expedienteId"
+    (uploaded)="onUploaded()"
+  ></app-documentos-upload>
+
+  <p *ngIf="loading">Cargando documentos...</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <app-documentos-list
+    [documentos]="documentos"
+    (ver)="onVer($event)"
+    (descargar)="onDescargar($event)"
+    (imprimir)="onImprimir($event)"
+    (eliminar)="onEliminar($event)"
+  ></app-documentos-list>
+
+  <p-dialog [visible]="viewerType !== null" [modal]="true" [maximizable]="true" [style]="{width: '85vw', height: '85vh'}" (onHide)="cerrarVisor()" header="{{ selectedDocumento?.nombreOriginal || 'Visor de Documentos' }}">
+    <div class="visor-content" style="height: 100%; display: flex; flex-direction: column;">
+      <app-visor-pdf *ngIf="viewerType === 'PDF' || viewerType === 'WORD'" [url]="viewerUrl"></app-visor-pdf>
+      <app-visor-imagen *ngIf="viewerType === 'IMAGEN'" [url]="viewerUrl"></app-visor-imagen>
+      <app-reproductor-audio *ngIf="viewerType === 'AUDIO'" [url]="viewerUrl"></app-reproductor-audio>
+      <app-reproductor-video *ngIf="viewerType === 'VIDEO'" [url]="viewerUrl"></app-reproductor-video>
+    </div>
+  </p-dialog>
+</section>

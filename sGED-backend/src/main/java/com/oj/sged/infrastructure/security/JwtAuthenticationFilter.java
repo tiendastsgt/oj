@@ -31,8 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         @org.springframework.lang.NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String path = request.getRequestURI();
+        
         if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
+            String token = header.substring(7).trim(); // Sanitización: eliminar espacios en blanco
+            logger.debug("Received token of length: " + token.length());
             if (jwtTokenProvider.validateToken(token)) {
                 String username = jwtTokenProvider.getUsername(token);
                 Long userId = jwtTokenProvider.getUserId(token);
@@ -51,8 +54,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (username != null) {
                     MDC.put("username", username);
                 }
+            } else {
+                logger.warn("JWT Validation failed for path: " + path);
             }
+        } else if (path.startsWith("/api/v1/") && !path.contains("/auth/login")) {
+            logger.warn("No Bearer token found or valid header in Authorization for path: " + path);
         }
+        
         filterChain.doFilter(request, response);
     }
 }

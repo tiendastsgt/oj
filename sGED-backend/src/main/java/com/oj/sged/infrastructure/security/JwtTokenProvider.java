@@ -49,9 +49,17 @@ public class JwtTokenProvider {
             if (jti == null) {
                 jti = claims.getId();
             }
-            return jti == null || !revokedTokenRepository.existsByTokenJti(jti);
-        } catch (JwtException | IllegalArgumentException ex) {
-            log.warn("Invalid JWT token: {}", ex.getMessage());
+            boolean isRevoked = jti != null && revokedTokenRepository.existsByTokenJti(jti);
+            if (isRevoked) {
+                log.warn("Token rejected: jti {} is revoked", jti);
+                return false;
+            }
+            return true;
+        } catch (JwtException ex) {
+            log.warn("Invalid JWT token signature or format: {}", ex.getMessage());
+            return false;
+        } catch (IllegalArgumentException ex) {
+            log.warn("JWT claims string is empty: {}", ex.getMessage());
             return false;
         } catch (Exception ex) {
             log.error("Unexpected error during JWT validation: ", ex);
@@ -107,24 +115,24 @@ public class JwtTokenProvider {
         Instant expiration = now.plusMillis(expirationMs);
 
         return Jwts.builder()
-            .subject(usuario.getUsername())
-            .id(jti)
+            .setSubject(usuario.getUsername())
+            .setId(jti)
             .claim("jti", jti)
             .claim("roles", List.of(role))
             .claim("juzgado", juzgado)
             .claim("user_id", usuario.getId())
-            .issuedAt(Date.from(now))
-            .expiration(Date.from(expiration))
+            .setIssuedAt(Date.from(now))
+            .setExpiration(Date.from(expiration))
             .signWith(secretKey)
             .compact();
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser()
-            .verifyWith(secretKey)
+        return Jwts.parserBuilder()
+            .setSigningKey(secretKey)
             .build()
-            .parseSignedClaims(token)
-            .getPayload();
+            .parseClaimsJws(token)
+            .getBody();
     }
 
     private SecretKey buildSecretKey(String secret) {

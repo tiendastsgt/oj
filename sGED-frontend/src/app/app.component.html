@@ -1,11 +1,14 @@
 <ng-container *ngIf="(currentUser$ | async) as user; else loginLayout">
-  <div class="app-layout">
-    <aside class="app-sidebar glass-panel">
+  <div class="app-layout elite-theme">
+    <aside class="app-sidebar glass-panel fade-in">
       <div class="sidebar-header">
-        <div class="logo-box">
-          <i class="pi pi-box"></i>
+        <div class="elite-logo">
+          <i class="pi pi-shield"></i>
         </div>
-        <span class="app-title">sGED Elite</span>
+        <div class="brand-text">
+          <span class="brand-name">sGED <span class="accent-text">Elite</span></span>
+          <span class="brand-tagline">Judicial System</span>
+        </div>
       </div>
 
       <nav class="sidebar-nav">
@@ -18,25 +21,26 @@
           <span>Búsqueda</span>
         </a>
         <a *ngIf="user.rol === 'ADMIN'" routerLink="/admin" routerLinkActive="active" class="nav-item">
-          <i class="pi pi-cog"></i>
-          <span>Administración</span>
+          <i class="pi pi-chart-bar"></i>
+          <span>Panel Auditoría</span>
         </a>
       </nav>
 
       <div class="sidebar-footer">
-        <div class="user-profile">
-          <div class="user-avatar">{{ user.nombreCompleto.charAt(0) | uppercase }}</div>
-          <div class="user-details">
-            <span class="user-name">{{ user.nombreCompleto }}</span>
-            <span class="user-role">{{ user.rol }}</span>
+        <div class="user-strip">
+          <div class="u-avatar">{{ user.nombreCompleto.charAt(0) | uppercase }}</div>
+          <div class="u-info">
+            <span class="u-name">{{ user.nombreCompleto }}</span>
+            <span class="u-role">Portal {{ user.rol }}</span>
           </div>
         </div>
-        <button pButton type="button" icon="pi pi-sign-out" class="p-button-text p-button-rounded logout-btn" (click)="onLogout()" title="Cerrar sesión"></button>
+        <button pButton type="button" icon="pi pi-power-off" class="p-button-text logout-btn" (click)="onLogout()" title="Cerrar sesión"></button>
       </div>
     </aside>
 
     <main class="app-main">
-      <div class="content-wrapper">
+      <div class="top-blur"></div>
+      <div class="content-viewport">
         <router-outlet></router-outlet>
       </div>
     </main>

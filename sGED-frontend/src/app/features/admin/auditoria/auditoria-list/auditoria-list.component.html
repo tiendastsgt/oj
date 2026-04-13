@@ -1,0 +1,133 @@
+<div class="audit-workspace elite-theme fade-in">
+  
+  <!-- Header: Audit Information -->
+  <header class="audit-header">
+    <div class="header-main">
+      <div class="brand-small">
+        <i class="pi pi-shield"></i>
+        <span>JUSTICIA <strong>GLOBAL AUDIT TRAIL</strong></span>
+      </div>
+      <div class="header-actions">
+        <div class="user-meta-group">
+          <i class="pi pi-bell"></i>
+          <i class="pi pi-envelope"></i>
+          <div class="avatar-sm"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-overview">
+      <div class="stat-card">
+        <span class="label">Total Events</span>
+        <span class="value">14,382</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">Active Users</span>
+        <span class="value">94</span>
+      </div>
+      <div class="stat-card alert-card">
+        <span class="label">Alerts <span class="badge">S</span></span>
+        <span class="value">5</span>
+      </div>
+      <div class="stat-card date-range-picker">
+        <span class="label">Date Range</span>
+        <div class="range-selector">
+          <span>Oct 26 - Nov 01, 2023</span>
+          <i class="pi pi-chevron-down"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Activity Feed / Chart Section -->
+  <section class="activity-feed glass-panel">
+    <div class="feed-header">
+      <h3>ACTIVITY FEED</h3>
+      <button pButton icon="pi pi-plus" label="Add Filter" class="p-button-text p-button-sm"></button>
+    </div>
+    <div class="chart-container">
+      <!-- Mock Chart with CSS/SVG -->
+      <div class="mock-chart">
+        <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+          <path d="M0,150 C100,150 150,50 250,120 C350,180 450,20 550,100 C650,180 750,50 850,130 L1000,150" fill="none" stroke="var(--primary-color)" stroke-width="3"></path>
+          <path d="M0,150 C100,150 150,50 250,120 C350,180 450,20 550,100 C650,180 750,50 850,130 L1000,150 V200 H0 Z" fill="url(#gradient)" opacity="0.1"></path>
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:var(--primary-color);stop-opacity:1" />
+              <stop offset="100%" style="stop-color:var(--primary-color);stop-opacity:0" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="chart-labels">
+          <span>Oct 26</span><span>Oct 27</span><span>Oct 28</span><span>Oct 29</span><span>Oct 30</span><span>Oct 31</span><span>Nov 01</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audit Log Table -->
+  <div class="audit-log-container glass-panel">
+    <div class="log-header">
+      <div class="title-search">
+        <h3>AUDIT LOG</h3>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Search events, users, cases..." (input)="aplicarFiltros()" [formControl]="filterForm.controls.usuario">
+        </span>
+      </div>
+      <div class="filters-chips">
+        <button pButton label="All Activities" icon="pi pi-chevron-down" class="p-button-text p-button-sm"></button>
+        <button pButton label="Date" icon="pi pi-chevron-down" class="p-button-text p-button-sm"></button>
+        <button pButton label="Users" icon="pi pi-chevron-down" class="p-button-text p-button-sm"></button>
+        <button pButton label="Event Type" icon="pi pi-chevron-down" class="p-button-text p-button-sm"></button>
+        
+        <div class="spacer"></div>
+        <button pButton icon="pi pi-refresh" label="Refresh" class="p-button-text p-button-sm"></button>
+        <button pButton icon="pi pi-download" label="Export Log" class="export-btn"></button>
+      </div>
+    </div>
+
+    <p-table [value]="auditoria" [loading]="loading" class="elite-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 120px">TIMELINE</th>
+          <th style="width: 200px">USER</th>
+          <th>ACTIVITY</th>
+          <th>DETAILS</th>
+          <th style="width: 150px">& IP ADDRESS</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item let-i="rowIndex">
+        <tr>
+          <td class="timeline-cell">
+            <div class="time-dot" [style.background-color]="getDotColor(item.modulo)"></div>
+            <div class="time-text">
+              <span class="date">{{ item.fecha | date: 'MMM dd, yyyy' }}</span>
+              <span class="hour">{{ item.fecha | date: 'HH:mm' }}</span>
+            </div>
+          </td>
+          <td class="user-cell">
+            <div class="avatar-circle">{{ item.usuario.charAt(0) }}</div>
+            <div class="user-info">
+              <span class="name">{{ item.usuario }}</span>
+              <span class="role">Judicial role</span>
+            </div>
+          </td>
+          <td>
+            <span class="activity-badge" [class]="item.modulo.toLowerCase()">
+               <i class="pi" [class]="getActivityIcon(item.modulo)"></i>
+               {{ item.modulo }}
+            </span>
+          </td>
+          <td class="details-cell">
+            <span class="detail-text">{{ item.accion }}: {{ item.detalle }}</span>
+          </td>
+          <td class="ip-cell">
+            <span>{{ item.ip }}</span>
+            <i class="pi pi-chevron-right arrow"></i>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

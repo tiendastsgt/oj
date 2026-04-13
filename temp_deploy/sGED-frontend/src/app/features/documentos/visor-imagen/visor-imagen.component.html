@@ -1,0 +1,8 @@
+<div class="controls">
+  <button type="button" (click)="zoomOut()">-</button>
+  <span>{{ zoom | number: '1.0-1' }}x</span>
+  <button type="button" (click)="zoomIn()">+</button>
+</div>
+<div class="image-wrapper">
+  <img [src]="url" [style.transform]="'scale(' + zoom + ')'" alt="Visor imagen" />
+</div>

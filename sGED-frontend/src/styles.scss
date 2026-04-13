@@ -1,5 +1,7 @@
 // Import Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 // PrimeIcons
 @import "primeicons/primeicons.css";
@@ -8,11 +10,30 @@
 
 :root {
   --primary-color: #3b82f6;
-  --bg-color: #f0f4f8;
-  --surface-ground: #f8fafc;
+  --primary-hover: #2563eb;
+  --accent-color: #60a5fa;
+  
+  // Light Theme
+  --bg-color: #f8fafc;
+  --surface-ground: #f1f5f9;
   --surface-section: #ffffff;
   --text-color: #1e293b;
   --text-secondary: #64748b;
+  --border-color: rgba(0, 0, 0, 0.08);
+
+  // Dark Theme / Elite
+  --elite-bg: #030712;
+  --elite-surface: #111827;
+  --elite-glass: rgba(17, 24, 39, 0.7);
+  --elite-text: #f9fafb;
+  --elite-text-secondary: #9ca3af;
+  --elite-border: rgba(255, 255, 255, 0.05);
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --radius-md: 12px;
+  --radius-lg: 16px;
 }
 
 body {
@@ -23,18 +44,68 @@ body {
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+// Global Utilities
 .glass-panel {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.04);
+  border-radius: var(--radius-md);
+}
+
+.elite-theme {
+  background-color: var(--elite-bg);
+  color: var(--elite-text);
+
+  .glass-panel {
+    background: var(--elite-glass);
+    border: 1px solid var(--elite-border);
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .documentos-actions {
   display: flex;
   gap: 0.75rem;
   align-items: center;
+}
+
+// PrimeNG Overrides for Premium Look
+.p-button {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  }
+
+  &.p-button-outlined {
+    border-width: 1.5px;
+  }
+}
+
+.p-inputtext {
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
 }

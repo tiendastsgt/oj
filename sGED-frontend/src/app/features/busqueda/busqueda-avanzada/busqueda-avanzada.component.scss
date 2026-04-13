@@ -10,7 +10,8 @@ $accent-violet: #8b5cf6;
 :host {
   display: block;
   padding: 2rem;
-  background: radial-gradient(circle at top right, rgba($accent-violet, 0.15), transparent 40%),
+  background-color: $bg-primary;
+  background-image: radial-gradient(circle at top right, rgba($accent-violet, 0.15), transparent 40%),
               radial-gradient(circle at bottom left, rgba($accent-cyan, 0.15), transparent 40%);
   min-height: calc(100vh - 100px);
   color: $text-primary;
@@ -23,7 +24,7 @@ $accent-violet: #8b5cf6;
   border: 1px solid $border-glass;
   border-radius: 1.5rem;
   padding: 2.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   margin-bottom: 2rem;
 }
 
@@ -40,6 +41,160 @@ $accent-violet: #8b5cf6;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  .search-page-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-hero {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+.hero-header {
+  .search-bar-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--surface-ground);
+    padding: 0.5rem;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+
+    &:focus-within {
+      background: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+
+    i {
+      margin-left: 1rem;
+      color: var(--text-secondary);
+      font-size: 1.25rem;
+    }
+
+    .main-search-input {
+      border: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      font-size: 1.125rem;
+      padding: 0.75rem 0.5rem;
+      color: var(--text-color);
+      letter-spacing: -0.01em;
+
+      &::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.6;
+      }
+    }
+
+    .advanced-toggle-btn {
+      white-space: nowrap;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 0 1.5rem;
+      color: var(--primary-color);
+    }
+  }
+}
+
+.advanced-filters-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+
+  &.expanded {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    i {
+      color: var(--primary-color);
+    }
+  }
+
+  .date-range-grid, .parties-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+}
+
+.advanced-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.execute-btn {
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+}
+
+.error-messages-box {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.results-layout {
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+
+    h3 {
+      font-size: 0.875rem;
+      font-weight: 800;
+      color: var(--text-secondary);
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
+
+    .count {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+  }
+}
 
   .subtitle {
     color: $text-secondary;
@@ -145,30 +300,66 @@ $accent-violet: #8b5cf6;
     }
   }
 
-  .premium-input {
+  .premium-input,
+  .premium-input .p-select,
+  .premium-input .p-inputtext,
+  p-select.premium-input .p-select,
+  p-inputtext.premium-input,
+  p-datepicker.premium-input .p-inputtext,
+  p-datepicker.premium-input {
     background: rgba(255, 255, 255, 0.03) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     color: #e2e8f0 !important;
     border-radius: 0.5rem !important;
-    padding: 0.75rem 1rem !important;
     transition: all 0.2s ease !important;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.05) !important;
-    }
-
-    &:focus, &.p-focus {
-      border-color: $accent-cyan !important;
-      box-shadow: 0 0 0 2px rgba($accent-cyan, 0.2) !important;
-      background: rgba(15, 23, 42, 0.8) !important;
-    }
   }
 
-  /* Fix for primeng dropdowns/selects */
-  .p-select {
-    width: 100%;
-    .p-select-label {
-      padding: 0.75rem 1rem;
+  .premium-input:hover,
+  .premium-input .p-select:hover,
+  p-datepicker.premium-input .p-inputtext:hover,
+  .premium-input .p-inputtext:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .premium-input:focus-within,
+  .premium-input .p-select.p-focus,
+  p-datepicker.premium-input .p-inputtext:focus,
+  .premium-input .p-inputtext:focus {
+    border-color: $accent-cyan !important;
+    box-shadow: 0 0 0 2px rgba($accent-cyan, 0.2) !important;
+    background: rgba(15, 23, 42, 0.8) !important;
+  }
+
+  .p-select .p-select-label,
+  .p-inputtext {
+    padding: 0.75rem 1rem !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+  }
+
+  p-select.premium-input,
+  p-datepicker.premium-input {
+     background: transparent !important;
+     border: none !important;
+     padding: 0 !important;
+  }
+
+  /* Fix dropdown panel */
+  .p-select-overlay {
+    background: $bg-primary !important;
+    border: 1px solid $border-glass !important;
+    color: $text-primary !important;
+    
+    .p-select-item {
+       color: $text-primary !important;
+       
+       &:hover {
+         background: rgba(255, 255, 255, 0.05) !important;
+       }
+       &.p-select-item-selected {
+         background: rgba($accent-cyan, 0.2) !important;
+         color: $accent-cyan !important;
+       }
     }
   }
 

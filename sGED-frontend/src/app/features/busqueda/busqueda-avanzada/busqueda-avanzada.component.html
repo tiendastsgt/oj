@@ -1,62 +1,137 @@
-<div class="search-container glass-panel fade-in-up">
-  <div class="search-header">
-    <h2>Búsqueda Avanzada</h2>
-    <p class="subtitle">Encuentre expedientes filtrando por múltiples criterios</p>
+<div class="search-page-wrapper fade-in">
+  <div class="search-hero glass-panel">
+    <div class="hero-header">
+      <div class="search-bar-main p-input-icon-left p-input-icon-right">
+        <i class="pi pi-search"></i>
+        <input 
+          type="text" 
+          pInputText 
+          [formControl]="form.controls.numero"
+          placeholder="Buscar expedientes (Número, Partes, Palabras clave...)"
+          class="w-full main-search-input"
+          (keyup.enter)="onSubmit()"
+        />
+        <button 
+          pButton 
+          type="button" 
+          [label]="showAdvancedFilters ? 'OCULTAR FILTROS' : 'FILTROS AVANZADOS'" 
+          [icon]="showAdvancedFilters ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+          class="p-button-text advanced-toggle-btn"
+          (click)="showAdvancedFilters = !showAdvancedFilters"
+        ></button>
+      </div>
+    </div>
+
+    <!-- Advanced Filters Expansion -->
+    <div class="advanced-filters-section" [class.expanded]="showAdvancedFilters">
+      <div class="filters-grid">
+        <!-- Court & Status -->
+        <div class="filter-card card-juzgado">
+          <label><i class="pi pi-building"></i> JUZGADO / CORTE</label>
+          <p-select 
+            [options]="juzgados" 
+            [formControl]="form.controls.juzgadoId"
+            optionLabel="nombre" 
+            optionValue="id"
+            placeholder="Todos los Juzgados"
+            styleClass="w-full"
+            [filter]="true"
+          ></p-select>
+        </div>
+
+        <div class="filter-card card-tipo">
+          <label><i class="pi pi-list"></i> TIPO PROCESO</label>
+          <p-select 
+            [options]="tiposProceso" 
+            [formControl]="form.controls.tipoProcesoId"
+            optionLabel="descripcion" 
+            optionValue="id"
+            placeholder="Todos los Procesos"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+
+        <div class="filter-card card-estado">
+          <label><i class="pi pi-info-circle"></i> ESTADO</label>
+          <p-select 
+            [options]="estados" 
+            [formControl]="form.controls.estadoId"
+            optionLabel="nombre" 
+            optionValue="id"
+            placeholder="Todos los Estados"
+            styleClass="w-full"
+          ></p-select>
+        </div>
+
+        <!-- Dates -->
+        <div class="filter-card card-dates">
+          <label><i class="pi pi-calendar"></i> RANGO DE FECHAS</label>
+          <div class="date-range-grid">
+            <p-datepicker 
+              [formControl]="form.controls.fechaDesde" 
+              placeholder="Desde" 
+              dateFormat="dd/mm/yy"
+              styleClass="w-full"
+            ></p-datepicker>
+            <p-datepicker 
+              [formControl]="form.controls.fechaHasta" 
+              placeholder="Hasta" 
+              dateFormat="dd/mm/yy"
+              styleClass="w-full"
+            ></p-datepicker>
+          </div>
+        </div>
+
+        <!-- Parties -->
+        <div class="filter-card card-sujetos">
+          <label><i class="pi pi-users"></i> PARTES PROCESALES</label>
+          <div class="parties-inputs">
+            <input pInputText [formControl]="form.controls.actorPrincipal" placeholder="Actor Principal" class="w-full" />
+            <input pInputText [formControl]="form.controls.demandadoPrincipal" placeholder="Demandado Principal" class="w-full" />
+          </div>
+        </div>
+
+        <div class="filter-card card-ref">
+          <label><i class="pi pi-link"></i> REFERENCIA SGT</label>
+          <input pInputText [formControl]="form.controls.referenciaSgt" placeholder="Ref. Interna" class="w-full" />
+        </div>
+      </div>
+
+      <div class="advanced-actions">
+        <button 
+          pButton 
+          type="button" 
+          label="Limpiar Filtros" 
+          icon="pi pi-refresh" 
+          class="p-button-outlined p-button-secondary"
+          (click)="form.reset()"
+        ></button>
+        <button 
+          pButton 
+          type="button" 
+          label="Ejecutar Búsqueda" 
+          icon="pi pi-search" 
+          class="p-button-primary execute-btn"
+          (click)="onSubmit()"
+          [loading]="loading"
+        ></button>
+      </div>
+    </div>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="search-form">
-    
-    <!-- Sección: Criterios Generales -->
-    <div class="filter-section">
-      <h3 class="section-title"><i class="pi pi-folder"></i> Criterios Generales</h3>
-      <app-criterios-generales 
-        [formGroup]="form"
-        [tiposProceso]="tiposProceso"
-        [estados]="estados"
-        [juzgados]="juzgados">
-      </app-criterios-generales>
-    </div>
-
-    <!-- Sección: Fechas -->
-    <div class="filter-section">
-      <h3 class="section-title"><i class="pi pi-calendar"></i> Fechas</h3>
-      <app-criterios-fechas [formGroup]="form"></app-criterios-fechas>
-    </div>
-
-    <!-- Sección: Sujetos Procesales -->
-    <div class="filter-section">
-      <h3 class="section-title"><i class="pi pi-users"></i> Sujetos Procesales</h3>
-      <app-criterios-sujetos [formGroup]="form"></app-criterios-sujetos>
-    </div>
-
-    <!-- Sección: Referencias -->
-    <div class="filter-section">
-      <h3 class="section-title"><i class="pi pi-link"></i> Referencias SGT</h3>
-      <app-criterios-referencia [formGroup]="form"></app-criterios-referencia>
-    </div>
-
-    <!-- Acciones -->
-    <div class="form-actions">
-      <button 
-        pButton 
-        type="submit" 
-        label="Buscar Expedientes" 
-        icon="pi pi-search" 
-        class="p-button-primary btn-neon"
-        [loading]="loading">
-      </button>
-    </div>
-  </form>
-
-  <div class="messages-container" *ngIf="errorMessages.length > 0">
-    <p-message *ngFor="let message of errorMessages" severity="error" [text]="message" styleClass="w-full"></p-message>
+  <div class="error-messages-box fade-in" *ngIf="errorMessages.length > 0">
+    <p-message *ngFor="let msg of errorMessages" severity="error" [text]="msg"></p-message>
   </div>
-</div>
 
-<div class="results-container slide-up" *ngIf="resultados">
-  <app-resultados-busqueda
-    [resultados]="resultados"
-    [loading]="loading"
-    (lazyLoad)="onLazyLoad($event)"
-  ></app-resultados-busqueda>
+  <div class="results-layout slide-up" *ngIf="resultados">
+    <div class="results-header">
+      <h3>RESULTADOS DE BÚSQUEDA</h3>
+      <span class="count">{{ resultados.totalElements }} expedientes encontrados</span>
+    </div>
+    <app-resultados-busqueda
+      [resultados]="resultados"
+      [loading]="loading"
+      (lazyLoad)="onLazyLoad($event)"
+    ></app-resultados-busqueda>
+  </div>
 </div>

@@ -1,0 +1,15 @@
+.documentos-page {
+  padding: 1.5rem;
+  background: var(--surface-section);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.error {
+  color: #ef4444;
+  background: #fef2f2;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #fecaca;
+  font-weight: 500;
+}

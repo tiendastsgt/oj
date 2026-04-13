@@ -1,8 +1,8 @@
 # SGED - Sistema de Gestión de Expedientes Digitales
 
-**Versión:** v1.1.0  
-**Estado:** 🛠️ En Desarrollo (Sprint 2)  
-**Fecha:** 11 abril 2026
+**Versión:** v1.2.0  
+**Estado:** 🛠️ En Desarrollo (Sprint 2 - Elite UX)  
+**Fecha:** 12 abril 2026
 
 ---
 

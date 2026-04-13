@@ -63,6 +63,7 @@ export class BusquedaAvanzadaComponent implements OnInit {
 
   resultados?: Page<ExpedienteBusquedaResponse>;
   loading = false;
+  showAdvancedFilters = false;
   errorMessages: string[] = [];
   lastFilters: BusquedaAvanzadaRequest | null = null;
 

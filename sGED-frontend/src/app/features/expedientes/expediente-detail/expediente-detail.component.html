@@ -1,94 +1,106 @@
-<div class="workspace-container" *ngIf="expediente; else loadingOrError">
-  <!-- Navigation Header -->
-  <div class="workspace-header">
-    <div class="header-left">
-      <button pButton icon="pi pi-arrow-left" class="p-button-text p-button-secondary back-btn" routerLink="/expedientes" pTooltip="Regresar al listado"></button>
-      <div class="title-group">
-        <span class="case-label">Expediente</span>
-        <h1 class="case-number">{{ expediente.numero }}</h1>
-      </div>
-      <app-status-badge [status]="getEstadoName(expediente.estadoId)"></app-status-badge>
-    </div>
-    <div class="header-right">
-      <button
-        pButton
-        type="button"
-        label="Editar Información"
-        icon="pi pi-pencil"
-        class="p-button-outlined p-button-sm action-btn"
-        *ngIf="canEdit()"
-        [routerLink]="['/expedientes', expediente.id, 'editar']"
-      ></button>
-    </div>
-  </div>
-
-  <div class="workspace-body">
-    <!-- Left Panel: Case Info -->
-    <div class="info-panel card">
-      <h3 class="panel-title"><i class="pi pi-info-circle"></i> Información General</h3>
+<div class="case-workspace elite-theme" *ngIf="expediente; else loadingOrError">
+  
+  <!-- Left Side: Case Metadata (Elite Sidebar) -->
+  <aside class="case-metadata-sidebar glass-panel fade-in">
+    <div class="sidebar-top">
+      <button pButton icon="pi pi-chevron-left" class="p-button-text p-button-sm back-link" routerLink="/expedientes">Regresar</button>
       
-      <div class="info-group">
-        <label>Juzgado</label>
-        <p>{{ getJuzgadoName(expediente.juzgadoId) }}</p>
-      </div>
-
-      <div class="info-group">
-        <label>Tipo de Proceso</label>
-        <p>{{ getTipoProcesoName(expediente.tipoProcesoId) }}</p>
-      </div>
-
-      <div class="info-group">
-        <label>Fecha de Inicio</label>
-        <p>{{ expediente.fechaInicio | date: 'dd MMMM, yyyy' }}</p>
-      </div>
-
-      <hr class="divider">
-
-      <div class="info-group">
-        <label>Descripción</label>
-        <p class="description">{{ expediente.descripcion }}</p>
-      </div>
-
-      <div class="info-group" *ngIf="expediente.observaciones">
-        <label>Observaciones</label>
-        <p class="notes">{{ expediente.observaciones }}</p>
-      </div>
-
-      <div class="sgt-reference" *ngIf="expediente.referenciaSgt">
-        <div class="sgt-badge">
-          <i class="pi pi-database"></i>
-          <span>{{ expediente.referenciaFuente }}: {{ expediente.referenciaSgt }}</span>
+      <div class="case-header-main">
+        <span class="eyebrow">Case Metadata</span>
+        <h2 class="case-title">{{ getTipoProcesoName(expediente.tipoProcesoId).toUpperCase() }} vs. {{ expediente.actorPrincipal || 'ESTADO' }}</h2>
+        <span class="case-id-tag">({{ expediente.numero }})</span>
+        <div class="status-wrap">
+          <app-status-badge [status]="getEstadoName(expediente.estadoId)"></app-status-badge>
         </div>
-      </div>
-
-      <div class="creation-info">
-        <small>Creado por {{ expediente.usuarioCreacion }} el {{ expediente.fechaCreacion | date: 'dd/MM/yy HH:mm' }}</small>
       </div>
     </div>
 
-    <!-- Right Panel: Documents / Viewer -->
-    <div class="main-workspace">
-      <!-- Document List (Visible when no document is selected) -->
-      <div class="documents-section card" [hidden]="selectedDocumento">
-        <div class="section-header">
-          <h3 class="panel-title"><i class="pi pi-file-pdf"></i> Documentos y Actuaciones</h3>
-          <span class="doc-count">Total: {{ expediente.numeroDocumentos || 0 }}</span>
+    <div class="metadata-groups scrollable">
+      <section class="meta-section">
+        <h3><i class="pi pi-users"></i> PARTIES</h3>
+        <div class="party-item">
+          <span class="label">Plaintiff</span>
+          <span class="value">{{ expediente.actorPrincipal || 'No especificado' }}</span>
         </div>
-        <app-documentos-list
-          [expedienteId]="expediente.id"
-          (viewDocumento)="onViewDocumento($event)"
-        ></app-documentos-list>
-      </div>
+        <div class="party-item">
+          <span class="label">Defendant</span>
+          <span class="value">{{ expediente.demandadoPrincipal || 'No especificado' }}</span>
+        </div>
+      </section>
 
-      <!-- Document Viewer (Visible when a document is selected) -->
-      <div class="viewer-section" *ngIf="selectedDocumento">
+      <section class="meta-section">
+        <h3><i class="pi pi-info-circle"></i> KEY INFO</h3>
+        <div class="info-row">
+          <span class="label">Case ID:</span>
+          <span class="value">{{ expediente.numero }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Jurisdiction:</span>
+          <span class="value">{{ getJuzgadoName(expediente.juzgadoId) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Filed:</span>
+          <span class="value">{{ expediente.fechaInicio | date: 'dd MMM yyyy' }}</span>
+        </div>
+      </section>
+
+      <section class="meta-section">
+        <h3><i class="pi pi-calendar"></i> IMPORTANT DATES</h3>
+        <div class="date-row">
+          <span class="label">Next Hearing:</span>
+          <span class="value">15 Mar 2024</span>
+        </div>
+        <div class="date-row highlight-date">
+          <span class="label">Trial Start:</span>
+          <span class="value">01 Jun 2024</span>
+        </div>
+      </section>
+    </div>
+
+    <div class="sidebar-actions">
+      <button pButton icon="pi pi-pencil" label="EDITAR" class="p-button-outlined p-button-sm w-full" (click)="canEdit()"></button>
+    </div>
+  </aside>
+
+  <!-- Right Side: Document Workspace -->
+  <main class="document-viewer-workspace fade-in">
+    
+    <!-- If no document is selected, show list -->
+    <div class="docs-list-view glass-panel" *ngIf="!selectedDocumento">
+      <div class="view-header">
+        <h2>CENTRO DE DOCUMENTACIÓN</h2>
+        <p>Total: {{ expediente.numeroDocumentos || 0 }} documentos registrados</p>
+      </div>
+      <app-documentos-list
+        [expedienteId]="expediente.id"
+        (viewDocumento)="onViewDocumento($event)"
+      ></app-documentos-list>
+    </div>
+
+    <!-- If document is selected, show premium viewer -->
+    <div class="premium-viewer-container" *ngIf="selectedDocumento">
+      <div class="viewer-header">
+        <div class="doc-info">
+          <i class="pi pi-file-pdf pdf-icon"></i>
+          <div class="doc-text">
+            <h4>{{ selectedDocumento.nombre }}</h4>
+            <span class="doc-meta">PDF | 1.8 MB | Updated: {{ selectedDocumento.fechaCreacion | date: 'dd MMM yyyy' }}</span>
+          </div>
+        </div>
+        <div class="viewer-actions">
+          <button pButton icon="pi pi-times" class="p-button-rounded p-button-text" (click)="onCloseViewer()"></button>
+        </div>
+      </div>
+      
+      <div class="viewer-body-scroll">
         <app-documento-viewer
           [documento]="selectedDocumento"
           (close)="onCloseViewer()"
         ></app-documento-viewer>
       </div>
     </div>
-  </div>
+
+  </main>
 </div>
 
 <ng-template #loadingOrError>

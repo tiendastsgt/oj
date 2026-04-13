@@ -29,124 +29,8 @@ import { AuditoriaResponse, AuditoriaFiltros } from '../../../../core/models/aud
     ToolbarModule
   ],
   providers: [MessageService],
-  template: `
-    <div class="card">
-      <p-toolbar class="mb-4">
-        <ng-template pTemplate="left">
-          <h3 class="m-0">Auditoría</h3>
-        </ng-template>
-      </p-toolbar>
-
-      <!-- Filtros -->
-      <div class="grid mb-4" [formGroup]="filterForm">
-        <div class="col-12 md:col-3">
-          <label class="block mb-2">Usuario</label>
-          <input
-            pInputText
-            type="text"
-            placeholder="Buscar usuario"
-            formControlName="usuario"
-            class="w-full"
-            (change)="aplicarFiltros()"
-          />
-        </div>
-        <div class="col-12 md:col-3">
-          <label class="block mb-2">Módulo</label>
-          <input
-            pInputText
-            type="text"
-            placeholder="Módulo"
-            formControlName="modulo"
-            class="w-full"
-            (change)="aplicarFiltros()"
-          />
-        </div>
-        <div class="col-12 md:col-3">
-          <label class="block mb-2">Acción</label>
-          <input
-            pInputText
-            type="text"
-            placeholder="Acción"
-            formControlName="accion"
-            class="w-full"
-            (change)="aplicarFiltros()"
-          />
-        </div>
-        <div class="col-12 md:col-3">
-          <label class="block mb-2">Recurso ID</label>
-          <input
-            pInputNumber
-            placeholder="Recurso ID"
-            formControlName="recursoId"
-            class="w-full"
-            (change)="aplicarFiltros()"
-          />
-        </div>
-        <div class="col-12 md:col-6">
-          <label class="block mb-2">Desde</label>
-          <input
-            type="datetime-local"
-            formControlName="fechaDesde"
-            pInputText
-            class="w-full"
-            (change)="aplicarFiltros()"
-          />
-        </div>
-        <div class="col-12 md:col-6">
-          <label class="block mb-2">Hasta</label>
-          <input
-            type="datetime-local"
-            formControlName="fechaHasta"
-            pInputText
-            class="w-full"
-            (change)="aplicarFiltros()"
-          />
-        </div>
-      </div>
-
-      <!-- Tabla de auditoría -->
-      <p-table
-        [value]="auditoria"
-        [loading]="loading"
-        [paginator]="true"
-        [rows]="pageSize"
-        [totalRecords]="totalRecords"
-        [lazy]="true"
-        (onLazyLoad)="onLazyLoad($event)"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th pSortableColumn="fecha">Fecha <p-sortIcon field="fecha"></p-sortIcon></th>
-            <th>Usuario</th>
-            <th>IP</th>
-            <th>Módulo</th>
-            <th>Acción</th>
-            <th>Recurso ID</th>
-            <th>Detalle</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-item>
-          <tr>
-            <td>{{ item.fecha | date : 'medium' }}</td>
-            <td>{{ item.usuario }}</td>
-            <td>{{ item.ip }}</td>
-            <td>{{ item.modulo }}</td>
-            <td>{{ item.accion }}</td>
-            <td>{{ item.recursoId || '-' }}</td>
-            <td class="truncate max-w-xs" [title]="item.detalle">{{ item.detalle }}</td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="7">No hay registros de auditoría</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-
-    <p-toast></p-toast>
-  `,
-  styles: []
+  templateUrl: './auditoria-list.component.html',
+  styleUrls: ['./auditoria-list.component.scss']
 })
 export class AuditoriaListComponent implements OnInit, OnDestroy {
   auditoria: AuditoriaResponse[] = [];
@@ -180,6 +64,26 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  getDotColor(modulo: string): string {
+    switch (modulo.toLowerCase()) {
+      case 'auth': return '#4ade80';
+      case 'expedientes': return '#60a5fa';
+      case 'documentos': return '#fbbf24';
+      case 'security': return '#f87171';
+      default: return '#9ca3af';
+    }
+  }
+
+  getActivityIcon(modulo: string): string {
+    switch (modulo.toLowerCase()) {
+      case 'auth': return 'pi-sign-in';
+      case 'expedientes': return 'pi-folder';
+      case 'documentos': return 'pi-file-pdf';
+      case 'security': return 'pi-shield';
+      default: return 'pi-info-circle';
+    }
   }
 
   cargarAuditoria(page = 0): void {

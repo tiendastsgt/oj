@@ -1,0 +1,100 @@
+<div class="workspace-container" *ngIf="expediente; else loadingOrError">
+  <!-- Navigation Header -->
+  <div class="workspace-header">
+    <div class="header-left">
+      <button pButton icon="pi pi-arrow-left" class="p-button-text p-button-secondary back-btn" routerLink="/expedientes" pTooltip="Regresar al listado"></button>
+      <div class="title-group">
+        <span class="case-label">Expediente</span>
+        <h1 class="case-number">{{ expediente.numero }}</h1>
+      </div>
+      <app-status-badge [status]="getEstadoName(expediente.estadoId)"></app-status-badge>
+    </div>
+    <div class="header-right">
+      <button
+        pButton
+        type="button"
+        label="Editar Información"
+        icon="pi pi-pencil"
+        class="p-button-outlined p-button-sm action-btn"
+        *ngIf="canEdit()"
+        [routerLink]="['/expedientes', expediente.id, 'editar']"
+      ></button>
+    </div>
+  </div>
+
+  <div class="workspace-body">
+    <!-- Left Panel: Case Info -->
+    <div class="info-panel card">
+      <h3 class="panel-title"><i class="pi pi-info-circle"></i> Información General</h3>
+      
+      <div class="info-group">
+        <label>Juzgado</label>
+        <p>{{ getJuzgadoName(expediente.juzgadoId) }}</p>
+      </div>
+
+      <div class="info-group">
+        <label>Tipo de Proceso</label>
+        <p>{{ getTipoProcesoName(expediente.tipoProcesoId) }}</p>
+      </div>
+
+      <div class="info-group">
+        <label>Fecha de Inicio</label>
+        <p>{{ expediente.fechaInicio | date: 'dd MMMM, yyyy' }}</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="info-group">
+        <label>Descripción</label>
+        <p class="description">{{ expediente.descripcion }}</p>
+      </div>
+
+      <div class="info-group" *ngIf="expediente.observaciones">
+        <label>Observaciones</label>
+        <p class="notes">{{ expediente.observaciones }}</p>
+      </div>
+
+      <div class="sgt-reference" *ngIf="expediente.referenciaSgt">
+        <div class="sgt-badge">
+          <i class="pi pi-database"></i>
+          <span>{{ expediente.referenciaFuente }}: {{ expediente.referenciaSgt }}</span>
+        </div>
+      </div>
+
+      <div class="creation-info">
+        <small>Creado por {{ expediente.usuarioCreacion }} el {{ expediente.fechaCreacion | date: 'dd/MM/yy HH:mm' }}</small>
+      </div>
+    </div>
+
+    <!-- Right Panel: Documents / Viewer -->
+    <div class="main-workspace">
+      <!-- Document List (Visible when no document is selected) -->
+      <div class="documents-section card" [hidden]="selectedDocumento">
+        <div class="section-header">
+          <h3 class="panel-title"><i class="pi pi-file-pdf"></i> Documentos y Actuaciones</h3>
+          <span class="doc-count">Total: {{ expediente.numeroDocumentos || 0 }}</span>
+        </div>
+        <app-documentos-list
+          [expedienteId]="expediente.id"
+          (viewDocumento)="onViewDocumento($event)"
+        ></app-documentos-list>
+      </div>
+
+      <!-- Document Viewer (Visible when a document is selected) -->
+      <div class="viewer-section" *ngIf="selectedDocumento">
+        <app-documento-viewer
+          [documento]="selectedDocumento"
+          (close)="onCloseViewer()"
+        ></app-documento-viewer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingOrError>
+  <div class="loading-state card shadow-sm" *ngIf="loading">
+    <i class="pi pi-spin pi-spinner"></i>
+    <p>Cargando información del expediente...</p>
+  </div>
+  <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage" class="error-msg"></p-message>
+</ng-template>
