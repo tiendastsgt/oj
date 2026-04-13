@@ -4,13 +4,13 @@ import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { MessageModule } from 'primeng/message';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { TableModule } from 'primeng/table';
 import { ExpedientesService } from '../../../core/services/expedientes.service';
 import { ExpedienteResponse } from '../../../core/models/expediente.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthUser } from '../../../core/models/auth-user.model';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge.component';
-import { KpiCardComponent } from '../../../shared/components/kpi-card.component';
 
 type SortDirection = 'asc' | 'desc';
 
@@ -22,10 +22,9 @@ type SortDirection = 'asc' | 'desc';
     RouterModule, 
     TableModule, 
     ButtonModule, 
-    CardModule, 
+    ProgressBarModule,
     MessageModule,
     StatusBadgeComponent,
-    KpiCardComponent
   ],
   templateUrl: './expedientes-list.component.html',
   styleUrls: ['./expedientes-list.component.scss'],
@@ -38,12 +37,6 @@ export class ExpedientesListComponent implements OnInit {
   first = 0;
   loading = false;
   errorMessage = '';
-
-  // KPI Metrics
-  totalExpedientes = 1248;
-  activosCount = 856;
-  pendientesCount = 312;
-  cerradosCount = 80;
 
   private sortField = 'fechaCreacion';
   private sortDir: SortDirection = 'desc';

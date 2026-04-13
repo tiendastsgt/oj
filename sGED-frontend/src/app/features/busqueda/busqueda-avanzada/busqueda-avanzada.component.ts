@@ -49,7 +49,8 @@ export class BusquedaAvanzadaComponent implements OnInit {
       juzgadoId: [null as number | null],
       actorPrincipal: [''],
       demandadoPrincipal: [''],
-      referenciaSgt: ['']
+      referenciaSgt: [''],
+      fuente: ['TODOS'] // F06: SGT integration
     },
     { validators: [this.dateRangeValidator] }
   );
@@ -116,7 +117,8 @@ export class BusquedaAvanzadaComponent implements OnInit {
       juzgadoId,
       actorPrincipal: raw.actorPrincipal?.trim() || undefined,
       demandadoPrincipal: raw.demandadoPrincipal?.trim() || undefined,
-      referenciaSgt: raw.referenciaSgt?.trim() || undefined
+      referenciaSgt: raw.referenciaSgt?.trim() || undefined,
+      fuente: raw.fuente || 'TODOS'
     };
   }
 

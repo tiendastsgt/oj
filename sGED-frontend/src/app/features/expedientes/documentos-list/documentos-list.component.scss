@@ -1,43 +1,56 @@
-.documentos-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.75rem;
+.custom-table-minimal ::ng-deep {
+  .p-datatable-header { background: transparent; border: none; }
+  
+  .p-datatable-thead > tr > th {
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 1rem;
+  }
+  
+  .p-datatable-tbody > tr {
+    transition: all 0.2s;
+    cursor: default;
+    
+    &:hover { background: #f8fafc; }
+    &.active-row { 
+      background: #eff6ff;
+      td { border-left: 3px solid var(--primary); }
+    }
+  }
+  
+  .p-datatable-tbody > tr > td { 
+    padding: 1rem; 
+    border-bottom: 1px solid var(--border);
+  }
 }
 
-.upload-button {
-  display: inline-flex;
+.type-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+
+  &.pdf   { background: #fef2f2; color: #ef4444; }
+  &.word  { background: #eff6ff; color: #2563eb; }
+  &.img   { background: #f0fdf4; color: #16a34a; }
+  &.video { background: #f5f3ff; color: #7c3aed; }
+  &.audio { background: #fffbeb; color: #d97706; }
+  &.other { background: #f1f5f9; color: #64748b; }
+}
+
+.badge-outline {
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  background: white;
+  padding: 2px 8px;
   border-radius: 4px;
-  background: #2f6fd6;
-  color: #ffffff;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.upload-button input {
-  display: none;
-}
-
-.drop-zone {
-  border: 1px dashed #9aa0a6;
-  border-radius: 6px;
-  padding: 1rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #5f6368;
-}
-
-.acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.messages {
-  margin-top: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }

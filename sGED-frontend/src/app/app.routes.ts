@@ -5,11 +5,17 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { expedientesRoutes } from './features/expedientes/expedientes.routes';
 import { busquedaRoutes } from './features/busqueda/busqueda.routes';
 import { adminRoutes } from './features/admin/admin.routes';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'cambiar-password',
@@ -24,11 +30,11 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'expedientes',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'expedientes'
+    redirectTo: 'dashboard'
   }
 ];

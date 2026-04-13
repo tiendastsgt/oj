@@ -1,112 +1,124 @@
-<div class="case-workspace elite-theme" *ngIf="expediente; else loadingOrError">
-  
-  <!-- Left Side: Case Metadata (Elite Sidebar) -->
-  <aside class="case-metadata-sidebar glass-panel fade-in">
-    <div class="sidebar-top">
-      <button pButton icon="pi pi-chevron-left" class="p-button-text p-button-sm back-link" routerLink="/expedientes">Regresar</button>
-      
-      <div class="case-header-main">
-        <span class="eyebrow">Case Metadata</span>
-        <h2 class="case-title">{{ getTipoProcesoName(expediente.tipoProcesoId).toUpperCase() }} vs. {{ expediente.actorPrincipal || 'ESTADO' }}</h2>
-        <span class="case-id-tag">({{ expediente.numero }})</span>
-        <div class="status-wrap">
-          <app-status-badge [status]="getEstadoName(expediente.estadoId)"></app-status-badge>
-        </div>
-      </div>
-    </div>
-
-    <div class="metadata-groups scrollable">
-      <section class="meta-section">
-        <h3><i class="pi pi-users"></i> PARTIES</h3>
-        <div class="party-item">
-          <span class="label">Plaintiff</span>
-          <span class="value">{{ expediente.actorPrincipal || 'No especificado' }}</span>
-        </div>
-        <div class="party-item">
-          <span class="label">Defendant</span>
-          <span class="value">{{ expediente.demandadoPrincipal || 'No especificado' }}</span>
-        </div>
-      </section>
-
-      <section class="meta-section">
-        <h3><i class="pi pi-info-circle"></i> KEY INFO</h3>
-        <div class="info-row">
-          <span class="label">Case ID:</span>
-          <span class="value">{{ expediente.numero }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Jurisdiction:</span>
-          <span class="value">{{ getJuzgadoName(expediente.juzgadoId) }}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Filed:</span>
-          <span class="value">{{ expediente.fechaInicio | date: 'dd MMM yyyy' }}</span>
-        </div>
-      </section>
-
-      <section class="meta-section">
-        <h3><i class="pi pi-calendar"></i> IMPORTANT DATES</h3>
-        <div class="date-row">
-          <span class="label">Next Hearing:</span>
-          <span class="value">15 Mar 2024</span>
-        </div>
-        <div class="date-row highlight-date">
-          <span class="label">Trial Start:</span>
-          <span class="value">01 Jun 2024</span>
-        </div>
-      </section>
-    </div>
-
-    <div class="sidebar-actions">
-      <button pButton icon="pi pi-pencil" label="EDITAR" class="p-button-outlined p-button-sm w-full" (click)="canEdit()"></button>
-    </div>
-  </aside>
-
-  <!-- Right Side: Document Workspace -->
-  <main class="document-viewer-workspace fade-in">
+<div class="fade-in" *ngIf="expediente">
+  <div class="case-workspace">
     
-    <!-- If no document is selected, show list -->
-    <div class="docs-list-view glass-panel" *ngIf="!selectedDocumento">
-      <div class="view-header">
-        <h2>CENTRO DE DOCUMENTACIÓN</h2>
-        <p>Total: {{ expediente.numeroDocumentos || 0 }} documentos registrados</p>
+    <!-- LEFT SIDEBAR: Case Metadata (Prototipo 05) -->
+    <aside class="case-sidebar">
+      
+      <!-- Case Header Card -->
+      <div class="sidebar-card case-header-card glass-panel shadow-sm">
+        <a routerLink="/expedientes" class="case-back">
+          <i class="pi pi-chevron-left"></i> Regresar
+        </a>
+        <div class="case-tipo-eyebrow">{{ getTipoProcesoName(expediente.tipoProcesoId) }}</div>
+        <div class="case-numero">{{ expediente.numero }}</div>
+        <div class="case-vs">Materia Judicial — {{ expediente.referenciaFuente || 'OJ' }}</div>
+        <app-status-badge [status]="expediente.estadoId"></app-status-badge>
       </div>
-      <app-documentos-list
-        [expedienteId]="expediente.id"
-        (viewDocumento)="onViewDocumento($event)"
-      ></app-documentos-list>
-    </div>
 
-    <!-- If document is selected, show premium viewer -->
-    <div class="premium-viewer-container" *ngIf="selectedDocumento">
-      <div class="viewer-header">
-        <div class="doc-info">
-          <i class="pi pi-file-pdf pdf-icon"></i>
-          <div class="doc-text">
-            <h4>{{ selectedDocumento.nombre }}</h4>
-            <span class="doc-meta">PDF | 1.8 MB | Updated: {{ selectedDocumento.fechaCreacion | date: 'dd MMM yyyy' }}</span>
+      <!-- Parties / Sujetos -->
+      <div class="sidebar-card glass-panel shadow-sm">
+        <div class="meta-section">
+          <div class="meta-section-title"><i class="pi pi-users"></i> PARTES PROCESALES</div>
+          <div class="meta-row">
+            <span class="meta-label">Actor / Demandante</span>
+            <span class="meta-value">Estado de Guatemala</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Demandado</span>
+            <span class="meta-value">Juan Pérez Hernández</span>
           </div>
         </div>
-        <div class="viewer-actions">
-          <button pButton icon="pi pi-times" class="p-button-rounded p-button-text" (click)="onCloseViewer()"></button>
+      </div>
+
+      <!-- Key Info -->
+      <div class="sidebar-card glass-panel shadow-sm">
+        <div class="meta-section">
+          <div class="meta-section-title"><i class="pi pi-info-circle"></i> INFORMACIÓN CLAVE</div>
+          <div class="meta-row">
+            <span class="meta-label">Juzgado</span>
+            <span class="meta-value">{{ getJuzgadoName(expediente.juzgadoId) }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Ref. SGT</span>
+            <span class="meta-value">{{ expediente.referenciaSgt || 'N/A' }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Fecha Inicio</span>
+            <span class="meta-value">{{ expediente.fechaInicio | date: 'dd MMM yyyy' }}</span>
+          </div>
         </div>
       </div>
-      
-      <div class="viewer-body-scroll">
-        <app-documento-viewer
-          [documento]="selectedDocumento"
-          (close)="onCloseViewer()"
-        ></app-documento-viewer>
-      </div>
-    </div>
 
-  </main>
+      <!-- Sidebar Actions -->
+      <div class="sidebar-actions px-2">
+        <button class="btn btn-secondary w-full mb-2" *ngIf="canEdit()">
+          <i class="pi pi-pencil"></i> Editar Datos
+        </button>
+        <button class="btn btn-secondary w-full">
+          <i class="pi pi-print"></i> Imprimir Ficha
+        </button>
+      </div>
+    </aside>
+
+    <!-- RIGHT MAIN: Document Workspace -->
+    <div class="viewer-main">
+      
+      <!-- Document List Section -->
+      <div class="card glass-panel shadow-sm">
+        <div class="card-header border-b border-slate-100 p-6 flex justify-between items-center">
+          <h3 class="section-title"><i class="pi pi-file"></i> CENTRO DE DOCUMENTACIÓN</h3>
+          <button class="btn btn-primary btn-sm"><i class="pi pi-upload"></i> Cargar</button>
+        </div>
+        
+        <div class="p-0">
+          <app-documentos-list 
+            [expedienteId]="expediente.id" 
+            (viewDocumento)="onViewDocumento($event)">
+          </app-documentos-list>
+        </div>
+      </div>
+
+      <!-- Active Viewer Section (Dynamic) -->
+      <div class="active-viewer-container" *ngIf="selectedDocumento">
+        <div class="card active-viewer-card glass-panel shadow-xl">
+          <div class="card-header border-b border-slate-100 p-4 flex justify-between items-center bg-slate-50">
+            <div class="flex items-center gap-3">
+              <i class="pi pi-eye text-blue-500"></i>
+              <div>
+                <span class="text-sm font-bold text-slate-800">{{ selectedDocumento.nombre }}</span>
+                <span class="block text-xs text-slate-500">
+                  {{ selectedDocumento.categoria }} — {{ selectedDocumento.tamanio }}
+                </span>
+              </div>
+            </div>
+            <button class="btn-icon hover:bg-slate-200" (click)="onCloseViewer()">
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+          <div class="viewer-body p-0">
+            <app-documento-viewer 
+              [documento]="selectedDocumento" 
+              (close)="onCloseViewer()">
+            </app-documento-viewer>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State Viewer -->
+      <div class="empty-viewer-state" *ngIf="!selectedDocumento">
+        <div class="text-center py-12 px-6 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+          <i class="pi pi-file-search text-5xl text-slate-300 mb-4 block"></i>
+          <h4 class="text-slate-600 font-bold mb-1">Seleccione un documento</h4>
+          <p class="text-slate-400 text-sm">Haga clic en el icono de vista previa para abrir un archivo en el visor Élite.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<ng-template #loadingOrError>
-  <div class="loading-state card shadow-sm" *ngIf="loading">
-    <i class="pi pi-spin pi-spinner"></i>
-    <p>Cargando información del expediente...</p>
-  </div>
-  <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage" class="error-msg"></p-message>
-</ng-template>
+<div class="loading-overlay" *ngIf="loading">
+  <div class="spinner"></div>
+</div>
+
+<p-message *ngIf="errorMessage" severity="error" [text]="errorMessage" class="m-8 block"></p-message>

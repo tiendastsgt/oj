@@ -1,395 +1,84 @@
-// Variables y utilidades (Deberían estar en globales, pero las definimos aquí para el aislamiento)
-$bg-primary: #0f172a;
-$bg-glass: rgba(15, 23, 42, 0.7);
-$border-glass: rgba(255, 255, 255, 0.1);
-$text-primary: #f8fafc;
-$text-secondary: #94a3b8;
-$accent-cyan: #06b6d4;
-$accent-violet: #8b5cf6;
-
-:host {
-  display: block;
-  padding: 2rem;
-  background-color: $bg-primary;
-  background-image: radial-gradient(circle at top right, rgba($accent-violet, 0.15), transparent 40%),
-              radial-gradient(circle at bottom left, rgba($accent-cyan, 0.15), transparent 40%);
-  min-height: calc(100vh - 100px);
-  color: $text-primary;
-}
-
-.glass-panel {
-  background: $bg-glass;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid $border-glass;
-  border-radius: 1.5rem;
-  padding: 2.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  margin-bottom: 2rem;
-}
-
-.search-header {
-  margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 1.5rem;
-
-  h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-    background: linear-gradient(to right, #fff, $accent-cyan);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .search-page-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
+.search-page-wrapper {
+  padding: var(--space-4);
 }
 
 .search-hero {
-  padding: 2rem;
-  margin-bottom: 2rem;
   background: white;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 10;
 }
 
-.hero-header {
-  .search-bar-main {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: var(--surface-ground);
-    padding: 0.5rem;
-    border-radius: 14px;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
+.main-search-input {
+  background: #f8fafc !important;
+  font-family: inherit;
+  font-weight: 500;
+  transition: all 0.3s ease !important;
+  
+  &:focus {
+    background: white !important;
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.15) !important;
+  }
+}
 
-    &:focus-within {
-      background: white;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-    }
+.advanced-toggle-btn {
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  color: var(--primary) !important;
+}
 
-    i {
-      margin-left: 1rem;
-      color: var(--text-secondary);
-      font-size: 1.25rem;
-    }
-
-    .main-search-input {
-      border: none !important;
-      background: transparent !important;
-      box-shadow: none !important;
-      font-size: 1.125rem;
-      padding: 0.75rem 0.5rem;
-      color: var(--text-color);
-      letter-spacing: -0.01em;
-
-      &::placeholder {
-        color: var(--text-secondary);
-        opacity: 0.6;
-      }
-    }
-
-    .advanced-toggle-btn {
-      white-space: nowrap;
-      font-weight: 700;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      padding: 0 1.5rem;
-      color: var(--primary-color);
-    }
+.filter-card {
+  padding: var(--space-4);
+  background: rgba(248, 250, 252, 0.5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: all 0.2s;
+  
+  &:hover {
+    background: white;
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary-light);
   }
 }
 
 .advanced-filters-section {
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0;
-
-  &.expanded {
-    max-height: 800px;
-    opacity: 1;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-  }
-}
-
-.filters-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.filter-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-
-  label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-
-    i {
-      color: var(--primary-color);
-    }
-  }
-
-  .date-range-grid, .parties-inputs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-}
-
-.advanced-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  padding-top: 1rem;
-}
-
-.execute-btn {
-  padding-left: 2rem !important;
-  padding-right: 2rem !important;
-}
-
-.error-messages-box {
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  &.p-0 { border-top: none; }
+  border-top: 1px solid var(--border);
 }
 
 .results-layout {
-  .results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 1.5rem;
-    padding: 0 0.5rem;
-
-    h3 {
-      font-size: 0.875rem;
-      font-weight: 800;
-      color: var(--text-secondary);
-      letter-spacing: 0.1em;
-      margin: 0;
-    }
-
-    .count {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-  }
+  animation: slideUp 0.5s var(--ease-spring);
 }
 
-  .subtitle {
-    color: $text-secondary;
-    margin: 0;
-    font-size: 1rem;
-  }
-}
-
-.search-form {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.filter-section {
-  .section-title {
-    font-size: 1.1rem;
-    color: $text-primary;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    
-    i {
-      color: $accent-violet;
-      font-size: 1.2rem;
-    }
-  }
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-
-  .btn-neon {
-    background: linear-gradient(135deg, $accent-cyan, $accent-violet);
-    border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 15px -3px rgba($accent-cyan, 0.3);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 25px -5px rgba($accent-violet, 0.4);
-    }
-    
-    &:active {
-      transform: translateY(1px);
-    }
-  }
-}
-
-.messages-container {
-  margin-top: 1.5rem;
-}
-
-/* Animations */
-.fade-in-up {
-  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.slide-up {
-  animation: slideUp 0.4s ease-out forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Base Inputs Styling shared across components */
+/* PRIMENG OVERRIDES FOR SEARCH */
 ::ng-deep {
-  .criterios-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
-    
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
+  .p-select {
+    background: white !important;
+    border-radius: var(--radius-md) !important;
+  }
+  
+  .p-datepicker {
+    .p-inputtext {
+      font-size: var(--font-sm) !important;
+      padding: 0.6rem 0.875rem !important;
     }
   }
+}
 
-  .premium-input,
-  .premium-input .p-select,
-  .premium-input .p-inputtext,
-  p-select.premium-input .p-select,
-  p-inputtext.premium-input,
-  p-datepicker.premium-input .p-inputtext,
-  p-datepicker.premium-input {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    color: #e2e8f0 !important;
-    border-radius: 0.5rem !important;
-    transition: all 0.2s ease !important;
-  }
-
-  .premium-input:hover,
-  .premium-input .p-select:hover,
-  p-datepicker.premium-input .p-inputtext:hover,
-  .premium-input .p-inputtext:hover {
-    background: rgba(255, 255, 255, 0.05) !important;
-  }
-
-  .premium-input:focus-within,
-  .premium-input .p-select.p-focus,
-  p-datepicker.premium-input .p-inputtext:focus,
-  .premium-input .p-inputtext:focus {
-    border-color: $accent-cyan !important;
-    box-shadow: 0 0 0 2px rgba($accent-cyan, 0.2) !important;
-    background: rgba(15, 23, 42, 0.8) !important;
-  }
-
-  .p-select .p-select-label,
-  .p-inputtext {
-    padding: 0.75rem 1rem !important;
-    font-family: inherit !important;
-    font-size: 1rem !important;
-  }
-
-  p-select.premium-input,
-  p-datepicker.premium-input {
-     background: transparent !important;
-     border: none !important;
-     padding: 0 !important;
-  }
-
-  /* Fix dropdown panel */
-  .p-select-overlay {
-    background: $bg-primary !important;
-    border: 1px solid $border-glass !important;
-    color: $text-primary !important;
-    
-    .p-select-item {
-       color: $text-primary !important;
-       
-       &:hover {
-         background: rgba(255, 255, 255, 0.05) !important;
-       }
-       &.p-select-item-selected {
-         background: rgba($accent-cyan, 0.2) !important;
-         color: $accent-cyan !important;
-       }
-    }
-  }
-
-  /* Float labels fix */
-  .p-floatlabel {
-    label {
-      color: $text-secondary;
-      left: 1rem;
-      top: 50%;
-      margin-top: -0.5rem;
-      transition: all 0.2s;
-    }
-    input:focus ~ label,
-    input.p-filled ~ label,
-    .p-select.p-focus ~ label,
-    .p-select-label-empty:not(.p-select-label) ~ label,
-    .premium-input:not(:placeholder-shown) ~ label {
-      top: -0.75rem;
-      font-size: 0.75rem;
-      color: $accent-cyan;
-      background: #0f172a;
-      padding: 0 0.25rem;
-      border-radius: 4px;
-    }
-  }
-
-  .error-text {
-    color: #f87171;
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-    display: block;
+.form-input {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.875rem;
+  font-family: inherit;
+  font-size: var(--font-sm);
+  outline: none;
+  transition: all 0.2s;
+  
+  &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   }
 }

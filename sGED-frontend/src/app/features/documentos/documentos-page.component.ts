@@ -11,7 +11,7 @@ import { ReproductorAudioComponent } from './reproductor-audio/reproductor-audio
 import { ReproductorVideoComponent } from './reproductor-video/reproductor-video.component';
 import { DialogModule } from 'primeng/dialog';
 
-type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | 'WORD' | null;
+export type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | 'WORD' | 'OTRO' | null;
 
 @Component({
   selector: 'app-documentos-page',

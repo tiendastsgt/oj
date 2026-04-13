@@ -1,254 +1,45 @@
-<style>
-.viewer-container {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 160px);
-  overflow: hidden;
-  background-color: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-}
+<div class="elite-viewer" *ngIf="documento">
+  <!-- Visor de PDF / Word (Como PDF) -->
+  <div class="viewer-content pdf-viewer" *ngIf="isPdf || isWord">
+    <iframe [src]="inlineUrl" class="viewer-iframe" title="Visor PDF"></iframe>
+  </div>
 
-.viewer-toolbar {
-  height: 64px;
-  background-color: white;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1.5rem;
-  z-index: 10;
-}
-
-.toolbar-left {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.doc-type-icon {
-  font-size: 1.5rem;
-  color: #ef4444;
-}
-
-.doc-info {
-  display: flex;
-  flex-direction: column;
-  
-  .doc-name {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #1e293b;
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .doc-meta {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-  }
-}
-
-.toolbar-center {
-  background-color: #f1f5f9;
-  padding: 4px 12px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.zoom-level {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #64748b;
-  min-width: 40px;
-  text-align: center;
-}
-
-.toolbar-btn {
-  color: #64748b !important;
-  font-size: 0.9rem;
-}
-
-.toolbar-divider {
-  width: 1px;
-  height: 24px;
-  background-color: #e2e8f0;
-  margin: 0 0.5rem;
-}
-
-.close-btn {
-  color: #ef4444 !important;
-}
-
-.viewer-workspace {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.document-frame {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: white;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-}
-
-.document-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.media-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.media-card {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.media-icon {
-  font-size: 3rem;
-}
-
-.video-player {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 8px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.unsupported-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.warning-card {
-  text-align: center;
-  background: white;
-  padding: 3rem;
-  border-radius: 16px;
-  max-width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  
-  .warning-icon {
-    font-size: 3rem;
-    color: #eab308;
-    margin-bottom: 1rem;
-  }
-  
-  h3 { margin-bottom: 0.5rem; color: #1e293b; }
-  p { color: #64748b; margin-bottom: 1.5rem; }
-}
-
-.empty-viewer-state {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8fafc;
-  border: 2px dashed #e2e8f0;
-  color: #94a3b8;
-  
-  i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-  }
-}
-</style>
-
-<div class="viewer-container card animate-fade-in" *ngIf="documento; else emptyState">
-  <!-- Professional Toolbar -->
-  <div class="viewer-toolbar">
-    <div class="toolbar-left">
-      <i class="pi pi-file-pdf doc-type-icon"></i>
-      <div class="doc-info">
-        <span class="doc-name">{{ documento.nombreOriginal }}</span>
-        <span class="doc-meta">{{ documento.extension | uppercase }} • {{ documento.tamanio || '---' }}</span>
-      </div>
-    </div>
-    <div class="toolbar-center">
-      <button pButton icon="pi pi-search-minus" class="p-button-text p-button-rounded toolbar-btn" pTooltip="Zoom Out"></button>
-      <span class="zoom-level">100%</span>
-      <button pButton icon="pi pi-search-plus" class="p-button-text p-button-rounded toolbar-btn" pTooltip="Zoom In"></button>
-    </div>
-    <div class="toolbar-right">
-      <button pButton icon="pi pi-print" class="p-button-text p-button-rounded toolbar-btn" pTooltip="Imprimir"></button>
-      <button pButton icon="pi pi-download" class="p-button-text p-button-rounded toolbar-btn" pTooltip="Descargar" (click)="download()"></button>
-      <div class="toolbar-divider"></div>
-      <button pButton icon="pi pi-times" class="p-button-text p-button-rounded p-button-danger close-btn" pTooltip="Cerrar visor" (click)="close.emit()"></button>
+  <!-- Visor de Imágenes -->
+  <div class="viewer-content image-viewer" *ngIf="isImage">
+    <div class="image-flex-container">
+      <img [src]="inlineUrl" [alt]="documento.nombre" class="img-fluid rounded-lg shadow-md" />
     </div>
   </div>
 
-  <!-- Viewer Workspace -->
-  <div class="viewer-workspace">
-    <!-- PDF Viewer -->
-    <div class="pdf-wrapper" *ngIf="isPdf">
-      <iframe [src]="inlineUrl" title="PDF Viewer" class="document-frame"></iframe>
+  <!-- Reproductor de Audio (F04) -->
+  <div class="viewer-content audio-viewer" *ngIf="isAudio">
+    <div class="multimedia-wrapper">
+      <div class="player-icon"><i class="pi pi-volume-up"></i></div>
+      <audio controls autoplay class="w-full elite-audio-player">
+        <source [src]="inlineUrl" [type]="'audio/' + (documento.extension === 'mp3' ? 'mpeg' : documento.extension)">
+        Su navegador no soporta la reproducción de audio.
+      </audio>
+      <p class="text-xs text-slate-400 mt-4">Reproductor Élite — Formato compatible HTML5</p>
     </div>
+  </div>
 
-    <!-- Image Viewer -->
-    <div class="image-wrapper" *ngIf="isImage">
-      <img [src]="inlineUrl" [alt]="documento?.nombreOriginal" class="document-image" />
+  <!-- Reproductor de Video (F04) -->
+  <div class="viewer-content video-viewer" *ngIf="isVideo">
+    <div class="multimedia-wrapper">
+      <video controls autoplay class="w-full rounded-xl shadow-2xl elite-video-player">
+        <source [src]="inlineUrl" [type]="'video/' + documento.extension">
+        Su navegador no soporta la reproducción de video.
+      </video>
     </div>
+  </div>
 
-    <!-- Audio Player -->
-    <div class="media-wrapper" *ngIf="isAudio">
-      <div class="media-card">
-        <i class="pi pi-volume-up media-icon text-blue"></i>
-        <audio [src]="inlineUrl" controls class="media-player"></audio>
-      </div>
-    </div>
-
-    <!-- Video Player -->
-    <div class="media-wrapper" *ngIf="isVideo">
-      <video [src]="inlineUrl" controls class="video-player"></video>
-    </div>
-
-    <!-- Warnings -->
-    <div class="unsupported-wrapper" *ngIf="isWord || (!isPdf && !isImage && !isAudio && !isVideo)">
-      <div class="warning-card">
-        <i class="pi pi-exclamation-triangle warning-icon"></i>
-        <h3>Previsualización no disponible</h3>
-        <p>Este archivo ({{ documento.extension }}) requiere ser descargado para su visualización.</p>
-        <button pButton label="Descargar ahora" icon="pi pi-download" class="p-button-primary" (click)="download()"></button>
-      </div>
+  <!-- Formato No Soportado -->
+  <div class="viewer-content unsupported-viewer" *ngIf="!isPdf && !isWord && !isImage && !isAudio && !isVideo">
+    <div class="text-center py-10">
+      <i class="pi pi-exclamation-triangle text-4xl text-amber-500 mb-4"></i>
+      <h4 class="font-bold">Formato no visualizable directamente</h4>
+      <p class="text-sm text-slate-500 mb-6">Este archivo debe descargarse para ser visualizado.</p>
+      <button pButton icon="pi pi-download" label="Descargar Archivo" class="p-button-outlined" (click)="download()"></button>
     </div>
   </div>
 </div>
-
-<ng-template #emptyState>
-  <div class="empty-viewer-state card">
-    <i class="pi pi-file-import"></i>
-    <p>Seleccione un documento del listado para visualizar su contenido aquí.</p>
-  </div>
-</ng-template>
-
-<ng-template #emptyState>
-  <p-message severity="info" text="Seleccione un documento para visualizar."></p-message>
-</ng-template>

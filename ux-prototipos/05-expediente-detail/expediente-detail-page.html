@@ -51,7 +51,7 @@
     .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
     .filter-chip.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
 
-    /* — COMPONENTE: _document-list-table.html  (8 columnas segÃºn front end.md) — */
+    /* — COMPONENTE: _document-list-table.html  (8 columnas según front end.md) — */
     .doc-name-cell { display: flex; align-items: center; gap: var(--space-3); }
     .doc-type-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
     .doc-type-icon.pdf   { background: #fef2f2; color: #ef4444; }
@@ -132,9 +132,9 @@
               <a href="../04-expedientes-list/expedientes-list-page.html" class="case-back">
                 <i class="pi pi-chevron-left"></i> Regresar a Expedientes
               </a>
-              <div class="case-tipo-eyebrow">ProtecciÃ³n de Niñez</div>
+              <div class="case-tipo-eyebrow">Protección de Niñez</div>
               <div class="case-numero">NAZ-2024-00847</div>
-              <div class="case-vs">ESTADO vs. Juan PÃ©rez HernÃ¡ndez</div>
+              <div class="case-vs">ESTADO vs. Juan Pérez Hernández</div>
               <span class="badge badge-active">Activo</span>
             </div>
 
@@ -148,7 +148,7 @@
                 </div>
                 <div class="meta-row">
                   <span class="meta-label">Demandado</span>
-                  <span class="meta-value">Juan PÃ©rez HernÃ¡ndez</span>
+                  <span class="meta-value">Juan Pérez Hernández</span>
                 </div>
               </div>
             </div>
@@ -156,14 +156,14 @@
             <!-- COMPONENTE: _case-key-info.html -->
             <div class="sidebar-card">
               <div class="meta-section">
-                <div class="meta-section-title"><i class="pi pi-info-circle"></i> INFORMACIÃ“N CLAVE</div>
+                <div class="meta-section-title"><i class="pi pi-info-circle"></i> INFORMACIÓN CLAVE</div>
                 <div class="meta-row">
                   <span class="meta-label">Juzgado</span>
                   <span class="meta-value">Juzgado 1ro Niñez</span>
                 </div>
                 <div class="meta-row">
                   <span class="meta-label">Tipo de Proceso</span>
-                  <span class="meta-value">ProtecciÃ³n</span>
+                  <span class="meta-value">Protección</span>
                 </div>
                 <div class="meta-row">
                   <span class="meta-label">Ref. SGT</span>
@@ -181,11 +181,11 @@
               <div class="meta-section">
                 <div class="meta-section-title"><i class="pi pi-calendar"></i> FECHAS IMPORTANTES</div>
                 <div class="meta-row">
-                  <span class="meta-label">Ãšltima ActuaciÃ³n</span>
+                  <span class="meta-label">íšltima Actuación</span>
                   <span class="meta-value">10 Abr 2026</span>
                 </div>
                 <div style="margin-top: var(--space-3);">
-                  <div class="date-highlight"><i class="pi pi-calendar-plus"></i> PrÃ³xima audiencia: 25 Abr 2026</div>
+                  <div class="date-highlight"><i class="pi pi-calendar-plus"></i> Próxima audiencia: 25 Abr 2026</div>
                 </div>
               </div>
             </div>
@@ -206,7 +206,7 @@
             <!-- COMPONENTE: _document-filters.html (front end.md 6.1 + 6.2) -->
             <div class="card">
               <div class="card-header">
-                <h3 class="section-title"><i class="pi pi-file"></i> CENTRO DE DOCUMENTACIÃ“N</h3>
+                <h3 class="section-title"><i class="pi pi-file"></i> CENTRO DE DOCUMENTACIÓN</h3>
                 <button class="btn btn-primary btn-sm"><i class="pi pi-upload"></i> Cargar Documento</button>
               </div>
               <div class="card-body">
@@ -215,9 +215,9 @@
                     <!-- Búsqueda simple (front end.md 6.1) -->
                     <div class="doc-search-wrap">
                       <i class="pi pi-search"></i>
-                      <input type="text" class="doc-search-input" placeholder="Buscar por nombre, tipo, extensiÃ³n...">
+                      <input type="text" class="doc-search-input" placeholder="Buscar por nombre, tipo, extensión...">
                     </div>
-                    <!-- Filtros rÃ¡pidos por tipo (front end.md 6.2) -->
+                    <!-- Filtros rápidos por tipo (front end.md 6.2) -->
                     <div class="doc-filter-chips">
                       <span class="filter-chip active">Todos</span>
                       <span class="filter-chip"><i class="pi pi-file-pdf"></i> PDF</span>
@@ -231,8 +231,8 @@
                     <span style="color:var(--border)">|</span>
                     <!-- Ordenamiento (front end.md 7.x) -->
                     <select class="form-input form-select" style="width:auto;padding:0.375rem 2rem 0.375rem 0.75rem;font-size:var(--font-xs);">
-                      <option>Fecha â†“ (MÃ¡s reciente)</option>
-                      <option>Fecha â†‘ (MÃ¡s antiguo)</option>
+                      <option>Fecha â†“ (Más reciente)</option>
+                      <option>Fecha â†‘ (Más antiguo)</option>
                       <option>Tipo de documento</option>
                       <option>Nombre A-Z</option>
                     </select>
@@ -240,18 +240,18 @@
                 </div>
 
                 <!-- COMPONENTE: _document-list-table.html -->
-                <!-- 8 columnas exactas de front end.md secciÃ³n 4.1 -->
+                <!-- 8 columnas exactas de front end.md sección 4.1 -->
                 <div style="margin-top: var(--space-4); overflow-x: auto;">
                   <table class="data-table">
                     <thead>
                       <tr>
                         <th>Nombre del documento <i class="pi pi-sort-alt sort-icon"></i></th>
                         <th>Tipo <i class="pi pi-sort-alt sort-icon"></i></th>
-                        <th>ExtensiÃ³n</th>
-                        <th>CategorÃ­a</th>
-                        <th>TamaÃ±o</th>
+                        <th>Extensión</th>
+                        <th>Categoría</th>
+                        <th>Tamaño</th>
                         <th>Usuario <i class="pi pi-sort-alt sort-icon"></i></th>
-                        <th>Fecha creaciÃ³n <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
+                        <th>Fecha creación <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
                         <th style="text-align:center">Acciones</th>
                       </tr>
                     </thead>
@@ -261,12 +261,12 @@
                         <td>
                           <div class="doc-name-cell">
                             <div class="doc-type-icon pdf"><i class="pi pi-file-pdf"></i></div>
-                            <div><div class="doc-file-name">ResoluciÃ³n_Inicial_NAZ-847.pdf</div></div>
+                            <div><div class="doc-file-name">Resolución_Inicial_NAZ-847.pdf</div></div>
                           </div>
                         </td>
-                        <td>ResoluciÃ³n</td>
+                        <td>Resolución</td>
                         <td><span class="doc-file-ext">.pdf</span></td>
-                        <td><span class="badge badge-info">JurÃ­dico</span></td>
+                        <td><span class="badge badge-info">Jurídico</span></td>
                         <td>1.8 MB</td>
                         <td>Amilcar Gil</td>
                         <td>10 Abr 2026</td>
@@ -291,7 +291,7 @@
                         <td><span class="doc-file-ext">.docx</span></td>
                         <td><span class="badge badge-active">Trabajo Social</span></td>
                         <td>2.4 MB</td>
-                        <td>MarÃ­a RodrÃ­guez</td>
+                        <td>María Rodríguez</td>
                         <td>08 Abr 2026</td>
                         <td>
                           <div class="doc-actions" style="justify-content:center">
@@ -337,7 +337,7 @@
                         <td><span class="doc-file-ext">.mp4</span></td>
                         <td><span class="badge badge-urgent">Procesal</span></td>
                         <td>245 MB</td>
-                        <td>Emilio GonzÃ¡lez</td>
+                        <td>Emilio González</td>
                         <td>25 Mar 2026</td>
                         <td>
                           <div class="doc-actions" style="justify-content:center">
@@ -354,11 +354,11 @@
                             <div><div class="doc-file-name">Declaracion_Testigo_01.mp3</div></div>
                           </div>
                         </td>
-                        <td>DeclaraciÃ³n</td>
+                        <td>Declaración</td>
                         <td><span class="doc-file-ext">.mp3</span></td>
                         <td><span class="badge badge-pending">Testimonial</span></td>
                         <td>18 MB</td>
-                        <td>Juan LÃ³pez</td>
+                        <td>Juan López</td>
                         <td>22 Mar 2026</td>
                         <td>
                           <div class="doc-actions" style="justify-content:center">
@@ -371,14 +371,14 @@
                   </table>
                 </div>
 
-                <!-- PaginaciÃ³n (front end.md secciÃ³n 8: 10/25/50) -->
+                <!-- Paginación (front end.md sección 8: 10/25/50) -->
                 <div class="table-footer">
                   <span>Mostrando 1-5 de 12 documentos</span>
                   <div style="display:flex;align-items:center;gap:var(--space-4);">
                     <select class="form-input form-select" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:var(--font-xs);">
-                      <option>10 por pÃ¡gina</option>
-                      <option>25 por pÃ¡gina</option>
-                      <option>50 por pÃ¡gina</option>
+                      <option>10 por página</option>
+                      <option>25 por página</option>
+                      <option>50 por página</option>
                     </select>
                     <div class="pagination">
                       <button><i class="pi pi-chevron-left"></i></button>
@@ -400,7 +400,7 @@
                 <div class="doc-info">
                   <div class="doc-icon"><i class="pi pi-file-pdf"></i></div>
                   <div>
-                    <div class="doc-name">ResoluciÃ³n_Inicial_NAZ-847.pdf</div>
+                    <div class="doc-name">Resolución_Inicial_NAZ-847.pdf</div>
                     <div class="doc-meta">PDF — 1.8 MB — Subido: 10 Abr 2026 por Amilcar Gil</div>
                   </div>
                 </div>
@@ -413,11 +413,11 @@
                 </div>
               </div>
               <div class="viewer-body">
-                <!-- En producciÃ³n: <iframe src="/api/documentos/{id}/preview"> -->
+                <!-- En producción: <iframe src="/api/documentos/{id}/preview"> -->
                 <div style="width:100%;height:600px;background:#e2e8f0;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:var(--text-muted);">
                   <i class="pi pi-file-pdf" style="font-size:4rem;color:var(--accent-rose);"></i>
                   <p style="font-weight:600;">Vista previa del documento PDF</p>
-                  <p style="font-size:var(--font-xs);">ResoluciÃ³n_Inicial_NAZ-847.pdf — PÃ¡gina 1 de 8</p>
+                  <p style="font-size:var(--font-xs);">Resolución_Inicial_NAZ-847.pdf — Página 1 de 8</p>
                 </div>
               </div>
             </div>
@@ -433,7 +433,7 @@
                   <div class="doc-icon" style="background:#dcfce7;color:#16a34a"><i class="pi pi-image"></i></div>
                   <div>
                     <div class="doc-name">Evidencia_Fotografica_01.jpg</div>
-                    <div class="doc-meta">JPG — 3.2 MB — 4032Ã—3024px</div>
+                    <div class="doc-meta">JPG — 3.2 MB — 4032í—3024px</div>
                   </div>
                 </div>
                 <div class="toolbar-actions">
@@ -445,7 +445,7 @@
                 </div>
               </div>
               <div class="viewer-body">
-                <img src="https://via.placeholder.com/800x600/e2e8f0/94a3b8?text=Evidencia+Fotog.+01" alt="Evidencia FotogrÃ¡fica">
+                <img src="https://via.placeholder.com/800x600/e2e8f0/94a3b8?text=Evidencia+Fotog.+01" alt="Evidencia Fotográfica">
               </div>
             </div>
             -->
@@ -461,7 +461,7 @@
                   <div class="doc-icon" style="background:#ede9fe;color:#7c3aed"><i class="pi pi-video"></i></div>
                   <div>
                     <div class="doc-name">Audiencia_Oral_25Mar.mp4</div>
-                    <div class="doc-meta">MP4 — 245 MB — DuraciÃ³n: 01:23:45</div>
+                    <div class="doc-meta">MP4 — 245 MB — Duración: 01:23:45</div>
                   </div>
                 </div>
                 <div class="toolbar-actions">
@@ -473,7 +473,7 @@
               <div class="player-container">
                 <video controls preload="metadata">
                   <source src="#" type="video/mp4">
-                  Su navegador no soporta la reproducciÃ³n de video.
+                  Su navegador no soporta la reproducción de video.
                 </video>
               </div>
             </div>
@@ -490,7 +490,7 @@
                   <div class="doc-icon" style="background:#fef3c7;color:#d97706"><i class="pi pi-volume-up"></i></div>
                   <div>
                     <div class="doc-name">Declaracion_Testigo_01.mp3</div>
-                    <div class="doc-meta">MP3 — 18 MB — DuraciÃ³n: 00:42:15</div>
+                    <div class="doc-meta">MP3 — 18 MB — Duración: 00:42:15</div>
                   </div>
                 </div>
                 <div class="toolbar-actions">
@@ -501,7 +501,7 @@
               <div class="player-container">
                 <audio controls preload="metadata">
                   <source src="#" type="audio/mpeg">
-                  Su navegador no soporta la reproducciÃ³n de audio.
+                  Su navegador no soporta la reproducción de audio.
                 </audio>
               </div>
             </div>
@@ -539,20 +539,20 @@
                     <label class="form-label"><i class="pi pi-tag"></i> Tipo de documento</label>
                     <select class="form-input form-select">
                       <option value="">Seleccione tipo...</option>
-                      <option>ResoluciÃ³n</option>
+                      <option>Resolución</option>
                       <option>Informe</option>
                       <option>Evidencia</option>
-                      <option>DeclaraciÃ³n</option>
+                      <option>Declaración</option>
                       <option>Otro</option>
                     </select>
                   </div>
                   <div class="form-field" style="margin-bottom:var(--space-5);">
-                    <label class="form-label"><i class="pi pi-list"></i> CategorÃ­a</label>
+                    <label class="form-label"><i class="pi pi-list"></i> Categoría</label>
                     <select class="form-input form-select">
-                      <option value="">Seleccione categorÃ­a...</option>
-                      <option>JurÃ­dico</option>
+                      <option value="">Seleccione categoría...</option>
+                      <option>Jurídico</option>
                       <option>Trabajo Social</option>
-                      <option>PsicologÃ­a</option>
+                      <option>Psicología</option>
                       <option>Pericial</option>
                       <option>Testimonial</option>
                       <option>Procesal</option>
@@ -560,8 +560,8 @@
                   </div>
                   <div style="border:2px dashed var(--border);border-radius:var(--radius-md);padding:3rem 2rem;text-align:center;cursor:pointer;transition:all 0.2s;">
                     <i class="pi pi-cloud-upload" style="font-size:2.5rem;color:var(--primary);"></i>
-                    <p style="margin-top:var(--space-3);font-weight:600;">Arrastre archivos aquÃ­ o haga clic para seleccionar</p>
-                    <p style="font-size:var(--font-xs);color:var(--text-muted);margin-top:var(--space-2);">PDF, DOCX, JPG, PNG, MP4, MP3 — MÃ¡x. 500 MB</p>
+                    <p style="margin-top:var(--space-3);font-weight:600;">Arrastre archivos aquí o haga clic para seleccionar</p>
+                    <p style="font-size:var(--font-xs);color:var(--text-muted);margin-top:var(--space-2);">PDF, DOCX, JPG, PNG, MP4, MP3 — Máx. 500 MB</p>
                   </div>
                 </div>
                 <div class="modal-footer">

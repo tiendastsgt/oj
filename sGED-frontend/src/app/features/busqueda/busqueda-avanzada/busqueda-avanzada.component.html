@@ -1,137 +1,140 @@
 <div class="search-page-wrapper fade-in">
-  <div class="search-hero glass-panel">
-    <div class="hero-header">
-      <div class="search-bar-main p-input-icon-left p-input-icon-right">
-        <i class="pi pi-search"></i>
-        <input 
-          type="text" 
-          pInputText 
-          [formControl]="form.controls.numero"
-          placeholder="Buscar expedientes (Número, Partes, Palabras clave...)"
-          class="w-full main-search-input"
-          (keyup.enter)="onSubmit()"
-        />
-        <button 
-          pButton 
-          type="button" 
-          [label]="showAdvancedFilters ? 'OCULTAR FILTROS' : 'FILTROS AVANZADOS'" 
-          [icon]="showAdvancedFilters ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
-          class="p-button-text advanced-toggle-btn"
-          (click)="showAdvancedFilters = !showAdvancedFilters"
-        ></button>
+  
+  <header class="mb-8">
+    <h1 class="page-title text-3xl">Búsqueda Avanzada</h1>
+    <p class="subtitle">Consulte expedientes locales e históricos (SGTv1 / SGTv2)</p>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Hero Search Section -->
+    <div class="search-hero glass-panel shadow-lg mb-8">
+      <div class="hero-header p-6">
+        <div class="search-bar-main relative">
+          <i class="pi pi-search absolute left-6 top-1/2 -translate-y-1/2 text-2xl text-slate-400"></i>
+          <input 
+            type="text" 
+            pInputText 
+            formControlName="numero"
+            placeholder="Buscar por número de expediente, partes o palabras clave..."
+            class="w-full main-search-input pl-16 pr-40 py-6 text-lg rounded-2xl border-none shadow-sm"
+          />
+          <button 
+            pButton 
+            type="button" 
+            [label]="showAdvancedFilters ? 'OCULTAR FILTROS' : 'MAS FILTROS'" 
+            [icon]="showAdvancedFilters ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+            class="p-button-text advanced-toggle-btn absolute right-4 top-1/2 -translate-y-1/2"
+            (click)="showAdvancedFilters = !showAdvancedFilters"
+          ></button>
+        </div>
       </div>
-    </div>
 
-    <!-- Advanced Filters Expansion -->
-    <div class="advanced-filters-section" [class.expanded]="showAdvancedFilters">
-      <div class="filters-grid">
-        <!-- Court & Status -->
-        <div class="filter-card card-juzgado">
-          <label><i class="pi pi-building"></i> JUZGADO / CORTE</label>
-          <p-select 
-            [options]="juzgados" 
-            [formControl]="form.controls.juzgadoId"
-            optionLabel="nombre" 
-            optionValue="id"
-            placeholder="Todos los Juzgados"
-            styleClass="w-full"
-            [filter]="true"
-          ></p-select>
-        </div>
+      <!-- Advanced Filters Expansion -->
+      <div class="advanced-filters-section overflow-hidden transition-all duration-300" [ngClass]="showAdvancedFilters ? 'max-h-[800px] opacity-100 p-6' : 'max-h-0 opacity-0 p-0'">
+        <div class="filters-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Origen de Datos (F06) -->
+          <div class="filter-card card-source">
+            <label class="block text-xs font-bold text-slate-500 uppercase mb-2"><i class="pi pi-database mr-2"></i> ORIGEN DE DATOS</label>
+            <select formControlName="fuente" class="form-input w-full">
+              <option value="TODOS">Todas las fuentes</option>
+              <option value="LOCAL">Expedientes Digitales (Local)</option>
+              <option value="SGTV1">Histórico SGT v1</option>
+              <option value="SGTV2">Sistema SGT v2</option>
+            </select>
+          </div>
 
-        <div class="filter-card card-tipo">
-          <label><i class="pi pi-list"></i> TIPO PROCESO</label>
-          <p-select 
-            [options]="tiposProceso" 
-            [formControl]="form.controls.tipoProcesoId"
-            optionLabel="descripcion" 
-            optionValue="id"
-            placeholder="Todos los Procesos"
-            styleClass="w-full"
-          ></p-select>
-        </div>
-
-        <div class="filter-card card-estado">
-          <label><i class="pi pi-info-circle"></i> ESTADO</label>
-          <p-select 
-            [options]="estados" 
-            [formControl]="form.controls.estadoId"
-            optionLabel="nombre" 
-            optionValue="id"
-            placeholder="Todos los Estados"
-            styleClass="w-full"
-          ></p-select>
-        </div>
-
-        <!-- Dates -->
-        <div class="filter-card card-dates">
-          <label><i class="pi pi-calendar"></i> RANGO DE FECHAS</label>
-          <div class="date-range-grid">
-            <p-datepicker 
-              [formControl]="form.controls.fechaDesde" 
-              placeholder="Desde" 
-              dateFormat="dd/mm/yy"
+          <div class="filter-card">
+            <label class="block text-xs font-bold text-slate-500 uppercase mb-2"><i class="pi pi-building mr-2"></i> JUZGADO / CORTE</label>
+            <p-select 
+              [options]="juzgados" 
+              formControlName="juzgadoId"
+              optionLabel="nombre" 
+              optionValue="id"
+              placeholder="Todos los Juzgados"
               styleClass="w-full"
-            ></p-datepicker>
-            <p-datepicker 
-              [formControl]="form.controls.fechaHasta" 
-              placeholder="Hasta" 
-              dateFormat="dd/mm/yy"
+              [filter]="true"
+            ></p-select>
+          </div>
+
+          <div class="filter-card">
+            <label class="block text-xs font-bold text-slate-500 uppercase mb-2"><i class="pi pi-list mr-2"></i> TIPO PROCESO</label>
+            <p-select 
+              [options]="tiposProceso" 
+              formControlName="tipoProcesoId"
+              optionLabel="descripcion" 
+              optionValue="id"
+              placeholder="Todos los Procesos"
               styleClass="w-full"
-            ></p-datepicker>
+            ></p-select>
+          </div>
+
+          <div class="filter-card">
+            <label class="block text-xs font-bold text-slate-500 uppercase mb-2"><i class="pi pi-calendar mr-2"></i> RANGO DE FECHAS</label>
+            <div class="grid grid-cols-2 gap-2">
+              <p-datepicker formControlName="fechaDesde" placeholder="Desde" dateFormat="dd/mm/yy" styleClass="w-full"></p-datepicker>
+              <p-datepicker formControlName="fechaHasta" placeholder="Hasta" dateFormat="dd/mm/yy" styleClass="w-full"></p-datepicker>
+            </div>
+          </div>
+
+          <div class="filter-card">
+            <label class="block text-xs font-bold text-slate-500 uppercase mb-2"><i class="pi pi-users mr-2"></i> PARTES PROCESALES</label>
+            <div class="space-y-2">
+              <input pInputText formControlName="actorPrincipal" placeholder="Actor / Demandante" class="w-full text-sm" />
+              <input pInputText formControlName="demandadoPrincipal" placeholder="Demandado" class="w-full text-sm" />
+            </div>
+          </div>
+
+          <div class="filter-card">
+            <label class="block text-xs font-bold text-slate-500 uppercase mb-2"><i class="pi pi-link mr-2"></i> REFERENCIA EXTERNA</label>
+            <input pInputText formControlName="referenciaSgt" placeholder="Ref. SGT o Código anterior" class="w-full text-sm" />
           </div>
         </div>
 
-        <!-- Parties -->
-        <div class="filter-card card-sujetos">
-          <label><i class="pi pi-users"></i> PARTES PROCESALES</label>
-          <div class="parties-inputs">
-            <input pInputText [formControl]="form.controls.actorPrincipal" placeholder="Actor Principal" class="w-full" />
-            <input pInputText [formControl]="form.controls.demandadoPrincipal" placeholder="Demandado Principal" class="w-full" />
-          </div>
+        <div class="advanced-actions mt-8 pt-6 border-t border-slate-100 flex justify-end gap-3">
+          <button 
+            pButton 
+            type="button" 
+            label="Limpiar Filtros" 
+            icon="pi pi-refresh" 
+            class="p-button-outlined p-button-secondary"
+            (click)="form.reset({fuente: 'TODOS'})"
+          ></button>
+          <button 
+            pButton 
+            type="submit" 
+            label="Ejecutar Búsqueda" 
+            icon="pi pi-search" 
+            class="p-button-primary px-8"
+            [loading]="loading"
+          ></button>
         </div>
-
-        <div class="filter-card card-ref">
-          <label><i class="pi pi-link"></i> REFERENCIA SGT</label>
-          <input pInputText [formControl]="form.controls.referenciaSgt" placeholder="Ref. Interna" class="w-full" />
-        </div>
-      </div>
-
-      <div class="advanced-actions">
-        <button 
-          pButton 
-          type="button" 
-          label="Limpiar Filtros" 
-          icon="pi pi-refresh" 
-          class="p-button-outlined p-button-secondary"
-          (click)="form.reset()"
-        ></button>
-        <button 
-          pButton 
-          type="button" 
-          label="Ejecutar Búsqueda" 
-          icon="pi pi-search" 
-          class="p-button-primary execute-btn"
-          (click)="onSubmit()"
-          [loading]="loading"
-        ></button>
       </div>
     </div>
-  </div>
+  </form>
 
-  <div class="error-messages-box fade-in" *ngIf="errorMessages.length > 0">
-    <p-message *ngFor="let msg of errorMessages" severity="error" [text]="msg"></p-message>
-  </div>
-
+  <!-- Results Section -->
   <div class="results-layout slide-up" *ngIf="resultados">
-    <div class="results-header">
-      <h3>RESULTADOS DE BÚSQUEDA</h3>
-      <span class="count">{{ resultados.totalElements }} expedientes encontrados</span>
+    <div class="results-header flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-slate-800">RESULTADOS DE BÚSQUEDA</h3>
+      <span class="badge badge-info">{{ resultados.totalElements }} expedientes encontrados</span>
     </div>
-    <app-resultados-busqueda
-      [resultados]="resultados"
-      [loading]="loading"
-      (lazyLoad)="onLazyLoad($event)"
-    ></app-resultados-busqueda>
+    
+    <div class="card glass-panel shadow-sm overflow-hidden p-0">
+      <app-resultados-busqueda
+        [resultados]="resultados"
+        [loading]="loading"
+        (lazyLoad)="onLazyLoad($event)"
+      ></app-resultados-busqueda>
+    </div>
+  </div>
+
+  <!-- Empty State Search -->
+  <div class="empty-search-state py-20 text-center" *ngIf="!resultados && !loading">
+    <div class="bg-blue-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+      <i class="pi pi-search text-4xl text-blue-400"></i>
+    </div>
+    <h3 class="text-xl font-bold text-slate-700">Inicie una búsqueda</h3>
+    <p class="text-slate-500 max-w-md mx-auto mt-2">Ingrese un número de expediente o utilice los filtros avanzados para localizar información en las bases de datos del OJ.</p>
   </div>
 </div>

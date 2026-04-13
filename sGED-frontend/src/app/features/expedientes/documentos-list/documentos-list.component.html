@@ -1,64 +1,91 @@
-<p-card header="Documentos del expediente">
-  <div class="documentos-actions" *ngIf="canUpload()">
-    <label class="upload-button">
-      <input type="file" (change)="onFileSelected($event)" />
-      <span>Subir documento</span>
-    </label>
-  </div>
+<!-- Componente de carga estilizado -->
+<div class="documents-toolbar mb-4 px-4 flex justify-end" *ngIf="canUpload()">
+  <label class="btn btn-secondary btn-sm cursor-pointer flex items-center gap-2">
+    <i class="pi pi-upload"></i>
+    <span>Subir Documento</span>
+    <input type="file" (change)="onFileSelected($event)" class="hidden" />
+  </label>
+</div>
 
-  <div
-    class="drop-zone"
-    *ngIf="canUpload()"
-    (drop)="onDrop($event)"
-    (dragover)="onDragOver($event)"
+<div class="px-0">
+  <p-table 
+    [value]="documentos" 
+    [loading]="loading" 
+    styleClass="p-datatable-sm custom-table-minimal"
+    [responsiveLayout]="'scroll'"
   >
-    Arrastra un archivo aquí o usa el botón de carga.
-  </div>
-
-  <p-progressBar *ngIf="uploading" [value]="progress"></p-progressBar>
-
-  <p-table [value]="documentos" [loading]="loading">
     <ng-template pTemplate="header">
       <tr>
-        <th>Nombre</th>
-        <th>Tipo</th>
-        <th>Tamaño</th>
-        <th>Extensión</th>
-        <th>Fecha creación</th>
-        <th>Acciones</th>
+        <th style="width: 45%">NOMBRE DEL DOCUMENTO</th>
+        <th style="width: 15%">CATEGORÍA</th>
+        <th style="width: 10%">FORMATO</th>
+        <th style="width: 15%">FECHA</th>
+        <th style="text-align: center;">ACCIONES</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-documento>
-      <tr>
-        <td>{{ documento.nombreOriginal }}</td>
-        <td>{{ documento.tipoDocumento || documento.categoria }}</td>
-        <td>{{ documento.tamanio | number }} bytes</td>
-        <td>{{ documento.extension }}</td>
-        <td>{{ documento.fechaCreacion | date: 'yyyy-MM-dd HH:mm' }}</td>
-        <td class="acciones">
-          <button pButton type="button" label="Ver" icon="pi pi-eye" class="p-button-text" (click)="onVer(documento)"></button>
-          <button pButton type="button" label="Descargar" icon="pi pi-download" class="p-button-text" (click)="onDescargar(documento)"></button>
-          <button pButton type="button" label="Imprimir" icon="pi pi-print" class="p-button-text" (click)="onImprimir(documento)"></button>
-          <button
-            pButton
-            type="button"
-            label="Eliminar"
-            icon="pi pi-trash"
-            class="p-button-text"
-            *ngIf="canDelete()"
-            (click)="onEliminar(documento)"
-          ></button>
+    <ng-template pTemplate="body" let-doc>
+      <tr [class.active-row]="doc.id === selectedId">
+        <td>
+          <div class="flex items-center gap-4">
+            <div class="type-icon-box" [ngClass]="getFormatClass(doc.extension)">
+              <i [class]="getFormatIcon(doc.extension)"></i>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-sm font-bold text-slate-700 truncate max-w-[200px]" [title]="doc.nombreOriginal">
+                {{ doc.nombreOriginal }}
+              </span>
+              <span class="text-[10px] text-slate-400 uppercase font-bold">{{ doc.tamanio | number }} Bytes</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-outline text-[10px]">{{ doc.tipoDocumento || doc.categoria || 'Generico' }}</span>
+        </td>
+        <td><span class="text-xs font-mono text-slate-500">.{{ doc.extension | lowercase }}</span></td>
+        <td><span class="text-xs text-slate-500">{{ doc.fechaCreacion | date: 'dd/MM/yyyy' }}</span></td>
+        <td class="text-center">
+          <div class="flex justify-center gap-1">
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-eye" 
+              class="p-button-text p-button-rounded p-button-info" 
+              (click)="onVer(doc)"
+              pTooltip="Visualizar">
+            </button>
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-download" 
+              class="p-button-text p-button-rounded p-button-secondary" 
+              (click)="onDescargar(doc)"
+              pTooltip="Descargar">
+            </button>
+            <button 
+              pButton 
+              type="button" 
+              icon="pi pi-trash" 
+              class="p-button-text p-button-rounded p-button-danger" 
+              *ngIf="canDelete()"
+              (click)="onEliminar(doc)"
+              pTooltip="Eliminar">
+            </button>
+          </div>
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6">No hay documentos disponibles.</td>
+        <td colspan="5" class="py-12 text-center text-slate-400 italic">
+          No hay documentos asociados a este expediente.
+        </td>
       </tr>
     </ng-template>
   </p-table>
+</div>
 
-  <div class="messages">
-    <p-message *ngFor="let message of errorMessages" severity="error" [text]="message"></p-message>
-  </div>
-</p-card>
+<div class="progress-container mt-4" *ngIf="uploading">
+  <p-progressBar [value]="progress" styleClass="h-1"></p-progressBar>
+</div>
+
+<p-message *ngFor="let message of errorMessages" severity="error" [text]="message" class="mt-4 block"></p-message>

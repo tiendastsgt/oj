@@ -8,6 +8,7 @@ export interface BusquedaAvanzadaRequest {
   actorPrincipal?: string;
   demandadoPrincipal?: string;
   referenciaSgt?: string;
+  fuente?: string;
 }
 
 export interface ExpedienteBusquedaResponse {
