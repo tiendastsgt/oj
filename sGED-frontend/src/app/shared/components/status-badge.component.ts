@@ -18,46 +18,37 @@ import { Component, Input } from '@angular/core';
       gap: 6px;
       padding: 4px 12px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      transition: all 0.2s ease;
-      cursor: default;
+      letter-spacing: 0.02em;
     }
 
     .badge-activo {
-      background-color: rgba(34, 197, 94, 0.15);
-      color: #15803d;
-      border: 1px solid rgba(34, 197, 94, 0.2);
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.2);
     }
 
     .badge-cerrado {
-      background-color: rgba(239, 68, 68, 0.15);
-      color: #b91c1c;
-      border: 1px solid rgba(239, 68, 68, 0.2);
+      background: rgba(148, 163, 184, 0.1);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.15);
     }
 
     .badge-pendiente {
-      background-color: rgba(234, 179, 8, 0.15);
-      color: #a16207;
-      border: 1px solid rgba(234, 179, 8, 0.2);
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.2);
     }
 
     .badge-proceso {
-      background-color: rgba(59, 130, 246, 0.15);
-      color: #1d4ed8;
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
       border: 1px solid rgba(59, 130, 246, 0.2);
     }
 
     .badge i {
-      font-size: 0.75rem;
-    }
-
-    .badge:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+      font-size: 0.7rem;
     }
   `]
 })

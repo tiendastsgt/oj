@@ -1,75 +1,63 @@
 <ng-container *ngIf="(currentUser$ | async) as user; else loginLayout">
-  <div class="app-shell elite-theme" [class.sidebar-collapsed]="isSidebarCollapsed">
-    <!-- Sidebar -->
+  <div class="app-shell">
+    <!-- Sidebar: Icon-based Dark Navigation -->
     <aside class="sidebar">
       <div class="sidebar-brand">
-        <div class="sidebar-logo-collapsed">OJ</div>
-        <div class="sidebar-brand-full">
-          <div class="brand-name gradient-text">SGED</div>
-          <div class="brand-sub">Visor Documental — OJ</div>
-        </div>
+        <div class="brand-icon">OJ</div>
       </div>
 
       <nav class="sidebar-nav">
         <div class="nav-section">
-          <div class="nav-section-label">Principal</div>
-          <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-item" title="Dashboard">
             <i class="pi pi-th-large"></i>
-            <span>Dashboard</span>
           </a>
-          <a routerLink="/expedientes" routerLinkActive="active" class="nav-item">
+          <a routerLink="/expedientes" routerLinkActive="active" class="nav-item" title="Expedientes">
             <i class="pi pi-folder"></i>
-            <span>Expedientes</span>
           </a>
-          <a routerLink="/busqueda" routerLinkActive="active" class="nav-item">
+          <a routerLink="/busqueda" routerLinkActive="active" class="nav-item" title="Búsqueda">
             <i class="pi pi-search"></i>
-            <span>Búsqueda</span>
           </a>
         </div>
 
-        <div class="nav-section" *ngIf="user.rol === 'ADMIN'">
-          <div class="nav-section-label">Administración</div>
-          <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-item">
+        <div class="nav-section" *ngIf="user.rol === 'ADMIN' || user.rol === 'ADMINISTRADOR'">
+          <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-item" title="Usuarios">
             <i class="pi pi-users"></i>
-            <span>Usuarios</span>
           </a>
-          <a routerLink="/admin/auditoria" routerLinkActive="active" class="nav-item">
+          <a routerLink="/admin/auditoria" routerLinkActive="active" class="nav-item" title="Auditoría">
             <i class="pi pi-history"></i>
-            <span>Auditoría</span>
           </a>
         </div>
 
         <div class="nav-section">
-          <div class="nav-section-label">Cuenta</div>
-          <a routerLink="/cambiar-password" routerLinkActive="active" class="nav-item">
-            <i class="pi pi-lock"></i>
-            <span>Cambiar Contraseña</span>
-          </a>
-          <a href="javascript:void(0)" (click)="onLogout()" class="nav-item">
-            <i class="pi pi-sign-out"></i>
-            <span>Cerrar Sesión</span>
+          <a routerLink="/cambiar-password" routerLinkActive="active" class="nav-item" title="Configuración">
+            <i class="pi pi-cog"></i>
           </a>
         </div>
       </nav>
 
       <div class="sidebar-footer">
-        SGED v1.2.1 — OJ Guatemala
+        <button class="logout-btn" (click)="onLogout()" title="Cerrar Sesión">
+          <i class="pi pi-sign-out"></i>
+        </button>
       </div>
     </aside>
 
     <div class="main-content">
-      <!-- Topbar -->
+      <!-- Topbar: Glass Dark -->
       <header class="topbar">
         <div class="topbar-left">
-          <button class="btn-icon" (click)="toggleSidebar()"><i class="pi pi-bars"></i></button>
-          
+          <div class="topbar-brand-text">
+            <span class="brand-bold">SGED</span>
+            <span class="brand-light">Visor Documental</span>
+          </div>
+
           <!-- F05: Búsqueda Rápida -->
           <div class="rapid-search p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input 
-              type="text" 
-              pInputText 
-              placeholder="Nro. Expediente..." 
+            <input
+              type="text"
+              pInputText
+              placeholder="Nro. Expediente..."
               class="rapid-search-input"
               (keyup.enter)="onRapidSearch($event)"
             />
@@ -80,9 +68,9 @@
           <button class="btn-icon" pTooltip="Notificaciones"><i class="pi pi-bell"></i></button>
           <div class="flex items-center gap-3">
             <div class="user-avatar">{{ user.nombreCompleto.charAt(0) | uppercase }}</div>
-            <div style="line-height:1.3">
-              <div style="font-size:var(--font-sm);font-weight:600">{{ user.nombreCompleto }}</div>
-              <div style="font-size:var(--font-xs);color:var(--text-muted)">{{ user.rol }}</div>
+            <div>
+              <div class="user-info-name">{{ user.nombreCompleto }}</div>
+              <div class="user-info-role">{{ user.rol }}</div>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 /* ============================================================
-   SGED — Elite Design System v1.0
-   Tokens, utilities, and base component styles
+   SGED — Elite Design System v2.0 (Full Dark)
+   Angular global styles — immersive dark mode
    ============================================================ */
 
 /* --- Google Fonts --- */
@@ -17,9 +17,10 @@
 :root {
   /* — Primary Palette — */
   --primary:        #3b82f6;
-  --primary-hover:  #2563eb;
-  --primary-light:  #dbeafe;
-  --primary-dark:   #1d4ed8;
+  --primary-hover:  #60a5fa;
+  --primary-light:  rgba(59, 130, 246, 0.15);
+  --primary-dark:   #2563eb;
+  --primary-glow:   rgba(59, 130, 246, 0.4);
 
   /* — Accent — */
   --accent-cyan:    #06b6d4;
@@ -28,32 +29,34 @@
   --accent-amber:   #f59e0b;
   --accent-rose:    #f43f5e;
 
-  /* — Surface (Light Mode) — */
-  --bg:             #f8fafc;
-  --surface-ground: #f1f5f9;
-  --surface-card:   #ffffff;
-  --text-primary:   #1e293b;
-  --text-secondary: #64748b;
-  --text-muted:     #94a3b8;
-  --border:         rgba(0, 0, 0, 0.08);
-  --border-strong:  rgba(0, 0, 0, 0.12);
+  /* — Surface (Dark Immersive) — */
+  --bg:             #060b18;
+  --bg-mesh:        radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
+                    radial-gradient(ellipse at 50% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+  --surface-ground: rgba(255, 255, 255, 0.02);
+  --surface-card:   rgba(255, 255, 255, 0.04);
+  --surface-hover:  rgba(255, 255, 255, 0.06);
+  --surface-raised: rgba(255, 255, 255, 0.08);
+  --text-primary:   #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+  --border:         rgba(255, 255, 255, 0.06);
+  --border-strong:  rgba(255, 255, 255, 0.1);
+  --border-hover:   rgba(255, 255, 255, 0.15);
 
-  /* — Elite Dark — */
-  --elite-bg:             #030712;
-  --elite-surface:        #111827;
-  --elite-glass:          rgba(17, 24, 39, 0.7);
-  --elite-text:           #f9fafb;
-  --elite-text-secondary: #9ca3af;
-  --elite-border:         rgba(255, 255, 255, 0.05);
-  --elite-border-hover:   rgba(255, 255, 255, 0.12);
+  /* — Sidebar — */
+  --sidebar-bg:     #030712;
+  --sidebar-border: rgba(255, 255, 255, 0.04);
 
   /* — Shadows — */
-  --shadow-xs:  0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-sm:  0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-elite: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  --shadow-xs:  0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-sm:  0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg:  0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl:  0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.3);
+  --shadow-glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3);
 
   /* — Radii — */
   --radius-sm: 8px;
@@ -101,6 +104,8 @@ html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--font-family);
   background: var(--bg);
+  background-image: var(--bg-mesh);
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -109,44 +114,27 @@ body {
   padding: 0;
 }
 
-a { color: var(--primary); text-decoration: none; }
-a:hover { color: var(--primary-hover); }
+a { color: var(--primary-hover); text-decoration: none; }
+a:hover { color: var(--accent-cyan); }
 
 img { max-width: 100%; display: block; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
 /* ============================================================
    3. GLASS PANEL — Glassmorphism Core
    ============================================================ */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border);
   box-shadow: var(--shadow-md);
   border-radius: var(--radius-md);
-}
-
-.elite-theme .glass-panel {
-  background: rgba(3, 7, 18, 0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-}
-
-.glass-card-elite {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  transition: all var(--duration-normal) var(--ease-spring);
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-  }
 }
 
 /* ============================================================
@@ -159,7 +147,6 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.08em;
   color: var(--text-secondary);
 }
-.elite-theme .eyebrow { color: var(--elite-text-secondary); }
 
 .section-title {
   font-size: var(--font-sm);
@@ -174,18 +161,10 @@ img { max-width: 100%; display: block; }
 .section-title i { color: var(--primary); font-size: var(--font-base); }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+  background: linear-gradient(135deg, #fff, var(--accent-cyan));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.gradient-bg {
-  background: linear-gradient(135deg, var(--primary), var(--accent-violet));
-}
-
-.glow-blue {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
 }
 
 .page-title {
@@ -210,10 +189,10 @@ img { max-width: 100%; display: block; }
   font-size: var(--font-sm);
   font-weight: 600;
   transition: all var(--duration-normal) var(--ease-out);
-  
+
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    box-shadow: 0 4px 12px var(--primary-glow);
   }
 }
 
@@ -235,7 +214,7 @@ img { max-width: 100%; display: block; }
 .btn-primary {
   background: var(--primary);
   color: white;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .btn-icon {
@@ -250,15 +229,17 @@ img { max-width: 100%; display: block; }
   color: var(--text-secondary);
   border: none;
   cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
 }
+.btn-icon:hover { background: var(--surface-hover); color: var(--text-primary); }
 
 /* ============================================================
-   12. DATA TABLES & UTILS
+   6. DATA TABLES & UTILS
    ============================================================ */
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  
+
   th {
     text-align: left;
     padding: var(--space-4);
@@ -266,13 +247,22 @@ img { max-width: 100%; display: block; }
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-secondary);
-    border-bottom: 2px solid var(--border);
+    border-bottom: 1px solid var(--border-strong);
+    background: rgba(255, 255, 255, 0.02);
   }
-  
+
   td {
     padding: var(--space-4);
     border-bottom: 1px solid var(--border);
     font-size: var(--font-sm);
+    color: var(--text-primary);
+  }
+
+  tbody tr {
+    transition: background var(--duration-fast);
+  }
+  tbody tr:hover td {
+    background: rgba(59, 130, 246, 0.04);
   }
 }
 
@@ -287,9 +277,22 @@ img { max-width: 100%; display: block; }
 .loading-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(6, 11, 24, 0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+
+/* ============================================================
+   7. ANIMATIONS
+   ============================================================ */
+.fade-in {
+  animation: fadeIn var(--duration-slow) var(--ease-spring);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

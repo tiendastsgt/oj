@@ -1,82 +1,114 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SGED — Listado de Expedientes</title>
+  <title>SGED — Gestión de Expedientes</title>
   <link rel="stylesheet" href="../css/elite-design-system.css">
   <style>
-    .page-header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); }
-    .page-header-actions h1 { font-size: var(--font-2xl); font-weight: 800; }
-    .quick-stats { display: flex; gap: var(--space-6); margin-bottom: var(--space-6); }
-    .quick-stat { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); }
-    .quick-stat-value { font-size: var(--font-xl); font-weight: 800; }
-    .quick-stat-label { font-size: var(--font-xs); color: var(--text-secondary); }
+    .page-header-actions { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-6); }
+    .quick-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); margin-bottom: var(--space-6); }
+
+    /* Expediente number link style */
+    .exp-link {
+      font-weight: 700;
+      color: var(--primary-hover);
+      transition: color var(--duration-fast);
+    }
+    .exp-link:hover { color: var(--accent-cyan); }
+
+    /* Table row number column accent bar */
+    .data-table tbody td:first-child {
+      border-left: 3px solid transparent;
+      padding-left: calc(1rem - 3px);
+    }
+    .data-table tbody tr:hover td:first-child {
+      border-left-color: var(--primary);
+    }
   </style>
 </head>
 <body>
   <div class="app-shell">
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="sidebar-brand"><div class="sidebar-logo-collapsed">OJ</div><div class="sidebar-brand-full"><div class="brand-name gradient-text">SGED</div><div class="brand-sub">Visor Documental — OJ</div></div></div>
+      <div class="sidebar-brand">
+        <div class="brand-icon">OJ</div>
+      </div>
       <nav class="sidebar-nav">
-        <div class="nav-section"><div class="nav-section-label">Principal</div>
-          <a href="../03-dashboard/dashboard-page.html" class="nav-item"><i class="pi pi-th-large"></i><span>Dashboard</span></a>
-          <a href="#" class="nav-item active"><i class="pi pi-folder"></i><span>Expedientes</span></a>
-          <a href="../07-busqueda/busqueda-container-page.html" class="nav-item"><i class="pi pi-search"></i><span>Búsqueda</span></a>
+        <div class="nav-section">
+          <a href="../03-dashboard/dashboard-page.html" class="nav-item" title="Dashboard"><i class="pi pi-th-large"></i></a>
+          <a href="#" class="nav-item active" title="Expedientes"><i class="pi pi-folder"></i></a>
+          <a href="../07-busqueda/busqueda-container-page.html" class="nav-item" title="Búsqueda"><i class="pi pi-search"></i></a>
         </div>
-        <div class="nav-section"><div class="nav-section-label">Administración</div>
-          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item"><i class="pi pi-users"></i><span>Usuarios</span></a>
-          <a href="../09-auditoria/auditoria-page.html" class="nav-item"><i class="pi pi-history"></i><span>Auditoría</span></a>
+        <div class="nav-section">
+          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item" title="Usuarios"><i class="pi pi-users"></i></a>
+          <a href="../09-auditoria/auditoria-page.html" class="nav-item" title="Auditoría"><i class="pi pi-history"></i></a>
         </div>
-        <div class="nav-section"><div class="nav-section-label">Cuenta</div>
-          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item"><i class="pi pi-lock"></i><span>Cambiar Contraseña</span></a>
-          <a href="../01-login/login-page.html" class="nav-item"><i class="pi pi-sign-out"></i><span>Cerrar Sesión</span></a>
+        <div class="nav-section">
+          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item" title="Configuración"><i class="pi pi-cog"></i></a>
         </div>
       </nav>
+      <div class="sidebar-footer">
+        <a href="../01-login/login-page.html" class="nav-item" title="Salir" style="width:44px;height:44px;"><i class="pi pi-sign-out"></i></a>
+      </div>
     </aside>
 
     <div class="main-content">
+      <!-- TOPBAR -->
       <header class="topbar">
         <div class="topbar-left">
-          <button class="btn-icon"><i class="pi pi-bars"></i></button>
-          <div class="topbar-breadcrumb"><span>SGED</span><i class="pi pi-chevron-right" style="font-size:0.6rem"></i><span class="current">Expedientes</span></div>
+          <div class="topbar-brand-text">
+            <span class="brand-bold">SGED</span>
+            <span class="brand-light">Gestión de Expedientes</span>
+          </div>
+          <div class="topbar-search">
+            <i class="pi pi-search"></i>
+            <input type="text" placeholder="Nro. Expediente...">
+          </div>
         </div>
         <div class="topbar-right">
-          <button class="btn-icon"><i class="pi pi-bell"></i></button>
-          <div class="flex items-center gap-3"><div class="user-avatar">AG</div><div style="line-height:1.3"><div style="font-size:var(--font-sm);font-weight:600">Amilcar Gil</div><div style="font-size:var(--font-xs);color:var(--text-muted)">Administrador</div></div></div>
+          <button class="btn-icon" title="Notificaciones"><i class="pi pi-bell"></i></button>
+          <div class="flex items-center gap-3">
+            <div class="user-avatar">AG</div>
+            <div>
+              <div class="user-info-name">Amilcar Gil</div>
+              <div class="user-info-role">Administrador</div>
+            </div>
+          </div>
         </div>
       </header>
 
       <main class="page-content fade-in">
+        <!-- Page Header -->
         <div class="page-header-actions">
           <div>
-            <h1>Expedientes</h1>
-            <p class="subtitle">Gestión centralizada de expedientes judiciales</p>
+            <h1 class="page-title">Gestión de Expedientes</h1>
+            <p class="subtitle" style="margin-top:4px;">Administración centralizada de casos judiciales</p>
           </div>
           <button class="btn btn-primary"><i class="pi pi-plus"></i> Nuevo Expediente</button>
         </div>
 
-        <!-- Quick stats -->
+        <!-- Quick Stats KPI Cards -->
         <div class="quick-stats">
-          <div class="quick-stat">
-            <div class="kpi-icon blue" style="width:40px;height:40px;"><i class="pi pi-folder-open"></i></div>
-            <div><div class="quick-stat-value">847</div><div class="quick-stat-label">Activos</div></div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box blue"><i class="pi pi-folder-open"></i></div>
+            <div><div class="kpi-value">847</div><div class="kpi-label">Activos</div></div>
           </div>
-          <div class="quick-stat">
-            <div class="kpi-icon amber" style="width:40px;height:40px;"><i class="pi pi-clock"></i></div>
-            <div><div class="quick-stat-value">213</div><div class="quick-stat-label">En trámite</div></div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box amber"><i class="pi pi-clock"></i></div>
+            <div><div class="kpi-value">213</div><div class="kpi-label">En trámite</div></div>
           </div>
-          <div class="quick-stat">
-            <div class="kpi-icon green" style="width:40px;height:40px;"><i class="pi pi-check-circle"></i></div>
-            <div><div class="quick-stat-value">156</div><div class="quick-stat-label">Resueltos</div></div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
+            <div><div class="kpi-value">156</div><div class="kpi-label">Resueltos</div></div>
           </div>
-          <div class="quick-stat">
-            <div class="kpi-icon violet" style="width:40px;height:40px;"><i class="pi pi-inbox"></i></div>
-            <div><div class="quick-stat-value">31</div><div class="quick-stat-label">Archivados</div></div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box violet"><i class="pi pi-inbox"></i></div>
+            <div><div class="kpi-value">31</div><div class="kpi-label">Archivados</div></div>
           </div>
         </div>
 
-        <!-- COMPONENTE: _expedientes-filters.html + _expedientes-table.html -->
+        <!-- Expedientes Table Card -->
         <div class="card">
           <div class="card-header">
             <div style="display:flex;gap:var(--space-3);align-items:center;">
@@ -110,14 +142,14 @@
                 <th>Demandado</th>
                 <th>Juzgado</th>
                 <th>Estado</th>
-                <th>Ult. Movimiento <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
+                <th>Ult. Movimiento <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--accent-cyan)"></i></th>
                 <th>Docs</th>
                 <th style="text-align:center">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><a href="../05-expediente-detail/expediente-detail-page.html" style="font-weight:700;">NAZ-2024-00847</a></td>
+                <td><a href="../05-expediente-detail/expediente-detail-page.html" class="exp-link">NAZ-2024-00847</a></td>
                 <td>Protección</td>
                 <td>Estado de Guatemala</td>
                 <td>Juan Pérez Hernández</td>
@@ -126,14 +158,14 @@
                 <td>10 Abr 2026</td>
                 <td style="text-align:center;font-weight:600;">12</td>
                 <td>
-                  <div class="doc-actions" style="justify-content:center">
+                  <div style="display:flex;justify-content:center;gap:4px;">
                     <a href="../05-expediente-detail/expediente-detail-page.html" class="btn-icon" title="Ver detalle"><i class="pi pi-eye"></i></a>
                     <button class="btn-icon" title="Editar"><i class="pi pi-pencil"></i></button>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td><a href="#" style="font-weight:700;">ACP-2023-00412</a></td>
+                <td><a href="#" class="exp-link">ACP-2023-00412</a></td>
                 <td>Conflicto Penal</td>
                 <td>Ministerio Público</td>
                 <td>Carlos López Méndez</td>
@@ -142,14 +174,14 @@
                 <td>08 Abr 2026</td>
                 <td style="text-align:center;font-weight:600;">7</td>
                 <td>
-                  <div class="doc-actions" style="justify-content:center">
+                  <div style="display:flex;justify-content:center;gap:4px;">
                     <button class="btn-icon" title="Ver detalle"><i class="pi pi-eye"></i></button>
                     <button class="btn-icon" title="Editar"><i class="pi pi-pencil"></i></button>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td><a href="#" style="font-weight:700;">NAZ-2024-01203</a></td>
+                <td><a href="#" class="exp-link">NAZ-2024-01203</a></td>
                 <td>Adopción</td>
                 <td>Ana García Reyes</td>
                 <td>—</td>
@@ -158,14 +190,14 @@
                 <td>05 Abr 2026</td>
                 <td style="text-align:center;font-weight:600;">4</td>
                 <td>
-                  <div class="doc-actions" style="justify-content:center">
+                  <div style="display:flex;justify-content:center;gap:4px;">
                     <button class="btn-icon" title="Ver detalle"><i class="pi pi-eye"></i></button>
                     <button class="btn-icon" title="Editar"><i class="pi pi-pencil"></i></button>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td><a href="#" style="font-weight:700;">NAZ-2023-00198</a></td>
+                <td><a href="#" class="exp-link">NAZ-2023-00198</a></td>
                 <td>Protección</td>
                 <td>Estado de Guatemala</td>
                 <td>Roberto Sánchez Cruz</td>
@@ -174,7 +206,7 @@
                 <td>15 Mar 2026</td>
                 <td style="text-align:center;font-weight:600;">22</td>
                 <td>
-                  <div class="doc-actions" style="justify-content:center">
+                  <div style="display:flex;justify-content:center;gap:4px;">
                     <button class="btn-icon" title="Ver detalle"><i class="pi pi-eye"></i></button>
                   </div>
                 </td>
@@ -204,15 +236,5 @@
       </main>
     </div>
   </div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.querySelector('.topbar-left .btn-icon');
-    const shell = document.querySelector('.app-shell');
-    if (btn && shell) {
-      btn.addEventListener('click', () => shell.classList.toggle('sidebar-collapsed'));
-    }
-  });
-</script>
 </body>
 </html>
-
