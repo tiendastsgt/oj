@@ -1,6 +1,6 @@
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { Documento } from '../../features/documentos/models/documento.model';
@@ -59,6 +59,17 @@ export class DocumentosService {
 
   streamDocumento(id: number): string {
     return this.getContenidoUrl(id, 'inline');
+  }
+
+  /**
+   * Fetches document content as Blob via HttpClient (JWT-authenticated).
+   * Returns an Observable<string> which resolves to a safe ObjectURL.
+   */
+  fetchContenidoBlob(id: number, modo: 'inline' | 'attachment' = 'inline'): Observable<string> {
+    const url = `${this.baseUrl}/documentos/${id}/contenido?modo=${modo}`;
+    return this.http.get(url, { responseType: 'blob' }).pipe(
+      map(blob => URL.createObjectURL(blob))
+    );
   }
 
   eliminar(id: number): Observable<ApiResponse<void>> {

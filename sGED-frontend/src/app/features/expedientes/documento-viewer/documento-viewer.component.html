@@ -1,40 +1,55 @@
 <div class="elite-viewer" *ngIf="documento">
-  <!-- Visor de PDF / Word (Como PDF) -->
-  <div class="viewer-content pdf-viewer" *ngIf="isPdf || isWord">
-    <iframe [src]="inlineUrl" class="viewer-iframe" title="Visor PDF"></iframe>
+
+  <!-- Loading state -->
+  <div class="viewer-content text-center py-12" *ngIf="loading">
+    <i class="pi pi-spin pi-spinner text-4xl text-cyan-400 mb-4 block"></i>
+    <p class="text-slate-400 text-sm">Cargando documento...</p>
   </div>
 
-  <!-- Visor de Imágenes -->
-  <div class="viewer-content image-viewer" *ngIf="isImage">
+  <!-- Error state -->
+  <div class="viewer-content text-center py-10" *ngIf="!loading && error">
+    <i class="pi pi-exclamation-triangle text-4xl text-amber-500 mb-4 block"></i>
+    <h4 class="font-bold text-white mb-2">Error al cargar</h4>
+    <p class="text-sm text-slate-500 mb-6">{{ error }}</p>
+    <button pButton icon="pi pi-download" label="Descargar Archivo" class="p-button-outlined" (click)="download()"></button>
+  </div>
+
+  <!-- PDF Viewer — iframe needs SafeResourceUrl -->
+  <div class="viewer-content pdf-viewer" *ngIf="!loading && !error && isPdf && frameUrl">
+    <iframe [src]="frameUrl" class="viewer-iframe" title="Visor PDF"></iframe>
+  </div>
+
+  <!-- Image Viewer — img needs SafeUrl -->
+  <div class="viewer-content image-viewer" *ngIf="!loading && !error && isImage && mediaUrl">
     <div class="image-flex-container">
-      <img [src]="inlineUrl" [alt]="documento.nombre" class="img-fluid rounded-lg shadow-md" />
+      <img [src]="mediaUrl" [alt]="documento.nombreOriginal" class="img-fluid rounded-lg shadow-md" />
     </div>
   </div>
 
-  <!-- Reproductor de Audio (F04) -->
-  <div class="viewer-content audio-viewer" *ngIf="isAudio">
+  <!-- Audio Player — source needs SafeUrl -->
+  <div class="viewer-content audio-viewer" *ngIf="!loading && !error && isAudio && mediaUrl">
     <div class="multimedia-wrapper">
       <div class="player-icon"><i class="pi pi-volume-up"></i></div>
       <audio controls autoplay class="w-full elite-audio-player">
-        <source [src]="inlineUrl" [type]="'audio/' + (documento.extension === 'mp3' ? 'mpeg' : documento.extension)">
+        <source [src]="mediaUrl" [type]="'audio/' + (documento.extension === 'mp3' ? 'mpeg' : documento.extension)">
         Su navegador no soporta la reproducción de audio.
       </audio>
       <p class="text-xs text-slate-400 mt-4">Reproductor Élite — Formato compatible HTML5</p>
     </div>
   </div>
 
-  <!-- Reproductor de Video (F04) -->
-  <div class="viewer-content video-viewer" *ngIf="isVideo">
+  <!-- Video Player — source needs SafeUrl -->
+  <div class="viewer-content video-viewer" *ngIf="!loading && !error && isVideo && mediaUrl">
     <div class="multimedia-wrapper">
       <video controls autoplay class="w-full rounded-xl shadow-2xl elite-video-player">
-        <source [src]="inlineUrl" [type]="'video/' + documento.extension">
+        <source [src]="mediaUrl" [type]="'video/' + documento.extension">
         Su navegador no soporta la reproducción de video.
       </video>
     </div>
   </div>
 
-  <!-- Formato No Soportado -->
-  <div class="viewer-content unsupported-viewer" *ngIf="!isPdf && !isWord && !isImage && !isAudio && !isVideo">
+  <!-- Unsupported format -->
+  <div class="viewer-content unsupported-viewer" *ngIf="!loading && !error && !isPdf && !isImage && !isAudio && !isVideo">
     <div class="text-center py-10">
       <i class="pi pi-exclamation-triangle text-4xl text-amber-500 mb-4"></i>
       <h4 class="font-bold">Formato no visualizable directamente</h4>
@@ -42,4 +57,5 @@
       <button pButton icon="pi pi-download" label="Descargar Archivo" class="p-button-outlined" (click)="download()"></button>
     </div>
   </div>
+
 </div>

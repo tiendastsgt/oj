@@ -17,33 +17,33 @@
     </div>
   </div>
 
-  <!-- Quick Stats (Elite UX v2.0) -->
+  <!-- Quick Stats -->
   <div class="grid-4 mb-6">
     <div class="kpi-card">
       <div class="kpi-icon-box blue"><i class="pi pi-folder-open"></i></div>
       <div>
-        <div class="kpi-value">847</div>
-        <div class="kpi-label">Activos</div>
+        <div class="kpi-value">{{ totalRecords }}</div>
+        <div class="kpi-label">Total Expedientes</div>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon-box amber"><i class="pi pi-clock"></i></div>
       <div>
-        <div class="kpi-value">213</div>
+        <div class="kpi-value">{{ loading ? '—' : (totalRecords > 0 ? totalRecords : 0) }}</div>
         <div class="kpi-label">En trámite</div>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
       <div>
-        <div class="kpi-value">156</div>
+        <div class="kpi-value">{{ loading ? '—' : 0 }}</div>
         <div class="kpi-label">Resueltos</div>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon-box violet"><i class="pi pi-inbox"></i></div>
       <div>
-        <div class="kpi-value">31</div>
+        <div class="kpi-value">{{ loading ? '—' : 0 }}</div>
         <div class="kpi-label">Archivados</div>
       </div>
     </div>
@@ -121,10 +121,10 @@
                 {{ expediente.numero }}
               </a>
             </td>
-            <td><span class="text-xs text-slate-400">{{ expediente.tipoProcesoId }}</span></td>
-            <td><span class="text-sm font-medium">Estado de Guatemala</span></td>
-            <td><span class="text-sm">Juan Pérez Hernández</span></td>
-            <td><span class="text-xs text-slate-500">{{ expediente.juzgadoId }}</span></td>
+            <td><span class="text-xs text-slate-400">{{ getTipoProceso(expediente.tipoProcesoId) }}</span></td>
+            <td><span class="text-sm font-medium">{{ expediente.actorPrincipal || '—' }}</span></td>
+            <td><span class="text-sm">{{ expediente.demandado || '—' }}</span></td>
+            <td><span class="text-xs text-slate-500">{{ getJuzgado(expediente.juzgadoId) }}</span></td>
             <td>
               <app-status-badge [status]="expediente.estadoId"></app-status-badge>
             </td>
@@ -132,7 +132,7 @@
               <span class="text-sm text-slate-500">{{ expediente.fechaCreacion | date: 'dd MMM, yyyy' }}</span>
             </td>
             <td class="text-center">
-              <span class="font-bold text-slate-300">12</span>
+              <span class="font-bold text-slate-300">{{ expediente.totalDocumentos ?? 0 }}</span>
             </td>
             <td>
               <div class="flex justify-center gap-1">

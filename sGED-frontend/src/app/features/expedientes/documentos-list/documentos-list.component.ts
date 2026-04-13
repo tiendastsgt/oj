@@ -141,15 +141,6 @@ export class DocumentosListComponent implements OnInit {
     });
   }
 
-  private getMockDocumentos(): any[] {
-    return [
-      { id: 101, nombreOriginal: 'Memorial_Inicial.pdf', extension: 'pdf', categoria: 'JURIDICO', tamanio: 1540200, fechaCreacion: new Date() },
-      { id: 102, nombreOriginal: 'Informe_Psicosocial.docx', extension: 'docx', categoria: 'PSICOLOGIA', tamanio: 850300, fechaCreacion: new Date() },
-      { id: 103, nombreOriginal: 'Evidencia_Escena_01.jpg', extension: 'jpg', categoria: 'EVIDENCIA', tamanio: 4200500, fechaCreacion: new Date() },
-      { id: 104, nombreOriginal: 'Audiencia_Testigo_A.mp3', extension: 'mp3', categoria: 'AUDIO', tamanio: 12500400, fechaCreacion: new Date() },
-      { id: 105, nombreOriginal: 'Grabacion_Camara_Seguridad.mp4', extension: 'mp4', categoria: 'VIDEO', tamanio: 85400200, fechaCreacion: new Date() }
-    ];
-  }
 
   private subirDocumento(file: File): void {
     const validationError = this.validateFile(file);

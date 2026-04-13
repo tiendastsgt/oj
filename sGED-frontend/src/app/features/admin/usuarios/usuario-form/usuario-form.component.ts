@@ -189,7 +189,8 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private adminUsuariosService: AdminUsuariosService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private catalogosService: CatalogosService
   ) {
     this.form = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -217,18 +218,26 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       this.form.get('username')?.disable();
     }
     
-    // Datos de ejemplo para roles y juzgados (en producción vendrían de endpoints)
+    // Cargar juzgados desde la API
+    this.catalogosService.getJuzgados()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.juzgados = (res.data ?? []).map((j: any) => ({ label: j.nombre, value: j.id }));
+        },
+        error: () => {
+          // Fallback mínimo si la API falla
+          this.juzgados = [{ label: 'Juzgado Primero Civil', value: 1 }];
+        }
+      });
+
+    // Roles: el backend expone /catalogos/roles si existe, sino fallback estático
+    // (cat_rol no tiene endpoint público aún — usamos valores conocidos del seed)
     this.roles = [
       { label: 'ADMINISTRADOR', value: 1 },
-      { label: 'SECRETARIO', value: 2 },
-      { label: 'AUXILIAR', value: 3 },
-      { label: 'CONSULTA', value: 4 }
-    ];
-    
-    this.juzgados = [
-      { label: 'Juzgado Civil 1', value: 1 },
-      { label: 'Juzgado Penal 1', value: 2 },
-      { label: 'Juzgado Mercantil 1', value: 3 }
+      { label: 'SECRETARIO',    value: 2 },
+      { label: 'AUXILIAR',      value: 3 },
+      { label: 'CONSULTA',      value: 4 }
     ];
   }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -50,7 +50,8 @@ export class ExpedienteDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private expedientesService: ExpedientesService,
     private catalogosService: CatalogosService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -93,32 +94,19 @@ export class ExpedienteDetailComponent implements OnInit {
     this.errorMessage = '';
     this.expedientesService.getExpediente(id).subscribe({
       next: (response) => {
-        this.expediente = response.data || this.getMockExpediente(id);
+        this.expediente = response.data;
         this.loading = false;
+        if (!this.expediente) {
+          this.errorMessage = 'Expediente no encontrado';
+        }
+        this.cdr.detectChanges();
       },
-      error: () => {
-        // Fallback a mock si falla la conexión
-        this.expediente = this.getMockExpediente(id);
+      error: (error) => {
         this.loading = false;
+        this.errorMessage = error?.error?.message || 'Error al cargar el expediente';
+        this.cdr.detectChanges();
       }
     });
-  }
-
-  private getMockExpediente(id: number): any {
-    return {
-      id,
-      numero: 'C1-2026-0001',
-      tipoProcesoId: 1,
-      estadoId: 1,
-      juzgadoId: 1,
-      fechaInicio: new Date(),
-      descripcion: 'Expediente de prueba con carga multimedia para validación de visor.',
-      observaciones: 'El caso presenta alta prioridad por involucrar menores de edad.',
-      referenciaSgt: 'EXT-99212',
-      referenciaFuente: 'SGTv2',
-      usuarioCreacion: 'admin_prev',
-      fechaCreacion: new Date()
-    };
   }
 
   private cargarCatalogos(): void {

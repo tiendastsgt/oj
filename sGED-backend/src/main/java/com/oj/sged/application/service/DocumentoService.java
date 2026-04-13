@@ -143,12 +143,17 @@ public class DocumentoService {
         boolean inline = !"attachment".equalsIgnoreCase(modo);
 
         if (inline && isWord(documento.getExtension())) {
-            Path converted = conversionService.convertToPdf(path);
-            filename = replaceExtension(filename, "pdf");
-            contentType = "application/pdf";
-            auditoriaService.registrar("VER_DOCUMENTO", "DOCUMENTO", documento.getId(),
-                "Visualización (convertido a PDF)", ip);
-            return new DocumentoContenido(converted, filename, contentType, true);
+            try {
+                Path converted = conversionService.convertToPdf(path);
+                filename = replaceExtension(filename, "pdf");
+                contentType = "application/pdf";
+                auditoriaService.registrar("VER_DOCUMENTO", "DOCUMENTO", documento.getId(),
+                    "Visualización (convertido a PDF)", ip);
+                return new DocumentoContenido(converted, filename, contentType, true);
+            } catch (Exception ex) {
+                logger.warn("No se pudo convertir el documento {} a PDF. Enviando archivo original. Causa: {}", documento.getId(), ex.getMessage());
+                inline = false;
+            }
         }
 
         String categoria = DocumentoCategoriaUtil.resolveCategoria(documento.getExtension());

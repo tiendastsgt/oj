@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <span class="badge" [ngClass]="statusClass">
       <i class="pi" [ngClass]="statusIcon"></i>
-      {{ status }}
+      {{ displayStatus }}
     </span>
   `,
   styles: [`
@@ -53,10 +53,18 @@ import { Component, Input } from '@angular/core';
   `]
 })
 export class StatusBadgeComponent {
-  @Input() status: string = '';
+  @Input() status: any = '';
+
+  get displayStatus(): string {
+    if (this.status === 1 || this.status === 'ACTIVO') return 'Activo';
+    if (this.status === 2 || this.status === 'CERRADO') return 'Cerrado';
+    if (this.status === 3 || this.status === 'PENDIENTE') return 'Pendiente';
+    if (this.status === 4 || this.status === 'EN PROCESO') return 'En Proceso';
+    return String(this.status || '');
+  }
 
   get statusClass(): string {
-    const s = this.status?.toLowerCase() || '';
+    const s = this.displayStatus.toLowerCase();
     if (s.includes('activo')) return 'badge-activo';
     if (s.includes('cerrado')) return 'badge-cerrado';
     if (s.includes('pendiente')) return 'badge-pendiente';
@@ -65,7 +73,7 @@ export class StatusBadgeComponent {
   }
 
   get statusIcon(): string {
-    const s = this.status?.toLowerCase() || '';
+    const s = this.displayStatus.toLowerCase();
     if (s.includes('activo')) return 'pi-check-circle';
     if (s.includes('cerrado')) return 'pi-times-circle';
     if (s.includes('pendiente')) return 'pi-clock';

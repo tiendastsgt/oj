@@ -1,8 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Subject, forkJoin } from 'rxjs';
+import { takeUntil, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 import { ExpedientesService } from '../../core/services/expedientes.service';
 import { AuthService } from '../../core/services/auth.service';
+import { AuditoriaService } from '../../core/services/auditoria.service';
+import { AdminUsuariosService } from '../../core/services/admin-usuarios.service';
+import { AuditoriaResponse } from '../../core/models/auditoria.model';
+import { ExpedienteResponse } from '../../core/models/expediente.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,103 +25,159 @@ import { AuthService } from '../../core/services/auth.service';
 
       <!-- KPI Grid -->
       <section class="grid-4 mb-8" style="margin-top: var(--space-6);">
-        <div class="kpi-card">
+        <!-- Total Expedientes -->
+        <div class="kpi-card" [class.kpi-loading]="loading">
           <div class="kpi-icon-box blue"><i class="pi pi-folder"></i></div>
           <div>
-            <div class="kpi-value">{{ stats.total | number }}</div>
+            <div class="kpi-value">
+              <span *ngIf="!loading">{{ stats.total | number }}</span>
+              <span *ngIf="loading" class="skeleton-text">—</span>
+            </div>
             <div class="kpi-label">Expedientes Registrados</div>
           </div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-icon-box green"><i class="pi pi-file"></i></div>
+
+        <!-- Expedientes Activos -->
+        <div class="kpi-card" [class.kpi-loading]="loading">
+          <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
           <div>
-            <div class="kpi-value">{{ stats.documentos | number }}</div>
-            <div class="kpi-label">Documentos Almacenados</div>
+            <div class="kpi-value">
+              <span *ngIf="!loading">{{ stats.activos | number }}</span>
+              <span *ngIf="loading" class="skeleton-text">—</span>
+            </div>
+            <div class="kpi-label">Expedientes Activos</div>
           </div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-icon-box violet"><i class="pi pi-search"></i></div>
-          <div>
-            <div class="kpi-value">{{ stats.busquedas }}</div>
-            <div class="kpi-label">Búsquedas Hoy</div>
-          </div>
-        </div>
-        <div class="kpi-card">
+
+        <!-- Usuarios Activos -->
+        <div class="kpi-card" [class.kpi-loading]="loading">
           <div class="kpi-icon-box cyan"><i class="pi pi-users"></i></div>
           <div>
-            <div class="kpi-value">{{ stats.usuarios }}</div>
+            <div class="kpi-value">
+              <span *ngIf="!loading">{{ stats.usuarios | number }}</span>
+              <span *ngIf="loading" class="skeleton-text">—</span>
+            </div>
             <div class="kpi-label">Usuarios Activos</div>
+          </div>
+        </div>
+
+        <!-- Expedientes esta semana -->
+        <div class="kpi-card" [class.kpi-loading]="loading">
+          <div class="kpi-icon-box violet"><i class="pi pi-calendar-plus"></i></div>
+          <div>
+            <div class="kpi-value">
+              <span *ngIf="!loading">{{ stats.recientes | number }}</span>
+              <span *ngIf="loading" class="skeleton-text">—</span>
+            </div>
+            <div class="kpi-label">Recientes (últimos 5)</div>
           </div>
         </div>
       </section>
 
-      <!-- Activity Table -->
+      <!-- Expedientes Recientes Table -->
       <section class="card glass-panel" style="margin-top: var(--space-6);">
         <div class="card-header">
-          <h3 class="section-title"><i class="pi pi-history"></i> ACTIVIDAD RECIENTE</h3>
+          <h3 class="section-title"><i class="pi pi-folder-open"></i> EXPEDIENTES RECIENTES</h3>
           <a routerLink="/expedientes" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
         </div>
         <div style="overflow-x: auto;">
-          <table class="data-table">
+          <!-- Loading skeleton -->
+          <div *ngIf="loading" class="loading-rows">
+            <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5]"></div>
+          </div>
+
+          <!-- Empty state -->
+          <div *ngIf="!loading && expedientesRecientes.length === 0" class="empty-state">
+            <i class="pi pi-inbox" style="font-size:2rem; color:var(--text-muted);"></i>
+            <p style="color:var(--text-muted); margin-top:var(--space-3);">No hay expedientes registrados aún.</p>
+            <a routerLink="/expedientes/nuevo" class="btn btn-primary btn-sm" style="margin-top:var(--space-3);">
+              <i class="pi pi-plus"></i> Crear Expediente
+            </a>
+          </div>
+
+          <!-- Data table -->
+          <table class="data-table" *ngIf="!loading && expedientesRecientes.length > 0">
+            <thead>
+              <tr>
+                <th>No. EXPEDIENTE</th>
+                <th>DESCRIPCIÓN</th>
+                <th>USUARIO CREACIÓN</th>
+                <th>FECHA REGISTRO</th>
+                <th>ACCIONES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let exp of expedientesRecientes">
+                <td>
+                  <a [routerLink]="['/expedientes', exp.id]"
+                     style="font-weight:600; color:var(--primary-hover); text-decoration:none;">
+                    {{ exp.numero }}
+                  </a>
+                </td>
+                <td style="max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"
+                    [title]="exp.descripcion">
+                  {{ exp.descripcion }}
+                </td>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="user-avatar" style="width:28px;height:28px;font-size:0.6rem;">
+                      {{ getInitials(exp.usuarioCreacion) }}
+                    </div>
+                    <span>{{ exp.usuarioCreacion }}</span>
+                  </div>
+                </td>
+                <td style="color:var(--text-secondary); white-space:nowrap;">
+                  {{ exp.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}
+                </td>
+                <td>
+                  <a [routerLink]="['/expedientes', exp.id]" class="btn btn-text btn-sm">
+                    <i class="pi pi-eye"></i> Ver
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Actividad Reciente (Auditoría) -->
+      <section class="card glass-panel" style="margin-top: var(--space-6);" *ngIf="actividadReciente.length > 0 || loadingAuditoria">
+        <div class="card-header">
+          <h3 class="section-title"><i class="pi pi-history"></i> ACTIVIDAD RECIENTE</h3>
+          <a routerLink="/admin/auditoria" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
+        </div>
+        <div style="overflow-x: auto;">
+          <div *ngIf="loadingAuditoria" class="loading-rows">
+            <div class="skeleton-row" *ngFor="let i of [1,2,3]"></div>
+          </div>
+          <table class="data-table" *ngIf="!loadingAuditoria && actividadReciente.length > 0">
             <thead>
               <tr>
                 <th>USUARIO</th>
                 <th>ACCIÓN</th>
-                <th>EXPEDIENTE</th>
+                <th>MÓDULO</th>
                 <th>FECHA / HORA</th>
                 <th>IP</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let log of actividadReciente">
                 <td>
                   <div class="flex items-center gap-3">
-                    <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;">EG</div>
-                    <span style="font-weight:600;">Emilio González</span>
+                    <div class="user-avatar" style="width:28px;height:28px;font-size:0.6rem;">
+                      {{ getInitials(log.usuario) }}
+                    </div>
+                    <span style="font-weight:600;">{{ log.usuario }}</span>
                   </div>
                 </td>
-                <td><span class="badge badge-info">Consulta</span></td>
-                <td style="font-weight:600;color:var(--primary-hover);">NAZ-2024-00847</td>
-                <td style="color:var(--text-secondary);">{{ today | date:'dd/MM/yyyy HH:mm' }}</td>
-                <td style="font-family:monospace;color:var(--text-muted);font-size:var(--font-xs);">192.168.1.45</td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="flex items-center gap-3">
-                    <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;">AG</div>
-                    <span style="font-weight:600;">Allan Gil</span>
-                  </div>
+                <td><span class="badge badge-info">{{ log.accion }}</span></td>
+                <td style="color:var(--text-secondary);">{{ log.modulo }}</td>
+                <td style="color:var(--text-secondary); white-space:nowrap;">
+                  {{ log.fecha | date:'dd/MM/yyyy HH:mm' }}
                 </td>
-                <td><span class="badge badge-active">Carga Doc</span></td>
-                <td style="font-weight:600;color:var(--primary-hover);">NAZ-2024-01203</td>
-                <td style="color:var(--text-secondary);">{{ today | date:'dd/MM/yyyy HH:mm' }}</td>
-                <td style="font-family:monospace;color:var(--text-muted);font-size:var(--font-xs);">192.168.1.22</td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="flex items-center gap-3">
-                    <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;background:linear-gradient(135deg,var(--accent-rose),var(--accent-amber));">MR</div>
-                    <span style="font-weight:600;">María Rodríguez</span>
-                  </div>
+                <td style="font-family:monospace; color:var(--text-muted); font-size:var(--font-xs);">
+                  {{ log.ip }}
                 </td>
-                <td><span class="badge badge-pending">Descarga</span></td>
-                <td style="font-weight:600;color:var(--primary-hover);">ACP-2023-00412</td>
-                <td style="color:var(--text-secondary);">{{ today | date:'dd/MM/yyyy HH:mm' }}</td>
-                <td style="font-family:monospace;color:var(--text-muted);font-size:var(--font-xs);">192.168.1.67</td>
-              </tr>
-              <tr *ngFor="let item of recientes; let i = index">
-                <td>
-                  <div class="flex items-center gap-3">
-                    <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem;">QA</div>
-                    <span style="font-weight:600;">Admin QA</span>
-                  </div>
-                </td>
-                <td><span class="badge badge-info">Consulta</span></td>
-                <td>
-                  <a [routerLink]="['/expedientes', item.id]" style="font-weight:600;color:var(--primary-hover);">{{ item.numero }}</a>
-                </td>
-                <td style="color:var(--text-secondary);">{{ item.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</td>
-                <td style="font-family:monospace;color:var(--text-muted);font-size:var(--font-xs);">10.0.0.1</td>
               </tr>
             </tbody>
           </table>
@@ -123,32 +187,136 @@ import { AuthService } from '../../core/services/auth.service';
   `,
   styles: [`
     .dashboard-header { margin-bottom: 0; }
+
+    .kpi-loading {
+      opacity: 0.6;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50%       { opacity: 0.3; }
+    }
+
+    .skeleton-text {
+      display: inline-block;
+      width: 60px;
+      height: 1.5rem;
+      background: var(--border-color, #334155);
+      border-radius: 4px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .loading-rows { padding: var(--space-4); }
+    .skeleton-row {
+      height: 40px;
+      background: var(--border-color, #334155);
+      border-radius: 6px;
+      margin-bottom: var(--space-2);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: var(--space-8) var(--space-4);
+    }
   `]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   stats = {
-    total: 1247,
-    documentos: 5832,
-    busquedas: 342,
-    usuarios: 18
+    total:    0,
+    activos:  0,
+    usuarios: 0,
+    recientes: 0,
   };
 
-  userName = 'Amilcar';
-  today = new Date();
-  recientes: any[] = [];
+  userName             = '';
+  today                = new Date();
+  loading              = true;
+  loadingAuditoria     = true;
+  expedientesRecientes: ExpedienteResponse[] = [];
+  actividadReciente:   AuditoriaResponse[]   = [];
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private expedientesService: ExpedientesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private auditoriaService: AuditoriaService,
+    private adminUsuariosService: AdminUsuariosService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
+    // Nombre del usuario logueado
     const user = this.authService.getCurrentUser();
     if (user) {
       this.userName = user.nombreCompleto?.split(' ')[0] || user.username;
     }
-    this.expedientesService.getExpedientes({ page: 0, size: 5, sort: 'fechaCreacion,desc' }).subscribe((res: any) => {
-      this.recientes = res.data?.content || [];
+
+    this.cargarExpedientes();
+    this.cargarUsuarios();
+    this.cargarAuditoria();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private cargarExpedientes(): void {
+    // Carga página 0 grande para contar activos y tener los 5 recientes
+    forkJoin({
+      recientes: this.expedientesService
+        .getExpedientes({ page: 0, size: 5, sort: 'fechaCreacion,desc' })
+        .pipe(catchError(() => of(null))),
+      total: this.expedientesService
+        .getExpedientes({ page: 0, size: 1 })
+        .pipe(catchError(() => of(null))),
+    })
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(({ recientes, total }) => {
+      // Expedientes recientes para la tabla
+      this.expedientesRecientes = recientes?.data?.content ?? [];
+      this.stats.recientes      = this.expedientesRecientes.length;
+
+      // Total real de la BD
+      this.stats.total  = total?.data?.totalElements ?? (recientes?.data?.totalElements ?? 0);
+      // Contar activos (estadoId=1 en los recientes como aproximación si no hay endpoint dedicado)
+      this.stats.activos = this.expedientesRecientes.filter(
+        (e: any) => String(e.estadoId) === '1' || String(e.estadoNombre)?.toLowerCase() === 'activo'
+      ).length;
+
+      this.loading = false;
+      this.cdr.detectChanges();
     });
+  }
+
+  private cargarUsuarios(): void {
+    this.adminUsuariosService
+      .getUsuarios({ activo: true, page: 0, size: 1 })
+      .pipe(takeUntil(this.destroy$), catchError(() => of(null)))
+      .subscribe(res => {
+        this.stats.usuarios = res?.data?.totalElements ?? 0;
+        this.cdr.detectChanges();
+      });
+  }
+
+  private cargarAuditoria(): void {
+    this.auditoriaService
+      .getAuditoria({ page: 0, size: 5, sort: 'fecha,desc' })
+      .pipe(takeUntil(this.destroy$), catchError(() => of(null)))
+      .subscribe(res => {
+        this.actividadReciente = res?.data?.content ?? [];
+        this.loadingAuditoria  = false;
+        this.cdr.detectChanges();
+      });
+  }
+
+  getInitials(name: string): string {
+    if (!name) return '?';
+    const parts = name.trim().split(/[\s._-]+/);
+    return parts.length >= 2
+      ? (parts[0][0] + parts[1][0]).toUpperCase()
+      : name.substring(0, 2).toUpperCase();
   }
 }

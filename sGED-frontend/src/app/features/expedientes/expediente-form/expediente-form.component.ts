@@ -141,14 +141,14 @@ export class ExpedienteFormComponent implements OnInit {
 
     return {
       numero: raw.numero,
-      tipoProcesoId: raw.tipoProcesoId,
-      juzgadoId,
-      estadoId: raw.estadoId,
+      tipoProcesoId: Number(raw.tipoProcesoId),
+      juzgadoId: Number(juzgadoId),
+      estadoId: Number(raw.estadoId),
       fechaInicio,
       descripcion: raw.descripcion,
-      observaciones: raw.observaciones || undefined,
-      referenciaSgt: raw.referenciaSgt || undefined,
-      referenciaFuente: raw.referenciaFuente || undefined
+      observaciones: raw.observaciones?.trim() || null as any,
+      referenciaSgt: raw.referenciaSgt?.trim() || null as any,
+      referenciaFuente: raw.referenciaFuente?.trim() || null as any
     };
   }
 

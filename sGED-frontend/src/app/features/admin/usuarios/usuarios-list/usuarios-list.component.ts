@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -155,7 +155,8 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.filterForm = this.fb.group({
       username: [''],
@@ -189,20 +190,30 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: any) => {
-          if (response.data?.content) {
-            this.usuarios = response.data.content;
-            this.totalRecords = response.data.pageable?.totalElements || 0;
-            this.currentPage = page;
-          }
-          this.loading = false;
+          console.log('[DEBUG Admin Usuarios] Raw response:', response);
+          setTimeout(() => {
+            if (response?.data?.content) {
+              console.log('[DEBUG Admin Usuarios] Found content:', response.data.content.length);
+              this.usuarios = response.data.content;
+              this.totalRecords = response.data.pageable?.totalElements || response.data.totalElements || 0;
+              this.currentPage = page;
+            } else {
+              console.log('[DEBUG Admin Usuarios] Content not found in response.data');
+            }
+            this.loading = false;
+            console.log(`[DEBUG] Set ${this.usuarios.length} usuarios. Forcing CD...`);
+            this.cdr.detectChanges();
+          });
         },
         error: (err: any) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.error?.message || 'Error al cargar usuarios'
+          setTimeout(() => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error?.message || 'Error al cargar usuarios'
+            });
+            this.loading = false;
           });
-          this.loading = false;
         }
       });
   }

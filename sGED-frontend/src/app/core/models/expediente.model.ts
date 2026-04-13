@@ -8,6 +8,8 @@ export interface ExpedienteRequest {
   observaciones?: string;
   referenciaSgt?: string;
   referenciaFuente?: string;
+  actorPrincipal?: string;
+  demandado?: string;
 }
 
 export interface ExpedienteResponse extends ExpedienteRequest {
@@ -16,4 +18,5 @@ export interface ExpedienteResponse extends ExpedienteRequest {
   fechaCreacion: string;
   usuarioModificacion?: string;
   fechaModificacion?: string;
+  totalDocumentos?: number;
 }

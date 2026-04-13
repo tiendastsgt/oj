@@ -13,6 +13,8 @@ import {
 
 interface PageableResponse {
   content: UsuarioAdminResponse[];
+  totalElements: number;
+  totalPages: number;
   pageable: {
     pageNumber: number;
     pageSize: number;
