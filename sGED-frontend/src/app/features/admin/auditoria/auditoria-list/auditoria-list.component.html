@@ -72,7 +72,7 @@
         <h3>AUDIT LOG</h3>
         <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
-          <input pInputText type="text" placeholder="Search events, users, cases..." (input)="aplicarFiltros()" [formControl]="filterForm.controls.usuario">
+          <input pInputText type="text" placeholder="Search events, users, cases..." (input)="aplicarFiltros()" [formControl]="filterForm.get('usuario')!">
         </span>
       </div>
       <div class="filters-chips">

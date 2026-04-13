@@ -16,10 +16,6 @@ import { BusquedaAvanzadaRequest, ExpedienteBusquedaResponse } from '../../../co
 import { EstadoExpediente, Juzgado, TipoProceso } from '../../../core/models/catalogos.model';
 import { Page } from '../../../core/models/page.model';
 import { ResultadosBusquedaComponent } from '../resultados-busqueda/resultados-busqueda.component';
-import { CriteriosGeneralesComponent } from './components/criterios-generales/criterios-generales.component';
-import { CriteriosFechasComponent } from './components/criterios-fechas/criterios-fechas.component';
-import { CriteriosSujetosComponent } from './components/criterios-sujetos/criterios-sujetos.component';
-import { CriteriosReferenciaComponent } from './components/criterios-referencia/criterios-referencia.component';
 
 const DEFAULT_SIZE = 10;
 const DEFAULT_SORT = 'fechaUltimoMovimiento,desc';
@@ -37,10 +33,7 @@ const DEFAULT_SORT = 'fechaUltimoMovimiento,desc';
     ButtonModule,
     MessageModule,
     ResultadosBusquedaComponent,
-    CriteriosGeneralesComponent,
-    CriteriosFechasComponent,
-    CriteriosSujetosComponent,
-    CriteriosReferenciaComponent
+    ResultadosBusquedaComponent
   ],
   templateUrl: './busqueda-avanzada.component.html',
   styleUrls: ['./busqueda-avanzada.component.scss']
