@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGED — Detalle de Expediente + Visor Documental</title>
+  <link rel="stylesheet" href="../css/elite-design-system.css">
+  <style>
+    .case-workspace { display: flex; gap: var(--space-6); min-height: calc(100vh - 130px); }
+
+    /* — COMPONENTE: _case-metadata-sidebar.html — */
+    .case-sidebar { width: 340px; flex-shrink: 0; display: flex; flex-direction: column; gap: var(--space-4); }
+    .sidebar-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-6); }
+
+    /* — COMPONENTE: _case-header.html — */
+    .case-header-card { position: relative; overflow: hidden; }
+    .case-header-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent-cyan), var(--accent-violet)); }
+    .case-back { display: flex; align-items: center; gap: var(--space-2); color: var(--text-secondary); font-size: var(--font-sm); font-weight: 500; cursor: pointer; margin-bottom: var(--space-4); transition: color 0.2s; text-decoration: none; }
+    .case-back:hover { color: var(--primary); }
+    .case-tipo-eyebrow { font-size: var(--font-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); margin-bottom: var(--space-2); }
+    .case-numero { font-size: var(--font-2xl); font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: var(--space-1); }
+    .case-vs { font-size: var(--font-sm); color: var(--text-secondary); font-weight: 500; margin-bottom: var(--space-4); }
+
+    /* — COMPONENTE: _case-parties.html — */
+    .meta-section { margin-bottom: var(--space-5); }
+    .meta-section-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); }
+    .meta-section-title i { color: var(--primary); font-size: 0.85rem; }
+    .meta-row { display: flex; justify-content: space-between; align-items: baseline; padding: var(--space-2) 0; border-bottom: 1px solid var(--border); }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-label { font-size: var(--font-xs); color: var(--text-secondary); font-weight: 500; }
+    .meta-value { font-size: var(--font-sm); color: var(--text-primary); font-weight: 600; text-align: right; max-width: 55%; }
+
+    /* — COMPONENTE: _case-dates.html — */
+    .date-highlight { background: var(--primary-light); color: var(--primary-dark); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); font-size: var(--font-xs); font-weight: 600; display: inline-flex; align-items: center; gap: var(--space-2); }
+
+    .sidebar-actions { display: flex; flex-direction: column; gap: var(--space-2); }
+    .sidebar-actions .btn { width: 100%; justify-content: center; }
+
+    /* — MAIN VIEWER AREA — */
+    .viewer-main { flex: 1; display: flex; flex-direction: column; gap: var(--space-6); min-width: 0; }
+
+    /* — COMPONENTE: _document-filters.html — */
+    .doc-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); }
+    .doc-toolbar-left { display: flex; align-items: center; gap: var(--space-4); }
+    .doc-search-wrap { position: relative; }
+    .doc-search-wrap i { position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem; }
+    .doc-search-input { width: 300px; padding: 0.5rem 1rem 0.5rem 2.5rem; border-radius: var(--radius-full); border: 1px solid var(--border); background: var(--surface-card); font-family: var(--font-family); font-size: var(--font-sm); outline: none; transition: all 0.2s; }
+    .doc-search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); width: 360px; }
+    .doc-filter-chips { display: flex; gap: var(--space-2); align-items: center; }
+    .filter-chip { display: inline-flex; align-items: center; gap: 4px; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); border: 1px solid var(--border); font-size: var(--font-xs); font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; background: var(--surface-card); }
+    .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .filter-chip.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+
+    /* — COMPONENTE: _document-list-table.html  (8 columnas segÃºn front end.md) — */
+    .doc-name-cell { display: flex; align-items: center; gap: var(--space-3); }
+    .doc-type-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+    .doc-type-icon.pdf   { background: #fef2f2; color: #ef4444; }
+    .doc-type-icon.word  { background: #dbeafe; color: #2563eb; }
+    .doc-type-icon.img   { background: #dcfce7; color: #16a34a; }
+    .doc-type-icon.video { background: #ede9fe; color: #7c3aed; }
+    .doc-type-icon.audio { background: #fef3c7; color: #d97706; }
+    .doc-type-icon.other { background: #f1f5f9; color: #64748b; }
+    .doc-file-name { font-weight: 600; font-size: var(--font-sm); color: var(--text-primary); }
+    .doc-file-ext  { font-size: var(--font-xs); color: var(--text-muted); }
+
+    /* — COMPONENTE: _document-actions-bar.html — */
+    .doc-actions { display: flex; gap: var(--space-1); }
+    .doc-actions .btn-icon { width: 30px; height: 30px; border-radius: 6px; }
+    .doc-actions .btn-icon:hover.view     { background: #dbeafe; color: #2563eb; }
+    .doc-actions .btn-icon:hover.download { background: #dcfce7; color: #16a34a; }
+    .doc-actions .btn-icon:hover.print    { background: #ede9fe; color: #7c3aed; }
+    .doc-actions .btn-icon:hover.delete   { background: #fef2f2; color: #ef4444; }
+
+    /* — Selected viewer container — */
+    .active-viewer { border: 2px solid var(--primary); border-radius: var(--radius-md); overflow: hidden; animation: scaleIn 0.3s var(--ease-spring); }
+
+    @media (max-width: 1024px) {
+      .case-workspace { flex-direction: column; }
+      .case-sidebar { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand"><div class="sidebar-logo-collapsed">OJ</div><div class="sidebar-brand-full"><div class="brand-name gradient-text">SGED</div><div class="brand-sub">Visor Documental — OJ</div></div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-label">Principal</div>
+          <a href="../03-dashboard/dashboard-page.html" class="nav-item"><i class="pi pi-th-large"></i><span>Dashboard</span></a>
+          <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item active"><i class="pi pi-folder"></i><span>Expedientes</span></a>
+          <a href="../07-busqueda/busqueda-container-page.html" class="nav-item"><i class="pi pi-search"></i><span>Búsqueda</span></a>
+        </div>
+        <div class="nav-section"><div class="nav-section-label">Administración</div>
+          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item"><i class="pi pi-users"></i><span>Usuarios</span></a>
+          <a href="../09-auditoria/auditoria-page.html" class="nav-item"><i class="pi pi-history"></i><span>Auditoría</span></a>
+        </div>
+        <div class="nav-section"><div class="nav-section-label">Cuenta</div>
+          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item"><i class="pi pi-lock"></i><span>Cambiar Contraseña</span></a>
+          <a href="../01-login/login-page.html" class="nav-item"><i class="pi pi-sign-out"></i><span>Cerrar Sesión</span></a>
+        </div>
+      </nav>
+    </aside>
+
+    <div class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn-icon"><i class="pi pi-bars"></i></button>
+          <div class="topbar-breadcrumb">
+            <span>Expedientes</span>
+            <i class="pi pi-chevron-right" style="font-size:0.6rem"></i>
+            <span class="current">NAZ-2024-00847</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-icon"><i class="pi pi-bell"></i></button>
+          <div class="flex items-center gap-3"><div class="user-avatar">AG</div><div style="line-height:1.3"><div style="font-size:var(--font-sm);font-weight:600">Amilcar Gil</div><div style="font-size:var(--font-xs);color:var(--text-muted)">Administrador</div></div></div>
+        </div>
+      </header>
+
+      <main class="page-content fade-in">
+        <div class="case-workspace">
+
+          <!-- ============================================ -->
+          <!-- LEFT SIDEBAR: Case Metadata                  -->
+          <!-- ============================================ -->
+          <aside class="case-sidebar">
+
+            <!-- COMPONENTE: _case-header.html -->
+            <div class="sidebar-card case-header-card">
+              <a href="../04-expedientes-list/expedientes-list-page.html" class="case-back">
+                <i class="pi pi-chevron-left"></i> Regresar a Expedientes
+              </a>
+              <div class="case-tipo-eyebrow">ProtecciÃ³n de Niñez</div>
+              <div class="case-numero">NAZ-2024-00847</div>
+              <div class="case-vs">ESTADO vs. Juan PÃ©rez HernÃ¡ndez</div>
+              <span class="badge badge-active">Activo</span>
+            </div>
+
+            <!-- COMPONENTE: _case-parties.html -->
+            <div class="sidebar-card">
+              <div class="meta-section">
+                <div class="meta-section-title"><i class="pi pi-users"></i> PARTES PROCESALES</div>
+                <div class="meta-row">
+                  <span class="meta-label">Actor / Demandante</span>
+                  <span class="meta-value">Estado de Guatemala</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Demandado</span>
+                  <span class="meta-value">Juan PÃ©rez HernÃ¡ndez</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMPONENTE: _case-key-info.html -->
+            <div class="sidebar-card">
+              <div class="meta-section">
+                <div class="meta-section-title"><i class="pi pi-info-circle"></i> INFORMACIÃ“N CLAVE</div>
+                <div class="meta-row">
+                  <span class="meta-label">Juzgado</span>
+                  <span class="meta-value">Juzgado 1ro Niñez</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Tipo de Proceso</span>
+                  <span class="meta-value">ProtecciÃ³n</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Ref. SGT</span>
+                  <span class="meta-value">SGT-2024-1892</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Fecha Inicio</span>
+                  <span class="meta-value">15 Mar 2024</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMPONENTE: _case-dates.html -->
+            <div class="sidebar-card">
+              <div class="meta-section">
+                <div class="meta-section-title"><i class="pi pi-calendar"></i> FECHAS IMPORTANTES</div>
+                <div class="meta-row">
+                  <span class="meta-label">Ãšltima ActuaciÃ³n</span>
+                  <span class="meta-value">10 Abr 2026</span>
+                </div>
+                <div style="margin-top: var(--space-3);">
+                  <div class="date-highlight"><i class="pi pi-calendar-plus"></i> PrÃ³xima audiencia: 25 Abr 2026</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sidebar Actions -->
+            <div class="sidebar-actions">
+              <button class="btn btn-secondary btn-sm"><i class="pi pi-pencil"></i> Editar Expediente</button>
+              <button class="btn btn-secondary btn-sm"><i class="pi pi-print"></i> Imprimir Ficha</button>
+            </div>
+          </aside>
+
+          <!-- ============================================ -->
+          <!-- RIGHT MAIN: Document Viewer Workspace        -->
+          <!-- Alineado con front end.md secciones 3-8      -->
+          <!-- ============================================ -->
+          <div class="viewer-main">
+
+            <!-- COMPONENTE: _document-filters.html (front end.md 6.1 + 6.2) -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="section-title"><i class="pi pi-file"></i> CENTRO DE DOCUMENTACIÃ“N</h3>
+                <button class="btn btn-primary btn-sm"><i class="pi pi-upload"></i> Cargar Documento</button>
+              </div>
+              <div class="card-body">
+                <div class="doc-toolbar">
+                  <div class="doc-toolbar-left">
+                    <!-- Búsqueda simple (front end.md 6.1) -->
+                    <div class="doc-search-wrap">
+                      <i class="pi pi-search"></i>
+                      <input type="text" class="doc-search-input" placeholder="Buscar por nombre, tipo, extensiÃ³n...">
+                    </div>
+                    <!-- Filtros rÃ¡pidos por tipo (front end.md 6.2) -->
+                    <div class="doc-filter-chips">
+                      <span class="filter-chip active">Todos</span>
+                      <span class="filter-chip"><i class="pi pi-file-pdf"></i> PDF</span>
+                      <span class="filter-chip"><i class="pi pi-image"></i> Imagen</span>
+                      <span class="filter-chip"><i class="pi pi-video"></i> Video</span>
+                      <span class="filter-chip"><i class="pi pi-volume-up"></i> Audio</span>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-sm);color:var(--text-secondary);">
+                    <span>12 documentos</span>
+                    <span style="color:var(--border)">|</span>
+                    <!-- Ordenamiento (front end.md 7.x) -->
+                    <select class="form-input form-select" style="width:auto;padding:0.375rem 2rem 0.375rem 0.75rem;font-size:var(--font-xs);">
+                      <option>Fecha â†“ (MÃ¡s reciente)</option>
+                      <option>Fecha â†‘ (MÃ¡s antiguo)</option>
+                      <option>Tipo de documento</option>
+                      <option>Nombre A-Z</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- COMPONENTE: _document-list-table.html -->
+                <!-- 8 columnas exactas de front end.md secciÃ³n 4.1 -->
+                <div style="margin-top: var(--space-4); overflow-x: auto;">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Nombre del documento <i class="pi pi-sort-alt sort-icon"></i></th>
+                        <th>Tipo <i class="pi pi-sort-alt sort-icon"></i></th>
+                        <th>ExtensiÃ³n</th>
+                        <th>CategorÃ­a</th>
+                        <th>TamaÃ±o</th>
+                        <th>Usuario <i class="pi pi-sort-alt sort-icon"></i></th>
+                        <th>Fecha creaciÃ³n <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
+                        <th style="text-align:center">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Documento PDF -->
+                      <tr>
+                        <td>
+                          <div class="doc-name-cell">
+                            <div class="doc-type-icon pdf"><i class="pi pi-file-pdf"></i></div>
+                            <div><div class="doc-file-name">ResoluciÃ³n_Inicial_NAZ-847.pdf</div></div>
+                          </div>
+                        </td>
+                        <td>ResoluciÃ³n</td>
+                        <td><span class="doc-file-ext">.pdf</span></td>
+                        <td><span class="badge badge-info">JurÃ­dico</span></td>
+                        <td>1.8 MB</td>
+                        <td>Amilcar Gil</td>
+                        <td>10 Abr 2026</td>
+                        <td>
+                          <div class="doc-actions" style="justify-content:center">
+                            <button class="btn-icon view" title="Ver"><i class="pi pi-eye"></i></button>
+                            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
+                            <button class="btn-icon print" title="Imprimir"><i class="pi pi-print"></i></button>
+                            <button class="btn-icon delete" title="Eliminar"><i class="pi pi-trash"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                      <!-- Documento Word (convertido a PDF por backend — front end.md 5.2) -->
+                      <tr>
+                        <td>
+                          <div class="doc-name-cell">
+                            <div class="doc-type-icon word"><i class="pi pi-file-word"></i></div>
+                            <div><div class="doc-file-name">Informe_Trabajo_Social.docx</div></div>
+                          </div>
+                        </td>
+                        <td>Informe</td>
+                        <td><span class="doc-file-ext">.docx</span></td>
+                        <td><span class="badge badge-active">Trabajo Social</span></td>
+                        <td>2.4 MB</td>
+                        <td>MarÃ­a RodrÃ­guez</td>
+                        <td>08 Abr 2026</td>
+                        <td>
+                          <div class="doc-actions" style="justify-content:center">
+                            <button class="btn-icon view" title="Ver como PDF"><i class="pi pi-eye"></i></button>
+                            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
+                            <button class="btn-icon print" title="Imprimir"><i class="pi pi-print"></i></button>
+                            <button class="btn-icon delete" title="Eliminar"><i class="pi pi-trash"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                      <!-- Imagen -->
+                      <tr>
+                        <td>
+                          <div class="doc-name-cell">
+                            <div class="doc-type-icon img"><i class="pi pi-image"></i></div>
+                            <div><div class="doc-file-name">Evidencia_Fotografica_01.jpg</div></div>
+                          </div>
+                        </td>
+                        <td>Evidencia</td>
+                        <td><span class="doc-file-ext">.jpg</span></td>
+                        <td><span class="badge badge-pending">Pericial</span></td>
+                        <td>3.2 MB</td>
+                        <td>Allan Gil</td>
+                        <td>05 Abr 2026</td>
+                        <td>
+                          <div class="doc-actions" style="justify-content:center">
+                            <button class="btn-icon view" title="Ver imagen"><i class="pi pi-eye"></i></button>
+                            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
+                            <button class="btn-icon print" title="Imprimir"><i class="pi pi-print"></i></button>
+                            <button class="btn-icon delete" title="Eliminar"><i class="pi pi-trash"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                      <!-- Video -->
+                      <tr>
+                        <td>
+                          <div class="doc-name-cell">
+                            <div class="doc-type-icon video"><i class="pi pi-video"></i></div>
+                            <div><div class="doc-file-name">Audiencia_Oral_25Mar.mp4</div></div>
+                          </div>
+                        </td>
+                        <td>Audiencia</td>
+                        <td><span class="doc-file-ext">.mp4</span></td>
+                        <td><span class="badge badge-urgent">Procesal</span></td>
+                        <td>245 MB</td>
+                        <td>Emilio GonzÃ¡lez</td>
+                        <td>25 Mar 2026</td>
+                        <td>
+                          <div class="doc-actions" style="justify-content:center">
+                            <button class="btn-icon view" title="Reproducir video"><i class="pi pi-play"></i></button>
+                            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                      <!-- Audio -->
+                      <tr>
+                        <td>
+                          <div class="doc-name-cell">
+                            <div class="doc-type-icon audio"><i class="pi pi-volume-up"></i></div>
+                            <div><div class="doc-file-name">Declaracion_Testigo_01.mp3</div></div>
+                          </div>
+                        </td>
+                        <td>DeclaraciÃ³n</td>
+                        <td><span class="doc-file-ext">.mp3</span></td>
+                        <td><span class="badge badge-pending">Testimonial</span></td>
+                        <td>18 MB</td>
+                        <td>Juan LÃ³pez</td>
+                        <td>22 Mar 2026</td>
+                        <td>
+                          <div class="doc-actions" style="justify-content:center">
+                            <button class="btn-icon view" title="Reproducir audio"><i class="pi pi-play"></i></button>
+                            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- PaginaciÃ³n (front end.md secciÃ³n 8: 10/25/50) -->
+                <div class="table-footer">
+                  <span>Mostrando 1-5 de 12 documentos</span>
+                  <div style="display:flex;align-items:center;gap:var(--space-4);">
+                    <select class="form-input form-select" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:var(--font-xs);">
+                      <option>10 por pÃ¡gina</option>
+                      <option>25 por pÃ¡gina</option>
+                      <option>50 por pÃ¡gina</option>
+                    </select>
+                    <div class="pagination">
+                      <button><i class="pi pi-chevron-left"></i></button>
+                      <button class="active">1</button>
+                      <button>2</button>
+                      <button><i class="pi pi-chevron-right"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- VIEWER: PDF (front end.md 5.1)               -->
+            <!-- COMPONENTE: _viewer-pdf.html                 -->
+            <!-- ============================================ -->
+            <div class="viewer-container active-viewer">
+              <div class="viewer-toolbar">
+                <div class="doc-info">
+                  <div class="doc-icon"><i class="pi pi-file-pdf"></i></div>
+                  <div>
+                    <div class="doc-name">ResoluciÃ³n_Inicial_NAZ-847.pdf</div>
+                    <div class="doc-meta">PDF — 1.8 MB — Subido: 10 Abr 2026 por Amilcar Gil</div>
+                  </div>
+                </div>
+                <div class="toolbar-actions">
+                  <button class="btn-icon" title="Zoom -"><i class="pi pi-search-minus"></i></button>
+                  <button class="btn-icon" title="Zoom +"><i class="pi pi-search-plus"></i></button>
+                  <button class="btn-icon" title="Descargar"><i class="pi pi-download"></i></button>
+                  <button class="btn-icon" title="Imprimir"><i class="pi pi-print"></i></button>
+                  <button class="btn-icon" title="Cerrar"><i class="pi pi-times"></i></button>
+                </div>
+              </div>
+              <div class="viewer-body">
+                <!-- En producciÃ³n: <iframe src="/api/documentos/{id}/preview"> -->
+                <div style="width:100%;height:600px;background:#e2e8f0;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:var(--text-muted);">
+                  <i class="pi pi-file-pdf" style="font-size:4rem;color:var(--accent-rose);"></i>
+                  <p style="font-weight:600;">Vista previa del documento PDF</p>
+                  <p style="font-size:var(--font-xs);">ResoluciÃ³n_Inicial_NAZ-847.pdf — PÃ¡gina 1 de 8</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- VIEWER: Imagen (front end.md 5.3)            -->
+            <!-- COMPONENTE: _viewer-image.html               -->
+            <!-- ============================================ -->
+            <!--
+            <div class="viewer-container">
+              <div class="viewer-toolbar">
+                <div class="doc-info">
+                  <div class="doc-icon" style="background:#dcfce7;color:#16a34a"><i class="pi pi-image"></i></div>
+                  <div>
+                    <div class="doc-name">Evidencia_Fotografica_01.jpg</div>
+                    <div class="doc-meta">JPG — 3.2 MB — 4032Ã—3024px</div>
+                  </div>
+                </div>
+                <div class="toolbar-actions">
+                  <button class="btn-icon" title="Zoom -"><i class="pi pi-search-minus"></i></button>
+                  <button class="btn-icon" title="Zoom +"><i class="pi pi-search-plus"></i></button>
+                  <button class="btn-icon" title="Ajustar"><i class="pi pi-window-maximize"></i></button>
+                  <button class="btn-icon" title="Descargar"><i class="pi pi-download"></i></button>
+                  <button class="btn-icon" title="Cerrar"><i class="pi pi-times"></i></button>
+                </div>
+              </div>
+              <div class="viewer-body">
+                <img src="https://via.placeholder.com/800x600/e2e8f0/94a3b8?text=Evidencia+Fotog.+01" alt="Evidencia FotogrÃ¡fica">
+              </div>
+            </div>
+            -->
+
+            <!-- ============================================ -->
+            <!-- PLAYER: Video (front end.md 5.5)             -->
+            <!-- COMPONENTE: _player-video.html               -->
+            <!-- ============================================ -->
+            <!--
+            <div class="viewer-container">
+              <div class="viewer-toolbar">
+                <div class="doc-info">
+                  <div class="doc-icon" style="background:#ede9fe;color:#7c3aed"><i class="pi pi-video"></i></div>
+                  <div>
+                    <div class="doc-name">Audiencia_Oral_25Mar.mp4</div>
+                    <div class="doc-meta">MP4 — 245 MB — DuraciÃ³n: 01:23:45</div>
+                  </div>
+                </div>
+                <div class="toolbar-actions">
+                  <button class="btn-icon" title="Pantalla completa"><i class="pi pi-window-maximize"></i></button>
+                  <button class="btn-icon" title="Descargar"><i class="pi pi-download"></i></button>
+                  <button class="btn-icon" title="Cerrar"><i class="pi pi-times"></i></button>
+                </div>
+              </div>
+              <div class="player-container">
+                <video controls preload="metadata">
+                  <source src="#" type="video/mp4">
+                  Su navegador no soporta la reproducciÃ³n de video.
+                </video>
+              </div>
+            </div>
+            -->
+
+            <!-- ============================================ -->
+            <!-- PLAYER: Audio (front end.md 5.4)             -->
+            <!-- COMPONENTE: _player-audio.html               -->
+            <!-- ============================================ -->
+            <!--
+            <div class="viewer-container">
+              <div class="viewer-toolbar">
+                <div class="doc-info">
+                  <div class="doc-icon" style="background:#fef3c7;color:#d97706"><i class="pi pi-volume-up"></i></div>
+                  <div>
+                    <div class="doc-name">Declaracion_Testigo_01.mp3</div>
+                    <div class="doc-meta">MP3 — 18 MB — DuraciÃ³n: 00:42:15</div>
+                  </div>
+                </div>
+                <div class="toolbar-actions">
+                  <button class="btn-icon" title="Descargar"><i class="pi pi-download"></i></button>
+                  <button class="btn-icon" title="Cerrar"><i class="pi pi-times"></i></button>
+                </div>
+              </div>
+              <div class="player-container">
+                <audio controls preload="metadata">
+                  <source src="#" type="audio/mpeg">
+                  Su navegador no soporta la reproducciÃ³n de audio.
+                </audio>
+              </div>
+            </div>
+            -->
+
+            <!-- ============================================ -->
+            <!-- COMPONENTE: _unsupported-format.html (5.6)   -->
+            <!-- ============================================ -->
+            <!--
+            <div class="viewer-container" style="text-align:center; padding: 4rem 2rem;">
+              <i class="pi pi-exclamation-circle" style="font-size:3rem;color:var(--accent-amber);"></i>
+              <h4 style="margin-top:1rem;font-weight:700;">Formato no visualizable</h4>
+              <p style="color:var(--text-secondary);margin-top:0.5rem;font-size:var(--font-sm);">
+                Este tipo de archivo no puede visualizarse directamente en el navegador.
+              </p>
+              <div style="margin-top:1.5rem; display:flex; gap:var(--space-3); justify-content:center;">
+                <button class="btn btn-primary btn-sm"><i class="pi pi-download"></i> Descargar archivo</button>
+                <button class="btn btn-secondary btn-sm"><i class="pi pi-info-circle"></i> Ver metadatos</button>
+              </div>
+            </div>
+            -->
+
+            <!-- ============================================ -->
+            <!-- COMPONENTE: _upload-modal.html (RF1)         -->
+            <!-- ============================================ -->
+            <!--
+            <div class="modal-overlay">
+              <div class="modal-box" style="max-width:560px;">
+                <div class="modal-header">
+                  <h3><i class="pi pi-upload" style="color:var(--primary);margin-right:0.5rem;"></i> Cargar Documento</h3>
+                  <button class="btn-icon"><i class="pi pi-times"></i></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-field" style="margin-bottom:var(--space-5);">
+                    <label class="form-label"><i class="pi pi-tag"></i> Tipo de documento</label>
+                    <select class="form-input form-select">
+                      <option value="">Seleccione tipo...</option>
+                      <option>ResoluciÃ³n</option>
+                      <option>Informe</option>
+                      <option>Evidencia</option>
+                      <option>DeclaraciÃ³n</option>
+                      <option>Otro</option>
+                    </select>
+                  </div>
+                  <div class="form-field" style="margin-bottom:var(--space-5);">
+                    <label class="form-label"><i class="pi pi-list"></i> CategorÃ­a</label>
+                    <select class="form-input form-select">
+                      <option value="">Seleccione categorÃ­a...</option>
+                      <option>JurÃ­dico</option>
+                      <option>Trabajo Social</option>
+                      <option>PsicologÃ­a</option>
+                      <option>Pericial</option>
+                      <option>Testimonial</option>
+                      <option>Procesal</option>
+                    </select>
+                  </div>
+                  <div style="border:2px dashed var(--border);border-radius:var(--radius-md);padding:3rem 2rem;text-align:center;cursor:pointer;transition:all 0.2s;">
+                    <i class="pi pi-cloud-upload" style="font-size:2.5rem;color:var(--primary);"></i>
+                    <p style="margin-top:var(--space-3);font-weight:600;">Arrastre archivos aquÃ­ o haga clic para seleccionar</p>
+                    <p style="font-size:var(--font-xs);color:var(--text-muted);margin-top:var(--space-2);">PDF, DOCX, JPG, PNG, MP4, MP3 — MÃ¡x. 500 MB</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary">Cancelar</button>
+                  <button class="btn btn-primary"><i class="pi pi-upload"></i> Subir Documento</button>
+                </div>
+              </div>
+            </div>
+            -->
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.topbar-left .btn-icon');
+    const shell = document.querySelector('.app-shell');
+    if (btn && shell) {
+      btn.addEventListener('click', () => shell.classList.toggle('sidebar-collapsed'));
+    }
+  });
+</script>
+</body>
+</html>
+

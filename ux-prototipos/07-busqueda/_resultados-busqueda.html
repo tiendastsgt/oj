@@ -1,0 +1,94 @@
+<!-- ============================================ -->
+<!-- COMPONENTE: _resultados-busqueda.html       -->
+<!-- Tabla de resultados de búsqueda paginada    -->
+<!-- ============================================ -->
+<section class="card mt-6 slide-up">
+  <div class="card-body">
+    <div class="results-header">
+      <h3 class="section-title"><i class="pi pi-list"></i> RESULTADOS DE BÚSQUEDA</h3>
+      <span class="results-count">47 expedientes encontrados</span>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Número <i class="pi pi-sort-alt sort-icon"></i></th>
+          <th>Tipo de Proceso</th>
+          <th>Actor Principal</th>
+          <th>Demandado Principal</th>
+          <th>Juzgado</th>
+          <th>Estado</th>
+          <th>Última Actuación <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
+          <th>Docs</th>
+          <th style="text-align:center">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;color:var(--primary);">NAZ-2024-00847</td>
+          <td>Protección</td>
+          <td>Estado de Guatemala</td>
+          <td>Juan Pérez Hernández</td>
+          <td>Juzgado 1ro Niñez</td>
+          <td><span class="badge badge-active">Activo</span></td>
+          <td>10 Abr 2026</td>
+          <td style="text-align:center">12</td>
+          <td style="text-align:center"><a href="../05-expediente-detail/expediente-detail-page.html" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--primary);">ACP-2023-00412</td>
+          <td>Conflicto Penal</td>
+          <td>Ministerio Público</td>
+          <td>Carlos López Méndez</td>
+          <td>Juzgado Adolescentes</td>
+          <td><span class="badge badge-pending">En trámite</span></td>
+          <td>08 Abr 2026</td>
+          <td style="text-align:center">7</td>
+          <td style="text-align:center"><a href="#" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--primary);">NAZ-2024-01203</td>
+          <td>Adopción</td>
+          <td>Ana García Reyes</td>
+          <td>—</td>
+          <td>Juzgado 2do Niñez</td>
+          <td><span class="badge badge-active">Activo</span></td>
+          <td>05 Abr 2026</td>
+          <td style="text-align:center">4</td>
+          <td style="text-align:center"><a href="#" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;color:var(--primary);">NAZ-2023-00198</td>
+          <td>Protección</td>
+          <td>Estado de Guatemala</td>
+          <td>Roberto Sánchez Cruz</td>
+          <td>Juzgado 3ro Niñez</td>
+          <td><span class="badge badge-closed">Archivado</span></td>
+          <td>15 Mar 2026</td>
+          <td style="text-align:center">22</td>
+          <td style="text-align:center"><a href="#" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="table-footer">
+      <span>Mostrando 1-10 de 47 expedientes</span>
+      <div style="display:flex;align-items:center;gap:var(--space-4);">
+        <select class="form-input form-select" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:var(--font-xs);">
+          <option>10 por página</option>
+          <option>25 por página</option>
+          <option>50 por página</option>
+        </select>
+        <div class="pagination">
+          <button><i class="pi pi-chevron-left"></i></button>
+          <button class="active">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>4</button>
+          <button>5</button>
+          <button><i class="pi pi-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

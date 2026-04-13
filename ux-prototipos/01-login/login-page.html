@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGED — Iniciar Sesión</title>
+  <link rel="stylesheet" href="../css/elite-design-system.css">
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .login-page::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+      animation: bgPulse 12s ease-in-out infinite alternate;
+    }
+    @keyframes bgPulse {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(5deg); }
+    }
+
+    /* — COMPONENTE: _login-branding.html — */
+    .login-branding {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+    .login-branding .brand-logo {
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #3b82f6, #06b6d4, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .login-branding .brand-title {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.4;
+      max-width: 400px;
+    }
+    .login-branding .brand-org {
+      margin-top: 2rem;
+      font-size: var(--font-sm);
+      color: rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .login-branding .features-list {
+      margin-top: 3rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .login-branding .features-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: var(--font-sm);
+    }
+    .login-branding .features-list li i {
+      color: var(--accent-cyan);
+      font-size: 1rem;
+    }
+
+    /* — COMPONENTE: _login-form.html — */
+    .login-form-wrapper {
+      width: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .login-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.5);
+    }
+    .login-card h2 {
+      font-size: var(--font-2xl);
+      font-weight: 700;
+      color: #f9fafb;
+      margin-bottom: 0.5rem;
+    }
+    .login-card .login-subtitle {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: var(--font-sm);
+      margin-bottom: 2rem;
+    }
+    .login-field {
+      margin-bottom: 1.5rem;
+    }
+    .login-field label {
+      display: block;
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .login-field .input-wrap {
+      position: relative;
+    }
+    .login-field .input-wrap i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.3);
+    }
+    .login-field input {
+      width: 100%;
+      padding: 0.875rem 1rem 0.875rem 2.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      color: #f9fafb;
+      font-family: var(--font-family);
+      font-size: var(--font-base);
+      outline: none;
+      transition: all 0.2s;
+    }
+    .login-field input::placeholder { color: rgba(255, 255, 255, 0.25); }
+    .login-field input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+      background: rgba(15, 23, 42, 0.8);
+    }
+    .login-actions {
+      margin-top: 2rem;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 0.875rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: white;
+      font-family: var(--font-family);
+      font-size: var(--font-base);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+    }
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(139, 92, 246, 0.4);
+    }
+    .login-error {
+      display: none; /* Mostrar con JS: display: flex */
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      font-size: var(--font-sm);
+      margin-bottom: 1.5rem;
+    }
+    .login-footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: var(--font-xs);
+      color: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+
+    <!-- COMPONENTE: _login-branding.html -->
+    <div class="login-branding">
+      <div class="brand-logo">SGED</div>
+      <div class="brand-title">
+        Sistema de Gestión Electrónica<br>de Documentos
+      </div>
+      <div class="brand-org">
+        <i class="pi pi-building"></i>
+        Organismo Judicial de Guatemala
+      </div>
+      <ul class="features-list">
+        <li><i class="pi pi-check-circle"></i> Consulta centralizada de expedientes</li>
+        <li><i class="pi pi-check-circle"></i> Visualización de documentos, audio y video</li>
+        <li><i class="pi pi-check-circle"></i> Búsqueda avanzada por múltiples criterios</li>
+        <li><i class="pi pi-check-circle"></i> Trazabilidad y auditoría completa</li>
+      </ul>
+    </div>
+
+    <!-- COMPONENTE: _login-form.html -->
+    <div class="login-form-wrapper">
+      <div class="login-card">
+        <h2>Iniciar Sesión</h2>
+        <p class="login-subtitle">Ingrese sus credenciales para acceder al sistema</p>
+
+        <!-- Error message (hidden by default) -->
+        <div class="login-error">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>Credenciales incorrectas. Intente de nuevo.</span>
+        </div>
+
+        <form>
+          <div class="login-field">
+            <label>Usuario</label>
+            <div class="input-wrap">
+              <i class="pi pi-user"></i>
+              <input type="text" placeholder="Ingrese su nombre de usuario" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="login-field">
+            <label>Contraseña</label>
+            <div class="input-wrap">
+              <i class="pi pi-lock"></i>
+              <input type="password" placeholder="Ingrese su contraseña" autocomplete="current-password">
+            </div>
+          </div>
+
+          <div class="login-actions">
+            <button type="submit" class="login-btn">
+              <i class="pi pi-sign-in"></i>
+              INGRESAR AL SISTEMA
+            </button>
+          </div>
+        </form>
+
+        <div class="login-footer">
+          Juzgados de la Niñez y Adolescencia<br>
+          © 2026 Organismo Judicial
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

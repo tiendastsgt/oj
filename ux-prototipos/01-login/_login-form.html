@@ -1,0 +1,46 @@
+<!-- ============================================ -->
+<!-- COMPONENTE: _login-form.html                -->
+<!-- Formulario de autenticación (tarjeta glass) -->
+<!-- ============================================ -->
+<div class="login-form-wrapper">
+  <div class="login-card">
+    <h2>Iniciar Sesión</h2>
+    <p class="login-subtitle">Ingrese sus credenciales para acceder al sistema</p>
+
+    <!-- Error message (hidden by default, mostrar con display:flex) -->
+    <div class="login-error">
+      <i class="pi pi-exclamation-triangle"></i>
+      <span>Credenciales incorrectas. Intente de nuevo.</span>
+    </div>
+
+    <form>
+      <div class="login-field">
+        <label>Usuario</label>
+        <div class="input-wrap">
+          <i class="pi pi-user"></i>
+          <input type="text" placeholder="Ingrese su nombre de usuario" autocomplete="username">
+        </div>
+      </div>
+
+      <div class="login-field">
+        <label>Contraseña</label>
+        <div class="input-wrap">
+          <i class="pi pi-lock"></i>
+          <input type="password" placeholder="Ingrese su contraseña" autocomplete="current-password">
+        </div>
+      </div>
+
+      <div class="login-actions">
+        <button type="submit" class="login-btn">
+          <i class="pi pi-sign-in"></i>
+          INGRESAR AL SISTEMA
+        </button>
+      </div>
+    </form>
+
+    <div class="login-footer">
+      Juzgados de la Niñez y Adolescencia<br>
+      © 2026 Organismo Judicial
+    </div>
+  </div>
+</div>

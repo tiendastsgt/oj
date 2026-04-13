@@ -1,0 +1,44 @@
+<!-- ============================================ -->
+<!-- COMPONENTE: _document-actions-bar.html      -->
+<!-- Barra de acciones por documento              -->
+<!-- front end.md sección 4.2                    -->
+<!-- Acciones: Ver, Descargar, Imprimir, Eliminar-->
+<!-- Visibilidad controlada por RBAC (9.1)       -->
+<!-- ADMIN: todas                                -->
+<!-- SECRETARIO: todas                           -->
+<!-- AUXILIAR: Ver, Descargar                     -->
+<!-- CONSULTA: Ver, Descargar, Imprimir          -->
+<!-- ============================================ -->
+
+<!-- Versión completa (ADMIN / SECRETARIO) -->
+<div class="doc-actions" style="justify-content:center">
+  <button class="btn-icon view" title="Ver documento">
+    <i class="pi pi-eye"></i>
+  </button>
+  <button class="btn-icon download" title="Descargar documento">
+    <i class="pi pi-download"></i>
+  </button>
+  <button class="btn-icon print" title="Imprimir documento">
+    <i class="pi pi-print"></i>
+  </button>
+  <button class="btn-icon delete" title="Eliminar documento">
+    <i class="pi pi-trash"></i>
+  </button>
+</div>
+
+<!-- Versión CONSULTA (sin eliminar) -->
+<!--
+<div class="doc-actions" style="justify-content:center">
+  <button class="btn-icon view" title="Ver"><i class="pi pi-eye"></i></button>
+  <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
+  <button class="btn-icon print" title="Imprimir"><i class="pi pi-print"></i></button>
+</div>
+-->
+
+<!-- Versión AUXILIAR (solo ver y descargar) -->
+<!--
+<div class="doc-actions" style="justify-content:center">
+  <button class="btn-icon view" title="Ver"><i class="pi pi-eye"></i></button>
+  <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
+</div>
+-->

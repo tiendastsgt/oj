@@ -1,0 +1,43 @@
+<!-- ============================================ -->
+<!-- COMPONENTE: _auditoria-filters.html         -->
+<!-- Filtros de auditoría: usuario, acción, fecha-->
+<!-- ============================================ -->
+<div class="card mb-6">
+  <div class="card-body">
+    <div style="display:flex;gap:var(--space-4);align-items:flex-end;flex-wrap:wrap;">
+      <div class="form-field" style="flex:1;min-width:200px;">
+        <label class="form-label"><i class="pi pi-user"></i> Usuario</label>
+        <select class="form-input form-select">
+          <option value="">Todos los usuarios</option>
+          <option>amilcar.gil</option>
+          <option>emilio.gonzalez</option>
+          <option>allan.gil</option>
+          <option>maria.rodriguez</option>
+          <option>juan.lopez</option>
+        </select>
+      </div>
+      <div class="form-field" style="flex:1;min-width:200px;">
+        <label class="form-label"><i class="pi pi-tag"></i> Acción</label>
+        <select class="form-input form-select">
+          <option value="">Todas las acciones</option>
+          <option>Login</option>
+          <option>Consulta expediente</option>
+          <option>Carga documento</option>
+          <option>Descarga</option>
+          <option>Búsqueda</option>
+          <option>Edición</option>
+          <option>Eliminación</option>
+        </select>
+      </div>
+      <div class="form-field" style="min-width:160px;">
+        <label class="form-label"><i class="pi pi-calendar"></i> Desde</label>
+        <input type="date" class="form-input">
+      </div>
+      <div class="form-field" style="min-width:160px;">
+        <label class="form-label">Hasta</label>
+        <input type="date" class="form-input">
+      </div>
+      <button class="btn btn-primary"><i class="pi pi-search"></i> Filtrar</button>
+    </div>
+  </div>
+</div>

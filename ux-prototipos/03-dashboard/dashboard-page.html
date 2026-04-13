@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGED — Dashboard</title>
+  <link rel="stylesheet" href="../css/elite-design-system.css">
+  <style>
+    .dashboard-header { margin-bottom: var(--space-8); }
+    .dashboard-header h1 { font-size: var(--font-3xl); font-weight: 800; letter-spacing: -0.02em; }
+    .dashboard-header p { color: var(--text-secondary); margin-top: var(--space-1); }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); margin-bottom: var(--space-8); }
+    .kpi-icon { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; }
+    .kpi-icon.blue   { background: #dbeafe; color: #2563eb; }
+    .kpi-icon.green  { background: #dcfce7; color: #16a34a; }
+    .kpi-icon.violet { background: #ede9fe; color: #7c3aed; }
+    .kpi-icon.amber  { background: #fef3c7; color: #d97706; }
+
+    .activity-table-wrap { margin-top: var(--space-6); }
+    .activity-item-user { display: flex; align-items: center; gap: var(--space-3); }
+    .activity-item-user .avatar-sm { width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--surface-ground); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: var(--text-secondary); }
+
+    @media (max-width: 1024px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .kpi-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- Sidebar (incluir desde _sidebar-nav.html) -->
+    <aside class="sidebar">
+      <div class="sidebar-brand"><div class="sidebar-logo-collapsed">OJ</div><div class="sidebar-brand-full"><div class="brand-name gradient-text">SGED</div><div class="brand-sub">Visor Documental — OJ</div></div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-label">Principal</div>
+          <a href="#" class="nav-item active"><i class="pi pi-th-large"></i><span>Dashboard</span></a>
+          <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item"><i class="pi pi-folder"></i><span>Expedientes</span></a>
+          <a href="../07-busqueda/busqueda-container-page.html" class="nav-item"><i class="pi pi-search"></i><span>Búsqueda</span></a>
+        </div>
+        <div class="nav-section"><div class="nav-section-label">Administración</div>
+          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item"><i class="pi pi-users"></i><span>Usuarios</span></a>
+          <a href="../09-auditoria/auditoria-page.html" class="nav-item"><i class="pi pi-history"></i><span>Auditoría</span></a>
+        </div>
+        <div class="nav-section"><div class="nav-section-label">Cuenta</div>
+          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item"><i class="pi pi-lock"></i><span>Cambiar Contraseña</span></a>
+          <a href="../01-login/login-page.html" class="nav-item"><i class="pi pi-sign-out"></i><span>Cerrar Sesión</span></a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">SGED v1.2.0</div>
+    </aside>
+
+    <div class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn-icon"><i class="pi pi-bars"></i></button>
+          <div class="topbar-breadcrumb"><span>SGED</span><i class="pi pi-chevron-right" style="font-size:0.6rem"></i><span class="current">Dashboard</span></div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-icon"><i class="pi pi-bell"></i></button>
+          <div class="flex items-center gap-3"><div class="user-avatar">AG</div><div style="line-height:1.3"><div style="font-size:var(--font-sm);font-weight:600">Amilcar Gil</div><div style="font-size:var(--font-xs);color:var(--text-muted)">Administrador</div></div></div>
+        </div>
+      </header>
+
+      <main class="page-content fade-in">
+
+        <!-- Page Header -->
+        <div class="dashboard-header">
+          <h1>Dashboard</h1>
+          <p>Bienvenido, Amilcar. Resumen del sistema al 12 de abril 2026.</p>
+        </div>
+
+        <!-- COMPONENTE: _kpi-cards-row.html -->
+        <section class="kpi-grid">
+          <div class="kpi-card">
+            <div class="flex items-center justify-between">
+              <div class="kpi-icon blue"><i class="pi pi-folder"></i></div>
+              <span class="kpi-trend up"><i class="pi pi-arrow-up"></i> 12%</span>
+            </div>
+            <div class="kpi-value">1,247</div>
+            <div class="kpi-label">Expedientes Registrados</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="flex items-center justify-between">
+              <div class="kpi-icon green"><i class="pi pi-file"></i></div>
+              <span class="kpi-trend up"><i class="pi pi-arrow-up"></i> 8%</span>
+            </div>
+            <div class="kpi-value">5,832</div>
+            <div class="kpi-label">Documentos Almacenados</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="flex items-center justify-between">
+              <div class="kpi-icon violet"><i class="pi pi-search"></i></div>
+              <span class="kpi-trend up"><i class="pi pi-arrow-up"></i> 24%</span>
+            </div>
+            <div class="kpi-value">342</div>
+            <div class="kpi-label">Búsquedas Hoy</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="flex items-center justify-between">
+              <div class="kpi-icon amber"><i class="pi pi-users"></i></div>
+              <span class="kpi-trend down"><i class="pi pi-arrow-down"></i> 2</span>
+            </div>
+            <div class="kpi-value">18</div>
+            <div class="kpi-label">Usuarios Activos</div>
+          </div>
+        </section>
+
+        <!-- COMPONENTE: _recent-activity.html -->
+        <section class="card">
+          <div class="card-header">
+            <h3 class="section-title"><i class="pi pi-history"></i> ACTIVIDAD RECIENTE</h3>
+            <a href="../09-auditoria/auditoria-page.html" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
+          </div>
+          <div class="activity-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Acción</th>
+                  <th>Expediente</th>
+                  <th>Fecha / Hora</th>
+                  <th>IP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="activity-item-user"><div class="avatar-sm">EG</div><span>Emilio GonzÃ¡lez</span></div></td>
+                  <td><span class="badge badge-info">Consulta</span></td>
+                  <td>NAZ-2024-00847</td>
+                  <td>12/04/2026 14:32</td>
+                  <td style="color:var(--text-muted)">192.168.1.45</td>
+                </tr>
+                <tr>
+                  <td><div class="activity-item-user"><div class="avatar-sm">AG</div><span>Allan Gil</span></div></td>
+                  <td><span class="badge badge-active">Carga Doc</span></td>
+                  <td>NAZ-2024-01203</td>
+                  <td>12/04/2026 14:15</td>
+                  <td style="color:var(--text-muted)">192.168.1.22</td>
+                </tr>
+                <tr>
+                  <td><div class="activity-item-user"><div class="avatar-sm">MR</div><span>MarÃ­a RodrÃ­guez</span></div></td>
+                  <td><span class="badge badge-pending">Descarga</span></td>
+                  <td>ACP-2023-00412</td>
+                  <td>12/04/2026 13:58</td>
+                  <td style="color:var(--text-muted)">192.168.1.67</td>
+                </tr>
+                <tr>
+                  <td><div class="activity-item-user"><div class="avatar-sm">JL</div><span>Juan LÃ³pez</span></div></td>
+                  <td><span class="badge badge-info">Búsqueda</span></td>
+                  <td>—</td>
+                  <td>12/04/2026 13:40</td>
+                  <td style="color:var(--text-muted)">192.168.1.89</td>
+                </tr>
+                <tr>
+                  <td><div class="activity-item-user"><div class="avatar-sm">AG</div><span>Amilcar Gil</span></div></td>
+                  <td><span class="badge badge-urgent">Login</span></td>
+                  <td>—</td>
+                  <td>12/04/2026 13:22</td>
+                  <td style="color:var(--text-muted)">192.168.1.10</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.topbar-left .btn-icon');
+    const shell = document.querySelector('.app-shell');
+    if (btn && shell) {
+      btn.addEventListener('click', () => shell.classList.toggle('sidebar-collapsed'));
+    }
+  });
+</script>
+</body>
+</html>
+

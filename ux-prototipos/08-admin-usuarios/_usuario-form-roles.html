@@ -1,0 +1,40 @@
+<!-- ============================================ -->
+<!-- COMPONENTE: _usuario-form-roles.html         -->
+<!-- Formulario: Asignación de Roles y Juzgado    -->
+<!-- ============================================ -->
+<div class="card mb-6">
+  <div class="card-header">
+    <h3 class="section-title"><i class="pi pi-users"></i> Asignación de Rol</h3>
+  </div>
+  <div class="card-body">
+    <div class="grid-2">
+      <div class="form-field">
+        <label class="form-label">Rol en el Sistema</label>
+        <select class="form-input form-select">
+          <option value="">Seleccione rol...</option>
+          <option>Administrador</option>
+          <option>Secretario</option>
+          <option>Auxiliar</option>
+          <option>Consulta</option>
+        </select>
+        <div style="font-size:var(--font-xs); color:var(--text-muted); margin-top:4px;">
+          Define los permisos de lectura, escritura y administración.
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Juzgado Asignado</label>
+        <select class="form-input form-select">
+          <option value="">Seleccione juzgado...</option>
+          <option>Global (Todos los Juzgados)</option>
+          <option>Juzgado 1ro Niñez</option>
+          <option>Juzgado 2do Niñez</option>
+          <option>Juzgado 3ro Niñez</option>
+          <option>Juzgado Adolescentes</option>
+        </select>
+        <div style="font-size:var(--font-xs); color:var(--text-muted); margin-top:4px;">
+          Limita la visualización de expedientes a este juzgado (No aplica a Administradores).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

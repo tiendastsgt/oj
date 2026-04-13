@@ -1,0 +1,58 @@
+<!-- ============================================ -->
+<!-- COMPONENTE: _auditoria-table.html           -->
+<!-- Tabla de logs con action tags de colores    -->
+<!-- ============================================ -->
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Fecha / Hora <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
+      <th>Usuario</th>
+      <th>Acción</th>
+      <th>Expediente</th>
+      <th>Detalle</th>
+      <th>IP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>12/04/2026 14:32:15</td>
+      <td style="font-weight:600;">amilcar.gil</td>
+      <td><span class="audit-action-tag consulta">Consulta</span></td>
+      <td>NAZ-2024-00847</td>
+      <td style="color:var(--text-secondary);font-size:var(--font-xs);">Abrió detalle del expediente</td>
+      <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.10</td>
+    </tr>
+    <tr>
+      <td>12/04/2026 14:30:02</td>
+      <td style="font-weight:600;">emilio.gonzalez</td>
+      <td><span class="audit-action-tag descarga">Descarga</span></td>
+      <td>NAZ-2024-00847</td>
+      <td style="color:var(--text-secondary);font-size:var(--font-xs);">Descargó: Resolución_Inicial_NAZ-847.pdf</td>
+      <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.45</td>
+    </tr>
+    <tr>
+      <td>12/04/2026 14:15:44</td>
+      <td style="font-weight:600;">allan.gil</td>
+      <td><span class="audit-action-tag carga">Carga Doc</span></td>
+      <td>NAZ-2024-01203</td>
+      <td style="color:var(--text-secondary);font-size:var(--font-xs);">Subió: Informe_Psicologia_Mar2026.pdf (2.1 MB)</td>
+      <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.22</td>
+    </tr>
+    <tr>
+      <td>12/04/2026 13:40:18</td>
+      <td style="font-weight:600;">juan.lopez</td>
+      <td><span class="audit-action-tag login">Login</span></td>
+      <td>—</td>
+      <td style="color:var(--text-secondary);font-size:var(--font-xs);">Inicio de sesión exitoso</td>
+      <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.89</td>
+    </tr>
+    <tr>
+      <td>12/04/2026 12:05:11</td>
+      <td style="font-weight:600;">emilio.gonzalez</td>
+      <td><span class="audit-action-tag eliminacion">Eliminación</span></td>
+      <td>NAZ-2024-00847</td>
+      <td style="color:var(--text-secondary);font-size:var(--font-xs);">Eliminó: Borrador_Nota_v1.docx</td>
+      <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.45</td>
+    </tr>
+  </tbody>
+</table>

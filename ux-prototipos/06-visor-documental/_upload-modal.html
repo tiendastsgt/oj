@@ -1,0 +1,46 @@
+<!-- ============================================ -->
+<!-- COMPONENTE: _upload-modal.html              -->
+<!-- Modal de carga de documentos — RF1          -->
+<!-- ============================================ -->
+<div class="modal-overlay">
+  <div class="modal-box" style="max-width:560px;">
+    <div class="modal-header">
+      <h3><i class="pi pi-upload" style="color:var(--primary);margin-right:0.5rem;"></i> Cargar Documento</h3>
+      <button class="btn-icon"><i class="pi pi-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-field" style="margin-bottom:var(--space-5);">
+        <label class="form-label"><i class="pi pi-tag"></i> Tipo de documento</label>
+        <select class="form-input form-select">
+          <option value="">Seleccione tipo...</option>
+          <option>Resolución</option>
+          <option>Informe</option>
+          <option>Evidencia</option>
+          <option>Declaración</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-field" style="margin-bottom:var(--space-5);">
+        <label class="form-label"><i class="pi pi-list"></i> Categoría</label>
+        <select class="form-input form-select">
+          <option value="">Seleccione categoría...</option>
+          <option>Jurídico</option>
+          <option>Trabajo Social</option>
+          <option>Psicología</option>
+          <option>Pericial</option>
+          <option>Testimonial</option>
+          <option>Procesal</option>
+        </select>
+      </div>
+      <div style="border:2px dashed var(--border);border-radius:var(--radius-md);padding:3rem 2rem;text-align:center;cursor:pointer;transition:all 0.2s;">
+        <i class="pi pi-cloud-upload" style="font-size:2.5rem;color:var(--primary);"></i>
+        <p style="margin-top:var(--space-3);font-weight:600;">Arrastre archivos aquí o haga clic para seleccionar</p>
+        <p style="font-size:var(--font-xs);color:var(--text-muted);margin-top:var(--space-2);">PDF, DOCX, JPG, PNG, MP4, MP3 — Máx. 500 MB</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary">Cancelar</button>
+      <button class="btn btn-primary"><i class="pi pi-upload"></i> Subir Documento</button>
+    </div>
+  </div>
+</div>

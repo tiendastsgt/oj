@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SGED — Formulario de Usuario</title>
+  <link rel="stylesheet" href="../css/elite-design-system.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><div class="sidebar-logo-collapsed">OJ</div><div class="sidebar-brand-full"><div class="brand-name gradient-text">SGED</div><div class="brand-sub">Visor Documental — OJ</div></div></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-label">Principal</div>
+          <a href="../03-dashboard/dashboard-page.html" class="nav-item"><i class="pi pi-th-large"></i><span>Dashboard</span></a>
+          <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item"><i class="pi pi-folder"></i><span>Expedientes</span></a>
+          <a href="../07-busqueda/busqueda-container-page.html" class="nav-item"><i class="pi pi-search"></i><span>Búsqueda</span></a>
+        </div>
+        <div class="nav-section"><div class="nav-section-label">Administración</div>
+          <a href="usuarios-list-page.html" class="nav-item active"><i class="pi pi-users"></i><span>Usuarios</span></a>
+          <a href="../09-auditoria/auditoria-page.html" class="nav-item"><i class="pi pi-history"></i><span>Auditoría</span></a>
+        </div>
+        <div class="nav-section"><div class="nav-section-label">Cuenta</div>
+          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item"><i class="pi pi-lock"></i><span>Cambiar Contraseña</span></a>
+          <a href="../01-login/login-page.html" class="nav-item"><i class="pi pi-sign-out"></i><span>Cerrar Sesión</span></a>
+        </div>
+      </nav>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn-icon"><i class="pi pi-bars"></i></button>
+          <div class="topbar-breadcrumb">
+            <span>Administración</span>
+            <i class="pi pi-chevron-right" style="font-size:0.6rem"></i>
+            <a href="usuarios-list-page.html" style="color:var(--text-secondary);">Usuarios</a>
+            <i class="pi pi-chevron-right" style="font-size:0.6rem"></i>
+            <span class="current">Nuevo Usuario</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-icon"><i class="pi pi-bell"></i></button>
+          <div class="flex items-center gap-3"><div class="user-avatar">AG</div><div style="line-height:1.3"><div style="font-size:var(--font-sm);font-weight:600">Amilcar Gil</div><div style="font-size:var(--font-xs);color:var(--text-muted)">Administrador</div></div></div>
+        </div>
+      </header>
+
+      <main class="page-content fade-in">
+        <div class="page-header-actions mb-6" style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <h1 class="page-title">Nuevo Usuario</h1>
+            <p class="subtitle" style="margin-top:var(--space-2);">Complete el formulario para registrar un nuevo usuario en SGED</p>
+          </div>
+          <div style="display:flex;gap:var(--space-3);">
+            <a href="usuarios-list-page.html" class="btn btn-secondary"><i class="pi pi-times"></i> Cancelar</a>
+            <button type="submit" form="userForm" class="btn btn-primary"><i class="pi pi-save"></i> Guardar Usuario</button>
+          </div>
+        </div>
+
+        <form id="userForm">
+          <!-- COMPONENTES DE SECCION -->
+          <!-- Estos componentes estÃ¡n definidos en sus archivos separados:
+               _usuario-form-datos.html, _usuario-form-roles.html, _usuario-form-seguridad.html 
+               Pero por propositos de previsualizaciÃ³n, unimos sus bloques aqui.
+               En Angular Ã©stos serÃ­an <app-usuario-form-datos></app-usuario-form-datos>
+          -->
+          <div class="components-placeholder" style="margin-bottom:var(--space-8);">
+            <div style="padding:1rem; border:1px dashed var(--primary); background:var(--primary-light); color:var(--primary-dark); border-radius:var(--radius-md); text-align:center; font-weight:600;">
+              [Integrar aquÃ­: &lt;app-usuario-form-datos&gt;, &lt;app-usuario-form-roles&gt;, &lt;app-usuario-form-seguridad&gt;]
+            </div>
+            
+            <!-- Simulamos que estÃ¡n importados... -->
+            <div style="opacity:0.6; pointer-events:none; margin-top:1rem;">
+               <div style="background:var(--surface-card); border:1px solid var(--border); padding:2rem; border-radius:var(--radius-lg); margin-bottom:1.5rem;">
+                 <h3>Datos Personales</h3>
+                 <div style="height:120px; background:var(--surface-ground); border-radius:var(--radius-sm); margin-top:1rem;"></div>
+               </div>
+               <div style="background:var(--surface-card); border:1px solid var(--border); padding:2rem; border-radius:var(--radius-lg); margin-bottom:1.5rem;">
+                 <h3>AsignaciÃ³n de Rol</h3>
+                 <div style="height:120px; background:var(--surface-ground); border-radius:var(--radius-sm); margin-top:1rem;"></div>
+               </div>
+               <div style="background:var(--surface-card); border:1px solid var(--border); padding:2rem; border-radius:var(--radius-lg); margin-bottom:1.5rem;">
+                 <h3>Seguridad</h3>
+                 <div style="height:120px; background:var(--surface-ground); border-radius:var(--radius-sm); margin-top:1rem;"></div>
+               </div>
+            </div>
+          </div>
+        </form>
+
+      </main>
+    </div>
+  </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector('.topbar-left .btn-icon');
+    const shell = document.querySelector('.app-shell');
+    if (btn && shell) {
+      btn.addEventListener('click', () => shell.classList.toggle('sidebar-collapsed'));
+    }
+  });
+</script>
+</body>
+</html>
+
