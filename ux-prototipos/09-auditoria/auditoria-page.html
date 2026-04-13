@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -6,48 +6,64 @@
   <title>SGED — Registro de Auditoría</title>
   <link rel="stylesheet" href="../css/elite-design-system.css">
   <style>
-    .page-header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); }
+    .page-header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); background: rgba(0,0,0,0.1); padding: var(--space-5); border-radius: var(--radius-md); border: 1px solid var(--border); }
     .page-header-actions h1 { font-size: var(--font-2xl); font-weight: 800; }
-    .audit-action-tag { font-size: var(--font-xs); font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px; }
-    .audit-action-tag.login { background: #dbeafe; color: #1e40af; }
-    .audit-action-tag.consulta { background: #dcfce7; color: #166534; }
-    .audit-action-tag.carga { background: #ede9fe; color: #5b21b6; }
-    .audit-action-tag.descarga { background: #fef3c7; color: #92400e; }
-    .audit-action-tag.edicion { background: #fce7f3; color: #9d174d; }
-    .audit-action-tag.eliminacion { background: #fef2f2; color: #991b1b; }
-    .audit-action-tag.busqueda { background: #f0fdf4; color: #15803d; }
+    .audit-action-tag { font-size: var(--font-xs); font-weight: 600; padding: 2px 8px; border-radius: 4px; border: 1px solid transparent; }
+    .audit-action-tag.login { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border-color: rgba(59, 130, 246, 0.2); }
+    .audit-action-tag.consulta { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
+    .audit-action-tag.carga { background: rgba(139, 92, 246, 0.1); color: #a78bfa; border-color: rgba(139, 92, 246, 0.2); }
+    .audit-action-tag.descarga { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border-color: rgba(245, 158, 11, 0.2); }
+    .audit-action-tag.edicion { background: rgba(236, 72, 153, 0.1); color: #f472b6; border-color: rgba(236, 72, 153, 0.2); }
+    .audit-action-tag.eliminacion { background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
+    .audit-action-tag.busqueda { background: rgba(20, 184, 166, 0.1); color: #2dd4bf; border-color: rgba(20, 184, 166, 0.2); }
   </style>
 </head>
 <body>
   <div class="app-shell">
+    
+    <!-- SIDEBAR v2.0 Dark Mode -->
     <aside class="sidebar">
-      <div class="sidebar-brand"><div class="sidebar-logo-collapsed">OJ</div><div class="sidebar-brand-full"><div class="brand-name gradient-text">SGED</div><div class="brand-sub">Visor Documental — OJ</div></div></div>
+      <div class="sidebar-brand">
+        <div class="brand-icon">OJ</div>
+      </div>
       <nav class="sidebar-nav">
-        <div class="nav-section"><div class="nav-section-label">Principal</div>
-          <a href="../03-dashboard/dashboard-page.html" class="nav-item"><i class="pi pi-th-large"></i><span>Dashboard</span></a>
-          <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item"><i class="pi pi-folder"></i><span>Expedientes</span></a>
-          <a href="../07-busqueda/busqueda-container-page.html" class="nav-item"><i class="pi pi-search"></i><span>Búsqueda</span></a>
+        <div class="nav-section">
+          <a href="../03-dashboard/dashboard-page.html" class="nav-item" title="Dashboard"><i class="pi pi-th-large"></i></a>
+          <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item" title="Expedientes"><i class="pi pi-folder"></i></a>
+          <a href="../07-busqueda/busqueda-container-page.html" class="nav-item" title="Búsqueda"><i class="pi pi-search"></i></a>
         </div>
-        <div class="nav-section"><div class="nav-section-label">Administración</div>
-          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item"><i class="pi pi-users"></i><span>Usuarios</span></a>
-          <a href="#" class="nav-item active"><i class="pi pi-history"></i><span>Auditoría</span></a>
+        <div class="nav-section">
+          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item" title="Usuarios"><i class="pi pi-users"></i></a>
+          <a href="#" class="nav-item active" title="Auditoría"><i class="pi pi-history"></i></a>
         </div>
-        <div class="nav-section"><div class="nav-section-label">Cuenta</div>
-          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item"><i class="pi pi-lock"></i><span>Cambiar Contraseña</span></a>
-          <a href="../01-login/login-page.html" class="nav-item"><i class="pi pi-sign-out"></i><span>Cerrar Sesión</span></a>
+        <div class="nav-section">
+          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item" title="Configuración"><i class="pi pi-cog"></i></a>
         </div>
       </nav>
+      <div class="sidebar-footer">
+        <a href="../01-login/login-page.html" class="nav-item" title="Cerrar Sesión" style="width:44px;height:44px;"><i class="pi pi-sign-out"></i></a>
+      </div>
     </aside>
 
     <div class="main-content">
+      
+      <!-- TOPBAR v2.0 Glass Dark -->
       <header class="topbar">
         <div class="topbar-left">
-          <button class="btn-icon"><i class="pi pi-bars"></i></button>
-          <div class="topbar-breadcrumb"><span>Administración</span><i class="pi pi-chevron-right" style="font-size:0.6rem"></i><span class="current">Auditoría</span></div>
+          <div class="topbar-brand-text">
+            <span class="brand-bold">SGED</span>
+            <span class="brand-light">Auditoría</span>
+          </div>
         </div>
         <div class="topbar-right">
-          <button class="btn-icon"><i class="pi pi-bell"></i></button>
-          <div class="flex items-center gap-3"><div class="user-avatar">AG</div><div style="line-height:1.3"><div style="font-size:var(--font-sm);font-weight:600">Amilcar Gil</div><div style="font-size:var(--font-xs);color:var(--text-muted)">Administrador</div></div></div>
+          <button class="btn-icon" title="Notificaciones"><i class="pi pi-bell"></i></button>
+          <div class="flex items-center gap-3">
+            <div class="user-avatar">AG</div>
+            <div>
+              <div class="user-info-name">Amilcar Gil</div>
+              <div class="user-info-role">Administrador</div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -55,137 +71,103 @@
         <div class="page-header-actions">
           <div>
             <h1>Registro de Auditoría</h1>
-            <p class="subtitle">Trazabilidad completa de accesos y operaciones — RF8</p>
+            <p class="subtitle" style="color:var(--text-secondary); margin-top:var(--space-1);">Trazabilidad completa de accesos y operaciones — RF8</p>
           </div>
           <button class="btn btn-secondary"><i class="pi pi-download"></i> Exportar CSV</button>
         </div>
 
-        <!-- COMPONENTE: _auditoria-filters.html -->
+        <!-- Filters -->
         <div class="card mb-6">
           <div class="card-body">
             <div style="display:flex;gap:var(--space-4);align-items:flex-end;flex-wrap:wrap;">
               <div class="form-field" style="flex:1;min-width:200px;">
-                <label class="form-label"><i class="pi pi-user"></i> Usuario</label>
-                <select class="form-input form-select">
+                <label class="form-label" style="color:var(--text-muted);"><i class="pi pi-user"></i> Usuario</label>
+                <select class="form-input form-select" style="background:rgba(255,255,255,0.02); color:var(--text-primary);">
                   <option value="">Todos los usuarios</option>
                   <option>amilcar.gil</option>
                   <option>emilio.gonzalez</option>
-                  <option>allan.gil</option>
-                  <option>maria.rodriguez</option>
-                  <option>juan.lopez</option>
                 </select>
               </div>
               <div class="form-field" style="flex:1;min-width:200px;">
-                <label class="form-label"><i class="pi pi-tag"></i> Acción</label>
-                <select class="form-input form-select">
+                <label class="form-label" style="color:var(--text-muted);"><i class="pi pi-tag"></i> Acción</label>
+                <select class="form-input form-select" style="background:rgba(255,255,255,0.02); color:var(--text-primary);">
                   <option value="">Todas las acciones</option>
                   <option>Login</option>
                   <option>Consulta expediente</option>
                   <option>Carga documento</option>
-                  <option>Descarga</option>
-                  <option>Búsqueda</option>
-                  <option>Edición</option>
-                  <option>Eliminación</option>
                 </select>
               </div>
               <div class="form-field" style="min-width:160px;">
-                <label class="form-label"><i class="pi pi-calendar"></i> Desde</label>
-                <input type="date" class="form-input">
+                <label class="form-label" style="color:var(--text-muted);"><i class="pi pi-calendar"></i> Desde</label>
+                <input type="date" class="form-input" style="background:rgba(255,255,255,0.02); color:var(--text-primary);">
               </div>
               <div class="form-field" style="min-width:160px;">
-                <label class="form-label">Hasta</label>
-                <input type="date" class="form-input">
+                <label class="form-label" style="color:var(--text-muted);">Hasta</label>
+                <input type="date" class="form-input" style="background:rgba(255,255,255,0.02); color:var(--text-primary);">
               </div>
               <button class="btn btn-primary"><i class="pi pi-search"></i> Filtrar</button>
             </div>
           </div>
         </div>
 
-        <!-- COMPONENTE: _auditoria-table.html -->
+        <!-- Data Table -->
         <div class="card">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Fecha / Hora <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
-                <th>Usuario</th>
-                <th>Acción</th>
-                <th>Expediente</th>
-                <th>Detalle</th>
-                <th>IP</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>12/04/2026 14:32:15</td>
-                <td style="font-weight:600;">amilcar.gil</td>
-                <td><span class="audit-action-tag consulta">Consulta</span></td>
-                <td>NAZ-2024-00847</td>
-                <td style="color:var(--text-secondary);font-size:var(--font-xs);">Abrió detalle del expediente</td>
-                <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.10</td>
-              </tr>
-              <tr>
-                <td>12/04/2026 14:30:02</td>
-                <td style="font-weight:600;">emilio.gonzalez</td>
-                <td><span class="audit-action-tag descarga">Descarga</span></td>
-                <td>NAZ-2024-00847</td>
-                <td style="color:var(--text-secondary);font-size:var(--font-xs);">Descargó: Resolución_Inicial_NAZ-847.pdf</td>
-                <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.45</td>
-              </tr>
-              <tr>
-                <td>12/04/2026 14:15:44</td>
-                <td style="font-weight:600;">allan.gil</td>
-                <td><span class="audit-action-tag carga">Carga Doc</span></td>
-                <td>NAZ-2024-01203</td>
-                <td style="color:var(--text-secondary);font-size:var(--font-xs);">Subió: Informe_Psicologia_Mar2026.pdf (2.1 MB)</td>
-                <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.22</td>
-              </tr>
-              <tr>
-                <td>12/04/2026 13:58:30</td>
-                <td style="font-weight:600;">maria.rodriguez</td>
-                <td><span class="audit-action-tag busqueda">Búsqueda</span></td>
-                <td>—</td>
-                <td style="color:var(--text-secondary);font-size:var(--font-xs);">Búsqueda avanzada: tipo=Protección, juzgado=1ro</td>
-                <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.67</td>
-              </tr>
-              <tr>
-                <td>12/04/2026 13:40:18</td>
-                <td style="font-weight:600;">juan.lopez</td>
-                <td><span class="audit-action-tag login">Login</span></td>
-                <td>—</td>
-                <td style="color:var(--text-secondary);font-size:var(--font-xs);">Inicio de Sesión exitoso</td>
-                <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.89</td>
-              </tr>
-              <tr>
-                <td>12/04/2026 13:22:05</td>
-                <td style="font-weight:600;">amilcar.gil</td>
-                <td><span class="audit-action-tag edicion">Edición</span></td>
-                <td>ACP-2023-00412</td>
-                <td style="color:var(--text-secondary);font-size:var(--font-xs);">Actualizó estado: En trámite â†’ Activo</td>
-                <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.10</td>
-              </tr>
-              <tr>
-                <td>12/04/2026 12:05:11</td>
-                <td style="font-weight:600;">emilio.gonzalez</td>
-                <td><span class="audit-action-tag eliminacion">Eliminación</span></td>
-                <td>NAZ-2024-00847</td>
-                <td style="color:var(--text-secondary);font-size:var(--font-xs);">Eliminó: Borrador_Nota_v1.docx</td>
-                <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.45</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="overflow-x: auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Fecha / Hora <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
+                  <th>Usuario</th>
+                  <th>Acción</th>
+                  <th>Expediente</th>
+                  <th>Detalle</th>
+                  <th>IP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="color:var(--text-primary);">12/04/2026 14:32:15</td>
+                  <td style="font-weight:600; color:var(--text-primary);">amilcar.gil</td>
+                  <td><span class="audit-action-tag consulta">Consulta</span></td>
+                  <td>NAZ-2024-00847</td>
+                  <td style="color:var(--text-secondary);font-size:var(--font-xs);">Abrió detalle del expediente</td>
+                  <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.10</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--text-primary);">12/04/2026 14:30:02</td>
+                  <td style="font-weight:600; color:var(--text-primary);">emilio.gonzalez</td>
+                  <td><span class="audit-action-tag descarga">Descarga</span></td>
+                  <td>NAZ-2024-00847</td>
+                  <td style="color:var(--text-secondary);font-size:var(--font-xs);">Descargó: Resolución_Inicial_NAZ-847.pdf</td>
+                  <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.45</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--text-primary);">12/04/2026 14:15:44</td>
+                  <td style="font-weight:600; color:var(--text-primary);">allan.gil</td>
+                  <td><span class="audit-action-tag carga">Carga Doc</span></td>
+                  <td>NAZ-2024-01203</td>
+                  <td style="color:var(--text-secondary);font-size:var(--font-xs);">Subió: Informe_Psicologia.pdf (2.1 MB)</td>
+                  <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.22</td>
+                </tr>
+                <tr>
+                  <td style="color:var(--text-primary);">12/04/2026 13:40:18</td>
+                  <td style="font-weight:600; color:var(--text-primary);">juan.lopez</td>
+                  <td><span class="audit-action-tag login">Login</span></td>
+                  <td>—</td>
+                  <td style="color:var(--text-secondary);font-size:var(--font-xs);">Inicio de Sesión exitoso</td>
+                  <td style="color:var(--text-muted);font-family:monospace;font-size:var(--font-xs);">192.168.1.89</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
           <div class="table-footer">
-            <span>Mostrando 1-10 de 2,847 registros</span>
+            <span>Mostrando 1-4 de 2,847 registros</span>
             <div style="display:flex;align-items:center;gap:var(--space-4);">
-              <select class="form-input form-select" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:var(--font-xs);">
-                <option>10 por página</option>
-                <option>25 por página</option>
-                <option>50 por página</option>
-              </select>
               <div class="pagination">
                 <button><i class="pi pi-chevron-left"></i></button>
                 <button class="active">1</button>
                 <button>2</button>
-                <button>3</button>
                 <button>...</button>
                 <button>285</button>
                 <button><i class="pi pi-chevron-right"></i></button>
@@ -196,15 +178,5 @@
       </main>
     </div>
   </div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.querySelector('.topbar-left .btn-icon');
-    const shell = document.querySelector('.app-shell');
-    if (btn && shell) {
-      btn.addEventListener('click', () => shell.classList.toggle('sidebar-collapsed'));
-    }
-  });
-</script>
 </body>
 </html>
-

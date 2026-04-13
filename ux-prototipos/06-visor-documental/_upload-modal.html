@@ -1,17 +1,17 @@
 <!-- ============================================ -->
 <!-- COMPONENTE: _upload-modal.html              -->
-<!-- Modal de carga de documentos — RF1          -->
+<!-- Dark upload modal v2.0                      -->
 <!-- ============================================ -->
-<div class="modal-overlay">
-  <div class="modal-box" style="max-width:560px;">
-    <div class="modal-header">
-      <h3><i class="pi pi-upload" style="color:var(--primary);margin-right:0.5rem;"></i> Cargar Documento</h3>
+<div class="loading-overlay">
+  <div class="card" style="width:100%; max-width:560px; padding:0; overflow:hidden;">
+    <div style="padding:var(--space-4); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2);">
+      <h3 style="font-size:var(--font-lg); font-weight:700;"><i class="pi pi-upload" style="color:var(--primary);margin-right:0.5rem;"></i> Cargar Documento</h3>
       <button class="btn-icon"><i class="pi pi-times"></i></button>
     </div>
-    <div class="modal-body">
-      <div class="form-field" style="margin-bottom:var(--space-5);">
-        <label class="form-label"><i class="pi pi-tag"></i> Tipo de documento</label>
-        <select class="form-input form-select">
+    <div style="padding:var(--space-5);">
+      <div style="margin-bottom:var(--space-5);">
+        <label style="display:block; font-size:var(--font-xs); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary); margin-bottom:var(--space-2);"><i class="pi pi-tag"></i> Tipo de documento</label>
+        <select class="form-input form-select" style="width:100%; background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:0.75rem; border-radius:var(--radius-sm); color:var(--text-primary);">
           <option value="">Seleccione tipo...</option>
           <option>Resolución</option>
           <option>Informe</option>
@@ -20,9 +20,9 @@
           <option>Otro</option>
         </select>
       </div>
-      <div class="form-field" style="margin-bottom:var(--space-5);">
-        <label class="form-label"><i class="pi pi-list"></i> Categoría</label>
-        <select class="form-input form-select">
+      <div style="margin-bottom:var(--space-5);">
+        <label style="display:block; font-size:var(--font-xs); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-secondary); margin-bottom:var(--space-2);"><i class="pi pi-list"></i> Categoría</label>
+        <select class="form-input form-select" style="width:100%; background:rgba(255,255,255,0.02); border:1px solid var(--border); padding:0.75rem; border-radius:var(--radius-sm); color:var(--text-primary);">
           <option value="">Seleccione categoría...</option>
           <option>Jurídico</option>
           <option>Trabajo Social</option>
@@ -32,13 +32,13 @@
           <option>Procesal</option>
         </select>
       </div>
-      <div style="border:2px dashed var(--border);border-radius:var(--radius-md);padding:3rem 2rem;text-align:center;cursor:pointer;transition:all 0.2s;">
-        <i class="pi pi-cloud-upload" style="font-size:2.5rem;color:var(--primary);"></i>
-        <p style="margin-top:var(--space-3);font-weight:600;">Arrastre archivos aquí o haga clic para seleccionar</p>
-        <p style="font-size:var(--font-xs);color:var(--text-muted);margin-top:var(--space-2);">PDF, DOCX, JPG, PNG, MP4, MP3 — Máx. 500 MB</p>
+      <div style="border:2px dashed var(--border); border-radius:var(--radius-md); padding:3rem 2rem; text-align:center; cursor:pointer; transition:all 0.2s; background:rgba(255,255,255,0.01);">
+        <i class="pi pi-cloud-upload" style="font-size:3rem; color:var(--primary); filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));"></i>
+        <p style="margin-top:var(--space-4); font-weight:600; color:var(--text-primary); font-size:var(--font-base);">Arrastre archivos aquí o haga clic para seleccionar</p>
+        <p style="font-size:var(--font-sm); color:var(--text-muted); margin-top:var(--space-2);">PDF, DOCX, JPG, PNG, MP4, MP3 — Máx. 500 MB</p>
       </div>
     </div>
-    <div class="modal-footer">
+    <div style="padding:var(--space-4); border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:var(--space-3); background:rgba(0,0,0,0.2);">
       <button class="btn btn-secondary">Cancelar</button>
       <button class="btn btn-primary"><i class="pi pi-upload"></i> Subir Documento</button>
     </div>

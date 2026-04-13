@@ -1,16 +1,13 @@
 <!-- ============================================ -->
 <!-- COMPONENTE: _document-filters.html          -->
-<!-- Búsqueda simple + chips de tipo             -->
-<!-- front end.md sección 6.1 + 6.2              -->
+<!-- Dark glass document filters v2.0            -->
 <!-- ============================================ -->
 <div class="doc-toolbar">
   <div class="doc-toolbar-left">
-    <!-- Búsqueda simple (front end.md 6.1): nombre, tipo, extensión, categoría -->
     <div class="doc-search-wrap">
       <i class="pi pi-search"></i>
       <input type="text" class="doc-search-input" placeholder="Buscar por nombre, tipo, extensión...">
     </div>
-    <!-- Filtros rápidos por tipo de archivo -->
     <div class="doc-filter-chips">
       <span class="filter-chip active">Todos</span>
       <span class="filter-chip"><i class="pi pi-file-pdf"></i> PDF</span>
@@ -22,7 +19,6 @@
   <div style="display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-sm);color:var(--text-secondary);">
     <span>12 documentos</span>
     <span style="color:var(--border)">|</span>
-    <!-- Ordenamiento (front end.md 7.x) -->
     <select class="form-input form-select" style="width:auto;padding:0.375rem 2rem 0.375rem 0.75rem;font-size:var(--font-xs);">
       <option>Fecha ↓ (Más reciente)</option>
       <option>Fecha ↑ (Más antiguo)</option>

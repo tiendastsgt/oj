@@ -1,14 +1,17 @@
 <!-- ============================================ -->
 <!-- COMPONENTE: _case-header.html               -->
-<!-- Encabezado del expediente con estado        -->
-<!-- front end.md sección 3.1                    -->
+<!-- Dark glass case header v2.0                 -->
 <!-- ============================================ -->
-<div class="sidebar-card case-header-card">
-  <a href="../04-expedientes-list/expedientes-list-page.html" class="case-back">
-    <i class="pi pi-chevron-left"></i> Regresar a Expedientes
-  </a>
-  <div class="case-tipo-eyebrow">Protección de Niñez</div>
-  <div class="case-numero">NAZ-2024-00847</div>
-  <div class="case-vs">ESTADO vs. Juan Pérez Hernández</div>
-  <span class="badge badge-active">Activo</span>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-6);">
+  <div>
+    <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2);">
+      <h1 style="font-size:var(--font-2xl);font-weight:800;color:var(--text-primary);">NAZ-2024-00847</h1>
+      <span class="badge badge-active">Activo</span>
+    </div>
+    <p style="color:var(--text-secondary);font-size:var(--font-sm);">Protección — Juzgado Primero de la Niñez y Adolescencia</p>
+  </div>
+  <div style="display:flex;gap:var(--space-3);">
+    <button class="btn btn-secondary"><i class="pi pi-pencil"></i> Editar</button>
+    <button class="btn btn-primary"><i class="pi pi-plus"></i> Agregar Documento</button>
+  </div>
 </div>

@@ -1,17 +1,14 @@
 <!-- ============================================ -->
 <!-- COMPONENTE: _player-video.html              -->
-<!-- Reproductor de video HTML5 nativo           -->
-<!-- front end.md sección 5.5                    -->
-<!-- Soporte: mp4, mov, avi, wmv (RF3)           -->
-<!-- Controles estándar + pantalla completa      -->
+<!-- Dark HTML5 Video Player v2.0                -->
 <!-- ============================================ -->
-<div class="viewer-container">
+<div class="viewer-container active-viewer">
   <div class="viewer-toolbar">
     <div class="doc-info">
-      <div class="doc-icon" style="background:#ede9fe;color:#7c3aed"><i class="pi pi-video"></i></div>
+      <div class="doc-icon" style="background:rgba(139, 92, 246, 0.15);color:#a78bfa"><i class="pi pi-video"></i></div>
       <div>
-        <div class="doc-name">Audiencia_Oral_25Mar.mp4</div>
-        <div class="doc-meta">MP4 — 245 MB — Duración: 01:23:45</div>
+        <div class="doc-name" style="font-weight:600;color:white;">Audiencia_Oral_25Mar.mp4</div>
+        <div class="doc-meta" style="font-size:var(--font-xs);color:var(--text-muted);">MP4 — 245 MB — Duración: 01:23:45</div>
       </div>
     </div>
     <div class="toolbar-actions">
@@ -20,9 +17,9 @@
       <button class="btn-icon" title="Cerrar"><i class="pi pi-times"></i></button>
     </div>
   </div>
-  <div class="player-container">
-    <!-- Reproductor nativo HTML5 como indica front end.md -->
-    <video controls preload="metadata" style="width:100%;display:block;">
+  <div class="player-container" style="background:#000; display:flex; justify-content:center;">
+    <!-- Reproductor nativo HTML5 centrado -->
+    <video controls preload="metadata" style="max-height:600px; width:100%;">
       <source src="#" type="video/mp4">
       Su navegador no soporta la reproducción de video.
     </video>

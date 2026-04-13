@@ -1,34 +1,29 @@
 <!-- ============================================ -->
 <!-- COMPONENTE: _viewer-image.html              -->
-<!-- Visor de imágenes con controles             -->
-<!-- front end.md sección 5.3                    -->
-<!-- Capacidades: ampliación, ajuste, descarga,  -->
-<!-- impresión                                   -->
+<!-- Dark image viewer v2.0                      -->
 <!-- ============================================ -->
-<div class="viewer-container">
+<div class="viewer-container active-viewer">
   <div class="viewer-toolbar">
     <div class="doc-info">
-      <div class="doc-icon" style="background:#dcfce7;color:#16a34a"><i class="pi pi-image"></i></div>
+      <div class="doc-icon" style="background:rgba(16, 185, 129, 0.15);color:#34d399"><i class="pi pi-image"></i></div>
       <div>
-        <div class="doc-name">Evidencia_Fotografica_01.jpg</div>
-        <div class="doc-meta">JPG — 3.2 MB — 4032×3024px</div>
+        <div class="doc-name" style="font-weight:600;color:white;">Evidencia_Fotografica_01.jpg</div>
+        <div class="doc-meta" style="font-size:var(--font-xs);color:var(--text-muted);">JPG — 3.2 MB — 4032×3024px</div>
       </div>
     </div>
     <div class="toolbar-actions">
       <button class="btn-icon" title="Zoom -"><i class="pi pi-search-minus"></i></button>
       <button class="btn-icon" title="Zoom +"><i class="pi pi-search-plus"></i></button>
-      <button class="btn-icon" title="Ajustar a pantalla"><i class="pi pi-window-maximize"></i></button>
+      <button class="btn-icon" title="Ajustar"><i class="pi pi-window-maximize"></i></button>
       <button class="btn-icon" title="Descargar"><i class="pi pi-download"></i></button>
-      <button class="btn-icon" title="Imprimir"><i class="pi pi-print"></i></button>
       <button class="btn-icon" title="Cerrar"><i class="pi pi-times"></i></button>
     </div>
   </div>
-  <div class="viewer-body">
-    <!-- En Angular: <img [src]="imageUrl"> con gestos de zoom -->
-    <div style="width:100%;height:500px;background:#f1f5f9;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:var(--text-muted);">
-      <i class="pi pi-image" style="font-size:4rem;color:#16a34a;"></i>
-      <p style="font-weight:600;">Vista previa de imagen</p>
-      <p style="font-size:var(--font-xs);">Evidencia_Fotografica_01.jpg — 4032×3024px</p>
+  <div class="viewer-body" style="background:#020617; display:flex; justify-content:center; align-items:center; min-height:600px; padding:1.5rem;">
+    <!-- Utiliza canvas o renderizado de imagen embebido con zoom controls pan/tilt -->
+    <div style="width:100%; height:100%; outline:1px dashed var(--border); display:flex; justify-content:center; align-items:center;">
+      <i class="pi pi-image" style="font-size:5rem; color:rgba(255,255,255,0.05);"></i>
+      <span style="position:absolute; color:var(--text-muted); font-size:var(--font-xs);">Image view frame</span>
     </div>
   </div>
 </div>

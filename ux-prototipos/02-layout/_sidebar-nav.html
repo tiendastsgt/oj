@@ -1,59 +1,44 @@
 <!-- ============================================ -->
-<!-- COMPONENTE: _sidebar-nav.html               -->
-<!-- Navegación lateral del sistema SGED          -->
+<!-- COMPONENTE: _sidebar-nav.html              -->
+<!-- Sidebar Icon-based Dark Navigation v2.0    -->
 <!-- ============================================ -->
 <aside class="sidebar">
   <div class="sidebar-brand">
-    <div class="sidebar-logo-collapsed">OJ</div>
-    <div class="sidebar-brand-full">
-      <div class="brand-name gradient-text">SGED</div>
-      <div class="brand-sub">Visor Documental — OJ</div>
-    </div>
+    <div class="brand-icon">OJ</div>
   </div>
 
   <nav class="sidebar-nav">
     <div class="nav-section">
-      <div class="nav-section-label">Principal</div>
-      <a href="../03-dashboard/dashboard-page.html" class="nav-item">
+      <a href="../03-dashboard/dashboard-page.html" class="nav-item active" title="Dashboard">
         <i class="pi pi-th-large"></i>
-        <span>Dashboard</span>
       </a>
-      <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item">
+      <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item" title="Expedientes">
         <i class="pi pi-folder"></i>
-        <span>Expedientes</span>
       </a>
-      <a href="../07-busqueda/busqueda-container-page.html" class="nav-item">
+      <a href="../07-busqueda/busqueda-container-page.html" class="nav-item" title="Búsqueda">
         <i class="pi pi-search"></i>
-        <span>Búsqueda</span>
       </a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Administración</div>
-      <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item">
+      <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item" title="Usuarios">
         <i class="pi pi-users"></i>
-        <span>Usuarios</span>
       </a>
-      <a href="../09-auditoria/auditoria-page.html" class="nav-item">
+      <a href="../09-auditoria/auditoria-page.html" class="nav-item" title="Auditoría">
         <i class="pi pi-history"></i>
-        <span>Auditoría</span>
       </a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-section-label">Cuenta</div>
-      <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item">
-        <i class="pi pi-lock"></i>
-        <span>Cambiar Contraseña</span>
-      </a>
-      <a href="../01-login/login-page.html" class="nav-item">
-        <i class="pi pi-sign-out"></i>
-        <span>Cerrar Sesión</span>
+      <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item" title="Configuración">
+        <i class="pi pi-cog"></i>
       </a>
     </div>
   </nav>
 
   <div class="sidebar-footer">
-    SGED v1.2.0 — OJ Guatemala
+    <a href="../01-login/login-page.html" class="nav-item" title="Cerrar Sesión" style="width:44px;height:44px;">
+      <i class="pi pi-sign-out"></i>
+    </a>
   </div>
 </aside>

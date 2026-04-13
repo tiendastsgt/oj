@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -10,68 +10,79 @@
     .search-page-header h1 { font-size: var(--font-2xl); font-weight: 800; }
 
     /* Tabs */
-    .search-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: var(--space-6); }
-    .search-tab { padding: 0.75rem 1.5rem; font-size: var(--font-sm); font-weight: 600; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; display: flex; align-items: center; gap: var(--space-2); }
+    .search-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: var(--space-6); }
+    .search-tab { padding: 0.75rem 1.5rem; font-size: var(--font-sm); font-weight: 600; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; display: flex; align-items: center; gap: var(--space-2); }
     .search-tab:hover { color: var(--text-primary); }
-    .search-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .search-tab.active { color: var(--primary); border-bottom-color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
 
     /* Main search bar */
     .search-hero { position: relative; margin-bottom: var(--space-6); }
-    .search-hero-bar { display: flex; align-items: center; gap: var(--space-3); background: var(--surface-card); padding: 0.5rem; border-radius: 14px; border: 2px solid var(--border); transition: all 0.3s; }
-    .search-hero-bar:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+    .search-hero-bar { display: flex; align-items: center; gap: var(--space-3); background: var(--surface-card); padding: 0.5rem; border-radius: 14px; border: 1px solid var(--border); transition: all 0.3s; }
+    .search-hero-bar:focus-within { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); background: rgba(0,0,0,0.3); }
     .search-hero-bar i.search-icon { margin-left: 1rem; color: var(--text-muted); font-size: 1.25rem; }
     .search-hero-input { flex: 1; border: none; background: transparent; font-family: var(--font-family); font-size: var(--font-lg); padding: 0.75rem 0.5rem; outline: none; color: var(--text-primary); }
     .search-hero-input::placeholder { color: var(--text-muted); }
 
-    /* Advanced filters panel */
-    .advanced-panel { overflow: hidden; max-height: 0; opacity: 0; transition: all 0.4s var(--ease-out); }
-    .advanced-panel.expanded { max-height: 600px; opacity: 1; margin-top: var(--space-6); }
-
-    /* COMPONENTE: _criterios-generales.html */
+    /* Advanced panel & Grid */
+    .advanced-panel { margin-top: var(--space-6); background: rgba(0,0,0,0.1); border-radius: var(--radius-md); padding: var(--space-4); border: 1px solid var(--border); }
     .criteria-section { margin-bottom: var(--space-6); }
+    .criteria-section:last-child { margin-bottom: 0; }
     .criteria-section-title { font-size: var(--font-xs); font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); padding-bottom: var(--space-2); border-bottom: 1px solid var(--border); }
     .criteria-section-title i { color: var(--primary); }
     .criteria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-5); }
-
-    /* Actions bar */
+    
     .search-actions { display: flex; justify-content: flex-end; gap: var(--space-3); padding-top: var(--space-5); border-top: 1px solid var(--border); margin-top: var(--space-6); }
-
-    /* Results section */
+    
     .results-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-4); }
     .results-count { font-size: var(--font-sm); color: var(--text-secondary); font-weight: 500; }
   </style>
 </head>
 <body>
   <div class="app-shell">
-    <!-- Sidebar -->
+    
+    <!-- SIDEBAR v2.0 Dark Mode -->
     <aside class="sidebar">
-      <div class="sidebar-brand"><div class="sidebar-logo-collapsed">OJ</div><div class="sidebar-brand-full"><div class="brand-name gradient-text">SGED</div><div class="brand-sub">Visor Documental — OJ</div></div></div>
+      <div class="sidebar-brand">
+        <div class="brand-icon">OJ</div>
+      </div>
       <nav class="sidebar-nav">
-        <div class="nav-section"><div class="nav-section-label">Principal</div>
-          <a href="../03-dashboard/dashboard-page.html" class="nav-item"><i class="pi pi-th-large"></i><span>Dashboard</span></a>
-          <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item"><i class="pi pi-folder"></i><span>Expedientes</span></a>
-          <a href="#" class="nav-item active"><i class="pi pi-search"></i><span>Búsqueda</span></a>
+        <div class="nav-section">
+          <a href="../03-dashboard/dashboard-page.html" class="nav-item" title="Dashboard"><i class="pi pi-th-large"></i></a>
+          <a href="../04-expedientes-list/expedientes-list-page.html" class="nav-item" title="Expedientes"><i class="pi pi-folder"></i></a>
+          <a href="#" class="nav-item active" title="Búsqueda"><i class="pi pi-search"></i></a>
         </div>
-        <div class="nav-section"><div class="nav-section-label">Administración</div>
-          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item"><i class="pi pi-users"></i><span>Usuarios</span></a>
-          <a href="../09-auditoria/auditoria-page.html" class="nav-item"><i class="pi pi-history"></i><span>Auditoría</span></a>
+        <div class="nav-section">
+          <a href="../08-admin-usuarios/usuarios-list-page.html" class="nav-item" title="Usuarios"><i class="pi pi-users"></i></a>
+          <a href="../09-auditoria/auditoria-page.html" class="nav-item" title="Auditoría"><i class="pi pi-history"></i></a>
         </div>
-        <div class="nav-section"><div class="nav-section-label">Cuenta</div>
-          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item"><i class="pi pi-lock"></i><span>Cambiar Contraseña</span></a>
-          <a href="../01-login/login-page.html" class="nav-item"><i class="pi pi-sign-out"></i><span>Cerrar Sesión</span></a>
+        <div class="nav-section">
+          <a href="../10-cambiar-password/cambiar-password-page.html" class="nav-item" title="Configuración"><i class="pi pi-cog"></i></a>
         </div>
       </nav>
+      <div class="sidebar-footer">
+        <a href="../01-login/login-page.html" class="nav-item" title="Cerrar Sesión" style="width:44px;height:44px;"><i class="pi pi-sign-out"></i></a>
+      </div>
     </aside>
 
     <div class="main-content">
+      
+      <!-- TOPBAR v2.0 Glass Dark -->
       <header class="topbar">
         <div class="topbar-left">
-          <button class="btn-icon"><i class="pi pi-bars"></i></button>
-          <div class="topbar-breadcrumb"><span>SGED</span><i class="pi pi-chevron-right" style="font-size:0.6rem"></i><span class="current">Búsqueda</span></div>
+          <div class="topbar-brand-text">
+            <span class="brand-bold">SGED</span>
+            <span class="brand-light">Búsqueda</span>
+          </div>
         </div>
         <div class="topbar-right">
-          <button class="btn-icon"><i class="pi pi-bell"></i></button>
-          <div class="flex items-center gap-3"><div class="user-avatar">AG</div><div style="line-height:1.3"><div style="font-size:var(--font-sm);font-weight:600">Amilcar Gil</div><div style="font-size:var(--font-xs);color:var(--text-muted)">Administrador</div></div></div>
+          <button class="btn-icon" title="Notificaciones"><i class="pi pi-bell"></i></button>
+          <div class="flex items-center gap-3">
+            <div class="user-avatar">AG</div>
+            <div>
+              <div class="user-info-name">Amilcar Gil</div>
+              <div class="user-info-role">Administrador</div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -80,73 +91,61 @@
           <h1>Búsqueda de Expedientes</h1>
         </div>
 
-        <!-- COMPONENTE: busqueda-container (Tabs) -->
         <div class="search-tabs">
           <div class="search-tab"><i class="pi pi-bolt"></i> Búsqueda Rápida</div>
           <div class="search-tab active"><i class="pi pi-sliders-h"></i> Búsqueda Avanzada</div>
         </div>
 
-        <!-- ============================================ -->
-        <!-- COMPONENTE: _busqueda-avanzada.html          -->
-        <!-- ============================================ -->
         <div class="card">
           <div class="card-body">
-            <!-- Barra principal de Búsqueda -->
+            
             <div class="search-hero">
               <div class="search-hero-bar">
                 <i class="pi pi-search search-icon"></i>
                 <input type="text" class="search-hero-input" placeholder="Buscar expedientes (Número, Partes, Palabras clave...)">
-                <button class="btn btn-text" style="text-transform:uppercase; white-space:nowrap;">
+                <button class="btn btn-primary btn-sm" style="text-transform:uppercase; white-space:nowrap;">
                   <i class="pi pi-chevron-up"></i> OCULTAR FILTROS
                 </button>
               </div>
             </div>
 
-            <!-- Panel de filtros avanzados expandido -->
             <div class="advanced-panel expanded">
-
-              <!-- COMPONENTE: _criterios-generales.html -->
+              
+              <!-- Criterios Generales -->
               <div class="criteria-section">
                 <div class="criteria-section-title"><i class="pi pi-filter"></i> CRITERIOS GENERALES</div>
                 <div class="criteria-grid">
                   <div class="form-field">
-                    <label class="form-label"><i class="pi pi-hashtag"></i> Número de Expediente</label>
+                    <label class="form-label"><i class="pi pi-hashtag" style="color:var(--text-muted)"></i> Número de Expediente</label>
                     <input type="text" class="form-input" placeholder="Ej: NAZ-2024-00847">
                   </div>
                   <div class="form-field">
-                    <label class="form-label"><i class="pi pi-list"></i> Tipo de Proceso</label>
+                    <label class="form-label"><i class="pi pi-list" style="color:var(--text-muted)"></i> Tipo de Proceso</label>
                     <select class="form-input form-select">
                       <option value="">Todos los Procesos</option>
                       <option>Protección</option>
-                      <option>Conflicto con la Ley Penal</option>
-                      <option>Adopción</option>
-                      <option>Familia</option>
+                      <option>Conflicto Penal</option>
                     </select>
                   </div>
                   <div class="form-field">
-                    <label class="form-label"><i class="pi pi-info-circle"></i> Estado</label>
+                    <label class="form-label"><i class="pi pi-info-circle" style="color:var(--text-muted)"></i> Estado</label>
                     <select class="form-input form-select">
                       <option value="">Todos los Estados</option>
                       <option>Activo</option>
-                      <option>En trámite</option>
-                      <option>Resuelto</option>
                       <option>Archivado</option>
                     </select>
                   </div>
                   <div class="form-field">
-                    <label class="form-label"><i class="pi pi-building"></i> Juzgado Asignado</label>
+                    <label class="form-label"><i class="pi pi-building" style="color:var(--text-muted)"></i> Juzgado Asignado</label>
                     <select class="form-input form-select">
                       <option value="">Todos los Juzgados</option>
                       <option>Juzgado 1ro Niñez</option>
-                      <option>Juzgado 2do Niñez</option>
-                      <option>Juzgado 3ro Niñez</option>
-                      <option>Juzgado Adolescentes</option>
                     </select>
                   </div>
                 </div>
               </div>
 
-              <!-- COMPONENTE: _criterios-fechas.html -->
+              <!-- Fechas -->
               <div class="criteria-section">
                 <div class="criteria-section-title"><i class="pi pi-calendar"></i> RANGO DE FECHAS</div>
                 <div class="criteria-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 520px;">
@@ -161,130 +160,75 @@
                 </div>
               </div>
 
-              <!-- COMPONENTE: _criterios-sujetos.html -->
+              <!-- Partes -->
               <div class="criteria-section">
                 <div class="criteria-section-title"><i class="pi pi-users"></i> PARTES PROCESALES</div>
                 <div class="criteria-grid" style="grid-template-columns: repeat(2, 1fr);">
                   <div class="form-field">
                     <label class="form-label">Actor Principal</label>
-                    <input type="text" class="form-input" placeholder="Nombre del actor o demandante">
+                    <input type="text" class="form-input" placeholder="Nombre actor">
                   </div>
                   <div class="form-field">
                     <label class="form-label">Demandado Principal</label>
-                    <input type="text" class="form-input" placeholder="Nombre del demandado">
+                    <input type="text" class="form-input" placeholder="Nombre demandado">
                   </div>
                 </div>
               </div>
 
-              <!-- COMPONENTE: _criterios-referencia.html -->
-              <div class="criteria-section">
-                <div class="criteria-section-title"><i class="pi pi-link"></i> REFERENCIA SGT</div>
-                <div style="max-width: 360px;">
-                  <div class="form-field">
-                    <label class="form-label">Referencia Interna SGT</label>
-                    <input type="text" class="form-input" placeholder="Ej: SGT-2024-1892">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Actions -->
               <div class="search-actions">
                 <button class="btn btn-secondary"><i class="pi pi-refresh"></i> Limpiar Filtros</button>
                 <button class="btn btn-primary btn-lg"><i class="pi pi-search"></i> Ejecutar Búsqueda</button>
               </div>
             </div>
+            
           </div>
         </div>
 
-        <!-- ============================================ -->
-        <!-- COMPONENTE: _resultados-busqueda.html        -->
-        <!-- ============================================ -->
-        <div class="card mt-6 slide-up">
+        <!-- Resultados -->
+        <div class="card mt-6">
           <div class="card-body">
             <div class="results-header">
-              <h3 class="section-title"><i class="pi pi-list"></i> RESULTADOS DE BíšSQUEDA</h3>
+              <h3 class="section-title"><i class="pi pi-list"></i> RESULTADOS DE BÚSQUEDA</h3>
               <span class="results-count">47 expedientes encontrados</span>
             </div>
 
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Número <i class="pi pi-sort-alt sort-icon"></i></th>
-                  <th>Tipo de Proceso</th>
-                  <th>Actor Principal</th>
-                  <th>Demandado Principal</th>
-                  <th>Juzgado</th>
-                  <th>Estado</th>
-                  <th>íšltima Actuación <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
-                  <th>Docs</th>
-                  <th style="text-align:center">Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="font-weight:700;color:var(--primary);">NAZ-2024-00847</td>
-                  <td>Protección</td>
-                  <td>Estado de Guatemala</td>
-                  <td>Juan Pérez Hernández</td>
-                  <td>Juzgado 1ro Niñez</td>
-                  <td><span class="badge badge-active">Activo</span></td>
-                  <td>10 Abr 2026</td>
-                  <td style="text-align:center">12</td>
-                  <td style="text-align:center"><a href="../05-expediente-detail/expediente-detail-page.html" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:700;color:var(--primary);">ACP-2023-00412</td>
-                  <td>Conflicto Penal</td>
-                  <td>Ministerio Público</td>
-                  <td>Carlos López Méndez</td>
-                  <td>Juzgado Adolescentes</td>
-                  <td><span class="badge badge-pending">En trámite</span></td>
-                  <td>08 Abr 2026</td>
-                  <td style="text-align:center">7</td>
-                  <td style="text-align:center"><a href="#" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:700;color:var(--primary);">NAZ-2024-01203</td>
-                  <td>Adopción</td>
-                  <td>Ana García Reyes</td>
-                  <td>—</td>
-                  <td>Juzgado 2do Niñez</td>
-                  <td><span class="badge badge-active">Activo</span></td>
-                  <td>05 Abr 2026</td>
-                  <td style="text-align:center">4</td>
-                  <td style="text-align:center"><a href="#" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:700;color:var(--primary);">NAZ-2023-00198</td>
-                  <td>Protección</td>
-                  <td>Estado de Guatemala</td>
-                  <td>Roberto Sánchez Cruz</td>
-                  <td>Juzgado 3ro Niñez</td>
-                  <td><span class="badge badge-closed">Archivado</span></td>
-                  <td>15 Mar 2026</td>
-                  <td style="text-align:center">22</td>
-                  <td style="text-align:center"><a href="#" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
-                </tr>
-              </tbody>
-            </table>
+            <!-- Dark Data Table -->
+            <div style="overflow-x: auto;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Número</th>
+                    <th>Proceso</th>
+                    <th>Actor</th>
+                    <th>Demandado</th>
+                    <th>Juzgado</th>
+                    <th>Estado</th>
+                    <th>Docs</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="../05-expediente-detail/expediente-detail-page.html" style="font-weight:700;color:var(--primary-hover);">NAZ-2024-00847</a></td>
+                    <td>Protección</td>
+                    <td>Estado de Guatemala</td>
+                    <td>Juan Pérez</td>
+                    <td>Juzg. 1ro Niñez</td>
+                    <td><span class="badge badge-activo">Activo</span></td>
+                    <td style="text-align:center; font-weight:600;">12</td>
+                    <td style="text-align:center"><a href="../05-expediente-detail/expediente-detail-page.html" class="btn btn-text btn-sm">Ver <i class="pi pi-arrow-right"></i></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <div class="table-footer">
-              <span>Mostrando 1-10 de 47 expedientes</span>
-              <div style="display:flex;align-items:center;gap:var(--space-4);">
-                <select class="form-input form-select" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:var(--font-xs);">
-                  <option>10 por página</option>
-                  <option>25 por página</option>
-                  <option>50 por página</option>
-                </select>
-                <div class="pagination">
-                  <button><i class="pi pi-chevron-left"></i></button>
-                  <button class="active">1</button>
-                  <button>2</button>
-                  <button>3</button>
-                  <button>4</button>
-                  <button>5</button>
-                  <button><i class="pi pi-chevron-right"></i></button>
-                </div>
+              <span>Mostrando 1-25 de 47 expedientes</span>
+              <div class="pagination">
+                <button><i class="pi pi-chevron-left"></i></button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button><i class="pi pi-chevron-right"></i></button>
               </div>
             </div>
           </div>
@@ -293,15 +237,5 @@
       </main>
     </div>
   </div>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.querySelector('.topbar-left .btn-icon');
-    const shell = document.querySelector('.app-shell');
-    if (btn && shell) {
-      btn.addEventListener('click', () => shell.classList.toggle('sidebar-collapsed'));
-    }
-  });
-</script>
 </body>
 </html>
-

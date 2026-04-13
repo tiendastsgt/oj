@@ -1,26 +1,22 @@
 <!-- ============================================ -->
 <!-- COMPONENTE: _document-list-table.html       -->
-<!-- Tabla de documentos con 8 columnas          -->
-<!-- front end.md sección 4.1                    -->
-<!-- Columnas: nombre, tipo, extensión,          -->
-<!-- categoría, tamaño, usuario, fecha, acciones -->
+<!-- Dark data table with neon document types v2.0-->
 <!-- ============================================ -->
-<div style="overflow-x: auto;">
+<div style="margin-top: var(--space-4); overflow-x: auto;">
   <table class="data-table">
     <thead>
       <tr>
         <th>Nombre del documento <i class="pi pi-sort-alt sort-icon"></i></th>
         <th>Tipo <i class="pi pi-sort-alt sort-icon"></i></th>
-        <th>Extensión</th>
+        <th>Ext.</th>
         <th>Categoría</th>
         <th>Tamaño</th>
         <th>Usuario <i class="pi pi-sort-alt sort-icon"></i></th>
-        <th>Fecha creación <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
+        <th>Agregado <i class="pi pi-sort-amount-down sort-icon" style="opacity:1;color:var(--primary)"></i></th>
         <th style="text-align:center">Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Fila: Documento PDF -->
       <tr>
         <td>
           <div class="doc-name-cell">
@@ -30,89 +26,18 @@
         </td>
         <td>Resolución</td>
         <td><span class="doc-file-ext">.pdf</span></td>
-        <td><span class="badge badge-info">Jurídico</span></td>
+        <td><span class="badge badge-proceso">Jurídico</span></td>
         <td>1.8 MB</td>
         <td>Amilcar Gil</td>
         <td>10 Abr 2026</td>
         <td>
-          <!-- INCLUIR: _document-actions-bar.html (completo) -->
           <div class="doc-actions" style="justify-content:center">
             <button class="btn-icon view" title="Ver"><i class="pi pi-eye"></i></button>
             <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
             <button class="btn-icon print" title="Imprimir"><i class="pi pi-print"></i></button>
-            <button class="btn-icon delete" title="Eliminar"><i class="pi pi-trash"></i></button>
           </div>
         </td>
       </tr>
-      <!-- Fila: Word (convertido a PDF por backend — front end.md 5.2) -->
-      <tr>
-        <td>
-          <div class="doc-name-cell">
-            <div class="doc-type-icon word"><i class="pi pi-file-word"></i></div>
-            <div><div class="doc-file-name">Informe_Trabajo_Social.docx</div></div>
-          </div>
-        </td>
-        <td>Informe</td>
-        <td><span class="doc-file-ext">.docx</span></td>
-        <td><span class="badge badge-active">Trabajo Social</span></td>
-        <td>2.4 MB</td>
-        <td>María Rodríguez</td>
-        <td>08 Abr 2026</td>
-        <td>
-          <div class="doc-actions" style="justify-content:center">
-            <button class="btn-icon view" title="Ver como PDF"><i class="pi pi-eye"></i></button>
-            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
-            <button class="btn-icon print" title="Imprimir"><i class="pi pi-print"></i></button>
-            <button class="btn-icon delete" title="Eliminar"><i class="pi pi-trash"></i></button>
-          </div>
-        </td>
-      </tr>
-      <!-- Fila: Imagen -->
-      <tr>
-        <td>
-          <div class="doc-name-cell">
-            <div class="doc-type-icon img"><i class="pi pi-image"></i></div>
-            <div><div class="doc-file-name">Evidencia_Fotografica_01.jpg</div></div>
-          </div>
-        </td>
-        <td>Evidencia</td>
-        <td><span class="doc-file-ext">.jpg</span></td>
-        <td><span class="badge badge-pending">Pericial</span></td>
-        <td>3.2 MB</td>
-        <td>Allan Gil</td>
-        <td>05 Abr 2026</td>
-        <td>
-          <div class="doc-actions" style="justify-content:center">
-            <button class="btn-icon view" title="Ver imagen"><i class="pi pi-eye"></i></button>
-            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
-            <button class="btn-icon print" title="Imprimir"><i class="pi pi-print"></i></button>
-            <button class="btn-icon delete" title="Eliminar"><i class="pi pi-trash"></i></button>
-          </div>
-        </td>
-      </tr>
-      <!-- Fila: Video -->
-      <tr>
-        <td>
-          <div class="doc-name-cell">
-            <div class="doc-type-icon video"><i class="pi pi-video"></i></div>
-            <div><div class="doc-file-name">Audiencia_Oral_25Mar.mp4</div></div>
-          </div>
-        </td>
-        <td>Audiencia</td>
-        <td><span class="doc-file-ext">.mp4</span></td>
-        <td><span class="badge badge-urgent">Procesal</span></td>
-        <td>245 MB</td>
-        <td>Emilio González</td>
-        <td>25 Mar 2026</td>
-        <td>
-          <!-- Acciones limitadas por tipo: solo Ver y Descargar -->
-          <div class="doc-actions" style="justify-content:center">
-            <button class="btn-icon view" title="Reproducir"><i class="pi pi-play"></i></button>
-            <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
-          </div>
-        </td>
-      </tr>
-      <!-- Fila: Audio -->
       <tr>
         <td>
           <div class="doc-name-cell">
@@ -122,13 +47,13 @@
         </td>
         <td>Declaración</td>
         <td><span class="doc-file-ext">.mp3</span></td>
-        <td><span class="badge badge-pending">Testimonial</span></td>
+        <td><span class="badge badge-pendiente">Testimonial</span></td>
         <td>18 MB</td>
         <td>Juan López</td>
         <td>22 Mar 2026</td>
         <td>
           <div class="doc-actions" style="justify-content:center">
-            <button class="btn-icon view" title="Reproducir"><i class="pi pi-play"></i></button>
+            <button class="btn-icon view" title="Reproducir audio"><i class="pi pi-play"></i></button>
             <button class="btn-icon download" title="Descargar"><i class="pi pi-download"></i></button>
           </div>
         </td>
@@ -137,15 +62,9 @@
   </table>
 </div>
 
-<!-- Paginación (front end.md sección 8: 10/25/50) -->
 <div class="table-footer">
-  <span>Mostrando 1-5 de 12 documentos</span>
+  <span>Mostrando 1-2 de 12 documentos</span>
   <div style="display:flex;align-items:center;gap:var(--space-4);">
-    <select class="form-input form-select" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:var(--font-xs);">
-      <option>10 por página</option>
-      <option>25 por página</option>
-      <option>50 por página</option>
-    </select>
     <div class="pagination">
       <button><i class="pi pi-chevron-left"></i></button>
       <button class="active">1</button>

@@ -1,18 +1,14 @@
 <!-- ============================================ -->
 <!-- COMPONENTE: _viewer-pdf.html                -->
-<!-- Visor de documentos PDF embebido            -->
-<!-- front end.md sección 5.1                    -->
-<!-- Capacidades: navegación, zoom, descarga,    -->
-<!-- impresión                                   -->
-<!-- También se usa para Word convertido (5.2)   -->
+<!-- Dark PDF viewer v2.0                        -->
 <!-- ============================================ -->
 <div class="viewer-container active-viewer">
   <div class="viewer-toolbar">
     <div class="doc-info">
       <div class="doc-icon"><i class="pi pi-file-pdf"></i></div>
       <div>
-        <div class="doc-name">Resolución_Inicial_NAZ-847.pdf</div>
-        <div class="doc-meta">PDF — 1.8 MB — Subido: 10 Abr 2026 por Amilcar Gil</div>
+        <div class="doc-name" style="font-weight:600;color:white;">Resolución_Inicial_NAZ-847.pdf</div>
+        <div class="doc-meta" style="font-size:var(--font-xs);color:var(--text-muted);">PDF — 1.8 MB — Subido: 10 Abr 2026 por Amilcar Gil</div>
       </div>
     </div>
     <div class="toolbar-actions">
@@ -23,11 +19,11 @@
       <button class="btn-icon" title="Cerrar"><i class="pi pi-times"></i></button>
     </div>
   </div>
-  <div class="viewer-body">
-    <!-- En Angular: <iframe [src]="pdfUrl | safe"> o <ngx-extended-pdf-viewer> -->
-    <div style="width:100%;height:600px;background:#e2e8f0;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:var(--text-muted);">
+  <div class="viewer-body" style="background:#020617; padding: 1rem;">
+    <!-- En producción: <iframe src="/api/documentos/{id}/preview"> embebido en layout oscuro -->
+    <div style="width:100%;height:600px;background:#0f172a;border-radius:var(--radius-sm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;color:var(--text-muted);">
       <i class="pi pi-file-pdf" style="font-size:4rem;color:var(--accent-rose);"></i>
-      <p style="font-weight:600;">Vista previa del documento PDF</p>
+      <p style="font-weight:600;color:white;">Vista previa del documento PDF</p>
       <p style="font-size:var(--font-xs);">Resolución_Inicial_NAZ-847.pdf — Página 1 de 8</p>
     </div>
   </div>
