@@ -11,4 +11,10 @@ import { BusquedaAvanzadaComponent } from '../busqueda-avanzada/busqueda-avanzad
   templateUrl: './busqueda-container.component.html',
   styleUrls: ['./busqueda-container.component.scss']
 })
-export class BusquedaContainerComponent {}
+export class BusquedaContainerComponent {
+  activeTab: 'rapida' | 'avanzada' = 'avanzada';
+
+  setActiveTab(tab: 'rapida' | 'avanzada') {
+    this.activeTab = tab;
+  }
+}

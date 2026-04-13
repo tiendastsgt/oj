@@ -77,31 +77,19 @@ export class ExpedientesListComponent implements OnInit {
     this.loading = true;
     this.errorMessage = '';
     
-    // TEMPORAL: Mock data para visualización UX premium
     this.expedientesService.getExpedientes({ page, size, sort: `${sortField},${sortDir}` }).subscribe({
       next: (response) => {
         const data = response.data;
-        this.expedientes = data?.content?.length ? data.content : this.getMockExpedientes();
-        this.totalRecords = data?.totalElements || this.expedientes.length;
+        this.expedientes = data?.content || [];
+        this.totalRecords = data?.totalElements || 0;
         this.loading = false;
       },
-      error: () => {
-        // Fallback a mocks si falla el backend (por falta de credenciales/db)
-        this.expedientes = this.getMockExpedientes();
-        this.totalRecords = this.expedientes.length * 5;
+      error: (error) => {
+        this.expedientes = [];
+        this.totalRecords = 0;
+        this.errorMessage = error?.error?.message || 'Error al cargar expedientes';
         this.loading = false;
       }
     });
-  }
-
-  private getMockExpedientes(): any[] {
-    return [
-      { id: 1, numero: 'C1-2026-0001', tipoProcesoId: 'ORDINARIO', estadoId: 'ACTIVO', juzgadoId: 'Juzgado Primero de la Niñez', fechaInicio: new Date(), fechaCreacion: new Date() },
-      { id: 2, numero: 'C1-2026-0002', tipoProcesoId: 'SUMARIO', estadoId: 'PENDIENTE', juzgadoId: 'Juzgado Segundo de Adolescentes', fechaInicio: new Date(), fechaCreacion: new Date() },
-      { id: 3, numero: 'C1-2026-0003', tipoProcesoId: 'DIVORCIO', estadoId: 'CERRADO', juzgadoId: 'Juzgado Tercero de Familia', fechaInicio: new Date(), fechaCreacion: new Date() },
-      { id: 4, numero: 'C1-2026-0004', tipoProcesoId: 'PATERNO', estadoId: 'EN PROCESO', juzgadoId: 'Juzgado Cuarto de la Niñez', fechaInicio: new Date(), fechaCreacion: new Date() },
-      { id: 5, numero: 'C1-2026-0005', tipoProcesoId: 'ORDINARIO', estadoId: 'ACTIVO', juzgadoId: 'Juzgado Primero de la Niñez', fechaInicio: new Date(), fechaCreacion: new Date() },
-      { id: 6, numero: 'C1-2026-0006', tipoProcesoId: 'SUMARIO', estadoId: 'ACTIVO', juzgadoId: 'Juzgado Quinto de Adolescentes', fechaInicio: new Date(), fechaCreacion: new Date() },
-    ];
   }
 }

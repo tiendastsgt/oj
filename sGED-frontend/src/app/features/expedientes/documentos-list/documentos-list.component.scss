@@ -13,12 +13,13 @@
   }
   
   .p-datatable-tbody > tr {
-    transition: all 0.2s;
+    transition: all var(--duration-fast) var(--ease-out);
     cursor: default;
+    background: transparent;
     
-    &:hover { background: #f8fafc; }
+    &:hover { background: var(--surface-hover); }
     &.active-row { 
-      background: #eff6ff;
+      background: var(--primary-light);
       td { border-left: 3px solid var(--primary); }
     }
   }
@@ -26,6 +27,7 @@
   .p-datatable-tbody > tr > td { 
     padding: 1rem; 
     border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
   }
 }
 
@@ -39,18 +41,18 @@
   font-size: 1.1rem;
   flex-shrink: 0;
 
-  &.pdf   { background: #fef2f2; color: #ef4444; }
-  &.word  { background: #eff6ff; color: #2563eb; }
-  &.img   { background: #f0fdf4; color: #16a34a; }
-  &.video { background: #f5f3ff; color: #7c3aed; }
-  &.audio { background: #fffbeb; color: #d97706; }
-  &.other { background: #f1f5f9; color: #64748b; }
+  &.pdf   { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+  &.word  { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+  &.img   { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+  &.video { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+  &.audio { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+  &.other { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
 }
 
 .badge-outline {
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  background: white;
+  background: rgba(255, 255, 255, 0.02);
   padding: 2px 8px;
   border-radius: 4px;
 }

@@ -126,14 +126,16 @@ export class DocumentosListComponent implements OnInit {
     this.errorMessages = [];
     this.documentosService.getDocumentos(this.expedienteId).subscribe({
       next: (response) => {
-        this.documentos = response.data?.length ? response.data : this.getMockDocumentos();
+        this.documentos = response.data || [];
         this.loading = false;
       },
       error: (error) => {
-        this.documentos = this.getMockDocumentos(); // Fallback to mocks for Elite UX demo
+        this.documentos = [];
         this.loading = false;
         if (error?.status === 403) {
           this.errorMessages = ['Acceso denegado a documentos de este expediente'];
+        } else {
+          this.errorMessages = [error?.error?.message || 'Error al cargar documentos'];
         }
       }
     });

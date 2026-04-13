@@ -1,3 +1,32 @@
-.busqueda-container {
-  display: block;
+.search-page-header { margin-bottom: var(--space-6); }
+
+.search-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-8);
+}
+
+.search-tab {
+  padding: 0.875rem 2rem;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all var(--duration-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  
+  &:hover { color: white; }
+  
+  &.active {
+    color: var(--primary-hover);
+    border-bottom-color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-glow);
+  }
+  
+  i { font-size: 1rem; }
 }

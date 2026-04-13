@@ -39,6 +39,7 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
   totalRecords = 0;
   currentPage = 0;
   filterForm: FormGroup;
+  now = new Date();
 
   private destroy$ = new Subject<void>();
 

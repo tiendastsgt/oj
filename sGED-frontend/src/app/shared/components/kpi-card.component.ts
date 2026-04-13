@@ -22,63 +22,49 @@ import { Component, Input } from '@angular/core';
   `,
   styles: [`
     .kpi-card {
-      padding: 1.25rem;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: var(--space-6);
+      border-radius: var(--radius-md);
+      background: var(--surface-card);
+      border: 1px solid var(--border);
       backdrop-filter: blur(12px);
       display: flex;
       align-items: center;
-      gap: 1rem;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .kpi-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.12);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+      gap: var(--space-4);
+      transition: all var(--duration-normal) var(--ease-out);
+      &:hover { transform: translateY(-2px); border-color: var(--border-hover); box-shadow: var(--shadow-lg); }
     }
 
     .kpi-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 48px; height: 48px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
       font-size: 1.2rem;
       flex-shrink: 0;
+      &.blue   { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+      &.amber  { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+      &.green  { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+      &.violet { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
     }
 
-    .kpi-icon-box.blue   { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-    .kpi-icon-box.amber  { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-    .kpi-icon-box.green  { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-    .kpi-icon-box.violet { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
-    .kpi-icon-box.cyan   { background: rgba(6, 182, 212, 0.15); color: #22d3ee; }
-    .kpi-icon-box.rose   { background: rgba(244, 63, 94, 0.15); color: #fb7185; }
-
     .kpi-value {
-      font-size: 1.5rem;
+      font-size: var(--font-2xl);
       font-weight: 800;
       letter-spacing: -0.02em;
-      color: #f1f5f9;
+      color: white;
     }
 
     .kpi-label {
-      font-size: 0.75rem;
-      color: #94a3b8;
+      font-size: var(--font-xs);
+      color: var(--text-secondary);
       margin-top: 2px;
     }
 
     .kpi-trend {
       font-size: 0.7rem;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 4px;
+      display: flex; align-items: center; gap: 4px; margin-top: 4px;
+      &.up { color: var(--accent-emerald); }
+      &.down { color: var(--accent-rose); }
     }
-    .kpi-trend.up { color: #34d399; }
-    .kpi-trend.down { color: #fb7185; }
   `]
 })
 export class KpiCardComponent {

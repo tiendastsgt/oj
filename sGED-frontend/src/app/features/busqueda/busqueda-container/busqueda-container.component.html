@@ -1,14 +1,25 @@
-<p-tabs value="avanzada">
-  <p-tablist>
-    <p-tab value="rapida">Búsqueda rápida</p-tab>
-    <p-tab value="avanzada">Búsqueda avanzada</p-tab>
-  </p-tablist>
-  <p-tabpanels>
-    <p-tabpanel value="rapida">
-      <app-busqueda-rapida></app-busqueda-rapida>
-    </p-tabpanel>
-    <p-tabpanel value="avanzada">
-      <app-busqueda-avanzada></app-busqueda-avanzada>
-    </p-tabpanel>
-  </p-tabpanels>
-</p-tabs>
+<div class="search-page-header">
+  <h1 class="page-title">Búsqueda Avanzada</h1>
+</div>
+
+<div class="search-tabs">
+  <div 
+    class="search-tab" 
+    [class.active]="activeTab === 'rapida'"
+    (click)="setActiveTab('rapida')"
+  >
+    <i class="pi pi-bolt"></i> Búsqueda Rápida
+  </div>
+  <div 
+    class="search-tab" 
+    [class.active]="activeTab === 'avanzada'"
+    (click)="setActiveTab('avanzada')"
+  >
+    <i class="pi pi-sliders-h"></i> Búsqueda Avanzada
+  </div>
+</div>
+
+<div class="search-content">
+  <app-busqueda-rapida *ngIf="activeTab === 'rapida'"></app-busqueda-rapida>
+  <app-busqueda-avanzada *ngIf="activeTab === 'avanzada'"></app-busqueda-avanzada>
+</div>

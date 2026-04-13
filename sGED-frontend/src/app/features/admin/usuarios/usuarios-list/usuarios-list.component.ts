@@ -31,157 +31,114 @@ import { UsuarioAdminResponse, UsuarioListaFiltros } from '../../../../core/mode
   ],
   providers: [ConfirmationService, MessageService],
   template: `
-    <div class="card">
-      <p-toolbar class="mb-4">
-        <ng-template pTemplate="left">
-          <h3 class="m-0">Gestión de Usuarios</h3>
-        </ng-template>
-        <ng-template pTemplate="right">
-          <p-button
-            label="Nuevo Usuario"
-            icon="pi pi-plus"
-            (onClick)="crearNuevo()"
-            [rounded]="true"
-            [raised]="true"
-          ></p-button>
-        </ng-template>
-      </p-toolbar>
-
-      <!-- Filtros -->
-      <div class="grid mb-4" [formGroup]="filterForm">
-        <div class="col-12 md:col-6 lg:col-3">
-          <input
-            pInputText
-            type="text"
-            placeholder="Buscar por username"
-            formControlName="username"
-            class="w-full"
-            (change)="aplicarFiltros()"
-          />
+    <div class="fade-in">
+      <div class="page-header-actions mb-6">
+        <div>
+          <h1 class="page-title">Gestión de Usuarios</h1>
+          <p class="subtitle">Administre los usuarios y permisos del sistema</p>
         </div>
-        <div class="col-12 md:col-6 lg:col-3">
-          <select
-            pInputText
-            formControlName="activo"
-            class="w-full"
-            (change)="aplicarFiltros()"
-          >
-            <option value="">Estado: Todos</option>
-            <option value="true">Activos</option>
-            <option value="false">Inactivos</option>
-          </select>
-        </div>
-        <div class="col-12 md:col-6 lg:col-3">
-          <select
-            pInputText
-            formControlName="bloqueado"
-            class="w-full"
-            (change)="aplicarFiltros()"
-          >
-            <option value="">Bloqueo: Todos</option>
-            <option value="true">Bloqueados</option>
-            <option value="false">Desbloqueados</option>
-          </select>
-        </div>
+        <button class="btn btn-primary" (click)="crearNuevo()">
+          <i class="pi pi-user-plus"></i> Nuevo Usuario
+        </button>
       </div>
 
-      <!-- Tabla de usuarios -->
-      <p-table
-        [value]="usuarios"
-        [loading]="loading"
-        [paginator]="true"
-        [rows]="pageSize"
-        [totalRecords]="totalRecords"
-        [lazy]="true"
-        [globalFilterFields]="['username', 'nombreCompleto', 'email']"
-        (onLazyLoad)="onLazyLoad($event)"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Username</th>
-            <th>Nombre Completo</th>
-            <th>Email</th>
-            <th>Rol</th>
-            <th>Juzgado</th>
-            <th>Estado</th>
-            <th>Bloqueo</th>
-            <th>Cambiar Pass</th>
-            <th>Acciones</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-usuario>
-          <tr>
-            <td>{{ usuario.username }}</td>
-            <td>{{ usuario.nombreCompleto }}</td>
-            <td>{{ usuario.email }}</td>
-            <td>{{ usuario.rol }}</td>
-            <td>{{ usuario.juzgado }}</td>
-            <td>
-              <span [class]="usuario.activo ? 'p-badge-success' : 'p-badge-danger'">
-                {{ usuario.activo ? 'Activo' : 'Inactivo' }}
-              </span>
-            </td>
-            <td>
-              <span [class]="usuario.bloqueado ? 'p-badge-warning' : 'p-badge-info'">
-                {{ usuario.bloqueado ? 'Bloqueado' : 'Desbloqueado' }}
-              </span>
-            </td>
-            <td>
-              <span [class]="usuario.debeCambiarPassword ? 'p-badge-info' : ''">
-                {{ usuario.debeCambiarPassword ? 'Sí' : 'No' }}
-              </span>
-            </td>
-            <td>
-              <p-button
-                icon="pi pi-eye"
-                [rounded]="true"
-                [text]="true"
-                [raised]="true"
-                pTooltip="Ver detalles"
-                (onClick)="verDetalle(usuario.id)"
-              ></p-button>
-              <p-button
-                icon="pi pi-pencil"
-                [rounded]="true"
-                [text]="true"
-                [raised]="true"
-                pTooltip="Editar"
-                (onClick)="editar(usuario.id)"
-              ></p-button>
-              <p-button
-                icon="pi pi-lock"
-                [rounded]="true"
-                [text]="true"
-                [raised]="true"
-                severity="warning"
-                pTooltip="Reset contraseña"
-                (onClick)="resetPassword(usuario.id)"
-                *ngIf="!usuario.bloqueado"
-              ></p-button>
-              <p-button
-                [icon]="usuario.bloqueado ? 'pi pi-lock-open' : 'pi pi-lock'"
-                [rounded]="true"
-                [text]="true"
-                [raised]="true"
-                [severity]="usuario.bloqueado ? 'success' : 'danger'"
-                [pTooltip]="usuario.bloqueado ? 'Desbloquear' : 'Bloquear'"
-                (onClick)="toggleBloqueo(usuario)"
-              ></p-button>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="9">No hay usuarios disponibles</td>
-          </tr>
-        </ng-template>
-      </p-table>
+      <div class="card glass-panel shadow-lg mb-8">
+        <div class="card-header border-b border-white/5 flex flex-wrap gap-4 justify-between items-center p-6">
+          <div class="flex gap-3" [formGroup]="filterForm">
+            <div class="relative">
+              <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+              <input
+                type="text"
+                class="form-input !pl-10 !w-64"
+                placeholder="Buscar username..."
+                formControlName="username"
+                (change)="aplicarFiltros()"
+              />
+            </div>
+            <select class="form-input form-select !w-auto" formControlName="activo" (change)="aplicarFiltros()">
+              <option value="">Todos los estados</option>
+              <option value="true">Activos</option>
+              <option value="false">Inactivos</option>
+            </select>
+          </div>
+          <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">{{ totalRecords }} usuarios registrados</span>
+        </div>
+
+        <div class="p-0 overflow-x-auto">
+          <p-table
+            [value]="usuarios"
+            [loading]="loading"
+            [paginator]="true"
+            [rows]="pageSize"
+            [totalRecords]="totalRecords"
+            [lazy]="true"
+            (onLazyLoad)="onLazyLoad($event)"
+            styleClass="p-datatable-sm"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Username</th>
+                <th>Nombre Completo</th>
+                <th>Rol</th>
+                <th>Juzgado</th>
+                <th>Estado</th>
+                <th style="text-align:center">Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-usuario>
+              <tr>
+                <td class="font-bold text-white">{{ usuario.username }}</td>
+                <td>{{ usuario.nombreCompleto }}</td>
+                <td><span class="text-xs font-bold text-cyan-400 uppercase tracking-tighter">{{ usuario.rol }}</span></td>
+                <td><span class="text-slate-400">{{ usuario.juzgado || 'Global' }}</span></td>
+                <td>
+                  <div class="flex items-center gap-2">
+                    <span class="status-dot" [class.active]="usuario.activo" [class.blocked]="usuario.bloqueado"></span>
+                    <span class="text-xs font-medium">{{ usuario.activo ? (usuario.bloqueado ? 'Bloqueado' : 'Activo') : 'Inactivo' }}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="flex justify-center gap-1">
+                    <button class="btn-icon view" title="Ver" (click)="verDetalle(usuario.id)"><i class="pi pi-eye"></i></button>
+                    <button class="btn-icon edit" title="Editar" (click)="editar(usuario.id)"><i class="pi pi-pencil"></i></button>
+                    <button class="btn-icon download" title="Reset Pass" (click)="resetPassword(usuario.id)"><i class="pi pi-key"></i></button>
+                    <button 
+                      class="btn-icon" 
+                      [class.view]="usuario.bloqueado" 
+                      [class.print]="!usuario.bloqueado" 
+                      [title]="usuario.bloqueado ? 'Desbloquear' : 'Bloquear'" 
+                      (click)="toggleBloqueo(usuario)"
+                    >
+                      <i class="pi" [ngClass]="usuario.bloqueado ? 'pi-lock-open' : 'pi-lock'"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6" class="p-12 text-center text-slate-500">No hay usuarios que coincidan con los criterios</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
     </div>
 
     <p-toast></p-toast>
     <p-confirmDialog></p-confirmDialog>
   `,
-  styles: []
+  styles: [`
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      &.active { background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald); }
+      &.blocked { background: var(--accent-rose); box-shadow: 0 0 8px var(--accent-rose); }
+    }
+    ::ng-deep {
+      .p-datatable { background: transparent !important; }
+      .p-paginator { background: transparent !important; border-top: 1px solid var(--border) !important; padding: 1rem !important; }
+    }
+  `]
 })
 export class UsuariosListComponent implements OnInit, OnDestroy {
   usuarios: UsuarioAdminResponse[] = [];

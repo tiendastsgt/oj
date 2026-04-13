@@ -1,48 +1,48 @@
 <div class="fade-in" *ngIf="expediente">
   <div class="case-workspace">
     
-    <!-- LEFT SIDEBAR: Case Metadata (Prototipo 05) -->
+    <!-- LEFT SIDEBAR: Case Metadata -->
     <aside class="case-sidebar">
       
       <!-- Case Header Card -->
-      <div class="sidebar-card case-header-card glass-panel shadow-sm">
+      <div class="case-header-card glass-panel shadow-lg">
         <a routerLink="/expedientes" class="case-back">
-          <i class="pi pi-chevron-left"></i> Regresar
+          <i class="pi pi-chevron-left"></i> Expedientes
         </a>
         <div class="case-tipo-eyebrow">{{ getTipoProcesoName(expediente.tipoProcesoId) }}</div>
         <div class="case-numero">{{ expediente.numero }}</div>
-        <div class="case-vs">Materia Judicial — {{ expediente.referenciaFuente || 'OJ' }}</div>
+        <div class="case-vs">{{ expediente.referenciaFuente || 'Organismo Judicial' }}</div>
         <app-status-badge [status]="expediente.estadoId"></app-status-badge>
       </div>
 
-      <!-- Parties / Sujetos -->
-      <div class="sidebar-card glass-panel shadow-sm">
-        <div class="meta-section">
-          <div class="meta-section-title"><i class="pi pi-users"></i> PARTES PROCESALES</div>
-          <div class="meta-row">
+      <!-- Parties Section -->
+      <div class="card glass-panel p-5">
+        <div class="section-title mb-4"><i class="pi pi-users"></i> PARTES PROCESALES</div>
+        <div class="meta-list">
+          <div class="meta-item">
             <span class="meta-label">Actor / Demandante</span>
             <span class="meta-value">Estado de Guatemala</span>
           </div>
-          <div class="meta-row">
+          <div class="meta-item">
             <span class="meta-label">Demandado</span>
             <span class="meta-value">Juan Pérez Hernández</span>
           </div>
         </div>
       </div>
 
-      <!-- Key Info -->
-      <div class="sidebar-card glass-panel shadow-sm">
-        <div class="meta-section">
-          <div class="meta-section-title"><i class="pi pi-info-circle"></i> INFORMACIÓN CLAVE</div>
-          <div class="meta-row">
+      <!-- Key Info Section -->
+      <div class="card glass-panel p-5">
+        <div class="section-title mb-4"><i class="pi pi-info-circle"></i> INFORMACIÓN CLAVE</div>
+        <div class="meta-list">
+          <div class="meta-item">
             <span class="meta-label">Juzgado</span>
             <span class="meta-value">{{ getJuzgadoName(expediente.juzgadoId) }}</span>
           </div>
-          <div class="meta-row">
+          <div class="meta-item">
             <span class="meta-label">Ref. SGT</span>
-            <span class="meta-value">{{ expediente.referenciaSgt || 'N/A' }}</span>
+            <span class="meta-value text-cyan-400">{{ expediente.referenciaSgt || 'N/A' }}</span>
           </div>
-          <div class="meta-row">
+          <div class="meta-item">
             <span class="meta-label">Fecha Inicio</span>
             <span class="meta-value">{{ expediente.fechaInicio | date: 'dd MMM yyyy' }}</span>
           </div>
@@ -50,11 +50,11 @@
       </div>
 
       <!-- Sidebar Actions -->
-      <div class="sidebar-actions px-2">
-        <button class="btn btn-secondary w-full mb-2" *ngIf="canEdit()">
-          <i class="pi pi-pencil"></i> Editar Datos
+      <div class="sidebar-actions">
+        <button class="btn btn-secondary" *ngIf="canEdit()">
+          <i class="pi pi-pencil"></i> Editar Expediente
         </button>
-        <button class="btn btn-secondary w-full">
+        <button class="btn btn-secondary">
           <i class="pi pi-print"></i> Imprimir Ficha
         </button>
       </div>
@@ -64,10 +64,10 @@
     <div class="viewer-main">
       
       <!-- Document List Section -->
-      <div class="card glass-panel shadow-sm">
-        <div class="card-header border-b border-slate-100 p-6 flex justify-between items-center">
+      <div class="card glass-panel shadow-md">
+        <div class="card-header border-b border-white/5 p-6 flex justify-between items-center">
           <h3 class="section-title"><i class="pi pi-file"></i> CENTRO DE DOCUMENTACIÓN</h3>
-          <button class="btn btn-primary btn-sm"><i class="pi pi-upload"></i> Cargar</button>
+          <button class="btn btn-primary btn-sm"><i class="pi pi-upload"></i> Cargar Documento</button>
         </div>
         
         <div class="p-0">
@@ -78,39 +78,35 @@
         </div>
       </div>
 
-      <!-- Active Viewer Section (Dynamic) -->
-      <div class="active-viewer-container" *ngIf="selectedDocumento">
-        <div class="card active-viewer-card glass-panel shadow-xl">
-          <div class="card-header border-b border-slate-100 p-4 flex justify-between items-center bg-slate-50">
-            <div class="flex items-center gap-3">
-              <i class="pi pi-eye text-blue-500"></i>
-              <div>
-                <span class="text-sm font-bold text-slate-800">{{ selectedDocumento.nombre }}</span>
-                <span class="block text-xs text-slate-500">
-                  {{ selectedDocumento.categoria }} — {{ selectedDocumento.tamanio }}
-                </span>
+      <!-- Active Viewer Section -->
+      <div class="viewer-container active-viewer" *ngIf="selectedDocumento">
+        <div class="viewer-toolbar">
+          <div class="doc-info">
+            <div class="doc-icon"><i class="pi pi-file"></i></div>
+            <div>
+              <div class="doc-name font-bold text-white">{{ selectedDocumento.nombre }}</div>
+              <div class="doc-meta text-xs text-slate-400">
+                {{ selectedDocumento.categoria }} — {{ selectedDocumento.tamanio }} — Subido: {{ selectedDocumento.fechaCreacion | date:'dd MMM yyyy' }}
               </div>
             </div>
-            <button class="btn-icon hover:bg-slate-200" (click)="onCloseViewer()">
-              <i class="pi pi-times"></i>
-            </button>
           </div>
-          <div class="viewer-body p-0">
-            <app-documento-viewer 
-              [documento]="selectedDocumento" 
-              (close)="onCloseViewer()">
-            </app-documento-viewer>
+          <div class="toolbar-actions">
+            <button class="btn-icon" title="Cerrar" (click)="onCloseViewer()"><i class="pi pi-times"></i></button>
           </div>
+        </div>
+        <div class="viewer-body bg-slate-950 p-4 min-h-[500px]">
+          <app-documento-viewer 
+            [documento]="selectedDocumento" 
+            (close)="onCloseViewer()">
+          </app-documento-viewer>
         </div>
       </div>
 
       <!-- Empty State Viewer -->
-      <div class="empty-viewer-state" *ngIf="!selectedDocumento">
-        <div class="text-center py-12 px-6 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
-          <i class="pi pi-file-search text-5xl text-slate-300 mb-4 block"></i>
-          <h4 class="text-slate-600 font-bold mb-1">Seleccione un documento</h4>
-          <p class="text-slate-400 text-sm">Haga clic en el icono de vista previa para abrir un archivo en el visor Élite.</p>
-        </div>
+      <div class="card glass-panel p-12 text-center" *ngIf="!selectedDocumento">
+        <i class="pi pi-file-search text-5xl text-slate-700 mb-4 block"></i>
+        <h4 class="text-white font-bold mb-1">Seleccione un documento</h4>
+        <p class="text-slate-500 text-sm">Haga clic en el icono de vista previa para abrir un archivo en el visor Élite.</p>
       </div>
 
     </div>

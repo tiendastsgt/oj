@@ -1,58 +1,57 @@
 <div class="fade-in">
   <!-- Page Header -->
-  <div class="flex justify-between items-center mb-8">
+  <div class="flex justify-between items-center mb-6">
     <div>
       <h1 class="page-title">Gestión de Expedientes</h1>
       <p class="subtitle">Administración centralizada de casos judiciales</p>
     </div>
     <div class="flex gap-3">
       <button 
-        pButton 
         type="button" 
-        label="Nuevo Expediente" 
-        icon="pi pi-plus" 
         class="btn btn-primary"
         *ngIf="canCreate()"
         routerLink="/expedientes/nuevo">
+        <i class="pi pi-plus"></i>
+        Nuevo Expediente
       </button>
     </div>
   </div>
 
-  <!-- Quick Stats Bar (Bausado en Prototipo 04) -->
-  <div class="quick-stats-bar mb-8">
-    <div class="quick-stat">
-      <div class="stat-icon blue"><i class="pi pi-folder-open"></i></div>
-      <div class="stat-info">
-        <span class="stat-value">847</span>
-        <span class="stat-label">Activos</span>
+  <!-- Quick Stats (Elite UX v2.0) -->
+  <div class="grid-4 mb-6">
+    <div class="kpi-card">
+      <div class="kpi-icon-box blue"><i class="pi pi-folder-open"></i></div>
+      <div>
+        <div class="kpi-value">847</div>
+        <div class="kpi-label">Activos</div>
       </div>
     </div>
-    <div class="quick-stat">
-      <div class="stat-icon amber"><i class="pi pi-clock"></i></div>
-      <div class="stat-info">
-        <span class="stat-value">213</span>
-        <span class="stat-label">En trámite</span>
+    <div class="kpi-card">
+      <div class="kpi-icon-box amber"><i class="pi pi-clock"></i></div>
+      <div>
+        <div class="kpi-value">213</div>
+        <div class="kpi-label">En trámite</div>
       </div>
     </div>
-    <div class="quick-stat">
-      <div class="stat-icon green"><i class="pi pi-check-circle"></i></div>
-      <div class="stat-info">
-        <span class="stat-value">156</span>
-        <span class="stat-label">Resueltos</span>
+    <div class="kpi-card">
+      <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
+      <div>
+        <div class="kpi-value">156</div>
+        <div class="kpi-label">Resueltos</div>
       </div>
     </div>
-    <div class="quick-stat">
-      <div class="stat-icon violet"><i class="pi pi-inbox"></i></div>
-      <div class="stat-info">
-        <span class="stat-value">31</span>
-        <span class="stat-label">Archivados</span>
+    <div class="kpi-card">
+      <div class="kpi-icon-box violet"><i class="pi pi-inbox"></i></div>
+      <div>
+        <div class="kpi-value">31</div>
+        <div class="kpi-label">Archivados</div>
       </div>
     </div>
   </div>
 
   <!-- Main Table Card -->
-  <div class="card glass-panel shadow-sm">
-    <!-- Professional Filters Header -->
+  <div class="card glass-panel shadow-md">
+    <!-- Filters Header -->
     <div class="card-header border-b border-slate-100 p-6">
       <div class="flex flex-wrap gap-4 items-center justify-between w-full">
         <div class="flex flex-wrap gap-3 items-center">
@@ -65,7 +64,7 @@
             />
           </div>
           
-          <select class="form-input text-sm w-auto py-2 pr-10">
+          <select class="form-input form-select text-sm w-auto py-2 pr-10">
             <option>Todos los estados</option>
             <option>Activo</option>
             <option>En trámite</option>
@@ -73,7 +72,7 @@
             <option>Archivado</option>
           </select>
 
-          <select class="form-input text-sm w-auto py-2 pr-10">
+          <select class="form-input form-select text-sm w-auto py-2 pr-10">
             <option>Todos los juzgados</option>
             <option>Juzgado 1ro Niñez</option>
             <option>Juzgado 2do Niñez</option>
@@ -87,7 +86,7 @@
       </div>
     </div>
 
-    <!-- Data Table -->
+    <!-- Professional Data Table -->
     <div class="p-0">
       <p-table
         [value]="expedientes"
@@ -99,7 +98,7 @@
         [loading]="loading"
         [rowsPerPageOptions]="[10, 25, 50]"
         (onLazyLoad)="onLazyLoad($event)"
-        styleClass="p-datatable-sm custom-table"
+        styleClass="custom-p-table"
         [responsiveLayout]="'scroll'"
       >
         <ng-template pTemplate="header">
@@ -118,11 +117,11 @@
         <ng-template pTemplate="body" let-expediente>
           <tr>
             <td>
-              <a [routerLink]="['/expedientes', expediente.id]" class="font-bold text-blue-600 hover:underline">
+              <a [routerLink]="['/expedientes', expediente.id]" class="font-bold text-blue-400 hover:text-cyan-400">
                 {{ expediente.numero }}
               </a>
             </td>
-            <td><span class="text-xs text-slate-600">{{ expediente.tipoProcesoId }}</span></td>
+            <td><span class="text-xs text-slate-400">{{ expediente.tipoProcesoId }}</span></td>
             <td><span class="text-sm font-medium">Estado de Guatemala</span></td>
             <td><span class="text-sm">Juan Pérez Hernández</span></td>
             <td><span class="text-xs text-slate-500">{{ expediente.juzgadoId }}</span></td>
@@ -133,7 +132,7 @@
               <span class="text-sm text-slate-500">{{ expediente.fechaCreacion | date: 'dd MMM, yyyy' }}</span>
             </td>
             <td class="text-center">
-              <span class="font-bold text-slate-700">12</span>
+              <span class="font-bold text-slate-300">12</span>
             </td>
             <td>
               <div class="flex justify-center gap-1">
@@ -141,7 +140,7 @@
                   pButton
                   type="button"
                   icon="pi pi-eye"
-                  class="p-button-text p-button-rounded p-button-info"
+                  class="p-button-text p-button-rounded p-button-secondary"
                   pTooltip="Ver detalle"
                   [routerLink]="['/expedientes', expediente.id]"
                 ></button>

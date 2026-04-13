@@ -37,7 +37,7 @@ def deploy():
 
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(hostname, port=port, username=username, password=password)
+    client.connect(hostname, port=port, username=username, password=password, timeout=30)
 
     # 1. Transfer file
     print("Transferring bundle.zip...")
