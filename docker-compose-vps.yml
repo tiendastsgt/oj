@@ -14,8 +14,8 @@ services:
       SPRING_DATASOURCE_USERNAME: sged_user
       SPRING_DATASOURCE_PASSWORD: sged_password
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
-      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_FLYWAY_ENABLED: "false"
       JWT_SECRET: sged-vps-lite-secret-key-minimum-32-chars-ok
@@ -28,6 +28,8 @@ services:
           memory: 350M
     depends_on:
       - mysql
+    volumes:
+      - sged_docs_lite:/opt/sged-docs
     networks:
       - sged-vps-net
     restart: unless-stopped
@@ -78,3 +80,4 @@ networks:
 
 volumes:
   mysql_data_lite:
+  sged_docs_lite:
