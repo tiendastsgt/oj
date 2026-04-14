@@ -1,9 +1,9 @@
 # 📑 ÍNDICE MAESTRO DE DOCUMENTACIÓN - SGED
 
-**Versión:** 1.2.0  
-**Fecha de última actualización:** 11 abril 2026  
-**Vigente para:** SGED v1.1.0 (en desarrollo) y superior  
-**Responsable:** Agente de Documentación  
+**Versión:** 1.3.0  
+**Fecha de última actualización:** 14 abril 2026  
+**Vigente para:** SGED v1.3.0 (producción) y superior  
+**Responsable:** Orquestador IA  
 **Estado:** ✅ Vigente  
 
 ---
@@ -289,7 +289,7 @@ Ver [README_LEGACY.md](./legacy/README_LEGACY.md) para lista completa de documen
 
 | Sección | Estado | Última Actualización | Próxima Revisión |
 |---------|--------|----------------------|------------------|
-| General | ✅ Vigente (v1.2) | 2026-04-11 | 2026-04-25 |
+| General | ✅ Vigente (v1.3) | 2026-04-14 | 2026-05-01 |
 | Entregables contractuales | ✅ Vigente | 2026-04-11 | 2026-04-25 |
 | Infraestructura | ✅ Vigente | 2026-04-11 | 2026-04-25 |
 | QA y Validación | ✅ Vigente | 2026-04-11 | 2026-04-25 |
@@ -302,7 +302,7 @@ Ver [README_LEGACY.md](./legacy/README_LEGACY.md) para lista completa de documen
 
 ## 📞 CONTACTO Y ACTUALIZACIONES
 
-**Responsable de este índice:** Agente de Documentación  
+**Responsable de este índice:** Orquestador IA  
 **Para reportar inconsistencias:** Abrir issue en proyecto  
 **Para solicitar nueva documentación:** Contactar al Orquestador
 
@@ -325,8 +325,8 @@ Verifica que todos los documentos mencionados existan:
 
 ---
 
-**Versión:** 1.2.0  
-**Última actualización:** 11 abril 2026  
-**Próxima revisión:** Inicio Sprint 3  
-**Responsable:** Agente de Documentación  
+**Versión:** 1.3.0  
+**Última actualización:** 14 abril 2026  
+**Próxima revisión:** Continua  
+**Responsable:** Orquestador IA  
 **Estado:** ✅ Vigente
