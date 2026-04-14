@@ -190,18 +190,13 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: any) => {
-          console.log('[DEBUG Admin Usuarios] Raw response:', response);
           setTimeout(() => {
             if (response?.data?.content) {
-              console.log('[DEBUG Admin Usuarios] Found content:', response.data.content.length);
               this.usuarios = response.data.content;
               this.totalRecords = response.data.pageable?.totalElements || response.data.totalElements || 0;
               this.currentPage = page;
-            } else {
-              console.log('[DEBUG Admin Usuarios] Content not found in response.data');
             }
             this.loading = false;
-            console.log(`[DEBUG] Set ${this.usuarios.length} usuarios. Forcing CD...`);
             this.cdr.detectChanges();
           });
         },

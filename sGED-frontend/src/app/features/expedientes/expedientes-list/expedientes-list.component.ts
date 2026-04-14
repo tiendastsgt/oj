@@ -90,18 +90,16 @@ export class ExpedientesListComponent implements OnInit {
     
     this.expedientesService.getExpedientes({ page, size, sort: `${sortField},${sortDir}` }).subscribe({
       next: (response) => {
-        console.log('[DEBUG ExpedientesList] Raw Response:', response);
         const data = response.data;
         setTimeout(() => {
           this.expedientes = data?.content || [];
           this.totalRecords = data?.totalElements || 0;
           this.loading = false;
-          console.log(`[DEBUG] Set ${this.expedientes.length} expedientes. Forcing CD...`);
           this.cdr.detectChanges();
         });
       },
       error: (error) => {
-        console.error('[DEBUG ExpedientesList] Error loading:', error);
+        console.error('Error loading expedientes:', error);
         setTimeout(() => {
           this.expedientes = [];
           this.totalRecords = 0;

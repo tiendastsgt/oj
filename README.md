@@ -1,8 +1,8 @@
 # SGED - Sistema de Gestión de Expedientes Digitales
 
-**Versión:** v1.2.1  
-**Estado:** 🛠️ En Desarrollo (Sprint 2 - Elite UX)  
-**Fecha:** 12 abril 2026
+**Versión:** v1.2.4  
+**Estado:** ✅ Producción (VPS Lite)  
+**Fecha:** 13 abril 2026
 
 ---
 
@@ -54,6 +54,7 @@ SGED/
 ├── docs/                          ← ⭐ TODO AQUÍ
 │   ├── general/                   Documentación central
 │   ├── infra/                     Guías de infraestructura y deploy
+│   │   └── scripts/               Scripts de deploy y seed (deploy_vps.py)
 │   ├── qa/                        Reportes de QA
 │   ├── smoke-tests/               Planes de smoke testing
 │   ├── fases/                     Documentación por fase
@@ -67,10 +68,11 @@ SGED/
 ├── nginx/                         Configuración Nginx (Reverse Proxy)
 ├── .github/                       Workflows CI/CD
 │
-├── docker-compose-qa.yml
-├── docker-compose-prod.yml
-├── oj.code-workspace              VS Code workspace
-└── README.md                       (este archivo)
+├── docker-compose.yml             Compose para desarrollo local
+├── docker-compose-qa.yml          Compose para QA
+├── docker-compose-prod.yml        Compose para producción Oracle
+├── docker-compose-vps.yml         Compose para VPS Lite (MySQL)
+└── README.md                      (este archivo)
 ```
 
 ---
@@ -144,13 +146,18 @@ Ver: [Índice maestro → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.m
 docker-compose -f docker-compose-qa.yml up -d
 ```
 
+### VPS Lite (Producción actual)
+
+El sistema está desplegado en un VPS con `docker-compose-vps.yml` (MySQL + Spring Boot + Nginx).
+
+```bash
+# Desde la raíz del proyecto:
+python docs/infra/scripts/deploy_vps.py
+```
+
+Este script compila el frontend, empaqueta todo en `bundle.zip`, lo sube al VPS, reconstruye los contenedores Docker y los inicia.
+
 Ver: [Índice maestro → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.md#infraestructura)
-
-### Ambiente Producción
-
-Leer primero: [Índice maestro → Infraestructura](./docs/INDICE_MAESTRO_DOCUMENTACION.md#infraestructura)
-
-Rollout gradual (10% → 50% → 100%)
 
 ---
 
@@ -183,9 +190,10 @@ Ver: [QA_ACCEPTANCE_REPORT.md](./docs/qa/QA_ACCEPTANCE_REPORT.md)
 
 Usar **Semantic Versioning** (MAJOR.MINOR.PATCH):
 
-- v1.0.0 → Inicial (28 enero 2026)
-- v1.1.0 → Parches y mejoras menores
-- v2.0.0 → Cambios mayores (futuro)
+- v1.0.0 → Release inicial (28 enero 2026)
+- v1.2.0 → Elite UX v1 (12 abril 2026)
+- v1.2.4 → Estabilización VPS: auth, visor docs, media (13 abril 2026)
+- v1.3.0 → Auditoría y limpieza de código (13 abril 2026)
 
 ---
 
@@ -253,6 +261,6 @@ Documentos antiguos (.docx, scripts viejos) están en:
 
 ---
 
-**Última actualización:** 30 enero 2026  
-**Responsable:** Agente de Documentación  
-**Estado:** ✅ Vigente para v1.0.0+
+**Última actualización:** 13 abril 2026  
+**Responsable:** Equipo de Desarrollo  
+**Estado:** ✅ Vigente para v1.2.4+

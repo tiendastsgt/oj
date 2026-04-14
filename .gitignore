@@ -51,3 +51,18 @@ temp/
 *.class
 *.jar
 .mvn/wrapper/maven-wrapper.jar
+
+# Deploy bundles (regenerable via deploy_vps.py)
+bundle.zip
+deploy_bundle*.zip
+deploy_elite*.zip
+
+# Downloaded logs / inspection files
+backend_logs.txt
+vps_inspection.txt
+
+# Temporary seed/deploy directories
+temp_seeds/
+temp_deploy/
+test_files/
+deploy_elite/
