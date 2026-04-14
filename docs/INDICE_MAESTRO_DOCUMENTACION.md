@@ -41,6 +41,7 @@ Documentación central del proyecto SGED que define alcance, arquitectura y visi
 | [ROADMAP_PROYECTO_SGED.md](./general/ROADMAP_PROYECTO_SGED.md) | Hoja de ruta v1.1. Nueva línea base de 10 Sprints (5 meses). Actualizado post-rearquitectura. | ✅ v1.1.0+ | Agente de Documentación |
 | [STACK_TECNICO_ACTUALIZADO.md](./general/STACK_TECNICO_ACTUALIZADO.md) | Stack técnico definido: Angular 21, Spring Boot 3.5, Java 21, Oracle 21c (compatible 19c). | ✅ v1.0.0+ | DevOps Team |
 | [SEGURIDAD_AUTH_IMPLEMENTATION.md](./general/SEGURIDAD_AUTH_IMPLEMENTATION.md) | **[NUEVO]** Detalle técnico de la implementación de Spring Security, JWT y Lockout. | ✅ v1.0.0+ | Seguridad |
+| [MANUAL_DE_USUARIO_FINAL.md](./general/MANUAL_DE_USUARIO_FINAL.md) | **[NUEVO]** Manual integral para el uso operativo de expedientes, visor documental y administración. | ✅ v1.3.0+ | Orquestador IA |
 
 ### Auditorías Técnicas
 
@@ -312,7 +313,7 @@ Ver [README_LEGACY.md](./legacy/README_LEGACY.md) para lista completa de documen
 
 Verifica que todos los documentos mencionados existan:
 
-- [x] `/docs/general/` contiene plan, roadmap, stack
+- [x] `/docs/general/` contiene plan, roadmap, stack, y **manual_de_usuario_final**
 - [x] `/docs/entregables/` contiene plantillas EA1–EA4 (informes, evidencias, checklist)
 - [x] `/docs/infra/` contiene guías de deployment, secretos, monitoreo
 - [x] `/docs/qa/` contiene acta de QA
