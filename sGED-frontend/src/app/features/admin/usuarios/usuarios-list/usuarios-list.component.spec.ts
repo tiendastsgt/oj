@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UsuariosListComponent } from './usuarios-list.component';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
@@ -53,7 +53,7 @@ describe('UsuariosListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('debe cargar usuarios al inicializar', () => {
+  it('debe cargar usuarios al inicializar', fakeAsync(() => {
     const mockResponse = {
       data: {
         content: mockUsuarios,
@@ -63,10 +63,11 @@ describe('UsuariosListComponent', () => {
     spyOn(adminUsuariosService, 'getUsuarios').and.returnValue(of(mockResponse as any));
 
     component.ngOnInit();
+    tick();
 
     expect(component.usuarios.length).toBe(1);
     expect(component.totalRecords).toBe(1);
-  });
+  }));
 
   it('debe navegar a crear nuevo usuario', () => {
     spyOn(component['router'], 'navigate');

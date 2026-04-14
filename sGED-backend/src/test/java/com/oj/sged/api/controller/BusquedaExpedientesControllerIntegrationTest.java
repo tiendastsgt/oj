@@ -18,6 +18,7 @@ import com.oj.sged.infrastructure.persistence.expediente.Expediente;
 import com.oj.sged.infrastructure.persistence.expediente.repository.CatEstadoRepository;
 import com.oj.sged.infrastructure.persistence.expediente.repository.CatTipoProcesoRepository;
 import com.oj.sged.infrastructure.persistence.expediente.repository.ExpedienteRepository;
+import com.oj.sged.infrastructure.persistence.documento.repository.DocumentoRepository;
 import com.oj.sged.infrastructure.security.JwtTokenProvider;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -64,6 +65,8 @@ class BusquedaExpedientesControllerIntegrationTest {
     @Autowired
     private ExpedienteRepository expedienteRepository;
     @Autowired
+    private DocumentoRepository documentoRepository;
+    @Autowired
     private AuditoriaRepository auditoriaRepository;
     @Autowired
     private AuthAttemptRepository authAttemptRepository;
@@ -81,6 +84,7 @@ class BusquedaExpedientesControllerIntegrationTest {
     void setUp() {
         auditoriaRepository.deleteAll();
         authAttemptRepository.deleteAll();
+        documentoRepository.deleteAll();
         expedienteRepository.deleteAll();
         usuarioRepository.deleteAll();
         catJuzgadoRepository.deleteAll();

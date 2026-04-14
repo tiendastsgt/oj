@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SimpleChange } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { DocumentosService } from '../../../core/services/documentos.service';
 import { Documento } from '../../documentos/models/documento.model';
 import { DocumentoViewerComponent } from './documento-viewer.component';
@@ -23,9 +25,8 @@ describe('DocumentoViewerComponent', () => {
   });
 
   beforeEach(async () => {
-    documentosService = jasmine.createSpyObj('DocumentosService', ['streamDocumento', 'downloadDocumento']);
-    documentosService.streamDocumento.and.returnValue('http://inline');
-    documentosService.downloadDocumento.and.returnValue('http://download');
+    documentosService = jasmine.createSpyObj('DocumentosService', ['fetchContenidoBlob']);
+    documentosService.fetchContenidoBlob.and.returnValue(of('blob:testurl'));
 
     await TestBed.configureTestingModule({
       imports: [DocumentoViewerComponent],
@@ -37,33 +38,44 @@ describe('DocumentoViewerComponent', () => {
   });
 
   it('should render iframe for pdf', () => {
-    component.documento = buildDoc('pdf');
+    const doc = buildDoc('pdf');
+    component.documento = doc;
+    component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('iframe'))).toBeTruthy();
   });
 
   it('should render image for jpg', () => {
-    component.documento = buildDoc('jpg');
+    const doc = buildDoc('jpg');
+    component.documento = doc;
+    component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('img'))).toBeTruthy();
   });
 
   it('should render audio for mp3', () => {
-    component.documento = buildDoc('mp3');
+    const doc = buildDoc('mp3');
+    component.documento = doc;
+    component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('audio'))).toBeTruthy();
   });
 
   it('should render video for mp4', () => {
-    component.documento = buildDoc('mp4');
+    const doc = buildDoc('mp4');
+    component.documento = doc;
+    component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('video'))).toBeTruthy();
   });
 
   it('should show message for word documents', () => {
-    component.documento = buildDoc('docx');
+    const doc = buildDoc('docx');
+    component.documento = doc;
+    component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
     fixture.detectChanges();
-    const message = fixture.debugElement.query(By.css('p-message'));
-    expect(message.nativeElement.textContent).toContain('no se puede previsualizar');
+    const notice = fixture.debugElement.query(By.css('.viewer-notice p'));
+    expect(notice).toBeTruthy();
+    expect(notice.nativeElement.textContent).toContain('no se puede previsualizar');
   });
 });

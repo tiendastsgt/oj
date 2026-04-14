@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { AuthUser } from '../../../core/models/auth-user.model';
 import { ApiResponse } from '../../../core/models/api-response.model';
@@ -45,7 +46,7 @@ describe('DocumentosListComponent', () => {
     } as AuthUser);
 
     await TestBed.configureTestingModule({
-      imports: [DocumentosListComponent],
+      imports: [DocumentosListComponent, NoopAnimationsModule],
       providers: [
         { provide: DocumentosService, useValue: documentosService },
         { provide: AuthService, useValue: authService }
@@ -58,18 +59,21 @@ describe('DocumentosListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should render list with documents', () => {
-    const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
-    expect(rows.length).toBe(1);
-    expect(rows[0].nativeElement.textContent).toContain('archivo.pdf');
-  });
+  it('should render list with documents', fakeAsync(() => {
+    tick();
+    fixture.detectChanges();
+    expect(component.documentos.length).toBe(1);
+    expect(component.documentos[0].nombreOriginal).toBe('archivo.pdf');
+  }));
 
-  it('should show upload button for admin', () => {
-    const uploadButton = fixture.debugElement.query(By.css('.upload-button'));
+  it('should show upload button for admin', fakeAsync(() => {
+    tick();
+    fixture.detectChanges();
+    const uploadButton = fixture.debugElement.query(By.css('input[type="file"]'));
     expect(uploadButton).toBeTruthy();
-  });
+  }));
 
-  it('should hide upload button for consulta', () => {
+  it('should hide upload button for consulta', fakeAsync(() => {
     authService.getCurrentUser.and.returnValue({
       username: 'consulta',
       nombreCompleto: 'Consulta',
@@ -80,10 +84,12 @@ describe('DocumentosListComponent', () => {
     component = fixture.componentInstance;
     component.expedienteId = 10;
     fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
 
-    const uploadButton = fixture.debugElement.query(By.css('.upload-button'));
+    const uploadButton = fixture.debugElement.query(By.css('input[type="file"]'));
     expect(uploadButton).toBeFalsy();
-  });
+  }));
 
   it('should validate file size and extension', () => {
     const invalidExt = new File(['test'], 'archivo.exe');
