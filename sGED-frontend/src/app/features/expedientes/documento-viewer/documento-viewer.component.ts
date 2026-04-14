@@ -88,7 +88,6 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy {
 
   download(): void {
     if (!this.documento) return;
-    // For download we use blob fetch as well to attach auth header
     this.documentosService.fetchContenidoBlob(this.documento.id, 'attachment').subscribe({
       next: (url) => {
         const a = document.createElement('a');
@@ -99,5 +98,20 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy {
       },
       error: () => {}
     });
+  }
+
+  get fileIcon(): string {
+    if (this.isPdf) return 'pi-file-pdf';
+    if (this.isImage) return 'pi-image';
+    if (this.isAudio) return 'pi-headphones';
+    if (this.isVideo) return 'pi-video';
+    return 'pi-file';
+  }
+
+  formatSize(bytes: number | undefined): string {
+    if (!bytes) return '—';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
   }
 }

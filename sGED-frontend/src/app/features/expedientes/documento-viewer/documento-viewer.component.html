@@ -1,58 +1,93 @@
 <div class="elite-viewer" *ngIf="documento">
 
+  <!-- Viewer Header — file info + actions -->
+  <div class="viewer-header">
+    <div class="viewer-file-info">
+      <i class="pi" [ngClass]="fileIcon"></i>
+      <div>
+        <span class="viewer-filename">{{ documento.nombreOriginal }}</span>
+        <span class="viewer-meta">{{ documento.extension?.toUpperCase() }} · {{ formatSize(documento.tamanio) }}</span>
+      </div>
+    </div>
+    <div class="viewer-actions">
+      <button class="viewer-btn" title="Descargar" (click)="download()">
+        <i class="pi pi-download"></i>
+      </button>
+      <button class="viewer-btn" title="Cerrar visor" (click)="close.emit()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+  </div>
+
   <!-- Loading state -->
-  <div class="viewer-content text-center py-12" *ngIf="loading">
-    <i class="pi pi-spin pi-spinner text-4xl text-cyan-400 mb-4 block"></i>
-    <p class="text-slate-400 text-sm">Cargando documento...</p>
+  <div class="viewer-body viewer-centered" *ngIf="loading">
+    <div class="loading-pulse">
+      <i class="pi pi-spin pi-spinner"></i>
+      <p>Cargando documento...</p>
+    </div>
   </div>
 
   <!-- Error state -->
-  <div class="viewer-content text-center py-10" *ngIf="!loading && error">
-    <i class="pi pi-exclamation-triangle text-4xl text-amber-500 mb-4 block"></i>
-    <h4 class="font-bold text-white mb-2">Error al cargar</h4>
-    <p class="text-sm text-slate-500 mb-6">{{ error }}</p>
-    <button pButton icon="pi pi-download" label="Descargar Archivo" class="p-button-outlined" (click)="download()"></button>
+  <div class="viewer-body viewer-centered" *ngIf="!loading && error">
+    <div class="viewer-notice error">
+      <i class="pi pi-exclamation-triangle"></i>
+      <h4>Error al cargar</h4>
+      <p>{{ error }}</p>
+      <button class="viewer-btn-action" (click)="download()">
+        <i class="pi pi-download"></i> Descargar archivo
+      </button>
+    </div>
   </div>
 
-  <!-- PDF Viewer — iframe needs SafeResourceUrl -->
-  <div class="viewer-content pdf-viewer" *ngIf="!loading && !error && isPdf && frameUrl">
+  <!-- PDF Viewer -->
+  <div class="viewer-body pdf-body" *ngIf="!loading && !error && isPdf && frameUrl">
     <iframe [src]="frameUrl" class="viewer-iframe" title="Visor PDF"></iframe>
   </div>
 
-  <!-- Image Viewer — img needs SafeUrl -->
-  <div class="viewer-content image-viewer" *ngIf="!loading && !error && isImage && mediaUrl">
-    <div class="image-flex-container">
-      <img [src]="mediaUrl" [alt]="documento.nombreOriginal" class="img-fluid rounded-lg shadow-md" />
-    </div>
+  <!-- Image Viewer -->
+  <div class="viewer-body image-body" *ngIf="!loading && !error && isImage && mediaUrl">
+    <img [src]="mediaUrl" [alt]="documento.nombreOriginal" class="viewer-image" />
   </div>
 
-  <!-- Audio Player — source needs SafeUrl -->
-  <div class="viewer-content audio-viewer" *ngIf="!loading && !error && isAudio && mediaUrl">
-    <div class="multimedia-wrapper">
-      <div class="player-icon"><i class="pi pi-volume-up"></i></div>
-      <audio controls autoplay class="w-full elite-audio-player" [src]="mediaUrl">
+  <!-- Audio Player -->
+  <div class="viewer-body viewer-centered" *ngIf="!loading && !error && isAudio && mediaUrl">
+    <div class="audio-card">
+      <div class="audio-visual">
+        <div class="audio-ring">
+          <div class="audio-ring-inner">
+            <i class="pi pi-headphones"></i>
+          </div>
+        </div>
+        <div class="audio-bars">
+          <span *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" class="bar"></span>
+        </div>
+      </div>
+      <div class="audio-info">
+        <span class="audio-title">{{ documento.nombreOriginal }}</span>
+        <span class="audio-ext">{{ documento.extension?.toUpperCase() }}</span>
+      </div>
+      <audio #audioPlayer controls class="audio-native" [src]="mediaUrl">
         Su navegador no soporta la reproducción de audio.
       </audio>
-      <p class="text-xs text-slate-400 mt-4">Reproductor Élite — Formato compatible HTML5</p>
     </div>
   </div>
 
-  <!-- Video Player — source needs SafeUrl -->
-  <div class="viewer-content video-viewer" *ngIf="!loading && !error && isVideo && mediaUrl">
-    <div class="multimedia-wrapper">
-      <video controls autoplay class="w-full rounded-xl shadow-2xl elite-video-player" [src]="mediaUrl">
-        Su navegador no soporta la reproducción de video.
-      </video>
-    </div>
+  <!-- Video Player -->
+  <div class="viewer-body video-body" *ngIf="!loading && !error && isVideo && mediaUrl">
+    <video #videoPlayer controls class="viewer-video" [src]="mediaUrl">
+      Su navegador no soporta la reproducción de video.
+    </video>
   </div>
 
   <!-- Unsupported format -->
-  <div class="viewer-content unsupported-viewer" *ngIf="!loading && !error && !isPdf && !isImage && !isAudio && !isVideo">
-    <div class="text-center py-10">
-      <i class="pi pi-exclamation-triangle text-4xl text-amber-500 mb-4"></i>
-      <h4 class="font-bold">Formato no visualizable directamente</h4>
-      <p class="text-sm text-slate-500 mb-6">Este archivo debe descargarse para ser visualizado.</p>
-      <button pButton icon="pi pi-download" label="Descargar Archivo" class="p-button-outlined" (click)="download()"></button>
+  <div class="viewer-body viewer-centered" *ngIf="!loading && !error && !isPdf && !isImage && !isAudio && !isVideo">
+    <div class="viewer-notice">
+      <i class="pi pi-file"></i>
+      <h4>Vista previa no disponible</h4>
+      <p>Este formato ({{ documento.extension?.toUpperCase() }}) no se puede previsualizar en el navegador.</p>
+      <button class="viewer-btn-action" (click)="download()">
+        <i class="pi pi-download"></i> Descargar archivo
+      </button>
     </div>
   </div>
 
