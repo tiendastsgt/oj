@@ -30,8 +30,7 @@
   <div class="viewer-content audio-viewer" *ngIf="!loading && !error && isAudio && mediaUrl">
     <div class="multimedia-wrapper">
       <div class="player-icon"><i class="pi pi-volume-up"></i></div>
-      <audio controls autoplay class="w-full elite-audio-player">
-        <source [src]="mediaUrl" [type]="'audio/' + (documento.extension === 'mp3' ? 'mpeg' : documento.extension)">
+      <audio controls autoplay class="w-full elite-audio-player" [src]="mediaUrl">
         Su navegador no soporta la reproducción de audio.
       </audio>
       <p class="text-xs text-slate-400 mt-4">Reproductor Élite — Formato compatible HTML5</p>
@@ -41,8 +40,7 @@
   <!-- Video Player — source needs SafeUrl -->
   <div class="viewer-content video-viewer" *ngIf="!loading && !error && isVideo && mediaUrl">
     <div class="multimedia-wrapper">
-      <video controls autoplay class="w-full rounded-xl shadow-2xl elite-video-player">
-        <source [src]="mediaUrl" [type]="'video/' + documento.extension">
+      <video controls autoplay class="w-full rounded-xl shadow-2xl elite-video-player" [src]="mediaUrl">
         Su navegador no soporta la reproducción de video.
       </video>
     </div>
