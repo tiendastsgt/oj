@@ -1,5 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -14,17 +25,25 @@ import { Documento } from '../../documentos/models/documento.model';
   templateUrl: './documento-viewer.component.html',
   styleUrls: ['./documento-viewer.component.scss']
 })
-export class DocumentoViewerComponent implements OnChanges, OnDestroy {
+export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterViewChecked {
   @Input() documento: Documento | null = null;
   @Output() close = new EventEmitter<void>();
 
+  @ViewChild('audioPlayer') audioPlayerRef?: ElementRef<HTMLAudioElement>;
+  @ViewChild('videoPlayer') videoPlayerRef?: ElementRef<HTMLVideoElement>;
+
   /** For <iframe> — requires bypassSecurityTrustResourceUrl */
   frameUrl: SafeResourceUrl | null = null;
-  /** For <img>, <audio>, <video> — requires bypassSecurityTrustUrl */
+  /** For <img> — requires bypassSecurityTrustUrl */
   mediaUrl: SafeUrl | null = null;
-  private rawBlobUrl: string | null = null;
+  /** Raw blob URL string for audio/video native elements */
+  rawBlobUrl: string | null = null;
+
   loading = false;
   error = '';
+
+  /** Track whether we've set the src on native media elements */
+  private mediaSrcApplied = false;
 
   constructor(
     private documentosService: DocumentosService,
@@ -34,6 +53,7 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['documento']) {
       this.revocarBlobUrl();
+      this.mediaSrcApplied = false;
       const doc = this.documento;
       if (doc && (this.isPdf || this.isImage || this.isAudio || this.isVideo)) {
         this.loading = true;
@@ -41,7 +61,6 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy {
         this.documentosService.fetchContenidoBlob(doc.id).subscribe({
           next: (url) => {
             this.rawBlobUrl = url;
-            // <iframe> (PDF) needs ResourceUrl; <img>/<audio>/<video> need SafeUrl
             this.frameUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
             this.mediaUrl = this.sanitizer.bypassSecurityTrustUrl(url);
             this.loading = false;
@@ -57,6 +76,33 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy {
     }
   }
 
+  /**
+   * After each view check, inject the raw blob URL directly into the native
+   * <audio>/<video> element. This bypasses Angular's sanitization which can
+   * silently block blob: URLs on media elements in some browsers.
+   */
+  ngAfterViewChecked(): void {
+    if (this.mediaSrcApplied || !this.rawBlobUrl) return;
+
+    if (this.isAudio && this.audioPlayerRef?.nativeElement) {
+      const el = this.audioPlayerRef.nativeElement;
+      if (!el.src || !el.src.startsWith('blob:')) {
+        el.src = this.rawBlobUrl;
+        el.load();
+        this.mediaSrcApplied = true;
+      }
+    }
+
+    if (this.isVideo && this.videoPlayerRef?.nativeElement) {
+      const el = this.videoPlayerRef.nativeElement;
+      if (!el.src || !el.src.startsWith('blob:')) {
+        el.src = this.rawBlobUrl;
+        el.load();
+        this.mediaSrcApplied = true;
+      }
+    }
+  }
+
   ngOnDestroy(): void {
     this.revocarBlobUrl();
   }
@@ -67,6 +113,7 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy {
       this.rawBlobUrl = null;
       this.frameUrl = null;
       this.mediaUrl = null;
+      this.mediaSrcApplied = false;
     }
   }
 
@@ -84,6 +131,11 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy {
 
   get isVideo(): boolean {
     return ['mp4', 'webm', 'avi', 'mov'].includes(this.documento?.extension?.toLowerCase() ?? '');
+  }
+
+  /** Whether the blob has been loaded (used in template to show media sections) */
+  get blobReady(): boolean {
+    return !!this.rawBlobUrl;
   }
 
   download(): void {

@@ -50,7 +50,7 @@
   </div>
 
   <!-- Audio Player -->
-  <div class="viewer-body viewer-centered" *ngIf="!loading && !error && isAudio && mediaUrl">
+  <div class="viewer-body viewer-centered" *ngIf="!loading && !error && isAudio && blobReady">
     <div class="audio-card">
       <div class="audio-visual">
         <div class="audio-ring">
@@ -66,15 +66,15 @@
         <span class="audio-title">{{ documento.nombreOriginal }}</span>
         <span class="audio-ext">{{ documento.extension?.toUpperCase() }}</span>
       </div>
-      <audio #audioPlayer controls class="audio-native" [src]="mediaUrl">
+      <audio #audioPlayer controls class="audio-native">
         Su navegador no soporta la reproducción de audio.
       </audio>
     </div>
   </div>
 
   <!-- Video Player -->
-  <div class="viewer-body video-body" *ngIf="!loading && !error && isVideo && mediaUrl">
-    <video #videoPlayer controls class="viewer-video" [src]="mediaUrl">
+  <div class="viewer-body video-body" *ngIf="!loading && !error && isVideo && blobReady">
+    <video #videoPlayer controls class="viewer-video">
       Su navegador no soporta la reproducción de video.
     </video>
   </div>
