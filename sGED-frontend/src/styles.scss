@@ -126,6 +126,27 @@ img { max-width: 100%; display: block; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
+/* ── Accessibility: Focus Ring (WCAG 2.1 AA, criterion 2.4.7) ──────────── */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* Inputs with custom box-shadow focus indicators: suppress duplicate outline */
+.form-input:focus-visible,
+.topbar-search input:focus-visible,
+input[pInputText]:focus-visible,
+.p-inputtext:focus-visible {
+  outline: none;
+}
+
+/* ── Interactive Affordances: cursor hint for clickable elements ──────────── */
+[role="button"],
+label[for],
+.clickable {
+  cursor: pointer;
+}
+
 /* ============================================================
    3. GLASS PANEL — Glassmorphism Core
    ============================================================ */
