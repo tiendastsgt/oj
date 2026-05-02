@@ -1,8 +1,8 @@
 # 📑 ÍNDICE MAESTRO DE DOCUMENTACIÓN - SGED
 
-**Versión:** 1.3.0  
-**Fecha de última actualización:** 14 abril 2026  
-**Vigente para:** SGED v1.3.0 (producción) y superior  
+**Versión:** 1.4.0  
+**Fecha de última actualización:** 1 mayo 2026  
+**Vigente para:** SGED v1.4.0 (producción) y superior  
 **Responsable:** Orquestador IA  
 **Estado:** ✅ Vigente  
 
@@ -25,7 +25,9 @@ Este documento es el **punto de entrada único** para navegar toda la documentac
 5. [Smoke Tests](#smoke-tests) - Planes y ejecución de smoke testing
 6. [Fases de Desarrollo](#fases-de-desarrollo) - Documentación por fase
 7. [Diagramas](#diagramas) - Arquitectura y diagramas de flujo
-8. [Legacy](#legacy) - Documentos históricos/archivados
+8. [Auditorías](#auditorías) - Informes de auditoría UX, accesibilidad y código
+9. [Skills y Agentes IA](#skills-y-agentes-ia) - Arsenal de habilidades del Enjambre
+10. [Legacy](#legacy) - Documentos históricos/archivados
 
 ---
 
@@ -113,6 +115,48 @@ Guías operativas para despliegue, seguridad, secretos y monitoreo en producció
 - En caso de error: ROLLBACK_PLAN_PRODUCCION.md
 - Durante 72h post-deploy: MONITOREO_OPERACIONES_PRODUCCION.md
 - Para troubleshooting: RUNBOOK_OPERACIONES_PRODUCCION.md
+
+---
+
+## AUDITORÍAS
+
+**Ubicación:** `/docs/auditorias/`
+
+Informes de auditoría ejecutados por el enjambre de agentes para asegurar calidad continua.
+
+| Documento | Descripción | Fecha | Skills Aplicados |
+|-----------|-------------|-------|------------------|
+| [2026-05-01-auditoria-ux.md](./auditorias/2026-05-01-auditoria-ux.md) | Auditoría UX exhaustiva. 18 hallazgos en 4 sprints. Comparación prototipos vs implementación Angular. | 1 mayo 2026 | ui-ux-pro-max, high-end-visual-design, product-design, angular-best-practices, code-reviewer |
+
+---
+
+## SKILLS Y AGENTES IA
+
+**Ubicación:** `/.ai/`
+
+Arsenal de agentes y habilidades integrados para operación autónoma de alta calidad.
+
+### Agentes (`/.ai/agents/`)
+
+| Agente | Rol |
+|--------|-----|
+| `orchestrator.md` | Orquestador principal del enjambre |
+| `frontend.md` | Elite UX — Angular 21 + PrimeNG |
+| `backend.md` | Java 21 + Spring Boot 3.5 |
+| `devops.md` | Docker, Nginx, VPS |
+| `dba.md` | MySQL 8, Oracle 21c |
+| `qa.md` | Testing y verificación |
+| `code-reviewer.md` | Auditoría de código y mejores prácticas |
+
+### Skills (`/.ai/skills/`)
+
+| Categoría | Skills |
+|-----------|--------|
+| Desarrollo | `angular-best-practices`, `java-pro`, `test-driven-development` |
+| Base de Datos | `database-architect`, `sql-pro` |
+| DevOps | `docker-expert` |
+| Diseño & UX | `frontend-ui-dark-ts`, `high-end-visual-design`, `ui-ux-pro-max`, `product-design` |
+| Procesos | `systematic-debugging`, `writing-plans` |
 
 ---
 
