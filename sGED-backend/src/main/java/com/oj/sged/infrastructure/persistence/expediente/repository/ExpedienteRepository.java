@@ -29,6 +29,10 @@ public interface ExpedienteRepository extends JpaRepository<Expediente, Long> {
         """)
     long countByEstadoId(Long estadoId);
 
+    long countByJuzgadoId(Long juzgadoId);
+
+    long countByJuzgadoIdAndEstadoId(Long juzgadoId, Long estadoId);
+
     Page<Expediente> buscarAvanzada(
         @Param("numero") String numero,
         @Param("fechaDesde") LocalDate fechaDesde,

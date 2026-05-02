@@ -67,8 +67,9 @@ export class AppComponent {
     });
   }
 
-  onRapidSearch(event: any): void {
-    const query = event.target.value;
+  onRapidSearch(event: KeyboardEvent): void {
+    const target = event.target as HTMLInputElement;
+    const query = (target.value ?? '').trim().slice(0, 100);
     if (query) {
       this.router.navigate(['/busqueda'], { queryParams: { numero: query } });
     }

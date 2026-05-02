@@ -56,12 +56,25 @@ public class ExpedienteService {
 
     @Transactional(readOnly = true)
     public ExpedienteEstadisticasResponse getEstadisticas() {
-        long total = expedienteRepository.count();
-        long pendientes = expedienteRepository.countByEstadoId(2L);  // En espera
-        long enProceso  = expedienteRepository.countByEstadoId(1L);  // Activo
-        long resueltos  = expedienteRepository.countByEstadoId(4L);  // Cerrado
-        long archivados = expedienteRepository.countByEstadoId(5L);  // Archivado
-        return new ExpedienteEstadisticasResponse(total, pendientes, enProceso, resueltos, archivados);
+        // Mismo principio de aislamiento por juzgado que listarExpedientes:
+        // ADMIN ve totales globales; el resto ve sólo su juzgado.
+        if (isAdmin()) {
+            return new ExpedienteEstadisticasResponse(
+                expedienteRepository.count(),
+                expedienteRepository.countByEstadoId(2L),  // En espera
+                expedienteRepository.countByEstadoId(1L),  // Activo
+                expedienteRepository.countByEstadoId(4L),  // Cerrado
+                expedienteRepository.countByEstadoId(5L)   // Archivado
+            );
+        }
+        Long juzgadoId = getUserJuzgadoId(getCurrentUser());
+        return new ExpedienteEstadisticasResponse(
+            expedienteRepository.countByJuzgadoId(juzgadoId),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 2L),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 1L),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 4L),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 5L)
+        );
     }
 
     @Transactional

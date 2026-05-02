@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
-import { catchError } from 'rxjs/operators';
+import { catchError, startWith, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ExpedientesService, ExpedienteEstadisticas } from '../../core/services/expedientes.service';
@@ -82,18 +82,18 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
           <a routerLink="/expedientes" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
         </div>
 
-        <!-- Filtros -->
+        <!-- Filtros (valueChanges dispara recarga vía switchMap) -->
         <div class="dashboard-filters" [formGroup]="filterForm">
-          <select formControlName="estadoId" class="form-input form-select" (change)="aplicarFiltros()">
-            <option [value]="null">Todos los estados</option>
-            <option [value]="1">Activo</option>
-            <option [value]="2">En espera</option>
-            <option [value]="3">Suspendido</option>
-            <option [value]="4">Cerrado</option>
-            <option [value]="5">Archivado</option>
+          <select formControlName="estadoId" class="form-input form-select" aria-label="Filtrar por estado">
+            <option [ngValue]="null">Todos los estados</option>
+            <option [ngValue]="1">Activo</option>
+            <option [ngValue]="2">En espera</option>
+            <option [ngValue]="3">Suspendido</option>
+            <option [ngValue]="4">Cerrado</option>
+            <option [ngValue]="5">Archivado</option>
           </select>
-          <input type="date" formControlName="fechaDesde" class="form-input" (change)="aplicarFiltros()" />
-          <input type="date" formControlName="fechaHasta" class="form-input" (change)="aplicarFiltros()" />
+          <input type="date" formControlName="fechaDesde" class="form-input" aria-label="Fecha desde" />
+          <input type="date" formControlName="fechaHasta" class="form-input" aria-label="Fecha hasta" />
         </div>
         <div style="overflow-x: auto;">
           <!-- Loading skeleton -->
@@ -304,7 +304,7 @@ export class DashboardComponent implements OnInit {
     }
 
     this.cargarEstadisticas();
-    this.cargarExpedientes();
+    this.observarFiltros();
     this.cargarAuditoria();
   }
 
@@ -317,23 +317,25 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  private cargarExpedientes(): void {
-    const { estadoId, juzgadoId, fechaDesde, fechaHasta } = this.filterForm.value;
-    this.loading = true;
-    this.expedientesService
-      .getExpedientes({
+  // switchMap cancela peticiones obsoletas cuando el usuario cambia filtros
+  // rápidamente, evitando race conditions sobre expedientesRecientes.
+  private observarFiltros(): void {
+    this.filterForm.valueChanges.pipe(
+      startWith(this.filterForm.value),
+      tap(() => { this.loading = true; this.cdr.markForCheck(); }),
+      switchMap(filtros => this.expedientesService.getExpedientes({
         page: 0, size: 5, sort: 'fechaCreacion,desc',
-        estadoId:   estadoId   ?? undefined,
-        juzgadoId:  juzgadoId  ?? undefined,
-        fechaDesde: fechaDesde ?? undefined,
-        fechaHasta: fechaHasta ?? undefined,
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef), catchError(() => of(null)))
-      .subscribe(res => {
-        this.expedientesRecientes = res?.data?.content ?? [];
-        this.loading = false;
-        this.cdr.detectChanges();
-      });
+        estadoId:   filtros.estadoId   ?? undefined,
+        juzgadoId:  filtros.juzgadoId  ?? undefined,
+        fechaDesde: filtros.fechaDesde ?? undefined,
+        fechaHasta: filtros.fechaHasta ?? undefined,
+      }).pipe(catchError(() => of(null)))),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(res => {
+      this.expedientesRecientes = res?.data?.content ?? [];
+      this.loading = false;
+      this.cdr.markForCheck();
+    });
   }
 
   private cargarAuditoria(): void {
@@ -345,10 +347,6 @@ export class DashboardComponent implements OnInit {
         this.loadingAuditoria  = false;
         this.cdr.detectChanges();
       });
-  }
-
-  aplicarFiltros(): void {
-    this.cargarExpedientes();
   }
 
   getInitials(name: string): string {
