@@ -493,10 +493,24 @@ img { max-width: 100%; display: block; }
 .p-6 { padding: var(--space-6); }
 .p-8 { padding: var(--space-8); }
 
+/* --- Critical Flex Utilities (used in templates, not provided by Tailwind) --- */
+.flex-1 { flex: 1 1 0%; min-height: 0; min-width: 0; }
+.h-full { height: 100%; }
+.min-h-0 { min-height: 0; }
+.shrink-0 { flex-shrink: 0; }
+.overflow-hidden { overflow: hidden; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.block { display: block; }
+
 /* ============================================================
    11. APP LAYOUT SHELL
    ============================================================ */
-.app-shell { display: flex; min-height: 100vh; }
+.app-shell { 
+  display: flex; 
+  height: 100vh; 
+  overflow: hidden; 
+}
 
 /* --- SIDEBAR (Dark Immersive) --- */
 .sidebar {
@@ -571,7 +585,14 @@ img { max-width: 100%; display: block; }
 }
 
 /* --- MAIN CONTENT --- */
-.main-content { flex: 1; margin-left: 68px; display: flex; flex-direction: column; min-height: 100vh; }
+.main-content { 
+  flex: 1; 
+  margin-left: 68px; 
+  display: flex; 
+  flex-direction: column; 
+  height: 100vh; 
+  overflow: hidden; 
+}
 
 /* --- TOPBAR (Glass Dark) --- */
 .topbar {
@@ -626,7 +647,16 @@ img { max-width: 100%; display: block; }
 .user-info-name { font-size: var(--font-sm); font-weight: 600; color: var(--text-primary); }
 .user-info-role { font-size: var(--font-xs); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
 
-.page-content { flex: 1; padding: var(--space-8); max-width: 1400px; width: 100%; margin: 0 auto; }
+.page-content { 
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6); 
+  width: 100%; 
+  margin: 0 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
 
 /* ============================================================
    12. MODAL / OVERLAY
@@ -850,6 +880,128 @@ img { max-width: 100%; display: block; }
   box-shadow: var(--shadow-lg) !important;
 }
 
+/* --- p-select (PrimeNG Select) --- */
+.p-select {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: var(--font-family) !important;
+  color: var(--text-primary) !important;
+}
+.p-select:not(.p-disabled).p-focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15) !important;
+}
+.p-select .p-select-label {
+  color: var(--text-primary) !important;
+  padding: 0.75rem 1rem !important;
+}
+.p-select-overlay {
+  background: #111827 !important;
+  border: 1px solid var(--border-strong) !important;
+  box-shadow: var(--shadow-xl) !important;
+}
+.p-select-option {
+  color: var(--text-secondary) !important;
+  padding: 0.625rem 1rem !important;
+}
+.p-select-option.p-highlight {
+  background: var(--primary-light) !important;
+  color: var(--primary-hover) !important;
+}
+.p-select-option:not(.p-highlight):not(.p-disabled):hover {
+  background: var(--surface-hover) !important;
+  color: white !important;
+}
+
+/* --- p-datepicker (PrimeNG DatePicker) --- */
+.p-datepicker {
+  background: #111827 !important;
+  border: 1px solid var(--border-strong) !important;
+  color: var(--text-primary) !important;
+  box-shadow: var(--shadow-xl) !important;
+  border-radius: var(--radius-md) !important;
+}
+.p-datepicker .p-datepicker-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border) !important;
+  color: var(--text-primary) !important;
+}
+.p-datepicker-calendar td > span {
+  border-radius: 50% !important;
+  color: var(--text-secondary) !important;
+}
+.p-datepicker-calendar td > span.p-highlight {
+  background: var(--primary) !important;
+  color: white !important;
+  box-shadow: var(--shadow-glow-blue) !important;
+}
+.p-datepicker-calendar td > span:not(.p-highlight):not(.p-disabled):hover {
+  background: var(--surface-hover) !important;
+  color: white !important;
+}
+
+/* --- p-password (PrimeNG Password) --- */
+.p-password {
+  width: 100%;
+}
+.p-password input {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: var(--font-family) !important;
+  color: var(--text-primary) !important;
+  padding: 0.75rem 1rem !important;
+  width: 100% !important;
+}
+.p-password-input:not(.p-disabled).p-focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15) !important;
+}
+
+/* --- PrimeNG pInputText Dark Override --- */
+input[pInputText],
+.p-inputtext {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: var(--font-family) !important;
+  color: var(--text-primary) !important;
+  padding: 0.75rem 1rem !important;
+}
+input[pInputText]:focus,
+.p-inputtext:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15) !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+}
+input[pInputText]::placeholder,
+.p-inputtext::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* --- Native select/option Dark Override --- */
+select.form-input option,
+select.form-select option,
+select[pInputText] option {
+  background: #111827;
+  color: var(--text-primary);
+}
+select[pInputText] {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-family) !important;
+  padding: 0.75rem 1rem !important;
+}
+
+/* --- KPI amber variant --- */
+.kpi-icon-box.amber {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
 /* ============================================================
    16. RESPONSIVE
    ============================================================ */
@@ -866,3 +1018,4 @@ img { max-width: 100%; display: block; }
   .page-content { padding: var(--space-4); }
   .topbar { padding: 0 var(--space-4); }
 }
+

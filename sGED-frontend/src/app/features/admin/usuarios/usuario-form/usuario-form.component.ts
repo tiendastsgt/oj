@@ -30,149 +30,168 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
   ],
   providers: [MessageService],
   template: `
-    <div class="card max-w-2xl mx-auto">
-      <h3 class="mb-4">{{ isCreation ? 'Crear Nuevo Usuario' : 'Editar Usuario' }}</h3>
+    <div class="fade-in">
+      <!-- Page Header -->
+      <div class="page-header-actions mb-6">
+        <div>
+          <h1 class="page-title">{{ isCreation ? 'Crear Nuevo Usuario' : 'Editar Usuario' }}</h1>
+          <p class="subtitle">{{ isCreation ? 'Complete los datos para registrar una nueva cuenta' : 'Modifique los datos del usuario seleccionado' }}</p>
+        </div>
+        <button class="btn btn-secondary" (click)="cancelar()">
+          <i class="pi pi-arrow-left"></i> Volver
+        </button>
+      </div>
 
-      <form [formGroup]="form" (ngSubmit)="guardar()">
-        <!-- Username (solo en creación) -->
-        <div class="field" *ngIf="isCreation">
-          <label htmlFor="username">Username *</label>
-          <input
-            pInputText
-            id="username"
-            type="text"
-            formControlName="username"
-            class="w-full"
-            [class.ng-invalid.ng-touched]="isFieldInvalid('username')"
-          />
-          <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('username')">
-            <div *ngIf="form.get('username')?.errors?.['required']">El username es requerido</div>
-            <div *ngIf="form.get('username')?.errors?.['minlength']">Mínimo 3 caracteres</div>
-            <div *ngIf="form.get('username')?.errors?.['maxlength']">Máximo 50 caracteres</div>
+      <div class="card glass-panel shadow-lg" style="max-width: 800px;">
+        <div class="card-header">
+          <div class="section-title">
+            <i class="pi pi-user-edit"></i> {{ isCreation ? 'DATOS DE LA CUENTA' : 'DATOS DEL USUARIO' }}
           </div>
         </div>
+        <div class="card-body" style="padding: var(--space-6);">
+          <form [formGroup]="form" (ngSubmit)="guardar()">
+            <!-- Username (solo en creación) -->
+            <div class="form-field mb-4" *ngIf="isCreation">
+              <label class="form-label" htmlFor="username"><i class="pi pi-at"></i> Username *</label>
+              <input
+                type="text"
+                id="username"
+                class="form-input"
+                placeholder="Ej: juan.perez"
+                formControlName="username"
+              />
+              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('username')">
+                <span *ngIf="form.get('username')?.errors?.['required']">El username es requerido</span>
+                <span *ngIf="form.get('username')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+                <span *ngIf="form.get('username')?.errors?.['maxlength']">Máximo 50 caracteres</span>
+              </div>
+            </div>
 
-        <!-- Nombre Completo -->
-        <div class="field">
-          <label htmlFor="nombreCompleto">Nombre Completo *</label>
-          <input
-            pInputText
-            id="nombreCompleto"
-            type="text"
-            formControlName="nombreCompleto"
-            class="w-full"
-            [class.ng-invalid.ng-touched]="isFieldInvalid('nombreCompleto')"
-          />
-          <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('nombreCompleto')">
-            <div *ngIf="form.get('nombreCompleto')?.errors?.['required']">El nombre completo es requerido</div>
-            <div *ngIf="form.get('nombreCompleto')?.errors?.['minlength']">Mínimo 5 caracteres</div>
-            <div *ngIf="form.get('nombreCompleto')?.errors?.['maxlength']">Máximo 150 caracteres</div>
-          </div>
-        </div>
+            <!-- Nombre Completo -->
+            <div class="form-field mb-4">
+              <label class="form-label" htmlFor="nombreCompleto"><i class="pi pi-user"></i> Nombre Completo *</label>
+              <input
+                type="text"
+                id="nombreCompleto"
+                class="form-input"
+                placeholder="Nombre y apellidos"
+                formControlName="nombreCompleto"
+              />
+              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('nombreCompleto')">
+                <span *ngIf="form.get('nombreCompleto')?.errors?.['required']">El nombre completo es requerido</span>
+                <span *ngIf="form.get('nombreCompleto')?.errors?.['minlength']">Mínimo 5 caracteres</span>
+                <span *ngIf="form.get('nombreCompleto')?.errors?.['maxlength']">Máximo 150 caracteres</span>
+              </div>
+            </div>
 
-        <!-- Email -->
-        <div class="field">
-          <label htmlFor="email">Email *</label>
-          <input
-            pInputText
-            id="email"
-            type="email"
-            formControlName="email"
-            class="w-full"
-            [class.ng-invalid.ng-touched]="isFieldInvalid('email')"
-          />
-          <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('email')">
-            <div *ngIf="form.get('email')?.errors?.['required']">El email es requerido</div>
-            <div *ngIf="form.get('email')?.errors?.['email']">Email inválido</div>
-            <div *ngIf="form.get('email')?.errors?.['maxlength']">Máximo 100 caracteres</div>
-          </div>
-        </div>
+            <!-- Email -->
+            <div class="form-field mb-4">
+              <label class="form-label" htmlFor="email"><i class="pi pi-envelope"></i> Email *</label>
+              <input
+                type="email"
+                id="email"
+                class="form-input"
+                placeholder="correo@oj.gob.gt"
+                formControlName="email"
+              />
+              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('email')">
+                <span *ngIf="form.get('email')?.errors?.['required']">El email es requerido</span>
+                <span *ngIf="form.get('email')?.errors?.['email']">Email inválido</span>
+                <span *ngIf="form.get('email')?.errors?.['maxlength']">Máximo 100 caracteres</span>
+              </div>
+            </div>
 
-        <!-- Rol -->
-        <div class="field">
-          <label htmlFor="rolId">Rol *</label>
-          <select
-            id="rolId"
-            formControlName="rolId"
-            pInputText
-            class="w-full"
-          >
-            <option value="">Seleccionar rol</option>
-            <option *ngFor="let rol of roles" [value]="rol.value">{{ rol.label }}</option>
-          </select>
-          <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('rolId')">
-            <div *ngIf="form.get('rolId')?.errors?.['required']">El rol es requerido</div>
-          </div>
-        </div>
+            <!-- Grid: Rol + Juzgado -->
+            <div class="grid-2 mb-4">
+              <div class="form-field">
+                <label class="form-label" htmlFor="rolId"><i class="pi pi-shield"></i> Rol *</label>
+                <select
+                  id="rolId"
+                  formControlName="rolId"
+                  class="form-input form-select"
+                >
+                  <option value="">Seleccionar rol</option>
+                  <option *ngFor="let rol of roles" [value]="rol.value">{{ rol.label }}</option>
+                </select>
+                <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('rolId')">
+                  <span *ngIf="form.get('rolId')?.errors?.['required']">El rol es requerido</span>
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label" htmlFor="juzgadoId"><i class="pi pi-building"></i> Juzgado *</label>
+                <select
+                  id="juzgadoId"
+                  formControlName="juzgadoId"
+                  class="form-input form-select"
+                >
+                  <option value="">Seleccionar juzgado</option>
+                  <option *ngFor="let juzgado of juzgados" [value]="juzgado.value">{{ juzgado.label }}</option>
+                </select>
+                <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('juzgadoId')">
+                  <span *ngIf="form.get('juzgadoId')?.errors?.['required']">El juzgado es requerido</span>
+                </div>
+              </div>
+            </div>
 
-        <!-- Juzgado -->
-        <div class="field">
-          <label htmlFor="juzgadoId">Juzgado *</label>
-          <select
-            id="juzgadoId"
-            formControlName="juzgadoId"
-            pInputText
-            class="w-full"
-          >
-            <option value="">Seleccionar juzgado</option>
-            <option *ngFor="let juzgado of juzgados" [value]="juzgado.value">{{ juzgado.label }}</option>
-          </select>
-          <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('juzgadoId')">
-            <div *ngIf="form.get('juzgadoId')?.errors?.['required']">El juzgado es requerido</div>
-          </div>
-        </div>
+            <!-- Grid: Activo + Bloqueado (solo en edición) -->
+            <div class="grid-2 mb-6" *ngIf="!isCreation">
+              <div class="form-field">
+                <label class="form-label" htmlFor="activo"><i class="pi pi-check-circle"></i> Estado</label>
+                <select
+                  id="activo"
+                  formControlName="activo"
+                  class="form-input form-select"
+                >
+                  <option [value]="true">Activo</option>
+                  <option [value]="false">Inactivo</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" htmlFor="bloqueado"><i class="pi pi-lock"></i> Bloqueo</label>
+                <select
+                  id="bloqueado"
+                  formControlName="bloqueado"
+                  class="form-input form-select"
+                >
+                  <option [value]="false">Desbloqueado</option>
+                  <option [value]="true">Bloqueado</option>
+                </select>
+              </div>
+            </div>
 
-        <!-- Activo (solo en edición) -->
-        <div class="field" *ngIf="!isCreation">
-          <label htmlFor="activo">Activo</label>
-          <select
-            id="activo"
-            formControlName="activo"
-            pInputText
-            class="w-full"
-          >
-            <option [value]="true">Activo</option>
-            <option [value]="false">Inactivo</option>
-          </select>
+            <!-- Botones -->
+            <div class="flex gap-3" style="border-top: 1px solid var(--border); padding-top: var(--space-6);">
+              <button type="submit" class="btn btn-primary" [disabled]="!form.valid || loading">
+                <i class="pi" [ngClass]="loading ? 'pi-spin pi-spinner' : 'pi-check'"></i>
+                {{ isCreation ? 'Crear Usuario' : 'Guardar Cambios' }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="cancelar()">
+                <i class="pi pi-times"></i> Cancelar
+              </button>
+            </div>
+          </form>
         </div>
-
-        <!-- Bloqueado (solo en edición) -->
-        <div class="field" *ngIf="!isCreation">
-          <label htmlFor="bloqueado">Bloqueado</label>
-          <select
-            id="bloqueado"
-            formControlName="bloqueado"
-            pInputText
-            class="w-full"
-          >
-            <option [value]="false">Desbloqueado</option>
-            <option [value]="true">Bloqueado</option>
-          </select>
-        </div>
-
-        <!-- Botones -->
-        <div class="flex gap-3 mt-6">
-          <p-button
-            type="submit"
-            label="{{ isCreation ? 'Crear' : 'Guardar' }}"
-            icon="pi pi-check"
-            [loading]="loading"
-            [disabled]="!form.valid || loading"
-          ></p-button>
-          <p-button
-            type="button"
-            label="Cancelar"
-            icon="pi pi-times"
-            severity="secondary"
-            (onClick)="cancelar()"
-          ></p-button>
-        </div>
-      </form>
+      </div>
     </div>
 
     <p-toast></p-toast>
   `,
-  styles: []
+  styles: [`
+    .page-header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .text-red-500 {
+      color: var(--accent-rose);
+    }
+    .text-sm {
+      font-size: var(--font-xs);
+    }
+    .mt-1 {
+      margin-top: var(--space-1);
+    }
+  `]
 })
 export class UsuarioFormComponent implements OnInit, OnDestroy {
   form: FormGroup;

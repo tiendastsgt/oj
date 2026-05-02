@@ -10,6 +10,15 @@
       </div>
     </div>
     <div class="viewer-actions">
+      <button class="viewer-btn" title="Abrir en nueva pestaña" (click)="openExternal()">
+        <i class="pi pi-external-link"></i>
+      </button>
+      <button class="viewer-btn" [class.active]="readingModeActive" title="Modo Lectura (Expandir)" (click)="toggleReadingMode()">
+        <i class="pi" [ngClass]="readingModeActive ? 'pi-window-minimize' : 'pi-window-maximize'"></i>
+      </button>
+      <button class="viewer-btn" [class.active]="isFullscreen" title="Pantalla Completa" (click)="toggleFullscreen()">
+        <i class="pi" [ngClass]="isFullscreen ? 'pi-compress' : 'pi-expand'"></i>
+      </button>
       <button class="viewer-btn" title="Descargar" (click)="download()">
         <i class="pi pi-download"></i>
       </button>
@@ -20,7 +29,7 @@
   </div>
 
   <!-- Loading state -->
-  <div class="viewer-body viewer-centered" *ngIf="loading">
+  <div class="elite-body viewer-centered" *ngIf="loading">
     <div class="loading-pulse">
       <i class="pi pi-spin pi-spinner"></i>
       <p>Cargando documento...</p>
@@ -28,7 +37,7 @@
   </div>
 
   <!-- Error state -->
-  <div class="viewer-body viewer-centered" *ngIf="!loading && error">
+  <div class="elite-body viewer-centered" *ngIf="!loading && error">
     <div class="viewer-notice error">
       <i class="pi pi-exclamation-triangle"></i>
       <h4>Error al cargar</h4>
@@ -40,17 +49,17 @@
   </div>
 
   <!-- PDF Viewer -->
-  <div class="viewer-body pdf-body" *ngIf="!loading && !error && isPdf && frameUrl">
+  <div class="elite-body pdf-body" *ngIf="!loading && !error && isPdf && frameUrl">
     <iframe [src]="frameUrl" class="viewer-iframe" title="Visor PDF"></iframe>
   </div>
 
   <!-- Image Viewer -->
-  <div class="viewer-body image-body" *ngIf="!loading && !error && isImage && mediaUrl">
+  <div class="elite-body image-body" *ngIf="!loading && !error && isImage && mediaUrl">
     <img [src]="mediaUrl" [alt]="documento.nombreOriginal" class="viewer-image" />
   </div>
 
   <!-- Audio Player -->
-  <div class="viewer-body viewer-centered" *ngIf="!loading && !error && isAudio && blobReady">
+  <div class="elite-body viewer-centered" *ngIf="!loading && !error && isAudio && blobReady">
     <div class="audio-card">
       <div class="audio-visual">
         <div class="audio-ring">
@@ -73,14 +82,14 @@
   </div>
 
   <!-- Video Player -->
-  <div class="viewer-body video-body" *ngIf="!loading && !error && isVideo && blobReady">
+  <div class="elite-body video-body" *ngIf="!loading && !error && isVideo && blobReady">
     <video #videoPlayer controls class="viewer-video">
       Su navegador no soporta la reproducción de video.
     </video>
   </div>
 
   <!-- Unsupported format -->
-  <div class="viewer-body viewer-centered" *ngIf="!loading && !error && !isPdf && !isImage && !isAudio && !isVideo">
+  <div class="elite-body viewer-centered" *ngIf="!loading && !error && !isPdf && !isImage && !isAudio && !isVideo">
     <div class="viewer-notice">
       <i class="pi pi-file"></i>
       <h4>Vista previa no disponible</h4>

@@ -1,76 +1,17 @@
-<div class="fade-in" *ngIf="expediente">
-  <div class="case-workspace">
+<div class="fade-in flex-1 flex flex-col" *ngIf="expediente">
+  <div class="case-workspace" [class.reading-mode-active]="readingModeActive">
     
-    <!-- LEFT SIDEBAR: Case Metadata -->
-    <aside class="case-sidebar">
-      
-      <!-- Case Header Card -->
-      <div class="case-header-card glass-panel shadow-lg">
-        <a routerLink="/expedientes" class="case-back">
-          <i class="pi pi-chevron-left"></i> Expedientes
-        </a>
-        <div class="case-tipo-eyebrow">{{ getTipoProcesoName(expediente.tipoProcesoId) }}</div>
-        <div class="case-numero">{{ expediente.numero }}</div>
-        <div class="case-vs">{{ expediente.referenciaFuente || 'Organismo Judicial' }}</div>
-        <app-status-badge [status]="expediente.estadoId"></app-status-badge>
-      </div>
-
-      <!-- Parties Section -->
-      <div class="card glass-panel p-5">
-        <div class="section-title mb-4"><i class="pi pi-users"></i> PARTES PROCESALES</div>
-        <div class="meta-list">
-          <div class="meta-item">
-            <span class="meta-label">Actor / Demandante</span>
-            <span class="meta-value">Estado de Guatemala</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Demandado</span>
-            <span class="meta-value">Juan Pérez Hernández</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Key Info Section -->
-      <div class="card glass-panel p-5">
-        <div class="section-title mb-4"><i class="pi pi-info-circle"></i> INFORMACIÓN CLAVE</div>
-        <div class="meta-list">
-          <div class="meta-item">
-            <span class="meta-label">Juzgado</span>
-            <span class="meta-value">{{ getJuzgadoName(expediente.juzgadoId) }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Ref. SGT</span>
-            <span class="meta-value text-cyan-400">{{ expediente.referenciaSgt || 'N/A' }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Fecha Inicio</span>
-            <span class="meta-value">{{ expediente.fechaInicio | date: 'dd MMM yyyy' }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sidebar Actions -->
-      <div class="sidebar-actions">
-        <button class="btn btn-secondary" *ngIf="canEdit()">
-          <i class="pi pi-pencil"></i> Editar Expediente
-        </button>
-        <button class="btn btn-secondary">
-          <i class="pi pi-print"></i> Imprimir Ficha
-        </button>
-      </div>
-    </aside>
-
-    <!-- RIGHT MAIN: Document Workspace -->
-    <div class="viewer-main">
+    <!-- LEFT MAIN: Document Workspace -->
+    <div class="viewer-main flex-1">
       
       <!-- Document List Section -->
-      <div class="card glass-panel shadow-md">
+      <div class="card glass-panel shadow-md flex-1 flex flex-col" *ngIf="!selectedDocumento">
         <div class="card-header border-b border-white/5 p-6 flex justify-between items-center">
           <h3 class="section-title"><i class="pi pi-file"></i> CENTRO DE DOCUMENTACIÓN</h3>
-          <button class="btn btn-primary btn-sm"><i class="pi pi-upload"></i> Cargar Documento</button>
+          <!-- (Upload button removed from list later if we decide to, but the list has its own toolbar) -->
         </div>
         
-        <div class="p-0">
+        <div class="p-0 flex-1">
           <app-documentos-list 
             [expedienteId]="expediente.id" 
             (viewDocumento)="onViewDocumento($event)">
@@ -79,10 +20,10 @@
       </div>
 
       <!-- Active Viewer Section -->
-      <div class="viewer-container active-viewer" *ngIf="selectedDocumento">
-        <div class="viewer-toolbar">
-          <div class="doc-info">
-            <div class="doc-icon"><i class="pi pi-file"></i></div>
+      <div class="viewer-container active-viewer flex flex-col" *ngIf="selectedDocumento">
+        <div class="viewer-toolbar border-b border-white/10 bg-black/40 px-4 py-3 shrink-0 flex justify-between items-center z-10 relative">
+          <div class="doc-info flex items-center gap-3">
+            <div class="doc-icon"><i class="pi pi-file text-xl text-primary"></i></div>
             <div>
               <div class="doc-name font-bold text-white">{{ selectedDocumento.nombre }}</div>
               <div class="doc-meta text-xs text-slate-400">
@@ -90,26 +31,79 @@
               </div>
             </div>
           </div>
-          <div class="toolbar-actions">
+          <div class="toolbar-actions flex gap-2">
             <button class="btn-icon" title="Cerrar" (click)="onCloseViewer()"><i class="pi pi-times"></i></button>
           </div>
         </div>
-        <div class="viewer-body bg-slate-950 p-4 min-h-[500px]">
+        <div class="viewer-workspace-body bg-black flex-1 relative overflow-hidden flex flex-col min-h-0">
           <app-documento-viewer 
             [documento]="selectedDocumento" 
-            (close)="onCloseViewer()">
+            (close)="onCloseViewer()"
+            (readingMode)="readingModeActive = $event"
+            class="w-full h-full flex flex-col">
           </app-documento-viewer>
         </div>
       </div>
+    </div>
 
-      <!-- Empty State Viewer -->
-      <div class="card glass-panel p-12 text-center" *ngIf="!selectedDocumento">
-        <i class="pi pi-file-search text-5xl text-slate-700 mb-4 block"></i>
-        <h4 class="text-white font-bold mb-1">Seleccione un documento</h4>
-        <p class="text-slate-500 text-sm">Haga clic en el icono de vista previa para abrir un archivo en el visor Élite.</p>
+    <!-- RIGHT SIDEBAR: Case Metadata -->
+    <aside class="case-sidebar">
+      
+      <!-- Case Header Card -->
+      <div class="case-header-card glass-panel shadow-lg p-6 relative overflow-hidden">
+        <a routerLink="/expedientes" class="case-back flex items-center gap-2 text-slate-400 text-xs font-bold uppercase mb-4 hover:text-primary transition-colors">
+          <i class="pi pi-chevron-left"></i> Expedientes
+        </a>
+        <div class="case-tipo-eyebrow text-[0.7rem] font-extrabold uppercase tracking-widest text-cyan-400 mb-1">{{ getTipoProcesoName(expediente.tipoProcesoId) }}</div>
+        <div class="case-numero text-2xl font-extrabold tracking-tight text-white mb-2">{{ expediente.numero }}</div>
+        <div class="case-vs text-sm text-slate-400 mb-4">{{ expediente.referenciaFuente || 'Organismo Judicial' }}</div>
+        <app-status-badge [status]="expediente.estadoId"></app-status-badge>
+        <!-- Top accent gradient -->
+        <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 via-cyan-400 to-violet-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
       </div>
 
-    </div>
+      <!-- Parties Section -->
+      <div class="card glass-panel p-5">
+        <div class="section-title mb-4 flex items-center gap-2 text-sm font-bold text-slate-400 tracking-wider uppercase"><i class="pi pi-users text-primary"></i> PARTES PROCESALES</div>
+        <div class="meta-list flex flex-col gap-3">
+          <div class="meta-item flex flex-col gap-[2px]">
+            <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Actor / Demandante</span>
+            <span class="meta-value text-sm text-white font-semibold">{{ expediente.actorPrincipal || 'N/A' }}</span>
+          </div>
+          <div class="meta-item flex flex-col gap-[2px]">
+            <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Demandado</span>
+            <span class="meta-value text-sm text-white font-semibold">{{ expediente.demandado || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Info Section -->
+      <div class="card glass-panel p-5">
+        <div class="section-title mb-4 flex items-center gap-2 text-sm font-bold text-slate-400 tracking-wider uppercase"><i class="pi pi-info-circle text-primary"></i> INFORMACIÓN CLAVE</div>
+        <div class="meta-list flex flex-col gap-3">
+          <div class="meta-item flex flex-col gap-[2px]">
+            <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Juzgado</span>
+            <span class="meta-value text-sm text-white font-semibold">{{ getJuzgadoName(expediente.juzgadoId) }}</span>
+          </div>
+          <div class="meta-item flex flex-col gap-[2px]">
+            <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Ref. SGT</span>
+            <span class="meta-value text-cyan-400 font-semibold text-sm">{{ expediente.referenciaSgt || 'N/A' }}</span>
+          </div>
+          <div class="meta-item flex flex-col gap-[2px]">
+            <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Fecha Inicio</span>
+            <span class="meta-value text-sm text-white font-semibold">{{ expediente.fechaInicio | date: 'dd MMM yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Actions -->
+      <div class="sidebar-actions flex flex-col gap-2">
+        <button class="btn btn-secondary">
+          <i class="pi pi-print"></i> Imprimir Ficha
+        </button>
+      </div>
+    </aside>
+
   </div>
 </div>
 

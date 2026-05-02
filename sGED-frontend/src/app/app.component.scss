@@ -25,13 +25,12 @@
 }
 
 .sidebar-brand {
-  padding: var(--space-5) 0;
+  height: 64px;
   border-bottom: 1px solid var(--sidebar-border);
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 64px;
 }
 
 .brand-icon {
@@ -208,39 +207,7 @@
   margin-left: var(--space-2);
 }
 
-.rapid-search {
-  position: relative;
 
-  i {
-    position: absolute;
-    left: var(--space-4);
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    z-index: 10;
-  }
-}
-
-.rapid-search-input {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius-full) !important;
-  padding: 0.5rem 1rem 0.5rem 2.5rem !important;
-  width: 220px;
-  font-size: var(--font-xs);
-  color: var(--text-primary);
-  transition: all var(--duration-normal) var(--ease-out) !important;
-
-  &::placeholder { color: var(--text-muted); }
-
-  &:focus {
-    width: 300px;
-    background: rgba(255, 255, 255, 0.06) !important;
-    border-color: var(--primary) !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
-  }
-}
 
 .user-avatar {
   width: 36px;

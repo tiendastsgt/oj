@@ -45,6 +45,7 @@ export class ExpedienteDetailComponent implements OnInit {
   juzgados: Juzgado[] = [];
   currentUser: AuthUser | null = null;
   selectedDocumento: Documento | null = null;
+  readingModeActive = false;
 
   constructor(
     private route: ActivatedRoute,

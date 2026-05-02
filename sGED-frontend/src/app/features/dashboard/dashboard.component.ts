@@ -88,51 +88,44 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
 
           <!-- Empty state -->
           <div *ngIf="!loading && expedientesRecientes.length === 0" class="empty-state">
-            <i class="pi pi-inbox" style="font-size:2rem; color:var(--text-muted);"></i>
-            <p style="color:var(--text-muted); margin-top:var(--space-3);">No hay expedientes registrados aún.</p>
-            <a routerLink="/expedientes/nuevo" class="btn btn-primary btn-sm" style="margin-top:var(--space-3);">
-              <i class="pi pi-plus"></i> Crear Expediente
-            </a>
+            <i class="pi pi-inbox" style="font-size:2.5rem; color:var(--text-muted); opacity: 0.5;"></i>
+            <p style="color:var(--text-muted); margin-top:var(--space-3); font-weight: 500;">No hay expedientes vinculados a su cuenta.</p>
           </div>
 
           <!-- Data table -->
           <table class="data-table" *ngIf="!loading && expedientesRecientes.length > 0">
             <thead>
               <tr>
-                <th>No. EXPEDIENTE</th>
-                <th>DESCRIPCIÓN</th>
+                <th style="width: 200px">No. EXPEDIENTE</th>
+                <th style="min-width: 300px">DESCRIPCIÓN</th>
                 <th>USUARIO CREACIÓN</th>
-                <th>FECHA REGISTRO</th>
-                <th>ACCIONES</th>
+                <th style="width: 180px">FECHA REGISTRO</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let exp of expedientesRecientes">
+              <tr *ngFor="let exp of expedientesRecientes" class="hover:bg-primary-light/5">
                 <td>
                   <a [routerLink]="['/expedientes', exp.id]"
-                     style="font-weight:600; color:var(--primary-hover); text-decoration:none;">
+                     style="font-weight:700; color:var(--primary-hover); text-decoration:none;"
+                     class="flex items-center gap-2">
+                    <i class="pi pi-folder-open text-xs"></i>
                     {{ exp.numero }}
                   </a>
                 </td>
-                <td style="max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"
+                <td style="max-width:350px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"
                     [title]="exp.descripcion">
-                  {{ exp.descripcion }}
+                  <span class="text-white">{{ exp.descripcion || 'Sin descripción' }}</span>
                 </td>
                 <td>
                   <div class="flex items-center gap-3">
-                    <div class="user-avatar" style="width:28px;height:28px;font-size:0.6rem;">
+                    <div class="user-avatar" style="width:28px;height:28px;font-size:0.6rem; background: var(--border-strong);">
                       {{ getInitials(exp.usuarioCreacion) }}
                     </div>
-                    <span>{{ exp.usuarioCreacion }}</span>
+                    <span class="text-xs text-slate-300">{{ exp.usuarioCreacion }}</span>
                   </div>
                 </td>
-                <td style="color:var(--text-secondary); white-space:nowrap;">
-                  {{ exp.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}
-                </td>
-                <td>
-                  <a [routerLink]="['/expedientes', exp.id]" class="btn btn-text btn-sm">
-                    <i class="pi pi-eye"></i> Ver
-                  </a>
+                <td style="color:var(--text-secondary); white-space:nowrap; font-size: 0.8rem;">
+                  {{ exp.fechaCreacion | date:'dd MMM yyyy, HH:mm' }}
                 </td>
               </tr>
             </tbody>

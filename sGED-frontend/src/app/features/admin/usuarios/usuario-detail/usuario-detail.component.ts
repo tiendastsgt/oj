@@ -17,93 +17,126 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
   imports: [CommonModule, ButtonModule, CardModule, ToastModule],
   providers: [MessageService],
   template: `
-    <div class="card max-w-2xl mx-auto" *ngIf="usuario">
-      <div class="flex justify-between items-center mb-4">
-        <h3>Detalle del Usuario</h3>
-        <div class="flex gap-2">
-          <p-button
-            label="Editar"
-            icon="pi pi-pencil"
-            (onClick)="editar()"
-          ></p-button>
-          <p-button
-            label="Volver"
-            icon="pi pi-arrow-left"
-            severity="secondary"
-            (onClick)="volver()"
-          ></p-button>
+    <div class="fade-in" *ngIf="usuario">
+      <!-- Page Header -->
+      <div class="page-header-actions mb-6">
+        <div>
+          <h1 class="page-title">Perfil de Usuario</h1>
+          <p class="subtitle">Información detallada de la cuenta</p>
+        </div>
+        <div class="flex gap-3">
+          <button class="btn btn-primary" (click)="editar()">
+            <i class="pi pi-pencil"></i> Editar
+          </button>
+          <button class="btn btn-secondary" (click)="volver()">
+            <i class="pi pi-arrow-left"></i> Volver
+          </button>
         </div>
       </div>
 
-      <div class="grid">
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Username</label>
-            <p>{{ usuario.username }}</p>
+      <!-- Profile Header Card -->
+      <div class="card glass-panel shadow-lg mb-6 p-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-[3px]" style="background: linear-gradient(90deg, var(--primary), var(--accent-cyan), var(--accent-violet)); box-shadow: 0 0 10px var(--primary-glow);"></div>
+        <div class="flex items-center gap-6">
+          <div class="user-avatar" style="width:72px; height:72px; font-size:1.5rem;">
+            {{ getInitials(usuario.nombreCompleto) }}
+          </div>
+          <div class="flex flex-col gap-1">
+            <span style="font-size: var(--font-2xl); font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em;">{{ usuario.nombreCompleto }}</span>
+            <span style="font-size: var(--font-sm); color: var(--text-secondary);">{{ usuario.email }}</span>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="badge badge-info">
+                <i class="pi pi-shield" style="font-size:0.7rem;"></i>
+                {{ usuario.rol }}
+              </span>
+              <span class="badge" [ngClass]="usuario.activo ? 'badge-active' : 'badge-urgent'">
+                {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+              </span>
+              <span *ngIf="usuario.bloqueado" class="badge badge-urgent">
+                <i class="pi pi-lock" style="font-size:0.7rem;"></i>
+                Bloqueado
+              </span>
+            </div>
           </div>
         </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Nombre Completo</label>
-            <p>{{ usuario.nombreCompleto }}</p>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="grid-2 mb-6">
+        <!-- Account Info -->
+        <div class="card glass-panel p-5">
+          <div class="section-title mb-4">
+            <i class="pi pi-user"></i> INFORMACIÓN DE CUENTA
+          </div>
+          <div class="meta-list">
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-at"></i> Username</span>
+              <span class="detail-value">{{ usuario.username }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-envelope"></i> Email</span>
+              <span class="detail-value">{{ usuario.email }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-building"></i> Juzgado</span>
+              <span class="detail-value">{{ usuario.juzgado }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-shield"></i> Rol</span>
+              <span class="detail-value" style="color: var(--accent-cyan); font-weight: 700;">{{ usuario.rol }}</span>
+            </div>
           </div>
         </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Email</label>
-            <p>{{ usuario.email }}</p>
+
+        <!-- Security Info -->
+        <div class="card glass-panel p-5">
+          <div class="section-title mb-4">
+            <i class="pi pi-lock"></i> SEGURIDAD
+          </div>
+          <div class="meta-list">
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-check-circle"></i> Estado</span>
+              <span class="detail-value">
+                <span class="badge" [ngClass]="usuario.activo ? 'badge-active' : 'badge-urgent'" style="font-size: 0.7rem;">
+                  {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+                </span>
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-lock"></i> Bloqueo</span>
+              <span class="detail-value">
+                <span class="badge" [ngClass]="usuario.bloqueado ? 'badge-urgent' : 'badge-active'" style="font-size: 0.7rem;">
+                  {{ usuario.bloqueado ? 'Bloqueado' : 'Desbloqueado' }}
+                </span>
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-key"></i> Debe Cambiar Contraseña</span>
+              <span class="detail-value">{{ usuario.debeCambiarPassword ? 'Sí' : 'No' }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label"><i class="pi pi-exclamation-triangle"></i> Intentos Fallidos</span>
+              <span class="detail-value" [style.color]="usuario.intentosFallidos > 0 ? 'var(--accent-rose)' : 'var(--text-primary)'">
+                {{ usuario.intentosFallidos }}
+              </span>
+            </div>
           </div>
         </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Rol</label>
-            <p>{{ usuario.rol }}</p>
-          </div>
+      </div>
+
+      <!-- Timestamps -->
+      <div class="card glass-panel p-5">
+        <div class="section-title mb-4">
+          <i class="pi pi-clock"></i> REGISTRO TEMPORAL
         </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Juzgado</label>
-            <p>{{ usuario.juzgado }}</p>
+        <div class="flex gap-8">
+          <div class="detail-row" style="flex:1;">
+            <span class="detail-label"><i class="pi pi-calendar-plus"></i> Fecha de Creación</span>
+            <span class="detail-value">{{ usuario.fechaCreacion | date:'dd MMMM yyyy, HH:mm' }}</span>
           </div>
-        </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Estado</label>
-            <p [class]="usuario.activo ? 'text-green-500' : 'text-red-500'">
-              {{ usuario.activo ? 'Activo' : 'Inactivo' }}
-            </p>
-          </div>
-        </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Bloqueo</label>
-            <p [class]="usuario.bloqueado ? 'text-red-500' : 'text-green-500'">
-              {{ usuario.bloqueado ? 'Bloqueado' : 'Desbloqueado' }}
-            </p>
-          </div>
-        </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Debe Cambiar Contraseña</label>
-            <p>{{ usuario.debeCambiarPassword ? 'Sí' : 'No' }}</p>
-          </div>
-        </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Intentos Fallidos</label>
-            <p>{{ usuario.intentosFallidos }}</p>
-          </div>
-        </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Fecha de Creación</label>
-            <p>{{ usuario.fechaCreacion | date : 'short' }}</p>
-          </div>
-        </div>
-        <div class="col-12 md:col-6">
-          <div class="field">
-            <label>Última Modificación</label>
-            <p>{{ usuario.fechaModificacion | date : 'short' }}</p>
+          <div class="detail-row" style="flex:1;">
+            <span class="detail-label"><i class="pi pi-calendar"></i> Última Modificación</span>
+            <span class="detail-value">{{ usuario.fechaModificacion | date:'dd MMMM yyyy, HH:mm' }}</span>
           </div>
         </div>
       </div>
@@ -111,7 +144,43 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
 
     <p-toast></p-toast>
   `,
-  styles: []
+  styles: [`
+    .page-header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label {
+      font-size: var(--font-xs);
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .detail-label i {
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+    .detail-value {
+      font-size: var(--font-sm);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+  `]
 })
 export class UsuarioDetailComponent implements OnInit, OnDestroy {
   usuario: UsuarioAdminResponse | null = null;
@@ -162,6 +231,14 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  getInitials(name: string): string {
+    if (!name) return '?';
+    const parts = name.trim().split(/[\s._-]+/);
+    return parts.length >= 2
+      ? (parts[0][0] + parts[1][0]).toUpperCase()
+      : name.substring(0, 2).toUpperCase();
+  }
+
   editar(): void {
     if (this.usuarioId) {
       this.router.navigate(['/admin/usuarios', this.usuarioId, 'editar']);
@@ -172,3 +249,4 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/usuarios']);
   }
 }
+

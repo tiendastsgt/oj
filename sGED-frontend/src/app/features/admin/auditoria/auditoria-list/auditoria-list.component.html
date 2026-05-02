@@ -22,17 +22,17 @@
       </div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon-box rose"><i class="pi pi-exclamation-triangle"></i></div>
+      <div class="kpi-icon-box cyan"><i class="pi pi-folder-open"></i></div>
       <div>
-        <div class="kpi-value">0</div>
-        <div class="kpi-label">Alertas Críticas</div>
+        <div class="kpi-value">{{ countByModulo('expediente') }}</div>
+        <div class="kpi-label">Expedientes Consultados</div>
       </div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-icon-box cyan"><i class="pi pi-sign-in"></i></div>
+      <div class="kpi-icon-box amber"><i class="pi pi-file"></i></div>
       <div>
-        <div class="kpi-value">12</div>
-        <div class="kpi-label">Sesiones Hoy</div>
+        <div class="kpi-value">{{ countByModulo('documento') }}</div>
+        <div class="kpi-label">Documentos Accedidos</div>
       </div>
     </div>
     <div class="kpi-card">
@@ -78,8 +78,9 @@
             <th>TIMELINE</th>
             <th>USUARIO</th>
             <th>MÓDULO</th>
-            <th>ACTIVIDAD</th>
-            <th>DIRECCIÓN IP</th>
+            <th>ACTIVIDAD / RECURSO</th>
+            <th>DETALLE</th>
+            <th>IP</th>
           </tr>
         </thead>
         <tbody>
@@ -96,7 +97,7 @@
             <td>
               <div class="flex items-center gap-3">
                 <div class="user-avatar" style="width:32px;height:32px;font-size:0.65rem;">{{ item.usuario.charAt(0).toUpperCase() }}</div>
-                <span style="font-weight:600;">{{ item.usuario }}</span>
+                <span style="font-weight:600; color:white;">{{ item.usuario }}</span>
               </div>
             </td>
             <td>
@@ -112,12 +113,17 @@
             </td>
             <td>
               <div class="flex flex-col">
-                <span style="color:var(--text-primary);font-size:var(--font-sm);font-weight:500;">{{ item.accion }}</span>
-                <span style="font-size:var(--font-xs);color:var(--text-muted);">{{ item.detalle }}</span>
+                <span style="color:var(--primary-hover);font-size:var(--font-sm);font-weight:700;">{{ item.accion }}</span>
+                <span *ngIf="item.recursoId" style="font-size:var(--font-xs); color:var(--accent-cyan); font-weight:bold;">
+                  {{ getResourceLabel(item) }}
+                </span>
               </div>
             </td>
             <td>
-              <span style="font-family:monospace;font-size:var(--font-xs);color:var(--text-muted);">{{ item.ip }}</span>
+              <span style="font-size:var(--font-sm); color:var(--text-secondary); line-height:1.4;">{{ item.detalle }}</span>
+            </td>
+            <td>
+              <span style="font-family:monospace;font-size:var(--font-xs);color:var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">{{ item.ip }}</span>
             </td>
           </tr>
         </tbody>

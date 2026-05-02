@@ -9,7 +9,8 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  HostListener
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
@@ -28,6 +29,10 @@ import { Documento } from '../../documentos/models/documento.model';
 export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterViewChecked {
   @Input() documento: Documento | null = null;
   @Output() close = new EventEmitter<void>();
+  @Output() readingMode = new EventEmitter<boolean>();
+
+  readingModeActive = false;
+  isFullscreen = false;
 
   @ViewChild('audioPlayer') audioPlayerRef?: ElementRef<HTMLAudioElement>;
   @ViewChild('videoPlayer') videoPlayerRef?: ElementRef<HTMLVideoElement>;
@@ -61,7 +66,9 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
         this.documentosService.fetchContenidoBlob(doc.id).subscribe({
           next: (url) => {
             this.rawBlobUrl = url;
-            this.frameUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+            // Si es PDF, añadir parámetro para ancho completo por defecto
+            const viewerUrl = this.isPdf ? `${url}#view=FitH` : url;
+            this.frameUrl = this.sanitizer.bypassSecurityTrustResourceUrl(viewerUrl);
             this.mediaUrl = this.sanitizer.bypassSecurityTrustUrl(url);
             this.loading = false;
           },
@@ -165,5 +172,41 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
     return (bytes / 1048576).toFixed(1) + ' MB';
+  }
+
+  toggleReadingMode(): void {
+    this.readingModeActive = !this.readingModeActive;
+    this.readingMode.emit(this.readingModeActive);
+  }
+
+  toggleFullscreen(): void {
+    const el = document.querySelector('.elite-viewer') as any;
+    if (!el) return;
+
+    if (!document.fullscreenElement && !(document as any).webkitFullscreenElement) {
+      const requestMethod = el.requestFullscreen || el.webkitRequestFullscreen;
+      if (requestMethod) {
+        requestMethod.call(el).catch((err: any) => {
+          console.error(`Error enabling fullscreen: ${err.message}`);
+        });
+      }
+    } else {
+      const exitMethod = document.exitFullscreen || (document as any).webkitExitFullscreen;
+      if (exitMethod) {
+        exitMethod.call(document);
+      }
+    }
+  }
+
+  @HostListener('document:fullscreenchange', ['$event'])
+  @HostListener('document:webkitfullscreenchange', ['$event'])
+  onFullscreenChange(event?: any): void {
+    this.isFullscreen = !!(document.fullscreenElement || (document as any).webkitFullscreenElement);
+  }
+
+  openExternal(): void {
+    if (this.rawBlobUrl) {
+      window.open(this.rawBlobUrl, '_blank', 'noopener,noreferrer');
+    }
   }
 }

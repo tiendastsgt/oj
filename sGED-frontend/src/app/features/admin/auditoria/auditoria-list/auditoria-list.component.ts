@@ -137,4 +137,20 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
   aplicarFiltros(): void {
     this.cargarAuditoria(0);
   }
+
+  /** Cuenta registros cuyo módulo contiene la cadena proporcionada */
+  countByModulo(keyword: string): number {
+    return this.auditoria.filter(
+      a => a.modulo.toLowerCase().includes(keyword.toLowerCase())
+    ).length;
+  }
+
+  /** Genera etiqueta legible para el recurso basado en el módulo y acción */
+  getResourceLabel(item: AuditoriaResponse): string {
+    if (!item.recursoId) return '';
+    const mod = item.modulo.toLowerCase();
+    if (mod.includes('expediente')) return `Expediente #${item.recursoId}`;
+    if (mod.includes('documento')) return `Documento #${item.recursoId}`;
+    return `Recurso #${item.recursoId}`;
+  }
 }

@@ -6,14 +6,7 @@
       <p class="subtitle">Administración centralizada de casos judiciales</p>
     </div>
     <div class="flex gap-3">
-      <button 
-        type="button" 
-        class="btn btn-primary"
-        *ngIf="canCreate()"
-        routerLink="/expedientes/nuevo">
-        <i class="pi pi-plus"></i>
-        Nuevo Expediente
-      </button>
+      <!-- (Botón de nuevo expediente removido por UX - Solo lectura) -->
     </div>
   </div>
 
@@ -144,15 +137,7 @@
                   pTooltip="Ver detalle"
                   [routerLink]="['/expedientes', expediente.id]"
                 ></button>
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-pencil"
-                  class="p-button-text p-button-rounded p-button-secondary"
-                  pTooltip="Editar"
-                  *ngIf="canEdit()"
-                  [routerLink]="['/expedientes', expediente.id, 'editar']"
-                ></button>
+
               </div>
             </td>
           </tr>

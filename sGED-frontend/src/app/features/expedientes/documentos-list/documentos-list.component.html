@@ -1,11 +1,4 @@
-<!-- Componente de carga estilizado -->
-<div class="documents-toolbar mb-4 px-4 flex justify-end" *ngIf="canUpload()">
-  <label class="btn btn-secondary btn-sm cursor-pointer flex items-center gap-2">
-    <i class="pi pi-upload"></i>
-    <span>Subir Documento</span>
-    <input type="file" (change)="onFileSelected($event)" class="hidden" />
-  </label>
-</div>
+<!-- Componente de carga estilizado removido por UX (Solo lectura) -->
 
 <div class="px-0">
   <p-table 
@@ -61,15 +54,7 @@
               (click)="onDescargar(doc)"
               pTooltip="Descargar">
             </button>
-            <button 
-              pButton 
-              type="button" 
-              icon="pi pi-trash" 
-              class="p-button-text p-button-rounded p-button-danger" 
-              *ngIf="canDelete()"
-              (click)="onEliminar(doc)"
-              pTooltip="Eliminar">
-            </button>
+
           </div>
         </td>
       </tr>
