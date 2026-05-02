@@ -27,6 +27,6 @@ describe('DocumentosUploadComponent', () => {
   it('should reject invalid extension', () => {
     const file = new File(['test'], 'archivo.exe', { type: 'application/octet-stream' });
     (component as any).upload(file);
-    expect(component.errorMessage).toContain('Formato no permitido');
+    expect(component.errorMessage()).toContain('Formato no permitido');
   });
 });
