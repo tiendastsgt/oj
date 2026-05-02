@@ -60,6 +60,16 @@
         </div>
 
         <div class="topbar-right">
+          <div class="topbar-search">
+            <i class="pi pi-search topbar-search-icon"></i>
+            <input
+              type="search"
+              class="topbar-search-input"
+              placeholder="Buscar expediente..."
+              aria-label="Búsqueda global de expedientes"
+              (keydown.enter)="onRapidSearch($event)"
+            />
+          </div>
           <button class="btn-icon" pTooltip="Notificaciones" aria-label="Notificaciones">
             <i class="pi pi-bell"></i>
           </button>
