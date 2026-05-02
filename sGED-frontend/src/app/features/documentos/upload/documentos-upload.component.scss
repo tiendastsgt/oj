@@ -1,39 +1,60 @@
-.upload-container {
+.upload-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.upload-label input {
-  display: none;
-}
-
-.upload-label span {
-  background: #1976d2;
-  color: #ffffff;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  display: inline-block;
+  gap: var(--space-4);
+  padding: var(--space-6);
 }
 
 .drop-zone {
-  border: 2px dashed #9e9e9e;
-  padding: 1rem;
-  text-align: center;
-  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-6);
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+
+  &.drag-over {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-glow);
+    background: var(--primary-light);
+
+    .drop-icon {
+      color: var(--primary-hover);
+    }
+  }
 }
 
-.progress {
-  height: 8px;
-  background: #e0e0e0;
+.drop-icon {
+  font-size: 2rem;
+  color: var(--text-muted);
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.progress .bar {
-  height: 100%;
-  background: #1976d2;
+.drop-text {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
-.error {
-  color: #b00020;
+.drop-hint {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+}
+
+.upload-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.progress-wrapper {
+  width: 100%;
 }

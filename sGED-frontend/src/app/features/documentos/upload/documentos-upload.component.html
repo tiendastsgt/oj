@@ -1,20 +1,41 @@
-<div class="upload-container">
-  <label class="upload-label">
-    <input type="file" (change)="onFileSelected($event)" />
-    <span>Seleccionar archivo</span>
-  </label>
-
+<div class="glass-panel upload-wrapper">
   <div
     class="drop-zone"
+    [class.drag-over]="isDragOver()"
     (drop)="onDrop($event)"
     (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    role="button"
+    aria-label="Zona de arrastre para subir archivos"
   >
-    Arrastrar y soltar archivo aquí
+    <i class="pi pi-cloud-upload drop-icon"></i>
+    <span class="drop-text">Arrastra un archivo aquí</span>
+    <span class="drop-hint">PDF, Word, imágenes, audio o video — máx. 100 MB</span>
   </div>
 
-  <div class="progress" *ngIf="uploading">
-    <div class="bar" [style.width.%]="progress"></div>
+  <div class="upload-actions">
+    <input
+      #fileInput
+      type="file"
+      class="hidden-input"
+      (change)="onFileSelected($event)"
+      [disabled]="uploading()"
+    />
+    <p-button
+      label="Seleccionar archivo"
+      icon="pi pi-folder-open"
+      [disabled]="uploading()"
+      (onClick)="fileInput.click()"
+    />
   </div>
 
-  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  @if (uploading()) {
+    <div class="progress-wrapper">
+      <p-progressBar [value]="progress()" [showValue]="true" />
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <p-message severity="error" [text]="errorMessage()" styleClass="w-full" />
+  }
 </div>
