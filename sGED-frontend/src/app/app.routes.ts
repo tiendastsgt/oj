@@ -1,32 +1,94 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
-import { ChangePasswordComponent } from './features/auth/change-password/change-password.component';
-import { LoginComponent } from './features/auth/login/login.component';
-import { expedientesRoutes } from './features/expedientes/expedientes.routes';
-import { busquedaRoutes } from './features/busqueda/busqueda.routes';
-import { adminRoutes } from './features/admin/admin.routes';
-import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent
+    loadComponent: () =>
+      import('./features/auth/login/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [AuthGuard]
   },
   {
     path: 'cambiar-password',
-    component: ChangePasswordComponent,
+    loadComponent: () =>
+      import('./features/auth/change-password/change-password.component').then(m => m.ChangePasswordComponent),
     canActivate: [AuthGuard]
   },
-  ...busquedaRoutes,
-  ...expedientesRoutes,
   {
-    path: 'admin',
-    children: adminRoutes
+    path: 'busqueda',
+    loadComponent: () =>
+      import('./features/busqueda/busqueda-container/busqueda-container.component').then(m => m.BusquedaContainerComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'expedientes',
+    loadComponent: () =>
+      import('./features/expedientes/expedientes-list/expedientes-list.component').then(m => m.ExpedientesListComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'expedientes/nuevo',
+    loadComponent: () =>
+      import('./features/expedientes/expediente-form/expediente-form.component').then(m => m.ExpedienteFormComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'expedientes/:id/documentos',
+    loadComponent: () =>
+      import('./features/documentos/documentos-page.component').then(m => m.DocumentosPageComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'expedientes/:id/editar',
+    loadComponent: () =>
+      import('./features/expedientes/expediente-form/expediente-form.component').then(m => m.ExpedienteFormComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'expedientes/:id',
+    loadComponent: () =>
+      import('./features/expedientes/expediente-detail/expediente-detail.component').then(m => m.ExpedienteDetailComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'admin/usuarios',
+    loadComponent: () =>
+      import('./features/admin/usuarios/usuarios-list/usuarios-list.component').then(m => m.UsuariosListComponent),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'ADMINISTRADOR' }
+  },
+  {
+    path: 'admin/usuarios/nuevo',
+    loadComponent: () =>
+      import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'ADMINISTRADOR' }
+  },
+  {
+    path: 'admin/usuarios/:id',
+    loadComponent: () =>
+      import('./features/admin/usuarios/usuario-detail/usuario-detail.component').then(m => m.UsuarioDetailComponent),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'ADMINISTRADOR' }
+  },
+  {
+    path: 'admin/usuarios/:id/editar',
+    loadComponent: () =>
+      import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'ADMINISTRADOR' }
+  },
+  {
+    path: 'admin/auditoria',
+    loadComponent: () =>
+      import('./features/admin/auditoria/auditoria-list/auditoria-list.component').then(m => m.AuditoriaListComponent),
+    canActivate: [AuthGuard],
+    data: { requiredRole: 'ADMINISTRADOR' }
   },
   {
     path: '',
