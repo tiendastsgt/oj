@@ -32,12 +32,15 @@ Se identificaron **18 hallazgos** clasificados por severidad:
 - [x] Fix: prefers-reduced-motion global (`301d067`)
 - [x] Fix: takeUntilDestroyed en upload (`301d067`)
 
-### Sprint UX-2: Performance Angular
-- [ ] OnPush en todos los componentes
-- [ ] Lazy loading de rutas (admin, busqueda, expedientes)
-- [ ] Migrar *ngIf/*ngFor a @if/@for
-- [ ] takeUntilDestroyed
-- [ ] Refactorizar nested subscribe con switchMap
+### Sprint UX-2: Performance Angular ✅ COMPLETADO
+**Branch:** `feature/sprint-ux-2` → merged a `main`  
+**Code Review:** opus — detectó regresión de seguridad (RoleGuard eliminado en lazy loading)
+- [x] OnPush en todos los componentes — 35/35 (`8266db9`)
+- [x] Lazy loading de rutas — 14 rutas con loadComponent (`f6d4c31`)
+- [x] Migrar *ngIf/*ngFor a @if/@for — 0 ocurrencias legacy (`0d7a0ef`)
+- [x] takeUntilDestroyed — 0 patrones Subject+ngOnDestroy (`d378919`)
+- [x] Refactorizar nested subscribe con switchMap (`142df58`)
+- [x] Fix: RoleGuard restaurado + markForCheck en catálogos (`a583c15`)
 
 ### Sprint UX-3: Datos Reales + Responsividad
 - [ ] Endpoint /api/v1/expedientes/estadisticas
