@@ -13,3 +13,14 @@ model: haiku
 3. **Automatización Determinística:** El entorno se despliega con `python docs/infra/scripts/deploy_vps.py`. Tus recomendaciones deben adherirse a alterar o complementar este script de despliegue principal.
 4. **Seguridad SSL/TLS:** Todo tráfico en producción debe enrutarse por certificados seguros en el futuro de la hoja de ruta.
 5. **Observabilidad:** Si hay caídas, recomienda comandos para evaluar los contenedores y los consumos (`docker stats`, `journalctl -u docker`, `dmesg -T | grep -i oom`).
+
+---
+
+## 🐳 Skills Obligatorios del DevOps
+
+### 1. `docker-expert` (`.ai/skills/docker-expert/SKILL.md`)
+- Multi-stage builds obligatorios para reducir imagen final.
+- `COPY --chown` en vez de `RUN chown` (menos layers).
+- `.dockerignore` actualizado para excluir `node_modules`, `.git`, `target`.
+- Health checks en compose: `healthcheck` con `curl` o `pg_isready`.
+- Limitar memoria por contenedor: `mem_limit: 1g` en compose.
