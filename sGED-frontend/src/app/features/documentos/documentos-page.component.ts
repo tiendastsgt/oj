@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { DocumentosService } from '../../core/services/documentos.service';
 import { Documento } from './models/documento.model';
 import { DocumentosUploadComponent } from './upload/documentos-upload.component';
@@ -32,6 +34,7 @@ export type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | 'WORD' | 'OTRO' 
 })
 export class DocumentosPageComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   documentos: Documento[] = [];
   expedienteId = 0;
@@ -44,20 +47,18 @@ export class DocumentosPageComponent implements OnInit {
   constructor(private documentosService: DocumentosService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const id = Number(params.get('id'));
-      this.expedienteId = Number.isNaN(id) ? 0 : id;
-      this.cargarDocumentos();
-    });
-  }
-
-  cargarDocumentos(): void {
-    if (!this.expedienteId) {
-      return;
-    }
-    this.loading = true;
-    this.errorMessage = '';
-    this.documentosService.listar(this.expedienteId).subscribe({
+    this.route.paramMap.pipe(
+      map(params => Number(params.get('id'))),
+      filter(id => !Number.isNaN(id) && id > 0),
+      tap(id => {
+        this.expedienteId = id;
+        this.loading = true;
+        this.errorMessage = '';
+        this.cdr.markForCheck();
+      }),
+      switchMap(id => this.documentosService.listar(id)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (response) => {
         this.documentos = response.data ?? [];
         this.loading = false;
@@ -69,6 +70,26 @@ export class DocumentosPageComponent implements OnInit {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  cargarDocumentos(): void {
+    if (!this.expedienteId) return;
+    this.loading = true;
+    this.errorMessage = '';
+    this.documentosService.listar(this.expedienteId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.documentos = response.data ?? [];
+          this.loading = false;
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          this.loading = false;
+          this.errorMessage = error?.error?.message ?? 'No se pudo cargar documentos';
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   onUploaded(): void {
