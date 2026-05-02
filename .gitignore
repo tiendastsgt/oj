@@ -66,3 +66,16 @@ temp_seeds/
 temp_deploy/
 test_files/
 deploy_elite/
+
+# External skill repositories (source references, not project code)
+awesome-skills/
+superpowers/
+
+# AI assistant metadata
+.gemini/
+
+# Test output artifacts (regenerable)
+sGED-frontend/test_out*.txt
+
+# Other Projects
+ocr/
