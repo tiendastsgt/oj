@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { RoleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -59,35 +60,35 @@ export const routes: Routes = [
     path: 'admin/usuarios',
     loadComponent: () =>
       import('./features/admin/usuarios/usuarios-list/usuarios-list.component').then(m => m.UsuariosListComponent),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { requiredRole: 'ADMINISTRADOR' }
   },
   {
     path: 'admin/usuarios/nuevo',
     loadComponent: () =>
       import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { requiredRole: 'ADMINISTRADOR' }
   },
   {
     path: 'admin/usuarios/:id',
     loadComponent: () =>
       import('./features/admin/usuarios/usuario-detail/usuario-detail.component').then(m => m.UsuarioDetailComponent),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { requiredRole: 'ADMINISTRADOR' }
   },
   {
     path: 'admin/usuarios/:id/editar',
     loadComponent: () =>
       import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { requiredRole: 'ADMINISTRADOR' }
   },
   {
     path: 'admin/auditoria',
     loadComponent: () =>
       import('./features/admin/auditoria/auditoria-list/auditoria-list.component').then(m => m.AuditoriaListComponent),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     data: { requiredRole: 'ADMINISTRADOR' }
   },
   {

@@ -113,16 +113,16 @@ export class ExpedienteDetailComponent implements OnInit {
 
   private cargarCatalogos(): void {
     this.catalogosService.getTiposProceso().subscribe({
-      next: (response) => (this.tiposProceso = response.data ?? []),
-      error: () => (this.tiposProceso = [])
+      next: (response) => { this.tiposProceso = response.data ?? []; this.cdr.markForCheck(); },
+      error: () => { this.tiposProceso = []; this.cdr.markForCheck(); }
     });
     this.catalogosService.getEstadosExpediente().subscribe({
-      next: (response) => (this.estados = response.data ?? []),
-      error: () => (this.estados = [])
+      next: (response) => { this.estados = response.data ?? []; this.cdr.markForCheck(); },
+      error: () => { this.estados = []; this.cdr.markForCheck(); }
     });
     this.catalogosService.getJuzgados().subscribe({
-      next: (response) => (this.juzgados = response.data ?? []),
-      error: () => (this.juzgados = [])
+      next: (response) => { this.juzgados = response.data ?? []; this.cdr.markForCheck(); },
+      error: () => { this.juzgados = []; this.cdr.markForCheck(); }
     });
   }
 }
