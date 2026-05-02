@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component , ChangeDetectionStrategy} from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
 import { BusquedaRapidaComponent } from '../busqueda-rapida/busqueda-rapida.component';
 import { BusquedaAvanzadaComponent } from '../busqueda-avanzada/busqueda-avanzada.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-busqueda-container',
   standalone: true,
   imports: [CommonModule, TabsModule, BusquedaRapidaComponent, BusquedaAvanzadaComponent],

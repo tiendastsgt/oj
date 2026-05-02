@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input , ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-kpi-card',
   standalone: true,
   imports: [CommonModule],
@@ -13,10 +14,12 @@ import { Component, Input } from '@angular/core';
       <div class="kpi-content">
         <div class="kpi-value">{{ value }}</div>
         <div class="kpi-label">{{ label }}</div>
-        <div class="kpi-trend" *ngIf="trend" [class.up]="trend > 0" [class.down]="trend < 0">
+        @if (trend) {
+        <div class="kpi-trend" [class.up]="trend > 0" [class.down]="trend < 0">
           <i class="pi" [ngClass]="trend > 0 ? 'pi-arrow-up' : 'pi-arrow-down'"></i>
           {{ trend }}% desde ayer
         </div>
+        }
       </div>
     </div>
   `,

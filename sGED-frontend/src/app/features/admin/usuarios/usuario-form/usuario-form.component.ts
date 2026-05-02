@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,8 +8,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
 import {
   ActualizarUsuarioRequest,
@@ -18,6 +17,7 @@ import {
 import { CatalogosService } from '../../../../core/services/catalogos.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-usuario-form',
   standalone: true,
   imports: [
@@ -51,7 +51,8 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
         <div class="card-body" style="padding: var(--space-6);">
           <form [formGroup]="form" (ngSubmit)="guardar()">
             <!-- Username (solo en creación) -->
-            <div class="form-field mb-4" *ngIf="isCreation">
+            @if (isCreation) {
+            <div class="form-field mb-4">
               <label class="form-label" htmlFor="username"><i class="pi pi-at"></i> Username *</label>
               <input
                 type="text"
@@ -60,12 +61,21 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 placeholder="Ej: juan.perez"
                 formControlName="username"
               />
-              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('username')">
-                <span *ngIf="form.get('username')?.errors?.['required']">El username es requerido</span>
-                <span *ngIf="form.get('username')?.errors?.['minlength']">Mínimo 3 caracteres</span>
-                <span *ngIf="form.get('username')?.errors?.['maxlength']">Máximo 50 caracteres</span>
+              @if (isFieldInvalid('username')) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (form.get('username')?.errors?.['required']) {
+                <span>El username es requerido</span>
+                }
+                @if (form.get('username')?.errors?.['minlength']) {
+                <span>Mínimo 3 caracteres</span>
+                }
+                @if (form.get('username')?.errors?.['maxlength']) {
+                <span>Máximo 50 caracteres</span>
+                }
               </div>
+              }
             </div>
+            }
 
             <!-- Nombre Completo -->
             <div class="form-field mb-4">
@@ -77,11 +87,19 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 placeholder="Nombre y apellidos"
                 formControlName="nombreCompleto"
               />
-              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('nombreCompleto')">
-                <span *ngIf="form.get('nombreCompleto')?.errors?.['required']">El nombre completo es requerido</span>
-                <span *ngIf="form.get('nombreCompleto')?.errors?.['minlength']">Mínimo 5 caracteres</span>
-                <span *ngIf="form.get('nombreCompleto')?.errors?.['maxlength']">Máximo 150 caracteres</span>
+              @if (isFieldInvalid('nombreCompleto')) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (form.get('nombreCompleto')?.errors?.['required']) {
+                <span>El nombre completo es requerido</span>
+                }
+                @if (form.get('nombreCompleto')?.errors?.['minlength']) {
+                <span>Mínimo 5 caracteres</span>
+                }
+                @if (form.get('nombreCompleto')?.errors?.['maxlength']) {
+                <span>Máximo 150 caracteres</span>
+                }
               </div>
+              }
             </div>
 
             <!-- Email -->
@@ -94,11 +112,19 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 placeholder="correo@oj.gob.gt"
                 formControlName="email"
               />
-              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('email')">
-                <span *ngIf="form.get('email')?.errors?.['required']">El email es requerido</span>
-                <span *ngIf="form.get('email')?.errors?.['email']">Email inválido</span>
-                <span *ngIf="form.get('email')?.errors?.['maxlength']">Máximo 100 caracteres</span>
+              @if (isFieldInvalid('email')) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (form.get('email')?.errors?.['required']) {
+                <span>El email es requerido</span>
+                }
+                @if (form.get('email')?.errors?.['email']) {
+                <span>Email inválido</span>
+                }
+                @if (form.get('email')?.errors?.['maxlength']) {
+                <span>Máximo 100 caracteres</span>
+                }
               </div>
+              }
             </div>
 
             <!-- Grid: Rol + Juzgado -->
@@ -111,11 +137,17 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                   class="form-input form-select"
                 >
                   <option value="">Seleccionar rol</option>
-                  <option *ngFor="let rol of roles" [value]="rol.value">{{ rol.label }}</option>
+                  @for (rol of roles; track rol.value) {
+                  <option [value]="rol.value">{{ rol.label }}</option>
+                  }
                 </select>
-                <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('rolId')">
-                  <span *ngIf="form.get('rolId')?.errors?.['required']">El rol es requerido</span>
+                @if (isFieldInvalid('rolId')) {
+                <div class="text-red-500 text-sm mt-1">
+                  @if (form.get('rolId')?.errors?.['required']) {
+                  <span>El rol es requerido</span>
+                  }
                 </div>
+                }
               </div>
               <div class="form-field">
                 <label class="form-label" htmlFor="juzgadoId"><i class="pi pi-building"></i> Juzgado *</label>
@@ -125,16 +157,23 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                   class="form-input form-select"
                 >
                   <option value="">Seleccionar juzgado</option>
-                  <option *ngFor="let juzgado of juzgados" [value]="juzgado.value">{{ juzgado.label }}</option>
+                  @for (juzgado of juzgados; track juzgado.value) {
+                  <option [value]="juzgado.value">{{ juzgado.label }}</option>
+                  }
                 </select>
-                <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('juzgadoId')">
-                  <span *ngIf="form.get('juzgadoId')?.errors?.['required']">El juzgado es requerido</span>
+                @if (isFieldInvalid('juzgadoId')) {
+                <div class="text-red-500 text-sm mt-1">
+                  @if (form.get('juzgadoId')?.errors?.['required']) {
+                  <span>El juzgado es requerido</span>
+                  }
                 </div>
+                }
               </div>
             </div>
 
             <!-- Grid: Activo + Bloqueado (solo en edición) -->
-            <div class="grid-2 mb-6" *ngIf="!isCreation">
+            @if (!isCreation) {
+            <div class="grid-2 mb-6">
               <div class="form-field">
                 <label class="form-label" htmlFor="activo"><i class="pi pi-check-circle"></i> Estado</label>
                 <select
@@ -158,6 +197,7 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 </select>
               </div>
             </div>
+            }
 
             <!-- Botones -->
             <div class="flex gap-3" style="border-top: 1px solid var(--border); padding-top: var(--space-6);">
@@ -193,15 +233,16 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
     }
   `]
 })
-export class UsuarioFormComponent implements OnInit, OnDestroy {
+export class UsuarioFormComponent implements OnInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
+
   form: FormGroup;
   loading = false;
   isCreation = true;
   usuarioId: number | null = null;
   roles: { label: string; value: number }[] = [];
   juzgados: { label: string; value: number }[] = [];
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -224,7 +265,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Si es edición, cargar el usuario existente
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       if (params['id']) {
         this.isCreation = false;
         this.usuarioId = +params['id'];
@@ -239,14 +280,15 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     
     // Cargar juzgados desde la API
     this.catalogosService.getJuzgados()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.juzgados = (res.data ?? []).map((j: any) => ({ label: j.nombre, value: j.id }));
+          this.cdr.markForCheck();
         },
         error: () => {
-          // Fallback mínimo si la API falla
           this.juzgados = [{ label: 'Juzgado Primero Civil', value: 1 }];
+          this.cdr.markForCheck();
         }
       });
 
@@ -260,17 +302,12 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     ];
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   cargarUsuario(): void {
     if (!this.usuarioId) return;
 
     this.adminUsuariosService
       .getUsuario(this.usuarioId)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
           if (response.data) {
@@ -278,12 +315,13 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
             this.form.patchValue({
               nombreCompleto: usuario.nombreCompleto,
               email: usuario.email,
-              rolId: usuario.rol, // Asumimos que el backend retorna el ID del rol
-              juzgadoId: usuario.juzgado, // Asumimos que el backend retorna el ID del juzgado
+              rolId: usuario.rol,
+              juzgadoId: usuario.juzgado,
               activo: usuario.activo,
               bloqueado: usuario.bloqueado
             });
           }
+          this.cdr.markForCheck();
         },
         error: (err: any) => {
           this.messageService.add({
@@ -291,6 +329,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
             summary: 'Error',
             detail: err.error?.message || 'Error al cargar usuario'
           });
+          this.cdr.markForCheck();
         }
       });
   }
@@ -318,7 +357,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
       this.adminUsuariosService
         .createUsuario(request)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.messageService.add({
@@ -336,6 +375,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
               summary: 'Error',
               detail: errorMessage
             });
+            this.cdr.markForCheck();
           }
         });
     } else if (this.usuarioId) {
@@ -350,7 +390,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
       this.adminUsuariosService
         .updateUsuario(this.usuarioId, request)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.messageService.add({
@@ -368,6 +408,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
               summary: 'Error',
               detail: errorMessage
             });
+            this.cdr.markForCheck();
           }
         });
     }

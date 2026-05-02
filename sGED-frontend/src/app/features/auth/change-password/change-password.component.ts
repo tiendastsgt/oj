@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -13,6 +13,7 @@ const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 const DEFAULT_REDIRECT = '/expedientes';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-change-password',
   standalone: true,
   imports: [
@@ -27,6 +28,8 @@ const DEFAULT_REDIRECT = '/expedientes';
   styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   loading = false;
   errorMessages: string[] = [];
   successMessage = '';
@@ -56,6 +59,7 @@ export class ChangePasswordComponent {
       next: (response) => {
         this.loading = false;
         this.successMessage = response.message ?? 'Contraseña actualizada correctamente';
+        this.cdr.markForCheck();
         setTimeout(() => this.router.navigate([DEFAULT_REDIRECT]), 800);
       },
       error: (error) => {
@@ -76,6 +80,7 @@ export class ChangePasswordComponent {
         } else {
           this.errorMessages = ['No se pudo actualizar la contraseña'];
         }
+        this.cdr.markForCheck();
       }
     });
   }

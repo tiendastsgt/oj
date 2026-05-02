@@ -1,5 +1,5 @@
 <div class="fade-in">
-  
+
   <!-- Header -->
   <div class="flex justify-between items-center mb-8">
     <div>
@@ -84,7 +84,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of auditoria">
+          @for (item of auditoria; track item.id) {
+          <tr>
             <td>
               <div class="flex items-center gap-3">
                 <span class="timeline-dot" [style.background]="getDotColor(item.modulo)" [style.box-shadow]="'0 0 8px ' + getDotColor(item.modulo)"></span>
@@ -114,9 +115,11 @@
             <td>
               <div class="flex flex-col">
                 <span style="color:var(--primary-hover);font-size:var(--font-sm);font-weight:700;">{{ item.accion }}</span>
-                <span *ngIf="item.recursoId" style="font-size:var(--font-xs); color:var(--accent-cyan); font-weight:bold;">
+                @if (item.recursoId) {
+                <span style="font-size:var(--font-xs); color:var(--accent-cyan); font-weight:bold;">
                   {{ getResourceLabel(item) }}
                 </span>
+                }
               </div>
             </td>
             <td>
@@ -126,16 +129,21 @@
               <span style="font-family:monospace;font-size:var(--font-xs);color:var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">{{ item.ip }}</span>
             </td>
           </tr>
+          }
         </tbody>
       </table>
 
-      <div *ngIf="auditoria.length === 0 && !loading" style="padding:3rem;text-align:center;color:var(--text-muted);">
+      @if (auditoria.length === 0 && !loading) {
+      <div style="padding:3rem;text-align:center;color:var(--text-muted);">
         No hay registros de auditoría disponibles
       </div>
+      }
 
-      <div *ngIf="loading" style="padding:3rem;text-align:center;color:var(--text-muted);">
+      @if (loading) {
+      <div style="padding:3rem;text-align:center;color:var(--text-muted);">
         <i class="pi pi-spin pi-spinner" style="font-size:1.5rem;"></i>
       </div>
+      }
     </div>
   </div>
 </div>

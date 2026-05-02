@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -17,6 +17,7 @@ import { EstadoExpediente, Juzgado, TipoProceso } from '../../../core/models/cat
 import { AuthUser } from '../../../core/models/auth-user.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-expediente-form',
   standalone: true,
   imports: [
@@ -35,6 +36,8 @@ import { AuthUser } from '../../../core/models/auth-user.model';
   styleUrls: ['./expediente-form.component.scss']
 })
 export class ExpedienteFormComponent implements OnInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   form = this.fb.nonNullable.group({
     numero: ['', Validators.required],
     tipoProcesoId: [0, [Validators.required, Validators.min(1)]],
@@ -109,6 +112,7 @@ export class ExpedienteFormComponent implements OnInit {
       next: (response) => {
         this.loading = false;
         this.successMessage = response.message ?? 'Operación realizada correctamente';
+        this.cdr.markForCheck();
         const id = response.data?.id ?? this.expedienteId;
         if (id) {
           this.router.navigate(['/expedientes', id]);
@@ -119,6 +123,7 @@ export class ExpedienteFormComponent implements OnInit {
       error: (error) => {
         this.loading = false;
         this.errorMessages = this.parseErrors(error);
+        this.cdr.markForCheck();
       }
     });
   }
@@ -161,22 +166,24 @@ export class ExpedienteFormComponent implements OnInit {
         if (data) {
           this.patchForm(data);
         }
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.loading = false;
         this.errorMessages = [error?.error?.message ?? 'No se pudo cargar el expediente'];
+        this.cdr.markForCheck();
       }
     });
   }
 
   private cargarCatalogos(): void {
     this.catalogosService.getTiposProceso().subscribe({
-      next: (response) => (this.tiposProceso = response.data ?? []),
-      error: () => (this.tiposProceso = [])
+      next: (response) => { this.tiposProceso = response.data ?? []; this.cdr.markForCheck(); },
+      error: () => { this.tiposProceso = []; this.cdr.markForCheck(); }
     });
     this.catalogosService.getEstadosExpediente().subscribe({
-      next: (response) => (this.estados = response.data ?? []),
-      error: () => (this.estados = [])
+      next: (response) => { this.estados = response.data ?? []; this.cdr.markForCheck(); },
+      error: () => { this.estados = []; this.cdr.markForCheck(); }
     });
     this.catalogosService.getJuzgados().subscribe({
       next: (response) => {
@@ -188,12 +195,14 @@ export class ExpedienteFormComponent implements OnInit {
             this.form.get('juzgadoId')?.disable();
           }
         }
+        this.cdr.markForCheck();
       },
       error: () => {
         this.juzgados = [];
         if (!this.isAdmin()) {
           this.errorMessages = ['No se pudo determinar el juzgado del usuario'];
         }
+        this.cdr.markForCheck();
       }
     });
   }

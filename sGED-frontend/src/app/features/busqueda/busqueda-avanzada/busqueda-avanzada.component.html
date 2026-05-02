@@ -3,14 +3,14 @@
   <div class="card glass-panel mb-8 p-1">
     <div class="search-hero-bar">
       <i class="pi pi-search search-icon"></i>
-      <input 
-        type="text" 
-        class="search-hero-input" 
+      <input
+        type="text"
+        class="search-hero-input"
         [formControl]="form.get('numero')"
         placeholder="Buscar expedientes (Número, Partes, Palabras clave...)"
         (keyup.enter)="onSubmit()"
       />
-      <button 
+      <button
         type="button"
         class="btn btn-primary btn-sm"
         (click)="showAdvancedFilters = !showAdvancedFilters"
@@ -21,8 +21,8 @@
     </div>
 
     <!-- Advanced Panel (Elite UX v2.0) -->
-    <div 
-      class="advanced-panel" 
+    <div
+      class="advanced-panel"
       [style.max-height]="showAdvancedFilters ? '1000px' : '0'"
       [style.opacity]="showAdvancedFilters ? '1' : '0'"
       [style.padding]="showAdvancedFilters ? 'var(--space-6)' : '0'"
@@ -44,10 +44,10 @@
             </div>
             <div class="form-field">
               <label class="form-label"><i class="pi pi-building"></i> Juzgado / Corte</label>
-              <p-select 
-                [options]="juzgados" 
+              <p-select
+                [options]="juzgados"
                 formControlName="juzgadoId"
-                optionLabel="nombre" 
+                optionLabel="nombre"
                 optionValue="id"
                 placeholder="Todos los Juzgados"
                 styleClass="w-full elite-select"
@@ -56,10 +56,10 @@
             </div>
             <div class="form-field">
               <label class="form-label"><i class="pi pi-list"></i> Tipo de Proceso</label>
-              <p-select 
-                [options]="tiposProceso" 
+              <p-select
+                [options]="tiposProceso"
                 formControlName="tipoProcesoId"
-                optionLabel="descripcion" 
+                optionLabel="descripcion"
                 optionValue="id"
                 placeholder="Todos los Procesos"
                 styleClass="w-full elite-select"
@@ -99,15 +99,15 @@
         </div>
 
         <div class="flex justify-end gap-3 pt-6 border-t border-white/5 mt-6">
-          <button 
-            type="button" 
+          <button
+            type="button"
             class="btn btn-secondary"
             (click)="form.reset({fuente: 'TODOS'})"
           >
             <i class="pi pi-refresh"></i> Limpiar
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             class="btn btn-primary"
             [disabled]="loading"
           >
@@ -120,12 +120,13 @@
   </div>
 
   <!-- Results Section -->
-  <div class="slide-up" *ngIf="resultados">
+  @if (resultados) {
+  <div class="slide-up">
     <div class="flex justify-between items-baseline mb-4">
       <h3 class="section-title"><i class="pi pi-list"></i> RESULTADOS DE BÚSQUEDA</h3>
       <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">{{ resultados.totalElements }} expedientes encontrados</span>
     </div>
-    
+
     <div class="card glass-panel shadow-sm">
       <app-resultados-busqueda
         [resultados]="resultados"
@@ -134,13 +135,16 @@
       ></app-resultados-busqueda>
     </div>
   </div>
+  }
 
   <!-- Empty State Search -->
-  <div class="py-20 text-center" *ngIf="!resultados && !loading">
+  @if (!resultados && !loading) {
+  <div class="py-20 text-center">
     <div class="w-24 h-24 rounded-full bg-primary-light flex items-center justify-center mx-auto mb-6">
       <i class="pi pi-search text-4xl text-primary-hover"></i>
     </div>
     <h3 class="text-white font-bold text-xl">Inicie una búsqueda</h3>
     <p class="text-slate-500 max-w-md mx-auto mt-2">Ingrese un número de expediente o utilice los filtros avanzados para localizar información histórico-judicial.</p>
   </div>
+  }
 </div>

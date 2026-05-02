@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,12 +11,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
 import { UsuarioAdminResponse, UsuarioListaFiltros } from '../../../../core/models/admin-usuarios.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-usuarios-list',
   standalone: true,
   imports: [
@@ -140,15 +140,15 @@ import { UsuarioAdminResponse, UsuarioListaFiltros } from '../../../../core/mode
     }
   `]
 })
-export class UsuariosListComponent implements OnInit, OnDestroy {
+export class UsuariosListComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   usuarios: UsuarioAdminResponse[] = [];
   loading = false;
   pageSize = 20;
   totalRecords = 0;
   currentPage = 0;
   filterForm: FormGroup;
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private adminUsuariosService: AdminUsuariosService,
@@ -169,11 +169,6 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     this.cargarUsuarios();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   cargarUsuarios(page = 0): void {
     this.loading = true;
     const filtros: UsuarioListaFiltros = {
@@ -187,7 +182,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
 
     this.adminUsuariosService
       .getUsuarios(filtros)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
           setTimeout(() => {
@@ -242,7 +237,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
       accept: () => {
         this.adminUsuariosService
           .resetPassword(id)
-          .pipe(takeUntil(this.destroy$))
+          .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
             next: () => {
               this.messageService.add({
@@ -277,7 +272,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
           ? this.adminUsuariosService.desbloquearUsuario(usuario.id)
           : this.adminUsuariosService.bloquearUsuario(usuario.id);
 
-        observable.pipe(takeUntil(this.destroy$)).subscribe({
+        observable.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
           next: () => {
             this.messageService.add({
               severity: 'success',

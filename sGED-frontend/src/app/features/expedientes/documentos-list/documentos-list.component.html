@@ -1,9 +1,9 @@
 <!-- Componente de carga estilizado removido por UX (Solo lectura) -->
 
 <div class="px-0">
-  <p-table 
-    [value]="documentos" 
-    [loading]="loading" 
+  <p-table
+    [value]="documentos"
+    [loading]="loading"
     styleClass="p-datatable-sm custom-table-minimal"
     [responsiveLayout]="'scroll'"
   >
@@ -38,19 +38,19 @@
         <td><span class="text-xs text-slate-500">{{ doc.fechaCreacion | date: 'dd/MM/yyyy' }}</span></td>
         <td class="text-center">
           <div class="flex justify-center gap-1">
-            <button 
-              pButton 
-              type="button" 
-              icon="pi pi-eye" 
-              class="p-button-text p-button-rounded p-button-info" 
+            <button
+              pButton
+              type="button"
+              icon="pi pi-eye"
+              class="p-button-text p-button-rounded p-button-info"
               (click)="onVer(doc)"
               pTooltip="Visualizar">
             </button>
-            <button 
-              pButton 
-              type="button" 
-              icon="pi pi-download" 
-              class="p-button-text p-button-rounded p-button-secondary" 
+            <button
+              pButton
+              type="button"
+              icon="pi pi-download"
+              class="p-button-text p-button-rounded p-button-secondary"
               (click)="onDescargar(doc)"
               pTooltip="Descargar">
             </button>
@@ -69,8 +69,12 @@
   </p-table>
 </div>
 
-<div class="progress-container mt-4" *ngIf="uploading">
+@if (uploading) {
+<div class="progress-container mt-4">
   <p-progressBar [value]="progress" styleClass="h-1"></p-progressBar>
 </div>
+}
 
-<p-message *ngFor="let message of errorMessages" severity="error" [text]="message" class="mt-4 block"></p-message>
+@for (message of errorMessages; track message) {
+<p-message severity="error" [text]="message" class="mt-4 block"></p-message>
+}

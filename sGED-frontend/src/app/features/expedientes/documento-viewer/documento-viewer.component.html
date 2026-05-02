@@ -1,4 +1,5 @@
-<div class="elite-viewer" *ngIf="documento">
+@if (documento) {
+<div class="elite-viewer">
 
   <!-- Viewer Header — file info + actions -->
   <div class="viewer-header">
@@ -29,15 +30,18 @@
   </div>
 
   <!-- Loading state -->
-  <div class="elite-body viewer-centered" *ngIf="loading">
+  @if (loading) {
+  <div class="elite-body viewer-centered">
     <div class="loading-pulse">
       <i class="pi pi-spin pi-spinner"></i>
       <p>Cargando documento...</p>
     </div>
   </div>
+  }
 
   <!-- Error state -->
-  <div class="elite-body viewer-centered" *ngIf="!loading && error">
+  @if (!loading && error) {
+  <div class="elite-body viewer-centered">
     <div class="viewer-notice error">
       <i class="pi pi-exclamation-triangle"></i>
       <h4>Error al cargar</h4>
@@ -47,19 +51,25 @@
       </button>
     </div>
   </div>
+  }
 
   <!-- PDF Viewer -->
-  <div class="elite-body pdf-body" *ngIf="!loading && !error && isPdf && frameUrl">
+  @if (!loading && !error && isPdf && frameUrl) {
+  <div class="elite-body pdf-body">
     <iframe [src]="frameUrl" class="viewer-iframe" title="Visor PDF"></iframe>
   </div>
+  }
 
   <!-- Image Viewer -->
-  <div class="elite-body image-body" *ngIf="!loading && !error && isImage && mediaUrl">
+  @if (!loading && !error && isImage && mediaUrl) {
+  <div class="elite-body image-body">
     <img [src]="mediaUrl" [alt]="documento.nombreOriginal" class="viewer-image" />
   </div>
+  }
 
   <!-- Audio Player -->
-  <div class="elite-body viewer-centered" *ngIf="!loading && !error && isAudio && blobReady">
+  @if (!loading && !error && isAudio && blobReady) {
+  <div class="elite-body viewer-centered">
     <div class="audio-card">
       <div class="audio-visual">
         <div class="audio-ring">
@@ -68,7 +78,9 @@
           </div>
         </div>
         <div class="audio-bars">
-          <span *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" class="bar"></span>
+          @for (i of [1,2,3,4,5,6,7,8,9,10,11,12]; track $index) {
+          <span class="bar"></span>
+          }
         </div>
       </div>
       <div class="audio-info">
@@ -80,16 +92,20 @@
       </audio>
     </div>
   </div>
+  }
 
   <!-- Video Player -->
-  <div class="elite-body video-body" *ngIf="!loading && !error && isVideo && blobReady">
+  @if (!loading && !error && isVideo && blobReady) {
+  <div class="elite-body video-body">
     <video #videoPlayer controls class="viewer-video">
       Su navegador no soporta la reproducción de video.
     </video>
   </div>
+  }
 
   <!-- Unsupported format -->
-  <div class="elite-body viewer-centered" *ngIf="!loading && !error && !isPdf && !isImage && !isAudio && !isVideo">
+  @if (!loading && !error && !isPdf && !isImage && !isAudio && !isVideo) {
+  <div class="elite-body viewer-centered">
     <div class="viewer-notice">
       <i class="pi pi-file"></i>
       <h4>Vista previa no disponible</h4>
@@ -99,5 +115,7 @@
       </button>
     </div>
   </div>
+  }
 
 </div>
+}

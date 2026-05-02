@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Subject, forkJoin } from 'rxjs';
-import { takeUntil, catchError } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ExpedientesService } from '../../core/services/expedientes.service';
@@ -13,6 +14,7 @@ import { AuditoriaResponse } from '../../core/models/auditoria.model';
 import { ExpedienteResponse } from '../../core/models/expediente.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, RouterModule],
@@ -30,8 +32,12 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
           <div class="kpi-icon-box blue"><i class="pi pi-folder"></i></div>
           <div>
             <div class="kpi-value">
-              <span *ngIf="!loading">{{ stats.total | number }}</span>
-              <span *ngIf="loading" class="skeleton-text">—</span>
+              @if (!loading) {
+              <span>{{ stats.total | number }}</span>
+              }
+              @if (loading) {
+              <span class="skeleton-text">—</span>
+              }
             </div>
             <div class="kpi-label">Expedientes Registrados</div>
           </div>
@@ -42,8 +48,12 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
           <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
           <div>
             <div class="kpi-value">
-              <span *ngIf="!loading">{{ stats.activos | number }}</span>
-              <span *ngIf="loading" class="skeleton-text">—</span>
+              @if (!loading) {
+              <span>{{ stats.activos | number }}</span>
+              }
+              @if (loading) {
+              <span class="skeleton-text">—</span>
+              }
             </div>
             <div class="kpi-label">Expedientes Activos</div>
           </div>
@@ -54,8 +64,12 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
           <div class="kpi-icon-box cyan"><i class="pi pi-users"></i></div>
           <div>
             <div class="kpi-value">
-              <span *ngIf="!loading">{{ stats.usuarios | number }}</span>
-              <span *ngIf="loading" class="skeleton-text">—</span>
+              @if (!loading) {
+              <span>{{ stats.usuarios | number }}</span>
+              }
+              @if (loading) {
+              <span class="skeleton-text">—</span>
+              }
             </div>
             <div class="kpi-label">Usuarios Activos</div>
           </div>
@@ -66,8 +80,12 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
           <div class="kpi-icon-box violet"><i class="pi pi-calendar-plus"></i></div>
           <div>
             <div class="kpi-value">
-              <span *ngIf="!loading">{{ stats.recientes | number }}</span>
-              <span *ngIf="loading" class="skeleton-text">—</span>
+              @if (!loading) {
+              <span>{{ stats.recientes | number }}</span>
+              }
+              @if (loading) {
+              <span class="skeleton-text">—</span>
+              }
             </div>
             <div class="kpi-label">Recientes (últimos 5)</div>
           </div>
@@ -82,18 +100,25 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
         </div>
         <div style="overflow-x: auto;">
           <!-- Loading skeleton -->
-          <div *ngIf="loading" class="loading-rows">
-            <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5]"></div>
+          @if (loading) {
+          <div class="loading-rows">
+            @for (i of [1,2,3,4,5]; track $index) {
+            <div class="skeleton-row"></div>
+            }
           </div>
+          }
 
           <!-- Empty state -->
-          <div *ngIf="!loading && expedientesRecientes.length === 0" class="empty-state">
+          @if (!loading && expedientesRecientes.length === 0) {
+          <div class="empty-state">
             <i class="pi pi-inbox" style="font-size:2.5rem; color:var(--text-muted); opacity: 0.5;"></i>
             <p style="color:var(--text-muted); margin-top:var(--space-3); font-weight: 500;">No hay expedientes vinculados a su cuenta.</p>
           </div>
+          }
 
           <!-- Data table -->
-          <table class="data-table" *ngIf="!loading && expedientesRecientes.length > 0">
+          @if (!loading && expedientesRecientes.length > 0) {
+          <table class="data-table">
             <thead>
               <tr>
                 <th style="width: 200px">No. EXPEDIENTE</th>
@@ -103,7 +128,8 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let exp of expedientesRecientes" class="hover:bg-primary-light/5">
+              @for (exp of expedientesRecientes; track exp.id) {
+              <tr class="hover:bg-primary-light/5">
                 <td>
                   <a [routerLink]="['/expedientes', exp.id]"
                      style="font-weight:700; color:var(--primary-hover); text-decoration:none;"
@@ -128,22 +154,30 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
                   {{ exp.fechaCreacion | date:'dd MMM yyyy, HH:mm' }}
                 </td>
               </tr>
+              }
             </tbody>
           </table>
+          }
         </div>
       </section>
 
       <!-- Actividad Reciente (Auditoría) -->
-      <section class="card glass-panel" style="margin-top: var(--space-6);" *ngIf="actividadReciente.length > 0 || loadingAuditoria">
+      @if (actividadReciente.length > 0 || loadingAuditoria) {
+      <section class="card glass-panel" style="margin-top: var(--space-6);">
         <div class="card-header">
           <h3 class="section-title"><i class="pi pi-history"></i> ACTIVIDAD RECIENTE</h3>
           <a routerLink="/admin/auditoria" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
         </div>
         <div style="overflow-x: auto;">
-          <div *ngIf="loadingAuditoria" class="loading-rows">
-            <div class="skeleton-row" *ngFor="let i of [1,2,3]"></div>
+          @if (loadingAuditoria) {
+          <div class="loading-rows">
+            @for (i of [1,2,3]; track $index) {
+            <div class="skeleton-row"></div>
+            }
           </div>
-          <table class="data-table" *ngIf="!loadingAuditoria && actividadReciente.length > 0">
+          }
+          @if (!loadingAuditoria && actividadReciente.length > 0) {
+          <table class="data-table">
             <thead>
               <tr>
                 <th>USUARIO</th>
@@ -154,7 +188,8 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let log of actividadReciente">
+              @for (log of actividadReciente; track log.id) {
+              <tr>
                 <td>
                   <div class="flex items-center gap-3">
                     <div class="user-avatar" style="width:28px;height:28px;font-size:0.6rem;">
@@ -172,10 +207,13 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
                   {{ log.ip }}
                 </td>
               </tr>
+              }
             </tbody>
           </table>
+          }
         </div>
       </section>
+      }
     </div>
   `,
   styles: [`
@@ -214,7 +252,8 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
     }
   `]
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   stats = {
     total:    0,
     activos:  0,
@@ -228,8 +267,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadingAuditoria     = true;
   expedientesRecientes: ExpedienteResponse[] = [];
   actividadReciente:   AuditoriaResponse[]   = [];
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private expedientesService: ExpedientesService,
@@ -251,11 +288,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.cargarAuditoria();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   private cargarExpedientes(): void {
     // Carga página 0 grande para contar activos y tener los 5 recientes
     forkJoin({
@@ -266,7 +298,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .getExpedientes({ page: 0, size: 1 })
         .pipe(catchError(() => of(null))),
     })
-    .pipe(takeUntil(this.destroy$))
+    .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(({ recientes, total }) => {
       // Expedientes recientes para la tabla
       this.expedientesRecientes = recientes?.data?.content ?? [];
@@ -287,7 +319,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private cargarUsuarios(): void {
     this.adminUsuariosService
       .getUsuarios({ activo: true, page: 0, size: 1 })
-      .pipe(takeUntil(this.destroy$), catchError(() => of(null)))
+      .pipe(takeUntilDestroyed(this.destroyRef), catchError(() => of(null)))
       .subscribe(res => {
         this.stats.usuarios = res?.data?.totalElements ?? 0;
         this.cdr.detectChanges();
@@ -297,7 +329,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private cargarAuditoria(): void {
     this.auditoriaService
       .getAuditoria({ page: 0, size: 5, sort: 'fecha,desc' })
-      .pipe(takeUntil(this.destroy$), catchError(() => of(null)))
+      .pipe(takeUntilDestroyed(this.destroyRef), catchError(() => of(null)))
       .subscribe(res => {
         this.actividadReciente = res?.data?.content ?? [];
         this.loadingAuditoria  = false;

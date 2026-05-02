@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input , ChangeDetectionStrategy} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -6,6 +6,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { MessageModule } from 'primeng/message';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-criterios-fechas',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, DatePickerModule, FloatLabelModule, MessageModule],
@@ -37,9 +38,11 @@ import { MessageModule } from 'primeng/message';
           </p-datepicker>
           <label for="fechaHasta">Fecha Hasta</label>
         </p-floatlabel>
-        <small class="error-text" *ngIf="formGroup.hasError('dateRange')">
+        @if (formGroup.hasError('dateRange')) {
+        <small class="error-text">
           La fecha desde debe ser menor o igual a la fecha hasta
         </small>
+        }
       </div>
     </div>
   `,

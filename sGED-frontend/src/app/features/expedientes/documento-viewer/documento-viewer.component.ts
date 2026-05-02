@@ -1,17 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewChecked,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output,
-  SimpleChanges,
-  ViewChild,
-  HostListener
-} from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -20,6 +8,7 @@ import { DocumentosService } from '../../../core/services/documentos.service';
 import { Documento } from '../../documentos/models/documento.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-documento-viewer',
   standalone: true,
   imports: [CommonModule, CardModule, ButtonModule, MessageModule],
@@ -27,6 +16,8 @@ import { Documento } from '../../documentos/models/documento.model';
   styleUrls: ['./documento-viewer.component.scss']
 })
 export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterViewChecked {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   @Input() documento: Documento | null = null;
   @Output() close = new EventEmitter<void>();
   @Output() readingMode = new EventEmitter<boolean>();
@@ -66,17 +57,18 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
         this.documentosService.fetchContenidoBlob(doc.id).subscribe({
           next: (url) => {
             this.rawBlobUrl = url;
-            // Si es PDF, añadir parámetro para ancho completo por defecto
             const viewerUrl = this.isPdf ? `${url}#view=FitH` : url;
             this.frameUrl = this.sanitizer.bypassSecurityTrustResourceUrl(viewerUrl);
             this.mediaUrl = this.sanitizer.bypassSecurityTrustUrl(url);
             this.loading = false;
+            this.cdr.markForCheck();
           },
           error: (err) => {
             this.error = err?.status === 401
               ? 'Sin autorización para ver este documento.'
               : 'Error al cargar el documento.';
             this.loading = false;
+            this.cdr.markForCheck();
           }
         });
       }

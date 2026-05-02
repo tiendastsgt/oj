@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -15,6 +15,7 @@ const DEFAULT_SIZE = 10;
 const DEFAULT_SORT = 'fechaUltimoMovimiento,desc';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-busqueda-rapida',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, CardModule, InputTextModule, ButtonModule, MessageModule, ResultadosBusquedaComponent],
@@ -22,6 +23,8 @@ const DEFAULT_SORT = 'fechaUltimoMovimiento,desc';
   styleUrls: ['./busqueda-rapida.component.scss']
 })
 export class BusquedaRapidaComponent {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   form = this.fb.nonNullable.group({
     numero: ['', Validators.required]
   });
@@ -66,10 +69,12 @@ export class BusquedaRapidaComponent {
       next: (response) => {
         this.resultados = response.data;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.loading = false;
         this.errorMessages = this.parseErrors(error);
+        this.cdr.markForCheck();
       }
     });
   }

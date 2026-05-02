@@ -3,7 +3,9 @@
     <div class="form-field">
       <label for="numero">Número de expediente</label>
       <input id="numero" pInputText formControlName="numero" />
-      <small class="error" *ngIf="isInvalid('numero')">El número es requerido</small>
+      @if (isInvalid('numero')) {
+      <small class="error">El número es requerido</small>
+      }
     </div>
 
     <div class="form-field">
@@ -16,7 +18,9 @@
         optionValue="id"
         placeholder="Seleccione tipo de proceso"
       ></p-select>
-      <small class="error" *ngIf="isInvalid('tipoProcesoId')">El tipo es requerido</small>
+      @if (isInvalid('tipoProcesoId')) {
+      <small class="error">El tipo es requerido</small>
+      }
     </div>
 
     <div class="form-field">
@@ -29,7 +33,9 @@
         optionValue="id"
         placeholder="Seleccione estado"
       ></p-select>
-      <small class="error" *ngIf="isInvalid('estadoId')">El estado es requerido</small>
+      @if (isInvalid('estadoId')) {
+      <small class="error">El estado es requerido</small>
+      }
     </div>
 
     <div class="form-field">
@@ -42,19 +48,25 @@
         optionValue="id"
         placeholder="Seleccione juzgado"
       ></p-select>
-      <small class="error" *ngIf="isInvalid('juzgadoId')">El juzgado es requerido</small>
+      @if (isInvalid('juzgadoId')) {
+      <small class="error">El juzgado es requerido</small>
+      }
     </div>
 
     <div class="form-field">
       <label for="fechaInicio">Fecha de inicio</label>
       <p-datepicker id="fechaInicio" formControlName="fechaInicio" dateFormat="yy-mm-dd"></p-datepicker>
-      <small class="error" *ngIf="isInvalid('fechaInicio')">La fecha es requerida</small>
+      @if (isInvalid('fechaInicio')) {
+      <small class="error">La fecha es requerida</small>
+      }
     </div>
 
     <div class="form-field">
       <label for="descripcion">Descripción</label>
       <textarea id="descripcion" pInputTextarea rows="3" formControlName="descripcion"></textarea>
-      <small class="error" *ngIf="isInvalid('descripcion')">La descripción es requerida</small>
+      @if (isInvalid('descripcion')) {
+      <small class="error">La descripción es requerida</small>
+      }
     </div>
 
     <div class="form-field">
@@ -73,8 +85,12 @@
     </div>
 
     <div class="messages">
-      <p-message *ngIf="successMessage" severity="success" [text]="successMessage"></p-message>
-      <p-message *ngFor="let message of errorMessages" severity="error" [text]="message"></p-message>
+      @if (successMessage) {
+      <p-message severity="success" [text]="successMessage"></p-message>
+      }
+      @for (message of errorMessages; track message) {
+      <p-message severity="error" [text]="message"></p-message>
+      }
     </div>
 
     <div class="form-actions">

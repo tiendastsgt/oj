@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -21,6 +21,7 @@ const DEFAULT_SIZE = 10;
 const DEFAULT_SORT = 'fechaUltimoMovimiento,desc';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-busqueda-avanzada',
   standalone: true,
   imports: [
@@ -39,6 +40,8 @@ const DEFAULT_SORT = 'fechaUltimoMovimiento,desc';
   styleUrls: ['./busqueda-avanzada.component.scss']
 })
 export class BusquedaAvanzadaComponent implements OnInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   form = this.fb.group(
     {
       numero: [''],
@@ -130,22 +133,24 @@ export class BusquedaAvanzadaComponent implements OnInit {
       next: (response) => {
         this.resultados = response.data;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.loading = false;
         this.errorMessages = this.parseErrors(error);
+        this.cdr.markForCheck();
       }
     });
   }
 
   private cargarCatalogos(): void {
     this.catalogosService.getTiposProceso().subscribe({
-      next: (response) => (this.tiposProceso = response.data ?? []),
-      error: () => (this.tiposProceso = [])
+      next: (response) => { this.tiposProceso = response.data ?? []; this.cdr.markForCheck(); },
+      error: () => { this.tiposProceso = []; this.cdr.markForCheck(); }
     });
     this.catalogosService.getEstadosExpediente().subscribe({
-      next: (response) => (this.estados = response.data ?? []),
-      error: () => (this.estados = [])
+      next: (response) => { this.estados = response.data ?? []; this.cdr.markForCheck(); },
+      error: () => { this.estados = []; this.cdr.markForCheck(); }
     });
     this.catalogosService.getJuzgados().subscribe({
       next: (response) => {
@@ -157,9 +162,11 @@ export class BusquedaAvanzadaComponent implements OnInit {
             this.form.get('juzgadoId')?.disable();
           }
         }
+        this.cdr.markForCheck();
       },
       error: () => {
         this.juzgados = [];
+        this.cdr.markForCheck();
       }
     });
   }

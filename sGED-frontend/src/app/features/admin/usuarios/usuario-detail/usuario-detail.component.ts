@@ -1,23 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
 import { UsuarioAdminResponse } from '../../../../core/models/admin-usuarios.model';
 import { ApiResponse } from '../../../../core/models/api-response.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-usuario-detail',
   standalone: true,
   imports: [CommonModule, ButtonModule, CardModule, ToastModule],
   providers: [MessageService],
   template: `
-    <div class="fade-in" *ngIf="usuario">
+    @if (usuario) {
+    <div class="fade-in">
       <!-- Page Header -->
       <div class="page-header-actions mb-6">
         <div>
@@ -52,10 +53,12 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
               <span class="badge" [ngClass]="usuario.activo ? 'badge-active' : 'badge-urgent'">
                 {{ usuario.activo ? 'Activo' : 'Inactivo' }}
               </span>
-              <span *ngIf="usuario.bloqueado" class="badge badge-urgent">
+              @if (usuario.bloqueado) {
+              <span class="badge badge-urgent">
                 <i class="pi pi-lock" style="font-size:0.7rem;"></i>
                 Bloqueado
               </span>
+              }
             </div>
           </div>
         </div>
@@ -141,6 +144,7 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
         </div>
       </div>
     </div>
+    }
 
     <p-toast></p-toast>
   `,
@@ -182,11 +186,12 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
     }
   `]
 })
-export class UsuarioDetailComponent implements OnInit, OnDestroy {
+export class UsuarioDetailComponent implements OnInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
+
   usuario: UsuarioAdminResponse | null = null;
   usuarioId: number | null = null;
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -196,7 +201,7 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       if (params['id']) {
         this.usuarioId = +params['id'];
         this.cargarUsuario();
@@ -204,22 +209,18 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   cargarUsuario(): void {
     if (!this.usuarioId) return;
 
     this.adminUsuariosService
       .getUsuario(this.usuarioId)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: ApiResponse<UsuarioAdminResponse>) => {
           if (response.data) {
             this.usuario = response.data;
           }
+          this.cdr.markForCheck();
         },
         error: (err: any) => {
           this.messageService.add({
@@ -227,6 +228,7 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
             summary: 'Error',
             detail: err?.error?.message || 'Error al cargar usuario'
           });
+          this.cdr.markForCheck();
         }
       });
   }
