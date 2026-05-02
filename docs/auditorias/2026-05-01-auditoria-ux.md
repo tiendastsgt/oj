@@ -42,14 +42,16 @@ Se identificaron **18 hallazgos** clasificados por severidad:
 - [x] Refactorizar nested subscribe con switchMap (`142df58`)
 - [x] Fix: RoleGuard restaurado + markForCheck en catálogos (`a583c15`)
 
-### Sprint UX-3: Datos Reales + Responsividad
-- [ ] Endpoint /api/v1/expedientes/estadisticas
-- [ ] Conectar filtros con binding Angular
-- [ ] Búsqueda global en topbar
-- [ ] Media queries para grid-4
-- [ ] prefers-reduced-motion
-- [ ] Contraste WCAG AA en footer login
-- [ ] Confirmación de logout
+### Sprint UX-3: Datos Reales + Responsividad ✅ COMPLETADO
+**Branch:** `feature/sprint-ux-3` → merged a `main`  
+**Code Review:** opus — detectó fuga de info (estadísticas sin scope por juzgado) + race condition en filtros
+- [x] Endpoint /api/v1/expedientes/estadisticas con Java Record (`795597e`)
+- [x] KPIs reales + filtros reactivos con switchMap (`d1eafb5`)
+- [x] Búsqueda global en topbar con sanitización (`9e3aac6`)
+- [x] Media queries para grid-4 y case-workspace (`9640ad6`)
+- [x] Contraste WCAG AA en footer login (`08c526f`)
+- [x] Confirmación de logout con p-confirmDialog (`48c587e`)
+- [x] Fix: scope estadísticas por juzgado + race condition filtros (`ebee90d`)
 
 ### Sprint UX-4: Word → PDF
 - [ ] Decidir: LibreOffice vs docx4j (Java-pura)
