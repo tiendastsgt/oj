@@ -1,6 +1,7 @@
 package com.oj.sged.application.service;
 
 import com.oj.sged.api.dto.request.ExpedienteRequest;
+import com.oj.sged.api.dto.response.ExpedienteEstadisticasResponse;
 import com.oj.sged.api.dto.response.ExpedienteResponse;
 import com.oj.sged.application.mapper.ExpedienteMapper;
 import com.oj.sged.infrastructure.persistence.auth.Usuario;
@@ -51,6 +52,16 @@ public class ExpedienteService {
         this.catEstadoRepository = catEstadoRepository;
         this.expedienteMapper = expedienteMapper;
         this.auditoriaService = auditoriaService;
+    }
+
+    @Transactional(readOnly = true)
+    public ExpedienteEstadisticasResponse getEstadisticas() {
+        long total = expedienteRepository.count();
+        long pendientes = expedienteRepository.countByEstadoId(2L);  // En espera
+        long enProceso  = expedienteRepository.countByEstadoId(1L);  // Activo
+        long resueltos  = expedienteRepository.countByEstadoId(4L);  // Cerrado
+        long archivados = expedienteRepository.countByEstadoId(5L);  // Archivado
+        return new ExpedienteEstadisticasResponse(total, pendientes, enProceso, resueltos, archivados);
     }
 
     @Transactional

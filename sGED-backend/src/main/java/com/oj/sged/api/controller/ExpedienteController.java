@@ -2,6 +2,7 @@ package com.oj.sged.api.controller;
 
 import com.oj.sged.api.dto.request.ExpedienteRequest;
 import com.oj.sged.api.dto.response.ApiResponse;
+import com.oj.sged.api.dto.response.ExpedienteEstadisticasResponse;
 import com.oj.sged.api.dto.response.ExpedienteResponse;
 import com.oj.sged.application.service.ExpedienteService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +28,13 @@ public class ExpedienteController {
 
     public ExpedienteController(ExpedienteService expedienteService) {
         this.expedienteService = expedienteService;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR','SECRETARIO','AUXILIAR','CONSULTA')")
+    @GetMapping("/estadisticas")
+    public ResponseEntity<ApiResponse<ExpedienteEstadisticasResponse>> estadisticas() {
+        return ResponseEntity.ok(ApiResponse.ok("Estadísticas de expedientes",
+            expedienteService.getEstadisticas()));
     }
 
     @PreAuthorize("hasAnyRole('ADMINISTRADOR','SECRETARIO','AUXILIAR','CONSULTA')")
