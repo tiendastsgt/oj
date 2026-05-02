@@ -1044,8 +1044,12 @@ select[pInputText] {
 
 @media (max-width: 768px) {
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  .grid-4 { grid-template-columns: 1fr; }
   .page-content { padding: var(--space-4); }
   .topbar { padding: 0 var(--space-4); }
+}
+
+@media (max-width: 640px) {
+  .grid-4 { grid-template-columns: 1fr; }
+  .case-workspace { flex-direction: column; overflow: visible; }
 }
 

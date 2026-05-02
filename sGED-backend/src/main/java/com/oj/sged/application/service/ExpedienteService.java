@@ -1,6 +1,7 @@
 package com.oj.sged.application.service;
 
 import com.oj.sged.api.dto.request.ExpedienteRequest;
+import com.oj.sged.api.dto.response.ExpedienteEstadisticasResponse;
 import com.oj.sged.api.dto.response.ExpedienteResponse;
 import com.oj.sged.application.mapper.ExpedienteMapper;
 import com.oj.sged.infrastructure.persistence.auth.Usuario;
@@ -51,6 +52,29 @@ public class ExpedienteService {
         this.catEstadoRepository = catEstadoRepository;
         this.expedienteMapper = expedienteMapper;
         this.auditoriaService = auditoriaService;
+    }
+
+    @Transactional(readOnly = true)
+    public ExpedienteEstadisticasResponse getEstadisticas() {
+        // Mismo principio de aislamiento por juzgado que listarExpedientes:
+        // ADMIN ve totales globales; el resto ve sólo su juzgado.
+        if (isAdmin()) {
+            return new ExpedienteEstadisticasResponse(
+                expedienteRepository.count(),
+                expedienteRepository.countByEstadoId(2L),  // En espera
+                expedienteRepository.countByEstadoId(1L),  // Activo
+                expedienteRepository.countByEstadoId(4L),  // Cerrado
+                expedienteRepository.countByEstadoId(5L)   // Archivado
+            );
+        }
+        Long juzgadoId = getUserJuzgadoId(getCurrentUser());
+        return new ExpedienteEstadisticasResponse(
+            expedienteRepository.countByJuzgadoId(juzgadoId),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 2L),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 1L),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 4L),
+            expedienteRepository.countByJuzgadoIdAndEstadoId(juzgadoId, 5L)
+        );
     }
 
     @Transactional
