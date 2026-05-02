@@ -19,13 +19,18 @@ Se identificaron **18 hallazgos** clasificados por severidad:
 
 ## Plan de Sprints
 
-### Sprint UX-1: Coherencia Sistémica + Accesibilidad
-- [ ] Reestilizar documentos-list con p-table + design system
-- [ ] Rediseñar documentos-upload con glassmorphism drag&drop
-- [ ] Añadir focus-visible global
-- [ ] Añadir aria-label en sidebar
-- [ ] Añadir cursor:pointer en elementos interactivos
-- [ ] Crear componente empty-state
+### Sprint UX-1: Coherencia Sistémica + Accesibilidad ✅ COMPLETADO
+**Branch:** `feature/sprint-ux-1` → merged a `main`  
+**Code Review:** opus — aprobado con 3 fixes (C1 a11y, I1 reduced-motion, I4 takeUntilDestroyed)
+- [x] Reestilizar documentos-list con p-table + design system (`cb8890c`)
+- [x] Rediseñar documentos-upload con glassmorphism drag&drop (`fd1b765`)
+- [x] Añadir focus-visible global (`251d34f`)
+- [x] Añadir aria-label en sidebar (`c39cab0`)
+- [x] Añadir cursor:pointer en elementos interactivos (`251d34f`)
+- [x] Crear componente empty-state (`6223262`)
+- [x] Fix: drop-zone accesible por teclado (`301d067`)
+- [x] Fix: prefers-reduced-motion global (`301d067`)
+- [x] Fix: takeUntilDestroyed en upload (`301d067`)
 
 ### Sprint UX-2: Performance Angular
 - [ ] OnPush en todos los componentes
