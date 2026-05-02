@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,8 +8,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
 import {
   ActualizarUsuarioRequest,
@@ -234,8 +233,9 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
     }
   `]
 })
-export class UsuarioFormComponent implements OnInit, OnDestroy {
+export class UsuarioFormComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   form: FormGroup;
   loading = false;
@@ -243,8 +243,6 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
   usuarioId: number | null = null;
   roles: { label: string; value: number }[] = [];
   juzgados: { label: string; value: number }[] = [];
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -267,7 +265,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Si es edición, cargar el usuario existente
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       if (params['id']) {
         this.isCreation = false;
         this.usuarioId = +params['id'];
@@ -282,7 +280,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     
     // Cargar juzgados desde la API
     this.catalogosService.getJuzgados()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.juzgados = (res.data ?? []).map((j: any) => ({ label: j.nombre, value: j.id }));
@@ -304,17 +302,12 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
     ];
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   cargarUsuario(): void {
     if (!this.usuarioId) return;
 
     this.adminUsuariosService
       .getUsuario(this.usuarioId)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
           if (response.data) {
@@ -364,7 +357,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
       this.adminUsuariosService
         .createUsuario(request)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.messageService.add({
@@ -397,7 +390,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
 
       this.adminUsuariosService
         .updateUsuario(this.usuarioId, request)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response: any) => {
             this.messageService.add({

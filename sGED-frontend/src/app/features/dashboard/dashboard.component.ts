@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef , ChangeDetectionStrategy} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Subject, forkJoin } from 'rxjs';
-import { takeUntil, catchError } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ExpedientesService } from '../../core/services/expedientes.service';
@@ -251,7 +252,8 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
     }
   `]
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   stats = {
     total:    0,
     activos:  0,
@@ -265,8 +267,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   loadingAuditoria     = true;
   expedientesRecientes: ExpedienteResponse[] = [];
   actividadReciente:   AuditoriaResponse[]   = [];
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private expedientesService: ExpedientesService,
@@ -288,11 +288,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.cargarAuditoria();
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   private cargarExpedientes(): void {
     // Carga página 0 grande para contar activos y tener los 5 recientes
     forkJoin({
@@ -303,7 +298,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         .getExpedientes({ page: 0, size: 1 })
         .pipe(catchError(() => of(null))),
     })
-    .pipe(takeUntil(this.destroy$))
+    .pipe(takeUntilDestroyed(this.destroyRef))
     .subscribe(({ recientes, total }) => {
       // Expedientes recientes para la tabla
       this.expedientesRecientes = recientes?.data?.content ?? [];
@@ -324,7 +319,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private cargarUsuarios(): void {
     this.adminUsuariosService
       .getUsuarios({ activo: true, page: 0, size: 1 })
-      .pipe(takeUntil(this.destroy$), catchError(() => of(null)))
+      .pipe(takeUntilDestroyed(this.destroyRef), catchError(() => of(null)))
       .subscribe(res => {
         this.stats.usuarios = res?.data?.totalElements ?? 0;
         this.cdr.detectChanges();
@@ -334,7 +329,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private cargarAuditoria(): void {
     this.auditoriaService
       .getAuditoria({ page: 0, size: 5, sort: 'fecha,desc' })
-      .pipe(takeUntil(this.destroy$), catchError(() => of(null)))
+      .pipe(takeUntilDestroyed(this.destroyRef), catchError(() => of(null)))
       .subscribe(res => {
         this.actividadReciente = res?.data?.content ?? [];
         this.loadingAuditoria  = false;

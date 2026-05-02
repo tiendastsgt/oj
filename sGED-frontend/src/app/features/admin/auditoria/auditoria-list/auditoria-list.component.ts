@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -9,8 +10,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
 import { AuditoriaService } from '../../../../core/services/auditoria.service';
 import { AuditoriaResponse, AuditoriaFiltros } from '../../../../core/models/auditoria.model';
 
@@ -33,8 +33,9 @@ import { AuditoriaResponse, AuditoriaFiltros } from '../../../../core/models/aud
   templateUrl: './auditoria-list.component.html',
   styleUrls: ['./auditoria-list.component.scss']
 })
-export class AuditoriaListComponent implements OnInit, OnDestroy {
+export class AuditoriaListComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   auditoria: AuditoriaResponse[] = [];
   loading = false;
@@ -43,8 +44,6 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
   currentPage = 0;
   filterForm: FormGroup;
   now = new Date();
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private auditoriaService: AuditoriaService,
@@ -63,11 +62,6 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cargarAuditoria();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   getDotColor(modulo: string): string {
@@ -111,7 +105,7 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
 
     this.auditoriaService
       .getAuditoria(filtros)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
           if (response.data?.content) {

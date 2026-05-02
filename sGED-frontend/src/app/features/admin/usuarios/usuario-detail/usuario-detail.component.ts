@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
 import { UsuarioAdminResponse } from '../../../../core/models/admin-usuarios.model';
 import { ApiResponse } from '../../../../core/models/api-response.model';
@@ -187,13 +186,12 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
     }
   `]
 })
-export class UsuarioDetailComponent implements OnInit, OnDestroy {
+export class UsuarioDetailComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   usuario: UsuarioAdminResponse | null = null;
   usuarioId: number | null = null;
-
-  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -203,7 +201,7 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+    this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       if (params['id']) {
         this.usuarioId = +params['id'];
         this.cargarUsuario();
@@ -211,17 +209,12 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   cargarUsuario(): void {
     if (!this.usuarioId) return;
 
     this.adminUsuariosService
       .getUsuario(this.usuarioId)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: ApiResponse<UsuarioAdminResponse>) => {
           if (response.data) {
