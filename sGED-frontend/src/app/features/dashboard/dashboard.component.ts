@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnIn
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-import { ExpedientesService } from '../../core/services/expedientes.service';
+import { ExpedientesService, ExpedienteEstadisticas } from '../../core/services/expedientes.service';
 import { AuthService } from '../../core/services/auth.service';
 import { AuditoriaService } from '../../core/services/auditoria.service';
-import { AdminUsuariosService } from '../../core/services/admin-usuarios.service';
 import { AuditoriaResponse } from '../../core/models/auditoria.model';
 import { ExpedienteResponse } from '../../core/models/expediente.model';
 
@@ -17,7 +16,7 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   template: `
     <div class="fade-in">
       <header class="dashboard-header">
@@ -32,62 +31,46 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
           <div class="kpi-icon-box blue"><i class="pi pi-folder"></i></div>
           <div>
             <div class="kpi-value">
-              @if (!loading) {
-              <span>{{ stats.total | number }}</span>
-              }
-              @if (loading) {
-              <span class="skeleton-text">—</span>
-              }
+              @if (!loading) { <span>{{ stats.totalExpedientes | number }}</span> }
+              @if (loading)   { <span class="skeleton-text">—</span> }
             </div>
             <div class="kpi-label">Expedientes Registrados</div>
           </div>
         </div>
 
-        <!-- Expedientes Activos -->
+        <!-- En Proceso -->
         <div class="kpi-card" [class.kpi-loading]="loading">
           <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
           <div>
             <div class="kpi-value">
-              @if (!loading) {
-              <span>{{ stats.activos | number }}</span>
-              }
-              @if (loading) {
-              <span class="skeleton-text">—</span>
-              }
+              @if (!loading) { <span>{{ stats.enProceso | number }}</span> }
+              @if (loading)   { <span class="skeleton-text">—</span> }
             </div>
-            <div class="kpi-label">Expedientes Activos</div>
+            <div class="kpi-label">En Proceso (Activos)</div>
           </div>
         </div>
 
-        <!-- Usuarios Activos -->
+        <!-- Pendientes -->
         <div class="kpi-card" [class.kpi-loading]="loading">
-          <div class="kpi-icon-box cyan"><i class="pi pi-users"></i></div>
+          <div class="kpi-icon-box amber"><i class="pi pi-clock"></i></div>
           <div>
             <div class="kpi-value">
-              @if (!loading) {
-              <span>{{ stats.usuarios | number }}</span>
-              }
-              @if (loading) {
-              <span class="skeleton-text">—</span>
-              }
+              @if (!loading) { <span>{{ stats.pendientes | number }}</span> }
+              @if (loading)   { <span class="skeleton-text">—</span> }
             </div>
-            <div class="kpi-label">Usuarios Activos</div>
+            <div class="kpi-label">Pendientes (En espera)</div>
           </div>
         </div>
 
-        <!-- Expedientes esta semana -->
+        <!-- Archivados -->
         <div class="kpi-card" [class.kpi-loading]="loading">
-          <div class="kpi-icon-box violet"><i class="pi pi-calendar-plus"></i></div>
+          <div class="kpi-icon-box violet"><i class="pi pi-inbox"></i></div>
           <div>
             <div class="kpi-value">
-              @if (!loading) {
-              <span>{{ stats.recientes | number }}</span>
-              }
-              @if (loading) {
-              <span class="skeleton-text">—</span>
-              }
+              @if (!loading) { <span>{{ stats.archivados | number }}</span> }
+              @if (loading)   { <span class="skeleton-text">—</span> }
             </div>
-            <div class="kpi-label">Recientes (últimos 5)</div>
+            <div class="kpi-label">Archivados</div>
           </div>
         </div>
       </section>
@@ -97,6 +80,20 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
         <div class="card-header">
           <h3 class="section-title"><i class="pi pi-folder-open"></i> EXPEDIENTES RECIENTES</h3>
           <a routerLink="/expedientes" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
+        </div>
+
+        <!-- Filtros -->
+        <div class="dashboard-filters" [formGroup]="filterForm">
+          <select formControlName="estadoId" class="form-input form-select" (change)="aplicarFiltros()">
+            <option [value]="null">Todos los estados</option>
+            <option [value]="1">Activo</option>
+            <option [value]="2">En espera</option>
+            <option [value]="3">Suspendido</option>
+            <option [value]="4">Cerrado</option>
+            <option [value]="5">Archivado</option>
+          </select>
+          <input type="date" formControlName="fechaDesde" class="form-input" (change)="aplicarFiltros()" />
+          <input type="date" formControlName="fechaHasta" class="form-input" (change)="aplicarFiltros()" />
         </div>
         <div style="overflow-x: auto;">
           <!-- Loading skeleton -->
@@ -219,6 +216,21 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
   styles: [`
     .dashboard-header { margin-bottom: 0; }
 
+    .dashboard-filters {
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .dashboard-filters .form-input {
+      flex: 1;
+      min-width: 140px;
+      max-width: 200px;
+      padding: 0.45rem 0.75rem;
+      font-size: var(--font-xs);
+    }
+
     .kpi-loading {
       opacity: 0.6;
       animation: pulse 1.5s ease-in-out infinite;
@@ -254,12 +266,22 @@ import { ExpedienteResponse } from '../../core/models/expediente.model';
 })
 export class DashboardComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
-  stats = {
-    total:    0,
-    activos:  0,
-    usuarios: 0,
-    recientes: 0,
+  private readonly fb         = inject(FormBuilder);
+
+  stats: ExpedienteEstadisticas = {
+    totalExpedientes: 0,
+    pendientes: 0,
+    enProceso:  0,
+    resueltos:  0,
+    archivados: 0,
   };
+
+  filterForm: FormGroup = this.fb.group({
+    estadoId:   [null],
+    juzgadoId:  [null],
+    fechaDesde: [null],
+    fechaHasta: [null],
+  });
 
   userName             = '';
   today                = new Date();
@@ -272,56 +294,44 @@ export class DashboardComponent implements OnInit {
     private expedientesService: ExpedientesService,
     private authService: AuthService,
     private auditoriaService: AuditoriaService,
-    private adminUsuariosService: AdminUsuariosService,
     private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
-    // Nombre del usuario logueado
     const user = this.authService.getCurrentUser();
     if (user) {
       this.userName = user.nombreCompleto?.split(' ')[0] || user.username;
     }
 
+    this.cargarEstadisticas();
     this.cargarExpedientes();
-    this.cargarUsuarios();
     this.cargarAuditoria();
   }
 
-  private cargarExpedientes(): void {
-    // Carga página 0 grande para contar activos y tener los 5 recientes
-    forkJoin({
-      recientes: this.expedientesService
-        .getExpedientes({ page: 0, size: 5, sort: 'fechaCreacion,desc' })
-        .pipe(catchError(() => of(null))),
-      total: this.expedientesService
-        .getExpedientes({ page: 0, size: 1 })
-        .pipe(catchError(() => of(null))),
-    })
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe(({ recientes, total }) => {
-      // Expedientes recientes para la tabla
-      this.expedientesRecientes = recientes?.data?.content ?? [];
-      this.stats.recientes      = this.expedientesRecientes.length;
-
-      // Total real de la BD
-      this.stats.total  = total?.data?.totalElements ?? (recientes?.data?.totalElements ?? 0);
-      // Contar activos (estadoId=1 en los recientes como aproximación si no hay endpoint dedicado)
-      this.stats.activos = this.expedientesRecientes.filter(
-        (e: any) => String(e.estadoId) === '1' || String(e.estadoNombre)?.toLowerCase() === 'activo'
-      ).length;
-
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
-  }
-
-  private cargarUsuarios(): void {
-    this.adminUsuariosService
-      .getUsuarios({ activo: true, page: 0, size: 1 })
+  private cargarEstadisticas(): void {
+    this.expedientesService.getEstadisticas()
       .pipe(takeUntilDestroyed(this.destroyRef), catchError(() => of(null)))
       .subscribe(res => {
-        this.stats.usuarios = res?.data?.totalElements ?? 0;
+        if (res?.data) this.stats = res.data;
+        this.cdr.markForCheck();
+      });
+  }
+
+  private cargarExpedientes(): void {
+    const { estadoId, juzgadoId, fechaDesde, fechaHasta } = this.filterForm.value;
+    this.loading = true;
+    this.expedientesService
+      .getExpedientes({
+        page: 0, size: 5, sort: 'fechaCreacion,desc',
+        estadoId:   estadoId   ?? undefined,
+        juzgadoId:  juzgadoId  ?? undefined,
+        fechaDesde: fechaDesde ?? undefined,
+        fechaHasta: fechaHasta ?? undefined,
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef), catchError(() => of(null)))
+      .subscribe(res => {
+        this.expedientesRecientes = res?.data?.content ?? [];
+        this.loading = false;
         this.cdr.detectChanges();
       });
   }
@@ -335,6 +345,10 @@ export class DashboardComponent implements OnInit {
         this.loadingAuditoria  = false;
         this.cdr.detectChanges();
       });
+  }
+
+  aplicarFiltros(): void {
+    this.cargarExpedientes();
   }
 
   getInitials(name: string): string {
