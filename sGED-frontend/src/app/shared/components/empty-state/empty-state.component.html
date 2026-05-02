@@ -1,0 +1,14 @@
+<div class="empty-state glass-panel fade-in">
+  <i class="empty-state__icon {{ icon }}"></i>
+  <h3 class="empty-state__titulo">{{ titulo }}</h3>
+  @if (mensaje) {
+    <p class="empty-state__mensaje">{{ mensaje }}</p>
+  }
+  @if (ctaLabel) {
+    <p-button
+      [label]="ctaLabel"
+      icon="pi pi-plus"
+      (onClick)="ctaClick.emit()"
+    />
+  }
+</div>
