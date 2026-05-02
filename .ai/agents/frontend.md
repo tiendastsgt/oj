@@ -1,3 +1,7 @@
+---
+model: sonnet
+---
+
 # SGED Frontend Architect
 
 **Rol:** Especialista en Angular 21 y PrimeNG.

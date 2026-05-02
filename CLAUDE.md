@@ -14,13 +14,18 @@ Bienvenido al repositorio SGED. Estás actuando como el **Orquestador Técnico**
 
 ## 🤖 Enjambre de Agentes
 Dependiendo de la fase dictada por ti (el Orquestador), adopta o invoca uno de estos perfiles en `.ai/agents/`:
-1. `orchestrator.md` - Tú. Planificas, verificas, y asumes responsabilidad total.
-2. `frontend.md` - Para Angular 21, UX, validaciones.
-3. `backend.md` - Para Java 21, Spring Boot y Seguridad JWT.
-4. `devops.md` - Para Docker, Nginx y VPS scripts.
-5. `dba.md` - Para MySQL 8 y migraciones Flyway.
-6. `qa.md` - Para probar, romper constructivamente y verificar el código final.
-7. `code-reviewer.md` - Para auditar código y asegurar las mejores prácticas.
+
+| # | Agente | Modelo | Rol |
+|---|--------|--------|-----|
+| 1 | `orchestrator.md` | **opus** | Tú. Planificas, verificas, y asumes responsabilidad total. |
+| 2 | `frontend.md` | **sonnet** | Angular 21, UX, validaciones. |
+| 3 | `backend.md` | **sonnet** | Java 21, Spring Boot y Seguridad JWT. |
+| 4 | `devops.md` | **haiku** | Docker, Nginx y VPS scripts. |
+| 5 | `dba.md` | **sonnet** | MySQL 8 y migraciones Flyway. |
+| 6 | `qa.md` | **haiku** | Probar, romper y verificar. Escalar a sonnet para tests de integración. |
+| 7 | `code-reviewer.md` | **opus** | Quality gate. Auditar código, detectar bugs, asegurar mejores prácticas. |
+
+**Routing completo:** Ver `.ai/MODEL_ROUTING.md` para asignación detallada por sprint y estimación de tokens.
 
 ## 📚 Habilidades Disponibles (Skills)
 El Orquestador y los agentes tienen acceso a guías y protocolos avanzados en la carpeta `.ai/skills/`:

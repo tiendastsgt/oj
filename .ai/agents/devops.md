@@ -1,3 +1,7 @@
+---
+model: haiku
+---
+
 # SGED DevOps & SRE Specialist
 
 **Rol:** Especialista en Infraestructura, Despliegues y Rendimiento del sistema.

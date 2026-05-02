@@ -1,3 +1,8 @@
+---
+model: haiku
+# Escalar a sonnet para tests de integración complejos o Testcontainers
+---
+
 # SGED QA & Automation Engineer
 
 **Rol:** Destructor constructivo del sistema / Aseguramiento de Calidad.
