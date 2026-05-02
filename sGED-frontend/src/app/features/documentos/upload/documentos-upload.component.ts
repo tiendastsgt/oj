@@ -1,7 +1,8 @@
 import {
-  ChangeDetectionStrategy, Component,
+  ChangeDetectionStrategy, Component, DestroyRef,
   EventEmitter, Input, Output, inject, signal
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpEventType } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -34,6 +35,7 @@ export class DocumentosUploadComponent {
   readonly isDragOver = signal(false);
 
   private readonly documentosService = inject(DocumentosService);
+  private readonly destroyRef = inject(DestroyRef);
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -79,7 +81,9 @@ export class DocumentosUploadComponent {
     this.uploading.set(true);
     this.progress.set(0);
 
-    this.documentosService.cargar(this.expedienteId, file).subscribe({
+    this.documentosService.cargar(this.expedienteId, file)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (event) => {
         if (event.type === HttpEventType.UploadProgress) {
           const total = event.total ?? file.size;

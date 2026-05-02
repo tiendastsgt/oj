@@ -5,8 +5,12 @@
     (drop)="onDrop($event)"
     (dragover)="onDragOver($event)"
     (dragleave)="onDragLeave()"
+    (click)="fileInput.click()"
+    (keydown.enter)="fileInput.click()"
+    (keydown.space)="$event.preventDefault(); fileInput.click()"
+    tabindex="0"
     role="button"
-    aria-label="Zona de arrastre para subir archivos"
+    aria-label="Zona de arrastre o clic para seleccionar archivo"
   >
     <i class="pi pi-cloud-upload drop-icon"></i>
     <span class="drop-text">Arrastra un archivo aquí</span>
