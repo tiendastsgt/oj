@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -15,6 +15,7 @@ import { AuditoriaService } from '../../../../core/services/auditoria.service';
 import { AuditoriaResponse, AuditoriaFiltros } from '../../../../core/models/auditoria.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-auditoria-list',
   standalone: true,
   imports: [
@@ -33,6 +34,8 @@ import { AuditoriaResponse, AuditoriaFiltros } from '../../../../core/models/aud
   styleUrls: ['./auditoria-list.component.scss']
 })
 export class AuditoriaListComponent implements OnInit, OnDestroy {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   auditoria: AuditoriaResponse[] = [];
   loading = false;
   pageSize = 50;
@@ -117,6 +120,7 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
             this.currentPage = page;
           }
           this.loading = false;
+          this.cdr.markForCheck();
         },
         error: (err: any) => {
           this.messageService.add({
@@ -125,6 +129,7 @@ export class AuditoriaListComponent implements OnInit, OnDestroy {
             detail: err.error?.message || 'Error al cargar auditoría'
           });
           this.loading = false;
+          this.cdr.markForCheck();
         }
       });
   }

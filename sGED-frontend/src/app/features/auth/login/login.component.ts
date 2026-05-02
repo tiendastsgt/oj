@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 const DEFAULT_REDIRECT = '/expedientes';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-login',
   standalone: true,
   imports: [
@@ -27,6 +28,8 @@ const DEFAULT_REDIRECT = '/expedientes';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   loading = false;
   errorMessage = '';
 
@@ -54,11 +57,13 @@ export class LoginComponent {
         } else {
           this.router.navigate([DEFAULT_REDIRECT]);
         }
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.loading = false;
         this.errorMessage =
           error?.error?.message ?? 'No se pudo iniciar sesión. Intente nuevamente.';
+        this.cdr.markForCheck();
       }
     });
   }

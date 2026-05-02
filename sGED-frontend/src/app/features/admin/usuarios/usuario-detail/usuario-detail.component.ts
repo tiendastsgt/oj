@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,7 @@ import { UsuarioAdminResponse } from '../../../../core/models/admin-usuarios.mod
 import { ApiResponse } from '../../../../core/models/api-response.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-usuario-detail',
   standalone: true,
   imports: [CommonModule, ButtonModule, CardModule, ToastModule],
@@ -183,6 +184,8 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
   `]
 })
 export class UsuarioDetailComponent implements OnInit, OnDestroy {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   usuario: UsuarioAdminResponse | null = null;
   usuarioId: number | null = null;
 
@@ -220,6 +223,7 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
           if (response.data) {
             this.usuario = response.data;
           }
+          this.cdr.markForCheck();
         },
         error: (err: any) => {
           this.messageService.add({
@@ -227,6 +231,7 @@ export class UsuarioDetailComponent implements OnInit, OnDestroy {
             summary: 'Error',
             detail: err?.error?.message || 'Error al cargar usuario'
           });
+          this.cdr.markForCheck();
         }
       });
   }

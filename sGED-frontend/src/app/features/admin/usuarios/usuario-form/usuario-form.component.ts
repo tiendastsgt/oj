@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +18,7 @@ import {
 import { CatalogosService } from '../../../../core/services/catalogos.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-usuario-form',
   standalone: true,
   imports: [
@@ -194,6 +195,8 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
   `]
 })
 export class UsuarioFormComponent implements OnInit, OnDestroy {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   form: FormGroup;
   loading = false;
   isCreation = true;
@@ -243,10 +246,11 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           this.juzgados = (res.data ?? []).map((j: any) => ({ label: j.nombre, value: j.id }));
+          this.cdr.markForCheck();
         },
         error: () => {
-          // Fallback mínimo si la API falla
           this.juzgados = [{ label: 'Juzgado Primero Civil', value: 1 }];
+          this.cdr.markForCheck();
         }
       });
 
@@ -278,12 +282,13 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
             this.form.patchValue({
               nombreCompleto: usuario.nombreCompleto,
               email: usuario.email,
-              rolId: usuario.rol, // Asumimos que el backend retorna el ID del rol
-              juzgadoId: usuario.juzgado, // Asumimos que el backend retorna el ID del juzgado
+              rolId: usuario.rol,
+              juzgadoId: usuario.juzgado,
               activo: usuario.activo,
               bloqueado: usuario.bloqueado
             });
           }
+          this.cdr.markForCheck();
         },
         error: (err: any) => {
           this.messageService.add({
@@ -291,6 +296,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
             summary: 'Error',
             detail: err.error?.message || 'Error al cargar usuario'
           });
+          this.cdr.markForCheck();
         }
       });
   }
@@ -336,6 +342,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
               summary: 'Error',
               detail: errorMessage
             });
+            this.cdr.markForCheck();
           }
         });
     } else if (this.usuarioId) {
@@ -368,6 +375,7 @@ export class UsuarioFormComponent implements OnInit, OnDestroy {
               summary: 'Error',
               detail: errorMessage
             });
+            this.cdr.markForCheck();
           }
         });
     }

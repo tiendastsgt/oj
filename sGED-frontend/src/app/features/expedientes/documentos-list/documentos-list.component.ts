@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -20,6 +20,7 @@ const EXTENSIONES_PERMITIDAS = [
 ];
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-documentos-list',
   standalone: true,
   imports: [CommonModule, TableModule, ButtonModule, CardModule, MessageModule, ProgressBarModule],
@@ -27,6 +28,8 @@ const EXTENSIONES_PERMITIDAS = [
   styleUrls: ['./documentos-list.component.scss']
 })
 export class DocumentosListComponent implements OnInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   @Input() expedienteId = 0;
   @Output() viewDocumento = new EventEmitter<Documento>();
 
@@ -110,9 +113,10 @@ export class DocumentosListComponent implements OnInit {
 
   onEliminar(documento: Documento): void {
     this.documentosService.eliminar(documento.id).subscribe({
-      next: () => this.cargarDocumentos(),
+      next: () => { this.cargarDocumentos(); },
       error: (error) => {
         this.errorMessages = [error?.error?.message ?? 'No se pudo eliminar documento'];
+        this.cdr.markForCheck();
       }
     });
   }
@@ -128,6 +132,7 @@ export class DocumentosListComponent implements OnInit {
       next: (response) => {
         this.documentos = response.data || [];
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.documentos = [];
@@ -137,6 +142,7 @@ export class DocumentosListComponent implements OnInit {
         } else {
           this.errorMessages = [error?.error?.message || 'Error al cargar documentos'];
         }
+        this.cdr.markForCheck();
       }
     });
   }
@@ -158,6 +164,7 @@ export class DocumentosListComponent implements OnInit {
         if (event.type === HttpEventType.UploadProgress) {
           const total = event.total ?? file.size;
           this.progress = Math.round((event.loaded / total) * 100);
+          this.cdr.markForCheck();
         }
         if (event.type === HttpEventType.Response) {
           this.uploading = false;
@@ -169,6 +176,7 @@ export class DocumentosListComponent implements OnInit {
         this.uploading = false;
         this.progress = 0;
         this.errorMessages = this.parseErrors(error);
+        this.cdr.markForCheck();
       }
     });
   }

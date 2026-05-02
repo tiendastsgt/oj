@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef , ChangeDetectionStrategy} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,6 +16,7 @@ import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.s
 import { UsuarioAdminResponse, UsuarioListaFiltros } from '../../../../core/models/admin-usuarios.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-usuarios-list',
   standalone: true,
   imports: [

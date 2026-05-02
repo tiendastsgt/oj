@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentosService } from '../../core/services/documentos.service';
 import { Documento } from './models/documento.model';
@@ -14,6 +14,7 @@ import { DialogModule } from 'primeng/dialog';
 export type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | 'WORD' | 'OTRO' | null;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-documentos-page',
   standalone: true,
   imports: [
@@ -30,6 +31,8 @@ export type ViewerType = 'PDF' | 'IMAGEN' | 'AUDIO' | 'VIDEO' | 'WORD' | 'OTRO' 
   styleUrls: ['./documentos-page.component.scss']
 })
 export class DocumentosPageComponent implements OnInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   documentos: Documento[] = [];
   expedienteId = 0;
   loading = false;
@@ -58,10 +61,12 @@ export class DocumentosPageComponent implements OnInit {
       next: (response) => {
         this.documentos = response.data ?? [];
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.loading = false;
         this.errorMessage = error?.error?.message ?? 'No se pudo cargar documentos';
+        this.cdr.markForCheck();
       }
     });
   }
@@ -95,9 +100,10 @@ export class DocumentosPageComponent implements OnInit {
 
   onEliminar(documento: Documento): void {
     this.documentosService.eliminar(documento.id).subscribe({
-      next: () => this.cargarDocumentos(),
+      next: () => { this.cargarDocumentos(); },
       error: (error) => {
         this.errorMessage = error?.error?.message ?? 'No se pudo eliminar documento';
+        this.cdr.markForCheck();
       }
     });
   }
