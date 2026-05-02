@@ -38,9 +38,11 @@ import { MessageModule } from 'primeng/message';
           </p-datepicker>
           <label for="fechaHasta">Fecha Hasta</label>
         </p-floatlabel>
-        <small class="error-text" *ngIf="formGroup.hasError('dateRange')">
+        @if (formGroup.hasError('dateRange')) {
+        <small class="error-text">
           La fecha desde debe ser menor o igual a la fecha hasta
         </small>
+        }
       </div>
     </div>
   `,

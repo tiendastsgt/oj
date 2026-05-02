@@ -52,7 +52,8 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
         <div class="card-body" style="padding: var(--space-6);">
           <form [formGroup]="form" (ngSubmit)="guardar()">
             <!-- Username (solo en creación) -->
-            <div class="form-field mb-4" *ngIf="isCreation">
+            @if (isCreation) {
+            <div class="form-field mb-4">
               <label class="form-label" htmlFor="username"><i class="pi pi-at"></i> Username *</label>
               <input
                 type="text"
@@ -61,12 +62,21 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 placeholder="Ej: juan.perez"
                 formControlName="username"
               />
-              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('username')">
-                <span *ngIf="form.get('username')?.errors?.['required']">El username es requerido</span>
-                <span *ngIf="form.get('username')?.errors?.['minlength']">Mínimo 3 caracteres</span>
-                <span *ngIf="form.get('username')?.errors?.['maxlength']">Máximo 50 caracteres</span>
+              @if (isFieldInvalid('username')) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (form.get('username')?.errors?.['required']) {
+                <span>El username es requerido</span>
+                }
+                @if (form.get('username')?.errors?.['minlength']) {
+                <span>Mínimo 3 caracteres</span>
+                }
+                @if (form.get('username')?.errors?.['maxlength']) {
+                <span>Máximo 50 caracteres</span>
+                }
               </div>
+              }
             </div>
+            }
 
             <!-- Nombre Completo -->
             <div class="form-field mb-4">
@@ -78,11 +88,19 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 placeholder="Nombre y apellidos"
                 formControlName="nombreCompleto"
               />
-              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('nombreCompleto')">
-                <span *ngIf="form.get('nombreCompleto')?.errors?.['required']">El nombre completo es requerido</span>
-                <span *ngIf="form.get('nombreCompleto')?.errors?.['minlength']">Mínimo 5 caracteres</span>
-                <span *ngIf="form.get('nombreCompleto')?.errors?.['maxlength']">Máximo 150 caracteres</span>
+              @if (isFieldInvalid('nombreCompleto')) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (form.get('nombreCompleto')?.errors?.['required']) {
+                <span>El nombre completo es requerido</span>
+                }
+                @if (form.get('nombreCompleto')?.errors?.['minlength']) {
+                <span>Mínimo 5 caracteres</span>
+                }
+                @if (form.get('nombreCompleto')?.errors?.['maxlength']) {
+                <span>Máximo 150 caracteres</span>
+                }
               </div>
+              }
             </div>
 
             <!-- Email -->
@@ -95,11 +113,19 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 placeholder="correo@oj.gob.gt"
                 formControlName="email"
               />
-              <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('email')">
-                <span *ngIf="form.get('email')?.errors?.['required']">El email es requerido</span>
-                <span *ngIf="form.get('email')?.errors?.['email']">Email inválido</span>
-                <span *ngIf="form.get('email')?.errors?.['maxlength']">Máximo 100 caracteres</span>
+              @if (isFieldInvalid('email')) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (form.get('email')?.errors?.['required']) {
+                <span>El email es requerido</span>
+                }
+                @if (form.get('email')?.errors?.['email']) {
+                <span>Email inválido</span>
+                }
+                @if (form.get('email')?.errors?.['maxlength']) {
+                <span>Máximo 100 caracteres</span>
+                }
               </div>
+              }
             </div>
 
             <!-- Grid: Rol + Juzgado -->
@@ -112,11 +138,17 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                   class="form-input form-select"
                 >
                   <option value="">Seleccionar rol</option>
-                  <option *ngFor="let rol of roles" [value]="rol.value">{{ rol.label }}</option>
+                  @for (rol of roles; track rol.value) {
+                  <option [value]="rol.value">{{ rol.label }}</option>
+                  }
                 </select>
-                <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('rolId')">
-                  <span *ngIf="form.get('rolId')?.errors?.['required']">El rol es requerido</span>
+                @if (isFieldInvalid('rolId')) {
+                <div class="text-red-500 text-sm mt-1">
+                  @if (form.get('rolId')?.errors?.['required']) {
+                  <span>El rol es requerido</span>
+                  }
                 </div>
+                }
               </div>
               <div class="form-field">
                 <label class="form-label" htmlFor="juzgadoId"><i class="pi pi-building"></i> Juzgado *</label>
@@ -126,16 +158,23 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                   class="form-input form-select"
                 >
                   <option value="">Seleccionar juzgado</option>
-                  <option *ngFor="let juzgado of juzgados" [value]="juzgado.value">{{ juzgado.label }}</option>
+                  @for (juzgado of juzgados; track juzgado.value) {
+                  <option [value]="juzgado.value">{{ juzgado.label }}</option>
+                  }
                 </select>
-                <div class="text-red-500 text-sm mt-1" *ngIf="isFieldInvalid('juzgadoId')">
-                  <span *ngIf="form.get('juzgadoId')?.errors?.['required']">El juzgado es requerido</span>
+                @if (isFieldInvalid('juzgadoId')) {
+                <div class="text-red-500 text-sm mt-1">
+                  @if (form.get('juzgadoId')?.errors?.['required']) {
+                  <span>El juzgado es requerido</span>
+                  }
                 </div>
+                }
               </div>
             </div>
 
             <!-- Grid: Activo + Bloqueado (solo en edición) -->
-            <div class="grid-2 mb-6" *ngIf="!isCreation">
+            @if (!isCreation) {
+            <div class="grid-2 mb-6">
               <div class="form-field">
                 <label class="form-label" htmlFor="activo"><i class="pi pi-check-circle"></i> Estado</label>
                 <select
@@ -159,6 +198,7 @@ import { CatalogosService } from '../../../../core/services/catalogos.service';
                 </select>
               </div>
             </div>
+            }
 
             <!-- Botones -->
             <div class="flex gap-3" style="border-top: 1px solid var(--border); padding-top: var(--space-6);">

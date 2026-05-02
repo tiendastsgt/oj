@@ -18,7 +18,8 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
   imports: [CommonModule, ButtonModule, CardModule, ToastModule],
   providers: [MessageService],
   template: `
-    <div class="fade-in" *ngIf="usuario">
+    @if (usuario) {
+    <div class="fade-in">
       <!-- Page Header -->
       <div class="page-header-actions mb-6">
         <div>
@@ -53,10 +54,12 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
               <span class="badge" [ngClass]="usuario.activo ? 'badge-active' : 'badge-urgent'">
                 {{ usuario.activo ? 'Activo' : 'Inactivo' }}
               </span>
-              <span *ngIf="usuario.bloqueado" class="badge badge-urgent">
+              @if (usuario.bloqueado) {
+              <span class="badge badge-urgent">
                 <i class="pi pi-lock" style="font-size:0.7rem;"></i>
                 Bloqueado
               </span>
+              }
             </div>
           </div>
         </div>
@@ -142,6 +145,7 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
         </div>
       </div>
     </div>
+    }
 
     <p-toast></p-toast>
   `,

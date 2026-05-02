@@ -3,15 +3,15 @@
 </div>
 
 <div class="search-tabs">
-  <div 
-    class="search-tab" 
+  <div
+    class="search-tab"
     [class.active]="activeTab === 'rapida'"
     (click)="setActiveTab('rapida')"
   >
     <i class="pi pi-bolt"></i> Búsqueda Rápida
   </div>
-  <div 
-    class="search-tab" 
+  <div
+    class="search-tab"
     [class.active]="activeTab === 'avanzada'"
     (click)="setActiveTab('avanzada')"
   >
@@ -20,6 +20,10 @@
 </div>
 
 <div class="search-content">
-  <app-busqueda-rapida *ngIf="activeTab === 'rapida'"></app-busqueda-rapida>
-  <app-busqueda-avanzada *ngIf="activeTab === 'avanzada'"></app-busqueda-avanzada>
+  @if (activeTab === 'rapida') {
+  <app-busqueda-rapida></app-busqueda-rapida>
+  }
+  @if (activeTab === 'avanzada') {
+  <app-busqueda-avanzada></app-busqueda-avanzada>
+  }
 </div>
