@@ -79,3 +79,4 @@ sGED-frontend/test_out*.txt
 
 # Other Projects
 ocr/
+.worktrees/
