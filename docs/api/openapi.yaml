@@ -1,0 +1,1544 @@
+openapi: "3.1.0"
+info:
+  title: SGED API
+  description: |
+    API REST del Sistema de Gestión de Expedientes Digitales.
+
+    Gestiona expedientes judiciales y sus documentos asociados, con control de acceso
+    por roles (ADMIN, SECRETARIO, AUXILIAR, CONSULTA) y auditoría completa de acciones.
+
+    ## Autenticación
+    Todos los endpoints (excepto `/auth/login`) requieren un token JWT en el header:
+    ```
+    Authorization: Bearer <token>
+    ```
+  version: "1.2.4"
+  contact:
+    name: Equipo SGED
+
+servers:
+  - url: https://{host}/api/v1
+    description: Servidor de producción
+    variables:
+      host:
+        default: sged.example.com
+        description: Hostname del servidor
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Autenticación
+    description: Login, logout y gestión de contraseña
+  - name: Expedientes
+    description: CRUD de expedientes judiciales y estadísticas
+  - name: Búsqueda
+    description: Búsqueda rápida y avanzada de expedientes
+  - name: Documentos
+    description: Gestión de documentos por expediente (upload, visor, descarga)
+  - name: Catálogos
+    description: Datos de referencia — tipos de proceso, estados, juzgados
+  - name: "Administración — Usuarios"
+    description: Gestión de usuarios del sistema (solo ADMIN)
+  - name: "Administración — Auditoría"
+    description: Consulta del log de auditoría (solo ADMIN)
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token JWT obtenido en POST /auth/login. Expira en 8 horas.
+
+  schemas:
+    ApiResponse:
+      type: object
+      description: Envelope estándar para todas las respuestas de la API
+      properties:
+        success:
+          type: boolean
+          description: true si la operación fue exitosa, false si hubo error
+        message:
+          type: string
+          description: Descripción del resultado
+        data:
+          description: Payload de la respuesta (tipo varía por endpoint)
+        timestamp:
+          type: string
+          format: date-time
+          description: Momento en que se generó la respuesta
+
+    PagedResponse:
+      type: object
+      description: Respuesta paginada con metadatos de paginación
+      properties:
+        content:
+          type: array
+          items: {}
+          description: Lista de elementos de la página actual
+        totalElements:
+          type: integer
+          description: Total de registros que coinciden con el filtro
+        totalPages:
+          type: integer
+          description: Total de páginas disponibles
+        number:
+          type: integer
+          description: Número de página actual (base 0)
+        size:
+          type: integer
+          description: Tamaño de página configurado
+
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+          example: jperez
+          description: Nombre de usuario del sistema
+        password:
+          type: string
+          format: password
+          example: "MiClave123!"
+          description: Contraseña del usuario
+
+    LoginResponseData:
+      type: object
+      description: Datos retornados en un login exitoso
+      properties:
+        token:
+          type: string
+          description: JWT a incluir en el header Authorization de cada request
+          example: "eyJhbGciOiJIUzI1NiJ9..."
+        tipo:
+          type: string
+          example: Bearer
+          description: Tipo de token — siempre "Bearer"
+        nombre:
+          type: string
+          example: "Juan Pérez"
+          description: Nombre completo del usuario autenticado
+        rol:
+          type: string
+          enum: [ADMIN, SECRETARIO, AUXILIAR, CONSULTA]
+          description: Rol del usuario que determina sus permisos
+        juzgado:
+          type: string
+          example: "Juzgado Civil N°1"
+          description: Nombre del juzgado asignado al usuario
+
+    CambiarPasswordRequest:
+      type: object
+      required: [passwordActual, passwordNuevo]
+      properties:
+        passwordActual:
+          type: string
+          format: password
+          description: Contraseña actual del usuario
+        passwordNuevo:
+          type: string
+          format: password
+          minLength: 8
+          description: Nueva contraseña (mínimo 8 caracteres, una mayúscula y un número)
+
+    ExpedienteRequest:
+      type: object
+      required: [numero, tipoProceso, juzgado, estado]
+      properties:
+        numero:
+          type: string
+          example: "2024-001-CR"
+          description: Número único del expediente en el sistema
+        tipoProceso:
+          type: integer
+          description: ID del tipo de proceso (ref catálogos/tipos-proceso)
+        juzgado:
+          type: integer
+          description: ID del juzgado (ref catálogos/juzgados)
+        estado:
+          type: integer
+          description: ID del estado (ref catálogos/estados-expediente)
+        descripcion:
+          type: string
+          description: Descripción adicional del expediente
+        demandante:
+          type: string
+          description: Nombre del demandante / parte actora
+        demandado:
+          type: string
+          description: Nombre del demandado / parte demandada
+
+    ExpedienteResponse:
+      type: object
+      description: Datos completos de un expediente
+      properties:
+        id:
+          type: integer
+          description: ID interno del expediente
+        numero:
+          type: string
+          example: "2024-001-CR"
+        tipoProceso:
+          type: string
+          description: Nombre del tipo de proceso (resuelto desde catálogo)
+        juzgado:
+          type: string
+          description: Nombre del juzgado (resuelto desde catálogo)
+        estado:
+          type: string
+          description: Nombre del estado (resuelto desde catálogo)
+        descripcion:
+          type: string
+        demandante:
+          type: string
+        demandado:
+          type: string
+        fechaCreacion:
+          type: string
+          format: date-time
+        fechaModificacion:
+          type: string
+          format: date-time
+
+    EstadisticasResponse:
+      type: object
+      description: KPIs del dashboard principal
+      properties:
+        totalExpedientes:
+          type: integer
+          description: Total de expedientes en el sistema
+        expedientesActivos:
+          type: integer
+          description: Expedientes con estado activo
+        expedientesArchivados:
+          type: integer
+          description: Expedientes archivados
+        totalDocumentos:
+          type: integer
+          description: Total de documentos cargados en el sistema
+
+    DocumentoResponse:
+      type: object
+      description: Metadatos de un documento
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+          description: Nombre original del archivo
+        tipoDocumento:
+          type: string
+          description: Tipo/categoría del documento
+        mimeType:
+          type: string
+          example: "application/pdf"
+        tamano:
+          type: integer
+          description: Tamaño en bytes
+        expedienteId:
+          type: integer
+          description: ID del expediente al que pertenece
+        fechaCarga:
+          type: string
+          format: date-time
+
+    BusquedaAvanzadaRequest:
+      type: object
+      description: Criterios para búsqueda avanzada de expedientes (todos opcionales, combinables)
+      properties:
+        numero:
+          type: string
+          description: Número de expediente (parcial o completo)
+        tipoProceso:
+          type: integer
+          description: ID del tipo de proceso
+        estado:
+          type: integer
+          description: ID del estado
+        juzgado:
+          type: integer
+          description: ID del juzgado
+        demandante:
+          type: string
+          description: Nombre parcial del demandante
+        demandado:
+          type: string
+          description: Nombre parcial del demandado
+        fechaDesde:
+          type: string
+          format: date
+          description: Fecha de creación desde (inclusive)
+        fechaHasta:
+          type: string
+          format: date
+          description: Fecha de creación hasta (inclusive)
+        page:
+          type: integer
+          default: 0
+          description: Número de página (base 0)
+        size:
+          type: integer
+          default: 20
+          description: Elementos por página
+
+    UsuarioRequest:
+      type: object
+      required: [username, nombre, rolId, juzgadoId]
+      properties:
+        username:
+          type: string
+          example: jperez
+          description: Nombre de usuario único en el sistema
+        nombre:
+          type: string
+          example: "Juan Pérez"
+          description: Nombre completo del usuario
+        rolId:
+          type: integer
+          description: ID del rol asignado
+        juzgadoId:
+          type: integer
+          description: ID del juzgado asignado
+
+    UsuarioResponse:
+      type: object
+      description: Datos de un usuario del sistema
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        nombre:
+          type: string
+        rol:
+          type: string
+          enum: [ADMIN, SECRETARIO, AUXILIAR, CONSULTA]
+        juzgado:
+          type: string
+        bloqueado:
+          type: boolean
+          description: true si la cuenta está bloqueada por intentos fallidos
+
+    AuditoriaResponse:
+      type: object
+      description: Registro de auditoría de una acción en el sistema
+      properties:
+        id:
+          type: integer
+        usuario:
+          type: string
+          description: Username del usuario que realizó la acción
+        accion:
+          type: string
+          description: "Código de la acción realizada (ej: CREAR_EXPEDIENTE, ELIMINAR_DOCUMENTO)"
+        expedienteNumero:
+          type: string
+          description: Número del expediente afectado (si aplica)
+        ip:
+          type: string
+          description: Dirección IP desde donde se realizó la acción
+        timestamp:
+          type: string
+          format: date-time
+
+    CatalogoItem:
+      type: object
+      description: Elemento de un catálogo (tipo, estado o juzgado)
+      properties:
+        id:
+          type: integer
+        nombre:
+          type: string
+
+    Error:
+      type: object
+      description: Respuesta de error estándar
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          description: Descripción del error
+        timestamp:
+          type: string
+          format: date-time
+
+  responses:
+    Unauthorized:
+      description: Token JWT inválido, expirado o no enviado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: "Token JWT inválido o expirado"
+            timestamp: "2026-05-03T10:00:00Z"
+
+    Forbidden:
+      description: Token válido pero el rol del usuario no tiene acceso a este recurso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: "Acceso denegado: rol insuficiente"
+            timestamp: "2026-05-03T10:00:00Z"
+
+    NotFound:
+      description: El recurso solicitado no existe
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: "Recurso no encontrado"
+            timestamp: "2026-05-03T10:00:00Z"
+
+    BadRequest:
+      description: Datos de entrada inválidos o incompletos
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: "El campo 'numero' es obligatorio"
+            timestamp: "2026-05-03T10:00:00Z"
+
+paths:
+
+  # ─────────────────────────────────────────────
+  # AUTENTICACIÓN
+  # ─────────────────────────────────────────────
+
+  /auth/login:
+    post:
+      tags: [Autenticación]
+      summary: Iniciar sesión y obtener JWT
+      description: |
+        Endpoint público. Valida credenciales y retorna un JWT Bearer.
+        El token tiene una validez de 8 horas.
+
+        Después de 5 intentos fallidos, la cuenta se bloquea automáticamente.
+      operationId: login
+      security: []
+      x-required-role: público
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              username: "jperez"
+              password: "MiClave123!"
+      responses:
+        "200":
+          description: Login exitoso — retorna JWT y datos del usuario
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/LoginResponseData'
+              example:
+                success: true
+                message: "Sesión iniciada exitosamente"
+                data:
+                  token: "eyJhbGciOiJIUzI1NiJ9..."
+                  tipo: "Bearer"
+                  nombre: "Juan Pérez"
+                  rol: "SECRETARIO"
+                  juzgado: "Juzgado Civil N°1"
+                timestamp: "2026-05-03T10:00:00Z"
+        "401":
+          description: Credenciales incorrectas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "423":
+          description: Cuenta bloqueada por 5 intentos fallidos consecutivos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      tags: [Autenticación]
+      summary: Cerrar sesión (revoca el JWT actual)
+      description: |
+        Agrega el JTI del token actual a la blacklist (`revoked_token`).
+        El token queda invalidado inmediatamente para futuros requests.
+      operationId: logout
+      x-required-role: cualquier rol autenticado
+      responses:
+        "200":
+          description: Sesión cerrada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/cambiar-password:
+    post:
+      tags: [Autenticación]
+      summary: Cambiar contraseña del usuario autenticado
+      description: |
+        Permite al usuario cambiar su propia contraseña.
+        Requiere enviar la contraseña actual para verificación.
+        La nueva contraseña debe tener mínimo 8 caracteres, una mayúscula y un número.
+      operationId: cambiarPassword
+      x-required-role: cualquier rol autenticado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CambiarPasswordRequest'
+      responses:
+        "200":
+          description: Contraseña actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        "400":
+          description: Contraseña actual incorrecta o nueva no cumple política de seguridad
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  # ─────────────────────────────────────────────
+  # EXPEDIENTES
+  # ─────────────────────────────────────────────
+
+  /expedientes/estadisticas:
+    get:
+      tags: [Expedientes]
+      summary: KPIs del dashboard principal
+      description: Retorna totales de expedientes por estado y total de documentos. Disponible para todos los roles autenticados.
+      operationId: getEstadisticas
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      responses:
+        "200":
+          description: Estadísticas del sistema
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/EstadisticasResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  /expedientes:
+    get:
+      tags: [Expedientes]
+      summary: Listar expedientes con paginación
+      description: Retorna lista paginada de expedientes. Todos los roles autenticados tienen acceso.
+      operationId: listarExpedientes
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: page
+          in: query
+          description: Número de página (base 0)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: Cantidad de registros por página
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: Lista paginada de expedientes
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/PagedResponse'
+                          - type: object
+                            properties:
+                              content:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/ExpedienteResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Expedientes]
+      summary: Crear nuevo expediente
+      description: Crea un expediente judicial. El número de expediente debe ser único en el sistema.
+      operationId: crearExpediente
+      x-required-role: SECRETARIO, ADMIN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpedienteRequest'
+            example:
+              numero: "2026-042-CR"
+              tipoProceso: 1
+              juzgado: 3
+              estado: 1
+              descripcion: "Demanda por incumplimiento contractual"
+              demandante: "María García López"
+              demandado: "Empresa XYZ S.A."
+      responses:
+        "201":
+          description: Expediente creado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ExpedienteResponse'
+        "400":
+          description: Datos inválidos o número de expediente duplicado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+
+  /expedientes/{id}:
+    get:
+      tags: [Expedientes]
+      summary: Obtener detalle de un expediente
+      description: Retorna todos los datos de un expediente por su ID interno.
+      operationId: getExpediente
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID interno del expediente
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Datos completos del expediente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ExpedienteResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Expedientes]
+      summary: Actualizar expediente existente
+      description: Modifica los datos de un expediente. Solo SECRETARIO y ADMIN pueden editar.
+      operationId: actualizarExpediente
+      x-required-role: SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID interno del expediente a actualizar
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpedienteRequest'
+      responses:
+        "200":
+          description: Expediente actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ExpedienteResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  # ─────────────────────────────────────────────
+  # BÚSQUEDA
+  # ─────────────────────────────────────────────
+
+  /expedientes/busqueda/rapida:
+    get:
+      tags: [Búsqueda]
+      summary: Búsqueda rápida por número de expediente
+      description: Busca expedientes cuyo número contenga el texto indicado. Retorna lista paginada. Disponible para todos los roles.
+      operationId: busquedaRapida
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: numero
+          in: query
+          required: true
+          description: Número o fragmento de número de expediente a buscar
+          schema:
+            type: string
+          example: "2024-001"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: Resultados de búsqueda paginados
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/PagedResponse'
+                          - type: object
+                            properties:
+                              content:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/ExpedienteResponse'
+        "400":
+          description: Parámetro 'numero' requerido no enviado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  /expedientes/busqueda/avanzada:
+    post:
+      tags: [Búsqueda]
+      summary: Búsqueda avanzada con múltiples criterios
+      description: |
+        Permite buscar expedientes combinando uno o más criterios: número, tipo de proceso,
+        estado, juzgado, demandante, demandado, rango de fechas. Todos los criterios son opcionales.
+        A más criterios, más precisa la búsqueda.
+      operationId: busquedaAvanzada
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BusquedaAvanzadaRequest'
+            example:
+              estado: 1
+              juzgado: 3
+              fechaDesde: "2026-01-01"
+              fechaHasta: "2026-05-03"
+              page: 0
+              size: 20
+      responses:
+        "200":
+          description: Resultados paginados de la búsqueda avanzada
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/PagedResponse'
+                          - type: object
+                            properties:
+                              content:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/ExpedienteResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  # ─────────────────────────────────────────────
+  # DOCUMENTOS
+  # ─────────────────────────────────────────────
+
+  /expedientes/{id}/documentos:
+    get:
+      tags: [Documentos]
+      summary: Listar documentos de un expediente
+      description: Retorna todos los documentos (no eliminados) asociados al expediente indicado.
+      operationId: listarDocumentos
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del expediente
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de documentos del expediente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/DocumentoResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags: [Documentos]
+      summary: Subir documento a un expediente
+      description: |
+        Carga un archivo al expediente indicado via multipart/form-data.
+
+        **Formatos permitidos:** PDF, Word (.docx), Excel (.xlsx), imágenes (JPG, PNG), video (MP4), audio (MP3, WAV)
+
+        **Tamaño máximo:** 100 MB por archivo
+      operationId: subirDocumento
+      x-required-role: AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del expediente al que se adjuntará el documento
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Archivo a subir
+                nombre:
+                  type: string
+                  description: Nombre descriptivo del documento (opcional, usa el nombre del archivo si se omite)
+                tipoDocumentoId:
+                  type: integer
+                  description: ID del tipo de documento (opcional)
+      responses:
+        "201":
+          description: Documento subido y vinculado al expediente exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/DocumentoResponse'
+        "400":
+          description: Archivo inválido, formato no permitido o supera el límite de 100 MB
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /documentos/{id}:
+    get:
+      tags: [Documentos]
+      summary: Obtener metadatos de un documento
+      description: Retorna los metadatos del documento (nombre, tipo, tamaño, fecha). No retorna el contenido binario — usar `/contenido` o `/stream` para eso.
+      operationId: getDocumento
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del documento
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Metadatos del documento
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/DocumentoResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags: [Documentos]
+      summary: Eliminar documento (soft delete)
+      description: |
+        Marca el documento como eliminado (soft delete — no se borra físicamente del storage).
+        El documento deja de aparecer en los listados pero sus datos se conservan.
+      operationId: eliminarDocumento
+      x-required-role: SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del documento a eliminar
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Documento marcado como eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /documentos/{id}/contenido:
+    get:
+      tags: [Documentos]
+      summary: Descargar o visualizar el contenido del documento
+      description: |
+        Retorna el binario del documento.
+
+        - `disposition=inline` — para el visor integrado (el navegador lo muestra en pantalla)
+        - `disposition=attachment` — para forzar descarga al disco del usuario
+      operationId: getDocumentoContenido
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del documento
+          schema:
+            type: integer
+        - name: disposition
+          in: query
+          description: Modo de entrega del archivo
+          schema:
+            type: string
+            enum: [inline, attachment]
+            default: inline
+      responses:
+        "200":
+          description: Contenido binario del archivo con Content-Type y Content-Disposition apropiados
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /documentos/{id}/stream:
+    get:
+      tags: [Documentos]
+      summary: Streaming progresivo del documento (Range Requests)
+      description: |
+        Soporta HTTP Range Requests para streaming de archivos grandes (video, audio).
+        El cliente puede solicitar rangos de bytes específicos para reproducción progresiva.
+        Retorna 206 Partial Content con el rango solicitado.
+      operationId: streamDocumento
+      x-required-role: CONSULTA, AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del documento
+          schema:
+            type: integer
+        - name: Range
+          in: header
+          description: "Rango de bytes solicitado (ej: bytes=0-1023)"
+          schema:
+            type: string
+          example: "bytes=0-1048575"
+      responses:
+        "206":
+          description: Contenido parcial (streaming) — respuesta a Range Request
+          headers:
+            Content-Range:
+              schema:
+                type: string
+              description: "Rango retornado (ej: bytes 0-1023/10240)"
+            Accept-Ranges:
+              schema:
+                type: string
+              description: Siempre "bytes"
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "200":
+          description: Contenido completo si no se envió header Range
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /documentos/{id}/impresion:
+    post:
+      tags: [Documentos]
+      summary: Generar versión PDF para impresión
+      description: |
+        Convierte el documento a PDF (si no es PDF ya) usando LibreOffice CLI.
+        El PDF generado se retorna directamente como binario listo para imprimir o descargar.
+
+        Soporta conversión de: Word (.docx), Excel (.xlsx), imágenes.
+        Si el documento ya es PDF, lo retorna directamente.
+      operationId: generarImpresion
+      x-required-role: AUXILIAR, SECRETARIO, ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del documento a convertir
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: PDF generado listo para descarga o impresión
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Formato de documento no soportado para conversión a PDF
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  # ─────────────────────────────────────────────
+  # CATÁLOGOS
+  # ─────────────────────────────────────────────
+
+  /catalogos/tipos-proceso:
+    get:
+      tags: [Catálogos]
+      summary: Listar tipos de proceso judicial
+      description: Retorna el catálogo de tipos de proceso disponibles. Usado para poblar selectores en formularios.
+      operationId: getTiposProceso
+      x-required-role: cualquier rol autenticado
+      responses:
+        "200":
+          description: Lista completa de tipos de proceso
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CatalogoItem'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  /catalogos/estados-expediente:
+    get:
+      tags: [Catálogos]
+      summary: Listar estados de expediente
+      description: Retorna el catálogo de estados disponibles para los expedientes.
+      operationId: getEstadosExpediente
+      x-required-role: cualquier rol autenticado
+      responses:
+        "200":
+          description: Lista completa de estados
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CatalogoItem'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  /catalogos/juzgados:
+    get:
+      tags: [Catálogos]
+      summary: Listar juzgados disponibles
+      description: Retorna el catálogo de juzgados registrados en el sistema.
+      operationId: getJuzgados
+      x-required-role: cualquier rol autenticado
+      responses:
+        "200":
+          description: Lista completa de juzgados
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CatalogoItem'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  # ─────────────────────────────────────────────
+  # ADMINISTRACIÓN — USUARIOS
+  # ─────────────────────────────────────────────
+
+  /admin/usuarios:
+    get:
+      tags: ["Administración — Usuarios"]
+      summary: Listar usuarios con paginación
+      description: Retorna lista paginada de todos los usuarios del sistema. Solo accesible por ADMIN.
+      operationId: listarUsuarios
+      x-required-role: ADMIN
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: Lista paginada de usuarios
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/PagedResponse'
+                          - type: object
+                            properties:
+                              content:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/UsuarioResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      tags: ["Administración — Usuarios"]
+      summary: Crear nuevo usuario
+      description: |
+        Crea un nuevo usuario en el sistema con el rol y juzgado indicados.
+        Se genera una contraseña temporal que el usuario deberá cambiar en su primer login.
+      operationId: crearUsuario
+      x-required-role: ADMIN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+            example:
+              username: "mlopez"
+              nombre: "María López"
+              rolId: 2
+              juzgadoId: 1
+      responses:
+        "201":
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UsuarioResponse'
+        "400":
+          description: Datos inválidos o username ya existe en el sistema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/usuarios/{id}:
+    get:
+      tags: ["Administración — Usuarios"]
+      summary: Obtener datos de un usuario
+      description: Retorna los datos completos de un usuario por su ID.
+      operationId: getUsuario
+      x-required-role: ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UsuarioResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: ["Administración — Usuarios"]
+      summary: Actualizar datos de un usuario
+      description: Modifica el nombre, rol o juzgado asignado de un usuario existente.
+      operationId: actualizarUsuario
+      x-required-role: ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a actualizar
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioRequest'
+      responses:
+        "200":
+          description: Usuario actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UsuarioResponse'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /admin/usuarios/{id}/reset-password:
+    post:
+      tags: ["Administración — Usuarios"]
+      summary: Resetear contraseña de un usuario
+      description: |
+        Genera una nueva contraseña temporal para el usuario.
+        La contraseña temporal se retorna en la respuesta y el administrador debe comunicársela al usuario.
+        El usuario deberá cambiar esta contraseña en su próximo login.
+      operationId: resetPassword
+      x-required-role: ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario cuya contraseña se reseteará
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Contraseña reseteada — nueva contraseña temporal incluida en la respuesta
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          passwordTemporal:
+                            type: string
+                            description: Contraseña temporal a comunicar al usuario
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /admin/usuarios/{id}/bloquear:
+    post:
+      tags: ["Administración — Usuarios"]
+      summary: Bloquear cuenta de usuario
+      description: |
+        Bloquea la cuenta del usuario. El usuario no podrá iniciar sesión hasta que un ADMIN
+        desbloquee la cuenta con el endpoint `/desbloquear`.
+      operationId: bloquearUsuario
+      x-required-role: ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a bloquear
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Cuenta bloqueada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /admin/usuarios/{id}/desbloquear:
+    post:
+      tags: ["Administración — Usuarios"]
+      summary: Desbloquear cuenta de usuario
+      description: |
+        Reactiva una cuenta bloqueada. El usuario podrá iniciar sesión normalmente.
+        También resetea el contador de intentos fallidos.
+      operationId: desbloquearUsuario
+      x-required-role: ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a desbloquear
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Cuenta desbloqueada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  # ─────────────────────────────────────────────
+  # ADMINISTRACIÓN — AUDITORÍA
+  # ─────────────────────────────────────────────
+
+  /admin/auditoria:
+    get:
+      tags: ["Administración — Auditoría"]
+      summary: Consultar registros de auditoría con filtros
+      description: |
+        Retorna el log de auditoría con soporte de filtros opcionales.
+        La tabla de auditoría es inmutable (solo INSERT, nunca UPDATE/DELETE).
+        Solo accesible por ADMIN.
+      operationId: listarAuditoria
+      x-required-role: ADMIN
+      parameters:
+        - name: usuario
+          in: query
+          description: Filtrar por username del usuario que realizó la acción
+          schema:
+            type: string
+        - name: accion
+          in: query
+          description: Filtrar por código de acción
+          schema:
+            type: string
+        - name: fechaDesde
+          in: query
+          description: Filtrar desde esta fecha (inclusive)
+          schema:
+            type: string
+            format: date
+        - name: fechaHasta
+          in: query
+          description: Filtrar hasta esta fecha (inclusive)
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        "200":
+          description: Registros de auditoría paginados
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        allOf:
+                          - $ref: '#/components/schemas/PagedResponse'
+                          - type: object
+                            properties:
+                              content:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/AuditoriaResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/auditoria/{id}:
+    get:
+      tags: ["Administración — Auditoría"]
+      summary: Obtener detalle de un registro de auditoría
+      description: Retorna el detalle completo de un registro de auditoría específico.
+      operationId: getAuditoria
+      x-required-role: ADMIN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del registro de auditoría
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Detalle del registro de auditoría
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AuditoriaResponse'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/Forbidden'
+        "404":
+          $ref: '#/components/responses/NotFound'
