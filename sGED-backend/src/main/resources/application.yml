@@ -14,6 +14,8 @@ spring:
       maximum-pool-size: ${DB_POOL_MAX:10}
       minimum-idle: ${DB_POOL_MIN:2}
       connection-timeout: ${DB_POOL_TIMEOUT_MS:30000}
+      keepalive-time: 60000
+      max-lifetime: 1800000
   jpa:
     open-in-view: false
     hibernate:
