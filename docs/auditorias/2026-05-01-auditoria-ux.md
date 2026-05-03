@@ -62,7 +62,7 @@ Se identificaron **18 hallazgos** clasificados por severidad:
 - [x] Header X-SGED-Conversion-Failed + CORS (`6bca61a`)
 - [x] p-toast + descarga automática en viewer (`f0d0cbe`)
 - [x] Fix: isWord + fetch gate + sanitizeFilename + profiles (`285180a`)
-- ⏳ Pendiente: validar backend build + conversión real en deploy VPS
+- [x] Deploy VPS validado: mvn package ✅, LibreOffice instalado ✅, contenedores up ✅
 
 ## Referencia de Skills Utilizados
 
