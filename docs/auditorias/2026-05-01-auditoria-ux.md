@@ -53,11 +53,16 @@ Se identificaron **18 hallazgos** clasificados por severidad:
 - [x] Confirmación de logout con p-confirmDialog (`48c587e`)
 - [x] Fix: scope estadísticas por juzgado + race condition filtros (`ebee90d`)
 
-### Sprint UX-4: Word → PDF
-- [ ] Decidir: LibreOffice vs docx4j (Java-pura)
-- [ ] Implementar conversión confiable
-- [ ] Asegurar conversion.enabled=true
-- [ ] Feedback de error al usuario en frontend
+### Sprint UX-4: Word → PDF ✅ COMPLETADO
+**Branch:** `feature/sprint-ux-4-word-to-pdf` → merged a `main`  
+**Code Review:** opus — detectó bug end-to-end (viewer nunca solicitaba Word docs) + 3 highs + 3 mediums
+**Decisión:** LibreOffice headless (Jammy, libreoffice-writer only, ~330MB imagen)
+- [x] LibreOffice Writer en Dockerfile (`4a98fb6`)
+- [x] JODConverter config con toggle env var (`3f3b3a1`)
+- [x] Header X-SGED-Conversion-Failed + CORS (`6bca61a`)
+- [x] p-toast + descarga automática en viewer (`f0d0cbe`)
+- [x] Fix: isWord + fetch gate + sanitizeFilename + profiles (`285180a`)
+- ⏳ Pendiente: validar backend build + conversión real en deploy VPS
 
 ## Referencia de Skills Utilizados
 
