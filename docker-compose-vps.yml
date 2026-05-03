@@ -20,7 +20,7 @@ services:
       SPRING_FLYWAY_ENABLED: "false"
       JWT_SECRET: sged-vps-lite-secret-key-minimum-32-chars-ok
       DOCUMENTOS_BASE_PATH: /opt/sged-docs
-      DOCUMENTOS_CONVERSION_ENABLED: "false"
+      DOCUMENTOS_CONVERSION_ENABLED: "true"
       JAVA_OPTS: "-Xms128m -Xmx256m --add-opens java.base/sun.security.util=ALL-UNNAMED"
     deploy:
       resources:
