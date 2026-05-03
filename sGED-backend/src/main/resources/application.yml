@@ -38,6 +38,13 @@ sged:
         enabled: ${DOCUMENTOS_CONVERSION_ENABLED:true}
         temp-suffix: ${DOCUMENTOS_CONVERSION_SUFFIX:.preview.pdf}
 
+jodconverter:
+  local:
+    enabled: ${DOCUMENTOS_CONVERSION_ENABLED:true}
+    office-home: ${LIBREOFFICE_HOME:/usr/lib/libreoffice}
+    max-tasks-per-process: 10
+    process-timeout: 30000
+
 management:
   endpoints:
     web:

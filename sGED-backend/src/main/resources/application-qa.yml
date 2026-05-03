@@ -52,6 +52,11 @@ sged:
         enabled: ${DOCUMENTOS_CONVERSION_ENABLED:false}
         temp-suffix: ${DOCUMENTOS_CONVERSION_SUFFIX:.preview.pdf}
 
+# Disable JODConverter in QA: no LibreOffice instalado en runners H2
+jodconverter:
+  local:
+    enabled: false
+
 # ========================================
 # Management & Monitoring
 # ========================================

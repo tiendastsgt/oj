@@ -24,3 +24,7 @@ sged:
       max-size-bytes: ${DOCUMENTOS_MAX_SIZE:104857600}
       conversion:
         enabled: false
+
+jodconverter:
+  local:
+    enabled: false

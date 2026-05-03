@@ -5,6 +5,11 @@ import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { Documento } from '../../features/documentos/models/documento.model';
 
+export interface ContenidoBlobResult {
+  url: string;
+  conversionFailed: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -63,12 +68,15 @@ export class DocumentosService {
 
   /**
    * Fetches document content as Blob via HttpClient (JWT-authenticated).
-   * Returns an Observable<string> which resolves to a safe ObjectURL.
+   * Returns url + conversionFailed flag (from X-SGED-Conversion-Failed header).
    */
-  fetchContenidoBlob(id: number, modo: 'inline' | 'attachment' = 'inline'): Observable<string> {
+  fetchContenidoBlob(id: number, modo: 'inline' | 'attachment' = 'inline'): Observable<ContenidoBlobResult> {
     const url = `${this.baseUrl}/documentos/${id}/contenido?modo=${modo}`;
-    return this.http.get(url, { responseType: 'blob' }).pipe(
-      map(blob => URL.createObjectURL(blob))
+    return this.http.get(url, { responseType: 'blob', observe: 'response' }).pipe(
+      map(response => ({
+        url: URL.createObjectURL(response.body!),
+        conversionFailed: response.headers.get('X-SGED-Conversion-Failed') === 'true'
+      }))
     );
   }
 

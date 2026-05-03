@@ -95,11 +95,14 @@ public class DocumentoController {
             return buildRangeResponse(resource, headers, mediaType, disposition);
         }
 
-        return ResponseEntity.ok()
+        ResponseEntity.BodyBuilder builder = ResponseEntity.ok()
             .contentType(Objects.requireNonNull(mediaType))
             .header(HttpHeaders.CONTENT_DISPOSITION, disposition.toString())
-            .contentLength(resource.contentLength())
-            .body(resource);
+            .contentLength(resource.contentLength());
+        if (contenido.isConversionFailed()) {
+            builder = builder.header("X-SGED-Conversion-Failed", "true");
+        }
+        return builder.body(resource);
     }
 
     @GetMapping("/documentos/{id}/stream")

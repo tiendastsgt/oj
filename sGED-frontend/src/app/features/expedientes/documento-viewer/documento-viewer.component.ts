@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { MessageModule } from 'primeng/message';
+import { ToastModule } from 'primeng/toast';
 import { DocumentosService } from '../../../core/services/documentos.service';
 import { Documento } from '../../documentos/models/documento.model';
 
@@ -11,7 +13,8 @@ import { Documento } from '../../documentos/models/documento.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-documento-viewer',
   standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule, MessageModule],
+  imports: [CommonModule, CardModule, ButtonModule, MessageModule, ToastModule],
+  providers: [MessageService],
   templateUrl: './documento-viewer.component.html',
   styleUrls: ['./documento-viewer.component.scss']
 })
@@ -37,27 +40,50 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
 
   loading = false;
   error = '';
+  /** True when a Word doc was successfully converted to PDF on the backend */
+  previewAsPdf = false;
 
   /** Track whether we've set the src on native media elements */
   private mediaSrcApplied = false;
 
   constructor(
     private documentosService: DocumentosService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private messageService: MessageService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['documento']) {
       this.revocarBlobUrl();
       this.mediaSrcApplied = false;
+      this.previewAsPdf = false;
       const doc = this.documento;
-      if (doc && (this.isPdf || this.isImage || this.isAudio || this.isVideo)) {
+      if (doc && (this.isPdf || this.isImage || this.isAudio || this.isVideo || this.isWord)) {
         this.loading = true;
         this.error = '';
         this.documentosService.fetchContenidoBlob(doc.id).subscribe({
-          next: (url) => {
+          next: ({ url, conversionFailed }) => {
+            if (conversionFailed) {
+              this.messageService.add({
+                severity: 'warn',
+                summary: 'Vista previa no disponible',
+                detail: 'No se pudo previsualizar. Se descargará automáticamente.',
+                life: 5000
+              });
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = doc.nombreOriginal ?? 'documento';
+              a.click();
+              setTimeout(() => URL.revokeObjectURL(url), 5000);
+              this.error = 'No se pudo generar la vista previa. Se descargó el archivo original.';
+              this.loading = false;
+              this.cdr.markForCheck();
+              return;
+            }
             this.rawBlobUrl = url;
-            const viewerUrl = this.isPdf ? `${url}#view=FitH` : url;
+            this.previewAsPdf = this.isWord;
+            const showAsPdf = this.isPdf || this.previewAsPdf;
+            const viewerUrl = showAsPdf ? `${url}#view=FitH` : url;
             this.frameUrl = this.sanitizer.bypassSecurityTrustResourceUrl(viewerUrl);
             this.mediaUrl = this.sanitizer.bypassSecurityTrustUrl(url);
             this.loading = false;
@@ -113,6 +139,7 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
       this.frameUrl = null;
       this.mediaUrl = null;
       this.mediaSrcApplied = false;
+      this.previewAsPdf = false;
     }
   }
 
@@ -132,6 +159,10 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
     return ['mp4', 'webm', 'avi', 'mov'].includes(this.documento?.extension?.toLowerCase() ?? '');
   }
 
+  get isWord(): boolean {
+    return ['doc', 'docx'].includes(this.documento?.extension?.toLowerCase() ?? '');
+  }
+
   /** Whether the blob has been loaded (used in template to show media sections) */
   get blobReady(): boolean {
     return !!this.rawBlobUrl;
@@ -140,7 +171,7 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
   download(): void {
     if (!this.documento) return;
     this.documentosService.fetchContenidoBlob(this.documento.id, 'attachment').subscribe({
-      next: (url) => {
+      next: ({ url }) => {
         const a = document.createElement('a');
         a.href = url;
         a.download = this.documento?.nombreOriginal ?? 'documento';
@@ -153,6 +184,7 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
 
   get fileIcon(): string {
     if (this.isPdf) return 'pi-file-pdf';
+    if (this.isWord) return 'pi-file-word';
     if (this.isImage) return 'pi-image';
     if (this.isAudio) return 'pi-headphones';
     if (this.isVideo) return 'pi-video';

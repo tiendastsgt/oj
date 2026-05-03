@@ -1,3 +1,4 @@
+<p-toast position="top-right" />
 @if (documento) {
 <div class="elite-viewer">
 
@@ -53,8 +54,8 @@
   </div>
   }
 
-  <!-- PDF Viewer -->
-  @if (!loading && !error && isPdf && frameUrl) {
+  <!-- PDF Viewer (también para Word convertido a PDF en backend) -->
+  @if (!loading && !error && (isPdf || previewAsPdf) && frameUrl) {
   <div class="elite-body pdf-body">
     <iframe [src]="frameUrl" class="viewer-iframe" title="Visor PDF"></iframe>
   </div>
@@ -104,7 +105,7 @@
   }
 
   <!-- Unsupported format -->
-  @if (!loading && !error && !isPdf && !isImage && !isAudio && !isVideo) {
+  @if (!loading && !error && !isPdf && !isImage && !isAudio && !isVideo && !isWord) {
   <div class="elite-body viewer-centered">
     <div class="viewer-notice">
       <i class="pi pi-file"></i>
