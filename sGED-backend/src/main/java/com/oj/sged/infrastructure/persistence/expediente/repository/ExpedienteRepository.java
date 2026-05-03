@@ -18,7 +18,13 @@ public interface ExpedienteRepository extends JpaRepository<Expediente, Long> {
 
     Page<Expediente> findByNumeroContainingIgnoreCaseAndJuzgadoId(String numero, Long juzgadoId, Pageable pageable);
 
-    @Query("""
+    long countByEstadoId(Long estadoId);
+
+    long countByJuzgadoId(Long juzgadoId);
+
+    long countByJuzgadoIdAndEstadoId(Long juzgadoId, Long estadoId);
+
+    @Query(value = """
         select e from Expediente e
         where (:numero is null or e.numero like concat('%', :numero, '%'))
           and (:fechaDesde is null or e.fechaInicio >= :fechaDesde)
@@ -26,13 +32,16 @@ public interface ExpedienteRepository extends JpaRepository<Expediente, Long> {
           and (:tipoProcesoId is null or e.tipoProcesoId = :tipoProcesoId)
           and (:estadoId is null or e.estadoId = :estadoId)
           and (:juzgadoId is null or e.juzgadoId = :juzgadoId)
+        """,
+        countQuery = """
+        select count(e) from Expediente e
+        where (:numero is null or e.numero like concat('%', :numero, '%'))
+          and (:fechaDesde is null or e.fechaInicio >= :fechaDesde)
+          and (:fechaHasta is null or e.fechaInicio <= :fechaHasta)
+          and (:tipoProcesoId is null or e.tipoProcesoId = :tipoProcesoId)
+          and (:estadoId is null or e.estadoId = :estadoId)
+          and (:juzgadoId is null or e.juzgadoId = :juzgadoId)
         """)
-    long countByEstadoId(Long estadoId);
-
-    long countByJuzgadoId(Long juzgadoId);
-
-    long countByJuzgadoIdAndEstadoId(Long juzgadoId, Long estadoId);
-
     Page<Expediente> buscarAvanzada(
         @Param("numero") String numero,
         @Param("fechaDesde") LocalDate fechaDesde,
