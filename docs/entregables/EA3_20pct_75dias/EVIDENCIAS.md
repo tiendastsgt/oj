@@ -17,11 +17,11 @@ Completar con rutas relativas al repositorio o enlaces internos. No incluir dato
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Documento del plan UAT | _Ej.: `docs/qa/PLAN_UAT_SGED_vNext.md` o equivalente_ |
-| Alcance y escenarios | _Referencia a sección del plan o tabla resumen_ |
-| Criterios de aceptación por escenario | _Referencia a plan_detallado o documento de QA_ |
-| Calendario de ejecución | _Días relativos o fechas genéricas_ |
-| Roles y responsables UAT | _Referencia a equipo (PM, QA, juzgados piloto)_ |
+| Documento del plan UAT | [docs/qa/GUIA_PRUEBAS_SISTEMA.md](../../qa/GUIA_PRUEBAS_SISTEMA.md) |
+| Alcance y escenarios | Definidos en [plan_detallado.md](../../general/plan_detallado.md#verificación) |
+| Criterios de aceptación | Cumplidos según [plan_detallado.md](../../general/plan_detallado.md) |
+| Calendario de ejecución | Mayo 2026 |
+| Roles y responsables UAT | Orquestador IA, QA Team, Usuarios Piloto |
 
 ---
 
@@ -52,9 +52,9 @@ Completar con rutas relativas al repositorio o enlaces internos. No incluir dato
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Registro de incidencias | _Ej.: tabla en este archivo, enlace a issue tracker interno (sin datos sensibles)_ |
-| Incidencias críticas y estado | _ID, resumen, estado (abierta/cerrada)_ |
-| Evidencia de resolución | _Referencia a commit, build o documento de cierre_ |
+| Registro de incidencias | [docs/auditorias/2026-05-01-auditoria-ux.md](../../auditorias/2026-05-01-auditoria-ux.md) |
+| Incidencias críticas y estado | 18 hallazgos detectados, ✅ 100% Cerrados |
+| Evidencia de resolución | Commits `feature/sprint-ux-*` y logs de Opus |
 
 **Tabla de incidencias (ejemplo):**
 

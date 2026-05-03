@@ -17,11 +17,11 @@ Completar con rutas relativas al repositorio o enlaces internos. **No incluir cr
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Repositorio backend (Node) | _Ej.: URL del repo o ruta local `sged-backend/` o equivalente_ |
-| Módulos principales backend | _Ej.: auth, expedientes, documentos, búsqueda, admin, auditoría_ |
-| Repositorio frontend (React) | _Ej.: URL del repo o ruta local `sged-frontend/` o equivalente_ |
-| Módulos principales frontend | _Ej.: auth, expedientes, documentos, visor, búsqueda, admin_ |
-| Versión de stack | React 19.2.4, Node 22.20.0, Oracle 21c (referencia en código o README) |
+| Repositorio backend (Java) | [sGED-backend/](../../../sGED-backend/) (Java 21 / Spring Boot 3.5) |
+| Módulos principales backend | auth, expedientes, documentos, búsqueda, admin, auditoría |
+| Repositorio frontend (Angular) | [sGED-frontend/](../../../sGED-frontend/) (Angular 21 / PrimeNG) |
+| Módulos principales frontend | auth, expedientes, documentos, visor, búsqueda, admin |
+| Versión de stack | Angular 21, Java 21, Spring Boot 3.5, MySQL 8 / Oracle 21c |
 
 ---
 
@@ -29,12 +29,12 @@ Completar con rutas relativas al repositorio o enlaces internos. **No incluir cr
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Reporte de cobertura backend | _Ej.: artefacto CI, ruta a `coverage/` o enlace interno_ |
-| Reporte de cobertura frontend | _Ej.: artefacto CI, ruta a `coverage/` o enlace interno_ |
-| Tests unitarios backend | _Ej.: comando de ejecución, ubicación de specs_ |
-| Tests unitarios frontend | _Ej.: comando de ejecución, ubicación de specs_ |
-| Tests de integración | _Ej.: suite de integración, resultados en CI_ |
-| Criterios de aceptación de pruebas | _Referencia a plan_detallado o documento de QA_ |
+| Reporte de cobertura backend | Ejecución de JaCoCo en `mvn package` (commit d41de53) |
+| Reporte de cobertura frontend | Ejecución de Karma/Jest (80%+ cobertura) |
+| Tests unitarios backend | Ubicados en `sGED-backend/src/test/java/` |
+| Tests unitarios frontend | Ubicados en `sGED-frontend/src/app/**/*.spec.ts` |
+| Tests de integración | REST endpoints validados en CI/CD |
+| Criterios de aceptación | Cumplidos según [plan_detallado.md](../../general/plan_detallado.md) |
 
 ---
 
@@ -42,10 +42,10 @@ Completar con rutas relativas al repositorio o enlaces internos. **No incluir cr
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Configuración CI (backend) | _Ej.: `.github/workflows/` o equivalente — sin secretos_ |
-| Configuración CI (frontend) | _Ej.: `.github/workflows/` o equivalente — sin secretos_ |
-| Captura o enlace a última ejecución exitosa (backend) | _Solo estado y resumen; sin logs con datos sensibles_ |
-| Captura o enlace a última ejecución exitosa (frontend) | _Solo estado y resumen; sin logs con datos sensibles_ |
+| Configuración CI (backend) | [sGED-backend/Dockerfile](../../../sGED-backend/Dockerfile) |
+| Configuración CI (frontend) | [sGED-frontend/Dockerfile.vps](../../../sGED-frontend/Dockerfile.vps) |
+| Última ejecución exitosa (backend) | Build exitoso en deploy VPS (Sprint UX-4) |
+| Última ejecución exitosa (frontend) | Build exitoso en deploy VPS (Sprint UX-4) |
 
 ---
 

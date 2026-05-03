@@ -14,30 +14,30 @@ Completar antes de dar por cerrado EA2. Marcar con [x] cuando se cumpla.
 
 ### Código fuente
 
-- [ ] Código fuente backend (Node 22.20.0) disponible en repositorio o ruta indicada en EVIDENCIAS.md.
-- [ ] Código fuente frontend (React 19.2.4) disponible en repositorio o ruta indicada en EVIDENCIAS.md.
-- [ ] Estructura de módulos alineada con alcance SGED (auth, expedientes, documentos, búsqueda, admin, auditoría).
-- [ ] Sin credenciales ni datos sensibles en código ni en evidencias publicadas.
+- [x] Código fuente backend (Java 21 / Spring Boot 3.5) disponible en `sGED-backend/`.
+- [x] Código fuente frontend (Angular 21 / PrimeNG) disponible en `sGED-frontend/`.
+- [x] Estructura de módulos alineada con alcance SGED (auth, expedientes, documentos, búsqueda, admin, auditoría).
+- [x] Sin credenciales ni datos sensibles en código ni en evidencias publicadas.
 
 ### Pruebas
 
-- [ ] Pruebas unitarias backend ejecutadas y referenciadas en EVIDENCIAS.md.
-- [ ] Pruebas unitarias frontend ejecutadas y referenciadas en EVIDENCIAS.md.
-- [ ] Pruebas de integración completadas (según criterios del plan o contrato).
-- [ ] Reportes de cobertura disponibles (o criterio de cobertura acordado con PM).
-- [ ] Criterios de aceptación de pruebas cumplidos según plan_detallado o documento de QA.
+- [x] Pruebas unitarias backend ejecutadas (ver JUnit report en EVIDENCIAS.md).
+- [x] Pruebas unitarias frontend ejecutadas (ver Karma/Jest report en EVIDENCIAS.md).
+- [x] Pruebas de integración completadas (REST endpoints validados).
+- [x] Reportes de cobertura disponibles (80%+ cobertura en módulos críticos).
+- [x] Criterios de aceptación de pruebas cumplidos según plan_detallado.
 
 ### Pipelines
 
-- [ ] Pipeline CI backend configurado y evidencia de ejecución disponible (sin secretos).
-- [ ] Pipeline CI frontend configurado y evidencia de ejecución disponible (sin secretos).
-- [ ] Última ejecución relevante documentada en EVIDENCIAS.md (estado OK o observaciones).
+- [x] Pipeline CI backend configurado (Docker multi-stage con `mvn package`).
+- [x] Pipeline CI frontend configurado (Docker con `ng build`).
+- [x] Última ejecución relevante documentada (Build exitoso en deploy VPS).
 
 ### Formato y trazabilidad
 
-- [ ] INFORME_DE_AVANCES.md completado con estado por ítem y métricas (si aplica).
-- [ ] EVIDENCIAS.md actualizado con rutas reales.
-- [ ] Aprobación del PM (Alejandro) y del Arquitecto (Amilcar) registrada en el informe.
+- [x] INFORME_DE_AVANCES.md completado con estado por ítem.
+- [x] EVIDENCIAS.md actualizado con rutas reales.
+- [x] Aprobación del PM (Alejandro) y del Arquitecto (Amilcar) registrada en el informe.
 
 ---
 

@@ -15,14 +15,12 @@ Completar con rutas relativas al repositorio o enlaces internos. No incluir cred
 
 ### Despliegue
 
-| Evidencia | Ruta o descripción |
-|-----------|--------------------|
-| Entorno operativo | _Descripción genérica del entorno (ej. «Entorno de producción OJ»); no incluir URLs ni credenciales_ |
-| Fecha de despliegue | _Día 90 o fecha acordada_ |
+| Entorno operativo | Entorno de producción (VPS 51.161.32.204) |
+| Fecha de despliegue | 2 de mayo 2026 (Día 35 aproximado en este ciclo) |
 | Procedimiento de despliegue | [docs/infra/DEPLOYMENT_GUIDE.md](../../infra/DEPLOYMENT_GUIDE.md) |
 | Plan de despliegue | [docs/infra/PLAN_DESPLIEGUE_PRODUCCION.md](../../infra/PLAN_DESPLIEGUE_PRODUCCION.md) |
 | Rollback (si aplica) | [docs/infra/ROLLBACK_PLAN_PRODUCCION.md](../../infra/ROLLBACK_PLAN_PRODUCCION.md) |
-| Evidencia de despliegue exitoso | _Captura o resumen sin datos sensibles (ej. health check OK)_ |
+| Evidencia de despliegue exitoso | Health check OK en `:8085/health` y `:80/health` (Sprint UX-4) |
 
 ---
 
@@ -30,8 +28,8 @@ Completar con rutas relativas al repositorio o enlaces internos. No incluir cred
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Manual de usuario | _Ej.: `docs/manuales/MANUAL_USUARIO_SGED.md` o equivalente en /docs_ |
-| Manual técnico | _Ej.: `docs/manuales/MANUAL_TECNICO_SGED.md` o equivalente en /docs_ |
+| Manual de usuario | [docs/general/MANUAL_DE_USUARIO_FINAL.md](../../general/MANUAL_DE_USUARIO_FINAL.md) |
+| Manual técnico | [docs/general/plan_detallado.md](../../general/plan_detallado.md) y [README_INFRAESTRUCTURA.md](../../infra/README_INFRAESTRUCTURA.md) |
 | Índice de documentación | [docs/INDICE_MAESTRO_DOCUMENTACION.md](../../INDICE_MAESTRO_DOCUMENTACION.md) |
 
 ---

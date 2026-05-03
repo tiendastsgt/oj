@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo
 
-Este informe documenta el avance correspondiente al **Entregable EA1 (20%)**, previsto para el **Día 35** respecto a la fecha de firma del contrato. EA1 comprende la documentación de arquitectura, modelos de datos, prototipos y especificaciones técnicas aprobadas, alineadas al proyecto SGED vNext (React 19.2.4 + Node 22.20.0 + Oracle 21c).
+Este informe documenta el avance correspondiente al **Entregable EA1 (20%)**, previsto para el **Día 35** respecto a la fecha de firma del contrato. EA1 comprende la documentación de arquitectura, modelos de datos, prototipos y especificaciones técnicas aprobadas, alineadas al proyecto SGED (Angular 21 + Java 21 + Oracle 21c).
 
 **Equipo responsable de la documentación:**
 - Amilcar Gil González (Arquitecto)
@@ -35,10 +35,10 @@ Este informe documenta el avance correspondiente al **Entregable EA1 (20%)**, pr
 
 | Ítem | Estado | Observaciones |
 |------|--------|---------------|
-| Arquitectura | [ ] Pendiente / [ ] En revisión / [ ] Aprobado | |
-| Modelos de datos | [ ] Pendiente / [ ] En revisión / [ ] Aprobado | |
-| Prototipos | [ ] Pendiente / [ ] En revisión / [ ] Aprobado / [ ] N/A | |
-| Especificaciones técnicas | [ ] Pendiente / [ ] En revisión / [ ] Aprobado | |
+| Arquitectura | [x] Aprobado | Ver diagramas y plan detallado |
+| Modelos de datos | [x] Aprobado | Migraciones Flyway implementadas |
+| Prototipos | [x] Aprobado | Ver Auditoría UX y Elite UX System |
+| Especificaciones técnicas | [x] Aprobado | Plan detallado y Roadmap actualizados |
 
 ---
 
@@ -59,6 +59,6 @@ _(Describir aquí cualquier desvío respecto al plan, retrasos o acuerdos con el
 
 **Documentos de referencia (no duplicar contenido):**
 - [Plan detallado](../../general/plan_detallado.md)
-- [Roadmap SGED vNext](../../general/ROADMAP_PROYECTO_SGED_vNext_React_Node.md)
+- [Roadmap SGED](../../general/ROADMAP_PROYECTO_SGED.md)
 - [Stack técnico](../../general/STACK_TECNICO_ACTUALIZADO.md)
 - [Diagramas](../../diagramas/)

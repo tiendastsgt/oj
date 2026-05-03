@@ -17,9 +17,9 @@ Completar con rutas relativas a la raíz del repositorio o enlaces internos. No 
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Documento de arquitectura | _Ej.: `docs/general/ARQUITECTURA_SGED_vNext.md` o equivalente_ |
+| Documento de arquitectura | [docs/general/plan_detallado.md](../../general/plan_detallado.md) |
 | Diagramas de referencia | [docs/diagramas/](../../diagramas/) — `diagram_1.puml` … `diagram_6.puml` |
-| Diagrama de despliegue | _Ruta si existe_ |
+| Diagrama de despliegue | Incluido en [plan_detallado.md](../../general/plan_detallado.md) y [README_INFRAESTRUCTURA.md](../../infra/README_INFRAESTRUCTURA.md) |
 
 ---
 
@@ -27,9 +27,9 @@ Completar con rutas relativas a la raíz del repositorio o enlaces internos. No 
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Esquema Oracle (DDL o referencia) | _Ej.: migraciones Flyway en repo backend o doc en `docs/`_ |
-| Diagrama ER o catálogo de tablas | _Ruta si existe_ |
-| Documentación de entidades principales | _Referencia a plan_detallado o doc específico_ |
+| Esquema Oracle (Flyway) | [sGED-backend/src/main/resources/db/migration/](../../../sGED-backend/src/main/resources/db/migration/) |
+| Catálogo de tablas | Descrito en [plan_detallado.md](../../general/plan_detallado.md#modelos-de-datos) |
+| Entidades principales | Referenciadas en `plan_detallado.md` (Expediente, Documento, Usuario, Auditoría) |
 
 ---
 
@@ -37,8 +37,8 @@ Completar con rutas relativas a la raíz del repositorio o enlaces internos. No 
 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
-| Prototipos UX / wireframes | _Enlace a carpeta, Figma, o indicar «pendiente» / «N/A»_ |
-| Criterios de usabilidad acordados | _Referencia a plan o documento de UX_ |
+| Prototipos UX / Auditoría | [docs/auditorias/2026-05-01-auditoria-ux.md](../../auditorias/2026-05-01-auditoria-ux.md) |
+| Criterios de usabilidad | Elite UX Design System (implementado en Angular/PrimeNG) |
 
 ---
 
@@ -47,9 +47,9 @@ Completar con rutas relativas a la raíz del repositorio o enlaces internos. No 
 | Evidencia | Ruta o descripción |
 |-----------|--------------------|
 | Plan detallado (alcance y requisitos) | [docs/general/plan_detallado.md](../../general/plan_detallado.md) |
-| Roadmap vNext (fases y criterios) | [docs/general/ROADMAP_PROYECTO_SGED_vNext_React_Node.md](../../general/ROADMAP_PROYECTO_SGED_vNext_React_Node.md) |
+| Roadmap SGED (10 Sprints) | [docs/general/ROADMAP_PROYECTO_SGED.md](../../general/ROADMAP_PROYECTO_SGED.md) |
 | Stack técnico | [docs/general/STACK_TECNICO_ACTUALIZADO.md](../../general/STACK_TECNICO_ACTUALIZADO.md) |
-| Registro de decisiones de diseño | _Ruta si existe (ej. ADR en `docs/general/`)_ |
+| Decisiones de diseño (ADR) | Registradas en `plan_detallado.md` y Auditoría UX |
 
 ---
 

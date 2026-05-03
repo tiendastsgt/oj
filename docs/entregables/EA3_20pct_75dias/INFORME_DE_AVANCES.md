@@ -10,7 +10,7 @@
 
 ## 1. Resumen ejecutivo
 
-Este informe documenta el avance correspondiente al **Entregable EA3 (20%)**, previsto para el **Día 75** respecto a la fecha de firma del contrato. EA3 comprende el plan de pruebas de aceptación de usuario (UAT), la ejecución de UAT con juzgados piloto y el acta de resultados aprobada, así como la evidencia de incidencias detectadas y su resolución, alineado al proyecto SGED vNext.
+Este informe documenta el avance correspondiente al **Entregable EA3 (20%)**, previsto para el **Día 75** respecto a la fecha de firma del contrato. EA3 comprende el plan de pruebas de aceptación de usuario (UAT), la ejecución de UAT con juzgados piloto y el acta de resultados aprobada, así como la evidencia de incidencias detectadas y su resolución, alineado al proyecto SGED (Angular 21 + Java 21 + Oracle 21c).
 
 **Equipo responsable:**
 - Amilcar Gil González (Arquitecto)
@@ -34,10 +34,10 @@ Este informe documenta el avance correspondiente al **Entregable EA3 (20%)**, pr
 
 | Ítem | Estado | Observaciones |
 |------|--------|---------------|
-| Plan UAT | [ ] Pendiente / [ ] En revisión / [ ] Aprobado | |
-| Ejecución UAT | [ ] Pendiente / [ ] En curso / [ ] Completada | |
-| Acta de resultados | [ ] Pendiente / [ ] En revisión / [ ] Aprobada por piloto | |
-| Incidencias | [ ] Sin incidencias abiertas / [ ] Con incidencias (ver EVIDENCIAS) | |
+| Plan UAT | [x] Aprobado | Guía de pruebas de sistema vinculada |
+| Ejecución UAT | [x] Completada | Sprints UX-1 a UX-4 completados |
+| Acta de resultados | [ ] En revisión | Pendiente firma de PM y Pilotos |
+| Incidencias | [x] Sin incidencias abiertas | 18 hallazgos de auditoría resueltos |
 
 ---
 
@@ -71,5 +71,5 @@ _(Describir aquí cualquier desvío respecto al plan, retrasos o acuerdos con el
 
 **Documentos de referencia:**
 - [Plan detallado](../../general/plan_detallado.md)
-- [Roadmap SGED vNext](../../general/ROADMAP_PROYECTO_SGED_vNext_React_Node.md)
-- [Guía transición entornos](../../infra/GUIA_TRANSICION_ENTORNOS.md)
+- [Roadmap SGED](../../general/ROADMAP_PROYECTO_SGED.md)
+- [Auditoría UX](../../auditorias/2026-05-01-auditoria-ux.md)

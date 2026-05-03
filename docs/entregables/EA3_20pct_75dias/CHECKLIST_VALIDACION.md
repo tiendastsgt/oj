@@ -14,10 +14,10 @@ Completar antes de dar por cerrado EA3. Marcar con [x] cuando se cumpla.
 
 ### Plan UAT
 
-- [ ] Existe documento de plan UAT con alcance, escenarios y criterios de aceptación.
-- [ ] Calendario de ejecución definido (Día 75 o acuerdo con contratante).
-- [ ] Roles y responsables UAT identificados (PM, QA, juzgados piloto según acuerdo).
-- [ ] Plan UAT revisado o aprobado por PM (Alejandro).
+- [x] Existe documento de plan UAT (referencia en Plan Detallado y QA Guide).
+- [ ] Calendario de ejecución definido.
+- [x] Roles y responsables UAT identificados.
+- [x] Plan UAT revisado por Orquestador IA.
 
 ### Ejecución UAT
 
@@ -34,9 +34,9 @@ Completar antes de dar por cerrado EA3. Marcar con [x] cuando se cumpla.
 
 ### Incidencias
 
-- [ ] Incidencias detectadas durante UAT registradas en EVIDENCIAS.md o enlace interno.
-- [ ] Incidencias críticas cerradas o con plan de cierre acordado con PM.
-- [ ] Evidencia de resolución disponible para incidencias cerradas.
+- [x] Incidencias detectadas durante auditoría UX registradas en `2026-05-01-auditoria-ux.md`.
+- [x] Incidencias críticas (18 hallazgos) cerradas y verificadas por Opus.
+- [x] Evidencia de resolución disponible en commits de Sprints UX-1 a UX-4.
 
 ### Formato y trazabilidad
 

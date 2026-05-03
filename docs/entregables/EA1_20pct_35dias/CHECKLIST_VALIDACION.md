@@ -14,33 +14,33 @@ Completar antes de dar por cerrado EA1. Marcar con [x] cuando se cumpla.
 
 ### Documentación de arquitectura
 
-- [ ] Existe documento de arquitectura o referencia a diagramas oficiales en `docs/diagramas/`.
-- [ ] Los diagramas reflejan el stack vNext (React, Node, Oracle 21c, NGINX, Docker).
-- [ ] La arquitectura ha sido revisada por el Arquitecto (Amilcar Gil González).
+- [x] Existe documento de arquitectura o referencia a diagramas oficiales en `docs/diagramas/`.
+- [x] Los diagramas reflejan el stack vNext (Angular 21, Java 21, Spring Boot 3.5, Oracle 21c, NGINX, Docker).
+- [x] La arquitectura ha sido revisada por el Arquitecto (Amilcar Gil González).
 
 ### Modelos de datos
 
-- [ ] Existe documentación o migraciones que describan el esquema Oracle (tablas principales, auditoría, roles).
-- [ ] Se hace referencia a Flyway (o herramienta equivalente) y ubicación de scripts.
-- [ ] Modelos alineados con requisitos del plan detallado.
+- [x] Existe documentación o migraciones que describan el esquema Oracle (tablas principales, auditoría, roles).
+- [x] Se hace referencia a Flyway (o herramienta equivalente) y ubicación de scripts en `sGED-backend/src/main/resources/db/migration`.
+- [x] Modelos alineados con requisitos del plan detallado.
 
 ### Prototipos (si aplica)
 
-- [ ] Prototipos UX o wireframes disponibles y enlazados en EVIDENCIAS.md, o se registra N/A con justificación.
-- [ ] Criterios de usabilidad acordados con PM cuando aplique.
+- [x] Prototipos UX o wireframes disponibles y enlazados en EVIDENCIAS.md (ver Auditoría UX 2026-05-01).
+- [x] Criterios de usabilidad acordados con PM (Elite UX Design System).
 
 ### Especificaciones técnicas
 
-- [ ] Plan detallado referenciado y vigente para el alcance vNext.
-- [ ] Roadmap vNext referenciado (fases F0–F7 y criterios).
-- [ ] Stack técnico documentado (React 19.2.4, Node 22.20.0, Oracle 21c).
-- [ ] Decisiones de diseño relevantes registradas o referenciadas.
+- [x] Plan detallado referenciado y vigente para el alcance vNext en `docs/general/plan_detallado.md`.
+- [x] Roadmap vNext referenciado (Hoja de ruta 10 Sprints).
+- [x] Stack técnico documentado (Angular 21, Spring Boot 3.5, Java 21, Oracle 21c).
+- [x] Decisiones de diseño relevantes registradas o referenciadas (ADRs y Auditoría UX).
 
 ### Formato y trazabilidad
 
-- [ ] INFORME_DE_AVANCES.md completado con estado por ítem.
-- [ ] EVIDENCIAS.md actualizado con rutas reales (sin datos sensibles).
-- [ ] Aprobación del PM (Alejandro) y del Arquitecto (Amilcar) registrada en el informe.
+- [x] INFORME_DE_AVANCES.md completado con estado por ítem.
+- [x] EVIDENCIAS.md actualizado con rutas reales (sin datos sensibles).
+- [x] Aprobación del PM (Alejandro) y del Arquitecto (Amilcar) registrada en el informe.
 
 ---
 

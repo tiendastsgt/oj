@@ -35,10 +35,10 @@ Este informe documenta el avance correspondiente al **Entregable EA4 (15%)**, pr
 
 | Ítem | Estado | Observaciones |
 |------|--------|---------------|
-| Despliegue | [ ] Pendiente / [ ] En curso / [ ] Completado | |
-| Manual de usuario | [ ] Pendiente / [ ] En revisión / [ ] Publicado en /docs | |
-| Manual técnico | [ ] Pendiente / [ ] En revisión / [ ] Publicado en /docs | |
-| Capacitación | [ ] Pendiente / [ ] Realizada / [ ] Acta aprobada | |
+| Despliegue | [x] Completado | Desplegado en VPS 51.161.32.204 |
+| Manual de usuario | [x] Publicado en /docs | MANUAL_DE_USUARIO_FINAL.md |
+| Manual técnico | [x] Publicado en /docs | plan_detallado.md |
+| Capacitación | [ ] Pendiente | Programar sesión con usuarios piloto |
 
 ---
 
@@ -58,6 +58,8 @@ _(Describir aquí cualquier desvío respecto al plan, retrasos o acuerdos con el
 ---
 
 **Documentos de referencia:**
+- [Manual de usuario final](../../general/MANUAL_DE_USUARIO_FINAL.md)
 - [Plan de despliegue](../../infra/PLAN_DESPLIEGUE_PRODUCCION.md)
 - [Guía de despliegue](../../infra/DEPLOYMENT_GUIDE.md)
-- [Roadmap SGED vNext](../../general/ROADMAP_PROYECTO_SGED_vNext_React_Node.md)
+- [Plan detallado](../../general/plan_detallado.md)
+- [Roadmap SGED](../../general/ROADMAP_PROYECTO_SGED.md)

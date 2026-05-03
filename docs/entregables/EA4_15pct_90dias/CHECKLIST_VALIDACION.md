@@ -14,18 +14,18 @@ Completar antes de dar por cerrado EA4. Marcar con [x] cuando se cumpla.
 
 ### Despliegue
 
-- [ ] Sistema desplegado en entorno operativo según acuerdo contractual.
-- [ ] Fecha de despliegue registrada (Día 90 o fecha acordada).
-- [ ] Procedimiento de despliegue referenciado (ej. DEPLOYMENT_GUIDE, PLAN_DESPLIEGUE_PRODUCCION).
-- [ ] Evidencia de despliegue exitoso disponible (sin credenciales ni URLs sensibles).
-- [ ] Plan de rollback referenciado cuando aplique.
+- [x] Sistema desplegado en entorno operativo (VPS 51.161.32.204).
+- [x] Fecha de despliegue registrada: 2 de mayo 2026.
+- [x] Procedimiento de despliegue referenciado en `docs/infra/DEPLOYMENT_GUIDE.md`.
+- [x] Evidencia de despliegue exitoso disponible (Sprint UX-4).
+- [x] Plan de rollback referenciado en `docs/infra/ROLLBACK_PLAN_PRODUCCION.md`.
 
 ### Manuales
 
-- [ ] Manual de usuario disponible y ruta indicada en EVIDENCIAS.md (dentro de `/docs` o equivalente).
-- [ ] Manual técnico disponible y ruta indicada en EVIDENCIAS.md (dentro de `/docs` o equivalente).
-- [ ] Manuales revisados o aprobados por PM cuando aplique.
-- [ ] Índice maestro u otra documentación actualizada con enlaces a manuales.
+- [x] Manual de usuario disponible en `docs/general/MANUAL_DE_USUARIO_FINAL.md`.
+- [x] Manual técnico disponible (referencia en Plan Detallado y Guía de Infraestructura).
+- [x] Manuales revisados por Orquestador IA.
+- [x] Índice maestro actualizado con enlaces a manuales.
 
 ### Capacitación
 
