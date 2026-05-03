@@ -141,6 +141,7 @@ public class DocumentoService {
         String filename = documento.getNombreOriginal();
         String contentType = documento.getMimeType();
         boolean inline = !"attachment".equalsIgnoreCase(modo);
+        boolean conversionFailed = false;
 
         if (inline && isWord(documento.getExtension())) {
             try {
@@ -149,10 +150,11 @@ public class DocumentoService {
                 contentType = "application/pdf";
                 auditoriaService.registrar("VER_DOCUMENTO", "DOCUMENTO", documento.getId(),
                     "Visualización (convertido a PDF)", ip);
-                return new DocumentoContenido(converted, filename, contentType, true);
+                return new DocumentoContenido(converted, filename, contentType, true, false);
             } catch (Exception ex) {
-                logger.warn("No se pudo convertir el documento {} a PDF. Enviando archivo original. Causa: {}", documento.getId(), ex.getMessage());
+                logger.warn("conversion_failed documentId={} cause={}", documento.getId(), ex.getMessage());
                 inline = false;
+                conversionFailed = true;
             }
         }
 
@@ -162,7 +164,7 @@ public class DocumentoService {
             : "DESCARGAR_DOCUMENTO";
         auditoriaService.registrar(accion, "DOCUMENTO", documento.getId(),
             "Acceso a contenido", ip);
-        return new DocumentoContenido(path, filename, contentType, inline);
+        return new DocumentoContenido(path, filename, contentType, inline, conversionFailed);
     }
 
     @Transactional(readOnly = true)
@@ -176,7 +178,7 @@ public class DocumentoService {
         }
         auditoriaService.registrar("STREAM_DOCUMENTO", "DOCUMENTO", documento.getId(),
             "Reproducción multimedia", ip);
-        return new DocumentoContenido(path, documento.getNombreOriginal(), documento.getMimeType(), true);
+        return new DocumentoContenido(path, documento.getNombreOriginal(), documento.getMimeType(), true, false);
     }
 
     @Transactional
@@ -272,5 +274,6 @@ public class DocumentoService {
         String filename;
         String contentType;
         boolean inline;
+        boolean conversionFailed;
     }
 }
