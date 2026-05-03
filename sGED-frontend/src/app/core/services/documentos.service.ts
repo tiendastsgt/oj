@@ -1,14 +1,14 @@
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { ApiResponse } from '../models/api-response.model';
+import { Documento } from '../../features/documentos/models/documento.model';
 
 export interface ContenidoBlobResult {
   url: string;
   conversionFailed: boolean;
 }
-import { environment } from '../../../environments/environment';
-import { ApiResponse } from '../models/api-response.model';
-import { Documento } from '../../features/documentos/models/documento.model';
 
 @Injectable({
   providedIn: 'root'

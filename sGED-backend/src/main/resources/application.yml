@@ -40,8 +40,8 @@ sged:
 
 jodconverter:
   local:
-    enabled: true
-    office-home: /usr/lib/libreoffice
+    enabled: ${DOCUMENTOS_CONVERSION_ENABLED:true}
+    office-home: ${LIBREOFFICE_HOME:/usr/lib/libreoffice}
     max-tasks-per-process: 10
     process-timeout: 30000
 

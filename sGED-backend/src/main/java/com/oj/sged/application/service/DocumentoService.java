@@ -88,7 +88,7 @@ public class DocumentoService {
         Documento documento = Documento.builder()
             .expediente(expediente)
             .tipoDocumento(tipoDocumento)
-            .nombreOriginal(file.getOriginalFilename())
+            .nombreOriginal(sanitizeFilename(file.getOriginalFilename()))
             .nombreStorage("PENDING")
             .ruta("PENDING")
             .tamanio(file.getSize())
@@ -255,6 +255,19 @@ public class DocumentoService {
         }
         String ext = extension.toLowerCase();
         return ext.equals("doc") || ext.equals("docx");
+    }
+
+    private String sanitizeFilename(String filename) {
+        if (filename == null || filename.isBlank()) {
+            return "documento";
+        }
+        String basename = filename.replace('\\', '/');
+        int slash = basename.lastIndexOf('/');
+        if (slash >= 0) {
+            basename = basename.substring(slash + 1);
+        }
+        basename = basename.replace("\0", "").replace("..", "").trim();
+        return basename.isBlank() ? "documento" : basename;
     }
 
     private String replaceExtension(String filename, String newExt) {

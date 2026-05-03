@@ -26,7 +26,9 @@ describe('DocumentoViewerComponent', () => {
 
   beforeEach(async () => {
     documentosService = jasmine.createSpyObj('DocumentosService', ['fetchContenidoBlob']);
-    documentosService.fetchContenidoBlob.and.returnValue(of('blob:testurl'));
+    documentosService.fetchContenidoBlob.and.returnValue(
+      of({ url: 'blob:testurl', conversionFailed: false })
+    );
 
     await TestBed.configureTestingModule({
       imports: [DocumentoViewerComponent],
@@ -69,13 +71,24 @@ describe('DocumentoViewerComponent', () => {
     expect(fixture.debugElement.query(By.css('video'))).toBeTruthy();
   });
 
-  it('should show message for word documents', () => {
+  it('should render iframe for word documents converted to PDF', () => {
     const doc = buildDoc('docx');
     component.documento = doc;
     component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
     fixture.detectChanges();
-    const notice = fixture.debugElement.query(By.css('.viewer-notice p'));
-    expect(notice).toBeTruthy();
-    expect(notice.nativeElement.textContent).toContain('no se puede previsualizar');
+    expect(documentosService.fetchContenidoBlob).toHaveBeenCalledWith(doc.id);
+    expect(fixture.debugElement.query(By.css('iframe'))).toBeTruthy();
+  });
+
+  it('should fall back to download + error notice when conversion fails', () => {
+    documentosService.fetchContenidoBlob.and.returnValue(
+      of({ url: 'blob:fallback', conversionFailed: true })
+    );
+    const doc = buildDoc('docx');
+    component.documento = doc;
+    component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
+    fixture.detectChanges();
+    expect(component.error).toContain('No se pudo generar la vista previa');
+    expect(fixture.debugElement.query(By.css('iframe'))).toBeFalsy();
   });
 });
