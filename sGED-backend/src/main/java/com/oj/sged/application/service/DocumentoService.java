@@ -152,7 +152,7 @@ public class DocumentoService {
                     "Visualización (convertido a PDF)", ip);
                 return new DocumentoContenido(converted, filename, contentType, true, false);
             } catch (Exception ex) {
-                logger.warn("conversion_failed documentId={} cause={}", documento.getId(), ex.getMessage());
+                logger.warn("conversion_failed documentId={} cause={}", documento.getId(), ex.getMessage(), ex);
                 inline = false;
                 conversionFailed = true;
             }
