@@ -118,6 +118,7 @@
 /* ── Body (shared) ── */
 .elite-body {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -223,6 +224,8 @@
   padding: 24px;
   background: #080e19;
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .viewer-image {
