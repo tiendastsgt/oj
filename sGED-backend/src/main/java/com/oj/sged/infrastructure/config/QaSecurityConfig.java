@@ -1,0 +1,24 @@
+package com.oj.sged.infrastructure.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@Profile("qa")
+public class QaSecurityConfig {
+
+    @Bean
+    @Order(1)
+    public SecurityFilterChain h2ConsoleFilterChain(HttpSecurity http) throws Exception {
+        return http
+            .securityMatcher("/h2-console/**")
+            .csrf(csrf -> csrf.disable())
+            .headers(headers -> headers.frameOptions(fo -> fo.disable()))
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+            .build();
+    }
+}
