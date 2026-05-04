@@ -1,10 +1,12 @@
 # 📑 ÍNDICE MAESTRO DE DOCUMENTACIÓN - SGED
 
+> ⚠️ **Este índice ha sido supersedido.** El nuevo portal de documentación unificado está en [docs/INDEX.md](./INDEX.md) con navegación por audiencia (usuarios, desarrolladores, API, operaciones).
+
 **Versión:** 1.4.0  
 **Fecha de última actualización:** 1 mayo 2026  
 **Vigente para:** SGED v1.4.0 (producción) y superior  
 **Responsable:** Orquestador IA  
-**Estado:** ✅ Vigente  
+**Estado:** ⏸️ Reemplazado (ver nuevo portal)
 
 ---
 

@@ -1,6 +1,8 @@
 # 📖 MANUAL DE USUARIO FINAL - SGED
 **(Sistema de Gestión de Expedientes y Documentos)**
 
+> ⚠️ **Este documento ha sido supersedido.** El manual actualizado y completo está en [docs/usuarios/](../../usuarios/INDEX.md) con mejor estructura y contenido revisado.
+
 **Versión del Manual:** 1.3.0  
 **Fecha de Emisión:** Abril 2026  
 
