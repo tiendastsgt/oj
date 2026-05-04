@@ -205,6 +205,7 @@
 .pdf-body {
   flex: 1;
   min-height: 0;
+  height: 100%;     /* ancora la cadena flex para que .viewer-iframe pueda resolver height:100% en WebKit */
 }
 
 .viewer-iframe {

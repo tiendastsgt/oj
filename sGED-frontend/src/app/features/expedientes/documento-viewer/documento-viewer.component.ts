@@ -210,8 +210,8 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
     if (!document.fullscreenElement && !(document as any).webkitFullscreenElement) {
       const requestMethod = el.requestFullscreen || el.webkitRequestFullscreen;
       if (requestMethod) {
-        requestMethod.call(el).catch((err: any) => {
-          console.error(`Error enabling fullscreen: ${err.message}`);
+        requestMethod.call(el).catch((_err: any) => {
+          // fullscreen rechazado por el navegador (política de usuario o iframe sin permiso) — fallo silencioso
         });
       }
     } else {
