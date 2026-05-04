@@ -19,7 +19,7 @@
         <i class="pi" [ngClass]="readingModeActive ? 'pi-window-minimize' : 'pi-window-maximize'"></i>
       </button>
       <button class="viewer-btn" [class.active]="isFullscreen" title="Pantalla Completa" (click)="toggleFullscreen()">
-        <i class="pi" [ngClass]="isFullscreen ? 'pi-compress' : 'pi-expand'"></i>
+        <i class="pi" [ngClass]="isFullscreen ? 'pi-window-minimize' : 'pi-arrows-alt'"></i>
       </button>
       <button class="viewer-btn" title="Descargar" (click)="download()">
         <i class="pi pi-download"></i>
