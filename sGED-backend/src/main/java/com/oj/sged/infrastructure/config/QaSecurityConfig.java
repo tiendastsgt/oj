@@ -7,6 +7,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Seguridad exclusiva del perfil QA.
+ * Abre /h2-console/** sin JWT para inspección directa de la BD H2 en memoria.
+ * NUNCA eliminar @Profile("qa") — esta clase no debe activarse fuera de QA.
+ */
 @Configuration
 @Profile("qa")
 public class QaSecurityConfig {
