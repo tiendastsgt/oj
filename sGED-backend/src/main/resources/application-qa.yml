@@ -2,6 +2,12 @@ spring:
   # ========================================
   # H2 In-Memory Database (QA Environment)
   # ========================================
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false   # solo localhost; no exponer en QA en red compartida
   datasource:
     url: jdbc:h2:mem:sged;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=Oracle
     username: sa
