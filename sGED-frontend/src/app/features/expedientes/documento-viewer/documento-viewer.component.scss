@@ -209,6 +209,7 @@
 
 .viewer-iframe {
   width: 100%;
+  height: 100%;     /* refuerzo cross-browser sobre flex: 1 (evita fallback de ~150px en WebKit) */
   flex: 1;
   min-height: 0;
   border: none;
@@ -235,7 +236,8 @@
 }
 
 /* ── Video ── */
-.video-body {
+/* Selector compuesto: especificidad 0,2,0 para vencer a .elite-body sin depender del orden de cascada */
+.elite-body.video-body {
   background: #000;
   align-items: center;
   justify-content: center;
