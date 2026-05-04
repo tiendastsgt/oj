@@ -1,10 +1,10 @@
----
+﻿---
 Documento: VERIFICACION_RAPIDA_QA
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -340,5 +340,5 @@ CONTACTAR: devops@example.com
 **Uso**: Guardar este documento y correr después de cada deploy  
 **Duración**: 5 minutos max  
 **Operador**: Devops / SRE  
-**Fecha**: Enero 2026  
+**Fecha**: Mayo 2026  
 **Fase**: 7 - Despliegue QA

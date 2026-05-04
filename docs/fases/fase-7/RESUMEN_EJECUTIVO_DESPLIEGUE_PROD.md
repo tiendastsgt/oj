@@ -1,18 +1,18 @@
----
+﻿---
 Documento: RESUMEN_EJECUTIVO_DESPLIEGUE_PROD
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # 📋 RESUMEN EJECUTIVO - PLAN DE DESPLIEGUE A PRODUCCIÓN
-## SGED v1.1.0 - Controlled Go-Live Strategy
+## SGED v1.2.4 - Controlled Go-Live Strategy
 
 **Para**: CTO, PM, DevOps Lead, Stakeholders  
-**Fecha**: Enero 2026  
+**Fecha**: Mayo 2026  
 **Status**: ✅ LISTO PARA DESPLIEGUE  
 
 ---
@@ -307,6 +307,6 @@ Antes de iniciar despliegue, **TODOS** deben estar listos:
 ---
 
 **Preparado por**: Agente DevOps/Infraestructura  
-**Fecha**: Enero 2026  
+**Fecha**: Mayo 2026  
 **Versión**: 1.0 Final  
 **Aprobación**: [CTO signature]  

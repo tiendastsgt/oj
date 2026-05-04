@@ -1,15 +1,15 @@
----
-Documento: TEMPLATE_PROD_SMOKE_REPORT_v1.0.0
+﻿---
+Documento: TEMPLATE_PROD_SMOKE_REPORT_v1.2.4
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # 📊 SMOKE TEST REPORT - Producción
-## SGED v1.0.0 Post-Deployment Validation
+## SGED v1.2.4 Post-Deployment Validation
 
 ---
 
@@ -17,7 +17,7 @@ Estado: ✅ Vigente
 
 | Campo | Valor |
 |-------|-------|
-| **Versión Desplegada** | v1.0.0 |
+| **Versión Desplegada** | v1.2.4 |
 | **Ambiente** | Producción |
 | **URL Base** | `https://sged.oj.gob/` |
 | **Fecha/Hora Inicio** | YYYY-MM-DD HH:MM:SS UTC |
@@ -25,7 +25,7 @@ Estado: ✅ Vigente
 | **Duración Total** | X minutos |
 | **Ejecutado por** | Agente de Smoke Tests (QA) |
 | **Tráfico en momento** | 0% → 1% → 10% → 50% → 100% |
-| **Tag Git** | v1.0.0-prod |
+| **Tag Git** | v1.2.4-prod |
 
 ---
 
@@ -345,7 +345,7 @@ O
 - Volver a versión anterior (v0.9.x)
 - Ejecutar Smoke tests en versión anterior para confirmar estabilidad
 - Documentar causa raíz
-- NO redeploy de v1.0.0 hasta que se resuelva
+- NO redeploy de v1.2.4 hasta que se resuelva
 
 **ETA para rollback**: [Completar]
 
@@ -418,7 +418,7 @@ playwright-report/screenshots/
 
 ```
 ╔════════════════════════════════════════════════════════════╗
-║  SMOKE TEST REPORT v1.0.0                                  ║
+║  SMOKE TEST REPORT v1.2.4                                  ║
 ║                                                             ║
 ║  Generado por: Agente de Smoke Tests                       ║
 ║  Timestamp: YYYY-MM-DD HH:MM:SS UTC                        ║

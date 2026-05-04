@@ -1,19 +1,19 @@
----
+﻿---
 Documento: SMOKE_TESTS_ENTREGA_COMPLETADA
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # ✅ AGENTE DE SMOKE TESTS - ENTREGA COMPLETADA
-## SGED v1.0.0+ Post-Deployment Smoke Testing
+## SGED v1.2.4+ Post-Deployment Smoke Testing
 
 **Fecha**: Enero 28, 2026  
 **Estado**: ✅ **COMPLETADO Y LISTO PARA OPERACIÓN**  
-**Versión**: v1.0.0
+**Versión**: v1.2.4
 
 ---
 
@@ -23,7 +23,7 @@ Se ha completado la **especialización del Agente de Smoke Tests** para el proye
 
 ✅ **Plan maestro** de smoke tests (PLAN_SMOKE_TESTS_PRODUCCION.md)  
 ✅ **Scripts automatizados** con Playwright (smoke.spec.ts)  
-✅ **Plantilla de reporte** (TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md)  
+✅ **Plantilla de reporte** (TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md)  
 ✅ **Guía de operación** (QUICK_START_SMOKE_TESTS.md)  
 
 ---
@@ -35,7 +35,7 @@ Se ha completado la **especialización del Agente de Smoke Tests** para el proye
 **Propósito**: Plan maestro definitivo para smoke testing en producción
 
 **Contenido**:
-- ✅ Contexto de despliegue (v1.0.0, ambiente, variables)
+- ✅ Contexto de despliegue (v1.2.4, ambiente, variables)
 - ✅ 6 flujos Smoke completamente definidos:
   - Smoke-1: Autenticación (4 roles)
   - Smoke-2: Expedientes (búsqueda + detalle)
@@ -82,7 +82,7 @@ Se ha completado la **especialización del Agente de Smoke Tests** para el proye
 
 ---
 
-### 3. **TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md**
+### 3. **TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md**
 **Ubicación**: Raíz del repositorio  
 **Propósito**: Plantilla ejecutable para documentar resultados post-smoke
 
@@ -205,7 +205,7 @@ npm run test:smoke:full
 
 #### Paso 4: Reporte (T+20 min)
 ```bash
-# Rellenar TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+# Rellenar TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 # Adjuntar: playwright-report/, logs
 # Decisión: GO / NO-GO / GO+MON
 # Compartir en Slack #sged-incidents
@@ -262,7 +262,7 @@ npm run test:smoke:full
 
 ## 📈 EVOLUCIÓN FUTURA
 
-**Para v1.0.1, v1.1.0, etc.**:
+**Para v1.0.1, v1.2.4, etc.**:
 - Actualizar PLAN_SMOKE_TESTS_PRODUCCION.md
 - Agregar nuevos flujos si existen nuevas features críticas
 - Mantener smoke.spec.ts
@@ -280,7 +280,7 @@ npm run test:smoke:full
 
 - ✅ Plan maestro documentado (PLAN_SMOKE_TESTS_PRODUCCION.md)
 - ✅ Tests implementados (smoke.spec.ts)
-- ✅ Plantilla de reporte lista (TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md)
+- ✅ Plantilla de reporte lista (TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md)
 - ✅ Guía rápida operativa (QUICK_START_SMOKE_TESTS.md)
 - ✅ 6 flujos smoke definidos (Smoke-1 a Smoke-6)
 - ✅ 25+ test cases implementados
@@ -343,7 +343,7 @@ npm run test:smoke:full
 |-----------|-----------|--------|
 | [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) | Plan maestro | Antes de ejecutar |
 | [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) | Tests code | T+2 a T+15 |
-| [TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md](TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md) | Reporte template | T+20 |
+| [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) | Reporte template | T+20 |
 | [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) | Guía rápida | Referencia diaria |
 | [ROLLBACK_PLAN_PRODUCCION.md](ROLLBACK_PLAN_PRODUCCION.md) | Plan rollback | Si NO-GO |
 | [MONITOREO_OPERACIONES_PRODUCCION.md](MONITOREO_OPERACIONES_PRODUCCION.md) | Monitoreo 72h | Después smoke tests |
@@ -370,7 +370,7 @@ npm run test:smoke:full
 ║  ✅ AGENTE DE SMOKE TESTS - COMPLETADO                       ║
 ║                                                                ║
 ║  Especialización lista para:                                  ║
-║  • Validar despliegues v1.0.0+                               ║
+║  • Validar despliegues v1.2.4+                               ║
 ║  • Decisión GO/NO-GO en < 20 minutos                         ║
 ║  • Documentación clara y operativa                            ║
 ║                                                                ║
@@ -387,4 +387,4 @@ npm run test:smoke:full
 **Creado por**: Agente de Smoke Tests  
 **Fecha**: Enero 28, 2026  
 **Estado**: ✅ **LISTO PARA OPERACIÓN**  
-**Versión**: v1.0.0
+**Versión**: v1.2.4

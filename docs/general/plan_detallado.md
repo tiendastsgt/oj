@@ -1,10 +1,10 @@
----
+﻿---
 Documento: PLAN_DETALLADO_SGED
 Proyecto: SGED
-Versión del sistema: v1.1.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.2
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 (en desarrollo) y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 (en desarrollo) y superiores
 Estado: ✅ Vigente (Nueva Línea Base)
 Responsable: Agente de Documentación
 ---

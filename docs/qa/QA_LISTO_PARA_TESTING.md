@@ -1,17 +1,17 @@
----
+﻿---
 Documento: QA_LISTO_PARA_TESTING
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # SGED QA - Entorno Listo para Testing
 ## Fase 7: Despliegue y Validación en QA
 
-**Fecha**: Enero 2026
+**Fecha**: Mayo 2026
 **Agente**: DevOps / Infraestructura
 **Status**: ✅ **LISTO PARA TESTING E2E**
 
@@ -434,7 +434,7 @@ Si todo ✓: **Proceder con pruebas E2E y de carga**
 
 **Preparado por**: Agente DevOps/Infraestructura
 **Validado por**: (Pendiente de ejecutar en QA real)
-**Fecha**: Enero 2026
+**Fecha**: Mayo 2026
 
 ---
 

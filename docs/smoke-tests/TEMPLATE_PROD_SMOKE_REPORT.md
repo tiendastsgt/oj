@@ -1,17 +1,17 @@
----
+﻿---
 Documento: TEMPLATE_PROD_SMOKE_REPORT
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
-# SMOKE TEST REPORT - v1.0.0 PRODUCCIÓN
+# SMOKE TEST REPORT - v1.2.4 PRODUCCIÓN
 
-**Versión:** 1.0.0  
-**Fecha/Hora Ejecución:** [COMPLETAR - ej: 28 Enero 2026, 14:30 UTC]  
+**Versión:** 1.2.4  
+**Fecha/Hora Ejecución:** [COMPLETAR - ej: 28 Mayo 2026, 14:30 UTC]  
 **Ambiente:** Producción (https://sged.produccion.mx)  
 **Ejecutado por:** [Agente de Testing / Nombre del QA Engineer]  
 **Duración Total:** [COMPLETAR - ej: 7 minutos 42 segundos]
@@ -325,27 +325,27 @@ Cambio #4:         50% → 100%        [Hora: __:__]
 **✅ Si PASS:**
 ```
 To: DevOps Team, Tech Leads
-Subject: ✅ Smoke Tests PASSED v1.0.0 - Proceder con Tráfico
+Subject: ✅ Smoke Tests PASSED v1.2.4 - Proceder con Tráfico
 
-El deployment v1.0.0 ha pasado validación de smoke tests.
+El deployment v1.2.4 ha pasado validación de smoke tests.
 - Todos los tests críticos: PASS
 - Sin incidencias críticas
 - Recomendación: Cambiar tráfico a 100%
 
-Adjunto: [PROD_SMOKE_REPORT_v1.0.0.md]
+Adjunto: [PROD_SMOKE_REPORT_v1.2.4.md]
 ```
 
 **🔴 Si FAIL:**
 ```
 To: DevOps Team, Backend Lead, CTO
-Subject: 🔴 ALERTA: Smoke Tests FALLARON v1.0.0 - ROLLBACK RECOMENDADO
+Subject: 🔴 ALERTA: Smoke Tests FALLARON v1.2.4 - ROLLBACK RECOMENDADO
 
-El deployment v1.0.0 ha fallado validación de smoke tests.
+El deployment v1.2.4 ha fallado validación de smoke tests.
 - Test crítico FAIL: [SMOKE-X.X]
 - Incidencia: [Descripción breve]
 - Recomendación: ROLLBACK inmediato
 
-Adjunto: [PROD_SMOKE_REPORT_v1.0.0.md] [screenshots]
+Adjunto: [PROD_SMOKE_REPORT_v1.2.4.md] [screenshots]
 ```
 
 ---
@@ -370,7 +370,7 @@ T+60m: Monitoreo continuo activo
 ### Versión Desplegada
 ```
 Commit: [COMPLETAR - ej: a1b2c3d4]
-Tag: v1.0.0
+Tag: v1.2.4
 Branch: main/production
 Deployed by: [DevOps Engineer Name]
 Deployment Tool: [Docker / Kubernetes / Manual]
@@ -413,6 +413,6 @@ Tráfico actual: ___ %
 
 **Documento Completado por:** [Tu nombre / Agente de Testing]  
 **Versión:** 1.0  
-**Validado para:** SGED v1.0.0 - Producción  
-**Fecha:** 28 Enero 2026
+**Validado para:** SGED v1.2.4 - Producción  
+**Fecha:** 28 Mayo 2026
 

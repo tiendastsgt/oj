@@ -1,10 +1,10 @@
----
+﻿---
 Documento: FASE_6_RESUMEN_VISUAL
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -283,4 +283,4 @@ curl https://sged.example.com/health
 
 **Fase 6**: ✅ COMPLETADA
 **Siguiente**: Fase 7 - Dockerfiles finales y Kubernetes (si aplica)
-**Fecha**: Enero 2026
+**Fecha**: Mayo 2026

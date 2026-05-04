@@ -1,15 +1,15 @@
----
+﻿---
 Documento: QUICK_START_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # 🚀 GUÍA RÁPIDA - EJECUCIÓN DE SMOKE TESTS
-## SGED v1.0.0+ Smoke Testing en Producción
+## SGED v1.2.4+ Smoke Testing en Producción
 
 **Estado**: ✅ LISTO PARA USAR  
 **Última actualización**: Enero 28, 2026
@@ -35,7 +35,7 @@ Eres el **Agente de Smoke Tests** de SGED. Tus responsabilidades:
 
 ```bash
 DevOps dice en Slack:
-  "✅ Despliegue v1.0.0 completado"
+  "✅ Despliegue v1.2.4 completado"
   
 Tu acción:
   1. Confirmar URL_PROD accesible (curl -I https://sged.oj.gob/)
@@ -70,7 +70,7 @@ npm run test:smoke:full
 
 ```bash
 # Completar reporte basado en resultados
-# Reporte template: TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+# Reporte template: TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 
 # Decisión:
   🟢 GO        → aumentar tráfico a 100%
@@ -86,7 +86,7 @@ npm run test:smoke:full
 |---------|----------|---------------|
 | [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) | **Plan maestro** con 6 flujos, timeline, criterios GO/NO-GO | Antes de ejecutar (referencia) |
 | [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) | **Tests automatizados** (Playwright) | Ejecutar post-despliegue |
-| [TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md](TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md) | **Plantilla de reporte** | Rellenar después de tests |
+| [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) | **Plantilla de reporte** | Rellenar después de tests |
 
 ---
 
@@ -295,8 +295,8 @@ Después de ejecutar tests:
 
 1. **Copiar plantilla**
    ```bash
-   cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
-      PROD_SMOKE_REPORT_v1.0.0_$(date +%Y%m%d_%H%M%S).md
+   cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
+      PROD_SMOKE_REPORT_v1.2.4_$(date +%Y%m%d_%H%M%S).md
    ```
 
 2. **Rellenar secciones:**

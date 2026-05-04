@@ -1,10 +1,10 @@
----
+﻿---
 Documento: INDICE_DOCUMENTOS_FASE_7
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -13,7 +13,7 @@ Estado: ✅ Vigente
 
 **Fase**: 7 de 7 (Completa)  
 **Status**: ✅ **COMPLETADA - QA LISTO PARA TESTING**  
-**Fecha**: Enero 2026  
+**Fecha**: Mayo 2026  
 
 ---
 
@@ -284,7 +284,7 @@ c:\proyectos\oj\
 
 ## 📝 HISTORIAL DE CAMBIOS
 
-### Fase 7 (Enero 2026)
+### Fase 7 (Mayo 2026)
 - ✅ Creado .env.qa
 - ✅ Creado deploy-qa.sh
 - ✅ Creado QA_LISTO_PARA_TESTING.md
@@ -315,7 +315,7 @@ c:\proyectos\oj\
 ---
 
 **Generado por**: Agente DevOps/Infraestructura  
-**Fecha**: Enero 2026  
+**Fecha**: Mayo 2026  
 **Proyecto**: SGED  
 **Fase**: 7 de 7  
 **Status**: ✅ COMPLETADA  

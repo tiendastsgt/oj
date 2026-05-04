@@ -1,10 +1,10 @@
----
+﻿---
 Documento: MAPA_MENTAL_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -35,7 +35,7 @@ npm run test:smoke:quick  (5 min)
     ↓
 npm run test:smoke:full  (15 min)
     ↓
-Rellenar: TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+Rellenar: TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
     ↓
 Compartir en Slack
 ```
@@ -56,7 +56,7 @@ PLAN_SMOKE_TESTS_PRODUCCION.md
 ### Para Ejecutar Tests
 - **QUICK_START_SMOKE_TESTS.md** ⭐ Leer primero (5 min)
 - **smoke.spec.ts** - Los tests reales (revisar 10 min)
-- **TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md** - Reporte resultado
+- **TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md** - Reporte resultado
 
 ### Para Entender el Plan
 - **PLAN_SMOKE_TESTS_PRODUCCION.md** - Plan integral (20 min)
@@ -134,7 +134,7 @@ PLAN_SMOKE_TESTS_PRODUCCION.md
 └── Smoke-8: Performance (3 tests)
 ```
 
-### TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+### TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 ```
 ├── 📋 Información general
 ├── 📊 Resumen ejecutivo
@@ -274,7 +274,7 @@ Post-deploy        Monitoreo 72h
 EMPEZAR AQUÍ
     ├─ Ejecutar ahora → QUICK_START_SMOKE_TESTS.md
     ├─ Entender → PLAN_SMOKE_TESTS_PRODUCCION.md
-    ├─ Resultados → TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+    ├─ Resultados → TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
     ├─ Referencia → INDICE_SMOKE_TESTS.md
     └─ Setup → PROXIMO_PASO_SMOKE_TESTS.md
 
@@ -299,7 +299,7 @@ DESPUÉS DE SMOKE FAIL
 - [ ] PROXIMO_PASO_SMOKE_TESTS.md (10 min)
 
 ### Referencia (según necesidad)
-- [ ] TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+- [ ] TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 - [ ] INDICE_SMOKE_TESTS.md
 - [ ] MONITOREO_OPERACIONES_PRODUCCION.md
 - [ ] ROLLBACK_PLAN_PRODUCCION.md

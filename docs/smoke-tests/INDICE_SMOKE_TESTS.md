@@ -1,15 +1,15 @@
----
+﻿---
 Documento: INDICE_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # 📚 ÍNDICE - DOCUMENTACIÓN DE SMOKE TESTS
-## SGED v1.0.0+ Smoke Testing en Producción
+## SGED v1.2.4+ Smoke Testing en Producción
 
 **Fecha**: Enero 28, 2026  
 **Agente**: Smoke Tests QA  
@@ -25,7 +25,7 @@ Estado: ✅ Vigente
 **Propósito**: Plan completo de smoke tests para producción
 
 **Contiene**:
-- Contexto de despliegue (v1.0.0, variables, usuarios)
+- Contexto de despliegue (v1.2.4, variables, usuarios)
 - Definición detallada de 6 flujos Smoke (Smoke-1 a Smoke-6)
 - Timeline post-despliegue (T+0, T+2-5, T+10-15, T+20)
 - Matriz de decisión GO/NO-GO
@@ -60,7 +60,7 @@ npm run test:smoke:full    # ~12-15 minutos
 
 ---
 
-### 3. **TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md** ⭐
+### 3. **TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md** ⭐
 **Ubicación**: Raíz (`/c:/proyectos/oj/`)  
 **Tipo**: Plantilla de reporte  
 **Propósito**: Documentar resultados de smoke tests
@@ -79,8 +79,8 @@ npm run test:smoke:full    # ~12-15 minutos
 
 **Cómo usar**:
 ```bash
-cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
-   PROD_SMOKE_REPORT_v1.0.0_$(date +%Y%m%d_%H%M%S).md
+cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
+   PROD_SMOKE_REPORT_v1.2.4_$(date +%Y%m%d_%H%M%S).md
 # Rellenar campos y entregar
 ```
 
@@ -151,7 +151,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 /c:/proyectos/oj/
 │
 ├── PLAN_SMOKE_TESTS_PRODUCCION.md          ✅ Plan maestro
-├── TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md    ✅ Plantilla reporte
+├── TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md    ✅ Plantilla reporte
 ├── QUICK_START_SMOKE_TESTS.md              ✅ Guía operativa
 ├── SMOKE_TESTS_ENTREGA_COMPLETADA.md       ✅ Resumen entrega
 ├── INDICE_SMOKE_TESTS.md                   ✅ Este archivo
@@ -176,7 +176,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 |-----------|-----------|-------------|-----------------|
 | PLAN_SMOKE_TESTS_PRODUCCION.md | [nada] | smoke.spec.ts, QUICK_START | ROLLBACK_PLAN |
 | smoke.spec.ts | QUICK_START | TEMPLATE_REPORT | PLAN_SMOKE |
-| TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md | PLAN_SMOKE, QUICK_START | [enviado] | MONITOREO_OP |
+| TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md | PLAN_SMOKE, QUICK_START | [enviado] | MONITOREO_OP |
 | QUICK_START_SMOKE_TESTS.md | [nada] | smoke.spec.ts | PLAN_SMOKE, TEMPLATE |
 | SMOKE_TESTS_ENTREGA_COMPLETADA.md | [nada] | Todos | Administrativo |
 
@@ -191,7 +191,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 2. Valida: Checklist pre-smoke (2 min)
 3. Ejecuta: `npm run test:smoke:quick` (5 min)
 4. Ejecuta: `npm run test:smoke:full` (15 min)
-5. Relléna: [TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md](TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md) (5 min)
+5. Relléna: [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) (5 min)
 6. Comparte: En Slack #sged-incidents
 
 **Total**: ~35-40 minutos
@@ -224,7 +224,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 1. Revisa: [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) - Sección "INTERPRETAR RESULTADOS"
 2. Valida: Matriz de severidades (¿es bloqueante?)
 3. Decide: GO / NO-GO / GO+MON (según matriz)
-4. Documenta: Abre [TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md](TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md)
+4. Documenta: Abre [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md)
 
 ---
 
@@ -259,11 +259,11 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 
 ### Actualización esperada
 - **Antes de v1.0.1**: Revisar y actualizar si hay nuevos flujos
-- **Antes de v1.1.0**: Agregar nuevos smoke tests si nuevas features críticas
+- **Antes de v1.2.4**: Agregar nuevos smoke tests si nuevas features críticas
 - **Cada trimestre**: Mantener baseline de performance
 
 ### Archivos que se recrean después de cada despliegue
-- `PROD_SMOKE_REPORT_v1.0.0_YYYYMMDD_HHMMSS.md` (copia del template)
+- `PROD_SMOKE_REPORT_v1.2.4_YYYYMMDD_HHMMSS.md` (copia del template)
 
 ---
 
@@ -273,7 +273,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 - [ ] Validar checklist pre-smoke
 - [ ] Ejecutar Quick Smoke
 - [ ] Ejecutar Full Smoke
-- [ ] Rellenar TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+- [ ] Rellenar TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 - [ ] Compartir en Slack
 - [ ] Decidir GO / NO-GO / GO+MON
 - [ ] Transición a MONITOREO_OPERACIONES_PRODUCCION.md
@@ -341,7 +341,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 ║  6 flujos smoke definidos                                  ║
 ║  Proceso operativo documentado                             ║
 ║                                                             ║
-║  Listo para primer despliegue a Producción v1.0.0          ║
+║  Listo para primer despliegue a Producción v1.2.4          ║
 ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -349,5 +349,5 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 
 **Creado por**: Agente de Smoke Tests  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.0.0  
+**Versión**: v1.2.4  
 **Estado**: ✅ COMPLETADO

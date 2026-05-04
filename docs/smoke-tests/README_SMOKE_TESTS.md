@@ -1,10 +1,10 @@
----
+﻿---
 Documento: README_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -55,7 +55,7 @@ Listo para validar despliegues a Producción en menos de 20 minutos.
    - Variables de entorno inyectables
    - Tags para filtering (@smoke-quick, @smoke-full)
 
-4. **TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md**
+4. **TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md**
    - Plantilla para documentar resultados
    - Secciones para incidencias
    - Matriz de decisión visual
@@ -154,8 +154,8 @@ npm run test:smoke:full
 open playwright-report/index.html
 
 # Rellenar plantilla
-cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
-   PROD_SMOKE_REPORT_v1.0.0_$(date +%Y%m%d_%H%M%S).md
+cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
+   PROD_SMOKE_REPORT_v1.2.4_$(date +%Y%m%d_%H%M%S).md
 
 # Compartir decisión en Slack
 ```
@@ -213,7 +213,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 15 min: QUICK_START_SMOKE_TESTS.md
 20 min: PLAN_SMOKE_TESTS_PRODUCCION.md
 10 min: smoke.spec.ts
- 5 min: TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+ 5 min: TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 ```
 
 ---
@@ -267,7 +267,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
    - Revisar flujos smoke
    - Aprobar proceso
 
-### Antes del Primer Despliegue v1.0.0
+### Antes del Primer Despliegue v1.2.4
 
 - [ ] Todos los checklists completados
 - [ ] Team formado
@@ -275,7 +275,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 
 ### Día del Despliegue
 
-- [ ] DevOps: Despliegue v1.0.0
+- [ ] DevOps: Despliegue v1.2.4
 - [ ] QA: Smoke tests (20 min)
 - [ ] Producto: Decisión GO/NO-GO
 - [ ] DevOps: Rollout o Rollback
@@ -320,7 +320,7 @@ R: 30 minutos formación + 30 minutos setup DevOps/DB.
 
 **Para Slack**:
 ```
-✅ Smoke Tests v1.0.0 COMPLETADO
+✅ Smoke Tests v1.2.4 COMPLETADO
 
 📁 Documentación: 6 archivos maestros
 🧪 Tests: 25+ test cases implementados
@@ -329,7 +329,7 @@ R: 30 minutos formación + 30 minutos setup DevOps/DB.
 
 📖 Leer primero: QUICK_START_SMOKE_TESTS.md
 📅 Setup: 1-2 días antes del despliegue
-🚀 Listo para usar en v1.0.0
+🚀 Listo para usar en v1.2.4
 
 ¿Preguntas? Ver PROXIMO_PASO_SMOKE_TESTS.md
 ```
@@ -368,6 +368,6 @@ R: 30 minutos formación + 30 minutos setup DevOps/DB.
 
 **Implementado por**: Agente de Smoke Tests  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.0.0  
+**Versión**: v1.2.4  
 **Estado**: ✅ OPERACIONAL  
 **Última actualización**: Enero 28, 2026, 23:59 UTC

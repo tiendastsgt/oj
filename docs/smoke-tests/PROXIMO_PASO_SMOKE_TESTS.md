@@ -1,10 +1,10 @@
----
+﻿---
 Documento: PROXIMO_PASO_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -21,7 +21,7 @@ Estado: ✅ Vigente
 ### Documentación (100%)
 - ✅ Plan maestro: `PLAN_SMOKE_TESTS_PRODUCCION.md`
 - ✅ Guía rápida: `QUICK_START_SMOKE_TESTS.md`
-- ✅ Plantilla reporte: `TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md`
+- ✅ Plantilla reporte: `TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md`
 - ✅ Resumen entrega: `SMOKE_TESTS_ENTREGA_COMPLETADA.md`
 - ✅ Índice: `INDICE_SMOKE_TESTS.md`
 - ✅ Resumen ejecutivo: `SMOKE_TESTS_RESUMEN_EJECUTIVO.md`
@@ -179,7 +179,7 @@ npx playwright test smoke.spec.ts --dry-run
 - [ ] Leer: [SMOKE_TESTS_RESUMEN_EJECUTIVO.md](SMOKE_TESTS_RESUMEN_EJECUTIVO.md)
 - [ ] Confirmar: Los 6 flujos smoke cubren casos críticos
 - [ ] Validar: Matriz GO/NO-GO es aceptable
-- [ ] Aprobar: Uso en primer despliegue v1.0.0
+- [ ] Aprobar: Uso en primer despliegue v1.2.4
 
 Enviar confirmación:
 ```
@@ -192,7 +192,7 @@ Enviar confirmación:
 
 ## 📅 EJECUTAR SMOKE TESTS - PASO A PASO
 
-### Cuando DevOps diga "Despliegue v1.0.0 completado"
+### Cuando DevOps diga "Despliegue v1.2.4 completado"
 
 **T+0 minutos: Validación inicial**
 
@@ -241,8 +241,8 @@ npm run test:smoke:full
 
 ```bash
 # Copiar plantilla y rellenar
-cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
-   PROD_SMOKE_REPORT_v1.0.0_$(date +%Y%m%d_%H%M%S).md
+cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
+   PROD_SMOKE_REPORT_v1.2.4_$(date +%Y%m%d_%H%M%S).md
 
 # Rellenar con resultados:
 #   - Versión, entorno, timestamp
@@ -251,12 +251,12 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md \
 #   - Decisión: GO / NO-GO / GO+MONITOREO
 
 # Publicar reporte
-git add PROD_SMOKE_REPORT_v1.0.0_*.md
-git commit -m "Smoke tests v1.0.0: [DECISIÓN]"
+git add PROD_SMOKE_REPORT_v1.2.4_*.md
+git commit -m "Smoke tests v1.2.4: [DECISIÓN]"
 git push
 
 # Compartir en Slack
-echo "Smoke tests v1.0.0 completado: [LINK al reporte]"
+echo "Smoke tests v1.2.4 completado: [LINK al reporte]"
 ```
 
 **T+25 minutos: Decisión**
@@ -365,7 +365,7 @@ SI resultado = FALLOS CRÍTICOS:
 
 **Cuando todo esté listo:**
 
-1. DevOps: "Iniciar despliegue v1.0.0"
+1. DevOps: "Iniciar despliegue v1.2.4"
 2. QA: Ejecutar smoke tests (T+0 a T+20)
 3. PO: Decidir GO/NO-GO (T+25)
 4. DevOps: Rollout (T+30) o Rollback
@@ -393,4 +393,4 @@ SI resultado = FALLOS CRÍTICOS:
 
 **Preparado por**: Agente de Smoke Tests  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.0.0
+**Versión**: v1.2.4

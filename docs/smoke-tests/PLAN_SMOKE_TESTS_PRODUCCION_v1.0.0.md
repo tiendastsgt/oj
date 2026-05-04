@@ -1,27 +1,27 @@
----
-Documento: PLAN_SMOKE_TESTS_PRODUCCION_v1.0.0
+﻿---
+Documento: PLAN_SMOKE_TESTS_PRODUCCION_v1.2.4
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # 🚀 PLAN DE SMOKE TESTS - PRODUCCIÓN
-## SGED v1.0.0+ - Post-Deployment Validation
+## SGED v1.2.4+ - Post-Deployment Validation
 
 **Propósito**: Validar rápidamente (< 15 minutos) que un despliegue a Producción está sano  
 **Responsable**: Agente de Smoke Tests + QA + DevOps  
 **Alcance**: Flujos críticos mínimos (Auth, Expedientes, Documentos, Admin, Auditoría, RBAC)  
-**Versión del Plan**: v1.0.0 (se actualiza para cada mayor release)
+**Versión del Plan**: v1.2.4 (se actualiza para cada mayor release)
 
 ---
 
 ## 📋 CONTEXTO DE DESPLIEGUE
 
 ### Versión Objetivo
-- **Versión**: v1.0.0
+- **Versión**: v1.2.4
 - **Entorno**: Producción (prod)
 - **Tipo de despliegue**: Full release / Hotfix (especificar en ejecución)
 - **Ventana**: Fuera de horario de negocio (especificar en ejecución)
@@ -247,20 +247,20 @@ playwright-report/
 └── results/
     └── screenshots/           ← Si hay fallos
 
-PROD_SMOKE_REPORT_v1.0.0.md   ← Reporte final (ver sección 8)
+PROD_SMOKE_REPORT_v1.2.4.md   ← Reporte final (ver sección 8)
 ```
 
 ---
 
-## 8. TEMPLATE DE REPORTE (PROD_SMOKE_REPORT_v1.0.0.md)
+## 8. TEMPLATE DE REPORTE (PROD_SMOKE_REPORT_v1.2.4.md)
 
 El siguiente documento se completará después de ejecución:
 
 ```markdown
-# SMOKE TEST REPORT - Producción v1.0.0
+# SMOKE TEST REPORT - Producción v1.2.4
 
 **Fecha/Hora:** [COMPLETAR]
-**Versión Desplegada:** v1.0.0
+**Versión Desplegada:** v1.2.4
 **Ambiente:** Producción (sged.produccion.mx)
 **Ejecutado por:** [Agente de Testing]
 **Tráfico en el momento:** [0% → 1% → 10% → 50% → 100%]
@@ -402,7 +402,7 @@ Antes de ejecutar smoke tests:
 - [ ] DevOps confirma despliegue completado
 - [ ] URL de Producción es accesible (curl -I)
 - [ ] Usuarios de prueba existen en BD PROD
-- [ ] Datos de prueba mínimos cargados (ej: expedientes 2024-*)
+- [ ] Datos de prueba mínimos cargados (ej: expedientes 2026-*)
 - [ ] Playwright instalado localmente (`npm install`)
 - [ ] Navegadores descargados (`npx playwright install`)
 - [ ] Variable BASE_URL configurada correctamente
@@ -620,8 +620,8 @@ Antes de ejecutar smoke tests:
 
 ```
 [DevOps → Slack #sged-incidents]
-✅ Despliegue v1.0.0 completado
-   - Tag: v1.0.0-prod
+✅ Despliegue v1.2.4 completado
+   - Tag: v1.2.4-prod
    - Containers: running
    - Health check: UP
    - Timestamp: 2026-01-28T09:00:00Z
@@ -710,7 +710,7 @@ DOCUMENTO_SMOKE_ID=DOC-12345
 
 ```
 ╔═══════════════════════════════════════════════╗
-║  SMOKE TESTS v1.0.0 - PLAN ACTUALIZADO       ║
+║  SMOKE TESTS v1.2.4 - PLAN ACTUALIZADO       ║
 ║  ✅ Flujos definidos (Smoke-1 a Smoke-6)     ║
 ║  ✅ Timeline establecido                      ║
 ║  ✅ GO/NO-GO definido                         ║
@@ -749,7 +749,7 @@ Este documento proporciona:
 2. ✅ Validar checklist pre-ejecución (5 min)
 3. ✅ Ejecutar QUICK SMOKE (2 min)
 4. ✅ Tomar decisión (PROCEED / INVESTIGATE / ROLLBACK)
-5. ✅ Documentar en PROD_SMOKE_REPORT_v1.0.0.md
+5. ✅ Documentar en PROD_SMOKE_REPORT_v1.2.4.md
 6. ✅ Compartir reporte con Equipo DevOps
 
 **Tiempo Total Desde Despliegue hasta Go-Live: ~30 minutos**
@@ -759,5 +759,5 @@ Este documento proporciona:
 **Documento Preparado por:** Agente de Testing  
 **Versión:** 1.0  
 **Status:** 🟢 Listo para ejecución  
-**Validado para:** SGED v1.0.0 - Producción
+**Validado para:** SGED v1.2.4 - Producción
 

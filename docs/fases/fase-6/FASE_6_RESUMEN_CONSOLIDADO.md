@@ -1,16 +1,16 @@
----
+﻿---
 Documento: FASE_6_RESUMEN_CONSOLIDADO
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # 🎯 SGED FASE 6 - RESUMEN CONSOLIDADO
 
-**Fecha**: Enero 2026
+**Fecha**: Mayo 2026
 **Agente**: DevOps / Infraestructura
 **Estado**: ✅ COMPLETADO Y LISTO PARA DESPLIEGUE
 
@@ -402,7 +402,7 @@ curl https://sged.example.com/health
 **Preparado por**: Agente DevOps/Infraestructura
 **Validado por**: Equipo de Seguridad
 **Aprobado por**: Orquestador SGED
-**Fecha**: Enero 2026
+**Fecha**: Mayo 2026
 
 ---
 

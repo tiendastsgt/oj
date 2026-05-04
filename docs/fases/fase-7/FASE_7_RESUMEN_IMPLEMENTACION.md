@@ -1,16 +1,16 @@
----
+﻿---
 Documento: FASE_7_RESUMEN_IMPLEMENTACION
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # RESUMEN DE IMPLEMENTACIÓN - FASE 7 QA ACCEPTANCE TESTING
 
-**Fecha:** 2024-01-15  
+**Fecha:** 2026-05-03  
 **Status:** ✅ COMPLETADO (estructura implementada, listo para ejecución)  
 **Versión:** 1.0
 
@@ -293,8 +293,8 @@ Mínimo necesario:
 ```sql
 -- 2 expedientes de J1
 INSERT INTO expediente (numero, estado, juzgado_id) VALUES
-  ('2024-001', 'ACTIVO', 1),
-  ('2024-002', 'ACTIVO', 1);
+  ('2026-001', 'ACTIVO', 1),
+  ('2026-002', 'ACTIVO', 1);
 
 -- 1 documento en cada expediente
 INSERT INTO documento (expediente_id, nombre, tipo, archivo_id) VALUES
@@ -323,7 +323,7 @@ curl -X POST https://qa.sged.mx/api/v1/auth/login \
 # (Ejecutar query en BD QA)
 
 # 4. Validar datos de prueba
-# (Validar expedientes 2024-001 y 2024-002 existen)
+# (Validar expedientes 2026-001 y 2026-002 existen)
 
 # 5. Validar dependencias locales
 node --version   # v18+
@@ -430,7 +430,7 @@ Para preguntas o problemas durante la ejecución de tests:
 
 | Versión | Fecha | Cambios |
 |---------|-------|---------|
-| 1.0 | 2024-01-15 | Implementación completa Fase 7 |
+| 1.0 | 2026-05-03 | Implementación completa Fase 7 |
 
 ---
 

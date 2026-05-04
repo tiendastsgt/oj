@@ -1,10 +1,10 @@
----
+﻿---
 Documento: QUICK_START_FASE_7
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -202,7 +202,7 @@ Scenario 1:
 
 - [ ] QA environment disponible (https://qa.sged.mx)
 - [ ] Usuarios de prueba existen
-- [ ] Datos de prueba existen (expedientes 2024-001, 2024-002)
+- [ ] Datos de prueba existen (expedientes 2026-001, 2026-002)
 - [ ] Dependencias instaladas (npm, java, jmeter)
 - [ ] E2E Tests: 26 passed ✅
 - [ ] Load Tests: P95 < 1.2s ✅

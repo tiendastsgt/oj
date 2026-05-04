@@ -1,17 +1,17 @@
----
+﻿---
 Documento: QUICK_REF_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
 # QUICK REFERENCE - POST-DEPLOYMENT SMOKE TESTS
 
 **Para DevOps y Tech Teams**  
-**v1.0.0 Production Deployment**
+**v1.2.4 Production Deployment**
 
 ---
 
@@ -36,7 +36,7 @@ Estado: ✅ Vigente
   - juez.prod / JuezProd123! (JUEZ)
   - consulta.prod / ConsultaProd123! (CONSULTA_PUBLICA)
 
-☐ Crear expedientes de prueba mínimos (ej: 2024-001, 2024-002)
+☐ Crear expedientes de prueba mínimos (ej: 2026-001, 2026-002)
 ☐ Cargar documentos de prueba si es posible
 ☐ Validar BD conexiones OK
 ☐ Validar API /health endpoint
@@ -239,7 +239,7 @@ Action: Cambiar tráfico a 25%, investigar en paralelo
 ```
 To: DevOps Lead, Backend Lead, CTO
 Severity: P1 - ROLLBACK NEEDED
-Action: Revert deployment v1.0.0
+Action: Revert deployment v1.2.4
 Timeline: Immediate (< 5 minutes)
 ```
 
@@ -287,7 +287,7 @@ T+60m: Validación final + monitoreo continuo
 2. **Ten rollback plan listo** antes de ejecutar
 3. **Monitorea logs** mientras se ejecutan tests
 4. **No aumentes tráfico** si tests pasan pero con warnings
-5. **Documenta TODO** en PROD_SMOKE_REPORT_v1.0.0.md
+5. **Documenta TODO** en PROD_SMOKE_REPORT_v1.2.4.md
 
 ---
 
@@ -311,6 +311,6 @@ A: Leer [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md)
 ---
 
 **Quick Reference Card**  
-**SGED v1.0.0 Production Deployment**  
+**SGED v1.2.4 Production Deployment**  
 **Keep handy during deployment! 📋**
 

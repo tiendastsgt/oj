@@ -1,14 +1,14 @@
----
+﻿---
 Documento: SMOKE_TESTS_RESUMEN_EJECUTIVO
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
-# 🎉 SMOKE TESTS v1.0.0 - RESUMEN EJECUTIVO
+# 🎉 SMOKE TESTS v1.2.4 - RESUMEN EJECUTIVO
 ## Agente Especializado Lista para Despliegues en Producción
 
 **Fecha**: Enero 28, 2026  
@@ -27,7 +27,7 @@ Estado: ✅ Vigente
 ✅ QUICK_START_SMOKE_TESTS.md  
    └─ Guía operativa rápida para ejecución diaria
 
-✅ TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+✅ TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
    └─ Plantilla para documentar resultados post-smoke
 
 ✅ SMOKE_TESTS_ENTREGA_COMPLETADA.md
@@ -69,7 +69,7 @@ Estado: ✅ Vigente
 ## 📅 TIMELINE POST-DESPLIEGUE
 
 ```
-T+0 min    DevOps: "Despliegue completado v1.0.0"
+T+0 min    DevOps: "Despliegue completado v1.2.4"
            → Validar URL, credenciales, datos de prueba
 
 T+2-5 min  Quick Smoke (~5 min)
@@ -146,7 +146,7 @@ npm run test:smoke:full
 
 ### Reporte (T+20 min)
 ```bash
-# Rellenar: TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+# Rellenar: TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 # Decisión: GO / NO-GO / GO+MON
 # Compartir en: Slack #sged-incidents
 ```
@@ -190,7 +190,7 @@ npm run test:smoke:full
 | [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) | Siempre | 5 min lectura |
 | [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) | Pre-ejecución | 10 min lectura |
 | [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) | Revisión | 10 min lectura |
-| [TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md](TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md) | Post-ejecución | 5 min rellenar |
+| [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) | Post-ejecución | 5 min rellenar |
 
 ---
 
@@ -259,7 +259,7 @@ npm run test:smoke:full
 ```
 ╔══════════════════════════════════════════════════════╗
 ║                                                      ║
-║  ✅ SMOKE TESTS v1.0.0 - LISTO                     ║
+║  ✅ SMOKE TESTS v1.2.4 - LISTO                     ║
 ║                                                      ║
 ║  • 5 documentos maestros                            ║
 ║  • 25+ test cases automatizados                     ║
@@ -276,5 +276,5 @@ npm run test:smoke:full
 
 **Agente**: Smoke Tests QA  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.0.0  
+**Versión**: v1.2.4  
 **Estado**: ✅ OPERACIONAL

@@ -1,18 +1,18 @@
----
+﻿---
 Documento: ROADMAP_PROYECTO_SGED
 Proyecto: SGED
-Versión del sistema: v1.1.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.1
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 (en desarrollo) y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 (en desarrollo) y superiores
 Estado: ✅ Vigente
 ---
 
 # Roadmap Proyecto SGED
 ## Sistema de Gestión de Expedientes Digitales - Visor Documental
 
-**Fecha de última actualización:** 11 de abril de 2026 
-**Versión:** 1.1 
+**Fecha de última actualización:** 3 de mayo de 2026 
+**Versión:** 1.2.4 
 **Estado:** Oficial - Nueva Línea Base (10 Sprints)
 
 ---
@@ -81,6 +81,6 @@ El proyecto se divide en **10 Sprints** de 2 semanas cada uno.
 
 ---
 
-**Última actualización:** 11 abril 2026  
+**Última actualización:** 3 mayo 2026  
 **Responsable:** Agente de Documentación  
 **Próxima revisión:** Inicio del Sprint 3

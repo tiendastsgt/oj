@@ -1,10 +1,10 @@
----
+﻿---
 Documento: QUICK_START_PRUEBAS
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -460,7 +460,7 @@ PERFORMANCE
 
 Si todos estos tests pasan:
 
-✅ **Sistema SGED v1.1.0 está LISTO PARA STAGING**
+✅ **Sistema SGED v1.2.4 está LISTO PARA STAGING**
 
 ---
 

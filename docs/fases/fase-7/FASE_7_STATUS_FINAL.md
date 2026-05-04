@@ -1,10 +1,10 @@
----
+﻿---
 Documento: FASE_7_STATUS_FINAL
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -333,7 +333,7 @@ Database       🟢 Up (healthy)     [H2 o Oracle, según config]
 
 **Fase**: 7 de 7  
 **Status**: ✅ COMPLETADA  
-**Fecha**: Enero 2026  
+**Fecha**: Mayo 2026  
 **Agente**: DevOps / Infraestructura  
 
 ---

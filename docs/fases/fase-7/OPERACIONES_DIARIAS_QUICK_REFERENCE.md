@@ -1,10 +1,10 @@
----
+﻿---
 Documento: OPERACIONES_DIARIAS_QUICK_REFERENCE
 Proyecto: SGED
-Versión del sistema: v1.0.0
+Versión del sistema: v1.2.4
 Versión del documento: 1.0
-Última actualización: 2026-04-11
-Vigente para: v1.0.0 y superiores
+Última actualización: 2026-05-03
+Vigente para: v1.2.4 y superiores
 Estado: ✅ Vigente
 ---
 
@@ -339,12 +339,12 @@ docker-compose down
 
 # 2. Restore BD
 docker exec sged-db-qa sqlplus -s sys/as sysdba << EOF
-RESTORE DATABASE FROM RESTORE POINT backup_2024_01_15;
+RESTORE DATABASE FROM RESTORE POINT backup_2026_05_03;
 EXIT;
 EOF
 
 # 3. Restore documentos
-rsync -av /backup/sged-2024_01_15/documentos data/
+rsync -av /backup/sged-2026_05_03/documentos data/
 
 # 4. Reiniciar
 docker-compose up -d
@@ -419,5 +419,5 @@ ab -n 100 -c 10 https://localhost/api/v1/health
 
 ---
 
-**Última actualización**: Enero 2026
+**Última actualización**: Mayo 2026
 **Mantenedor**: Equipo DevOps/Infraestructura

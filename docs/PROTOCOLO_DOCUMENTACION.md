@@ -1,8 +1,8 @@
-# 📋 PROTOCOLO DE DOCUMENTACIÓN - SGED
+﻿# 📋 PROTOCOLO DE DOCUMENTACIÓN - SGED
 
-**Versión:** 1.0.0  
-**Fecha de vigencia:** 28 enero 2026  
-**Aplicable a:** SGED v1.0.0 y superior
+**Versión:** 1.2.4  
+**Fecha de vigencia:** 3 mayo 2026  
+**Aplicable a:** SGED v1.2.4 y superior
 
 ---
 
@@ -33,7 +33,7 @@ La documentación se organiza en la carpeta `/docs` con la siguiente estructura:
 │   ├── PLAN_SMOKE_TESTS_PRODUCCION.md
 │   ├── QUICK_START_SMOKE_TESTS.md
 │   ├── INDICE_SMOKE_TESTS.md
-│   ├── TEMPLATE_PROD_SMOKE_REPORT_v1.0.0.md
+│   ├── TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 │   └── SMOKE_TESTS_RESUMEN_EJECUTIVO.md
 ├── fases/                # Documentación detallada por fase
 │   ├── fase-1/           # (Vacío para versión 1.0; mantener para referencias futuras)
@@ -88,7 +88,7 @@ La documentación se organiza en la carpeta `/docs` con la siguiente estructura:
 - `[NOMBRE]` = Descripción clara (máx 40 caracteres)
 - `[CONTEXTO]` (Opcional): Contexto específico (ej: PRODUCCION, QA, FASE_7)
 - `v[VERSIÓN]` (Opcional): Solo si hay múltiples versiones del documento
-  - Formato: `v1.0.0`, `v1.1.0`, etc.
+  - Formato: `v1.2.4`, `v1.2.4`, etc.
   - Incrementar cuando hay cambios significativos
 - `[FECHA]` (Opcional): `YYYY-MM-DD` solo para documentos críticos o con fecha de obsolescencia
 
@@ -96,11 +96,11 @@ La documentación se organiza en la carpeta `/docs` con la siguiente estructura:
 
 | Documento | Nombre |
 |-----------|--------|
-| Plan de smoke tests (v1.0, vigente) | `PLAN_SMOKE_TESTS_PRODUCCION_v1.0.0.md` |
+| Plan de smoke tests (v1.0, vigente) | `PLAN_SMOKE_TESTS_PRODUCCION_v1.2.4.md` |
 | Guía de transición de entornos | `GUIA_TRANSICION_ENTORNOS.md` |
 | Quick start smoke tests | `QUICK_START_SMOKE_TESTS.md` |
 | Resumen ejecutivo QA | `RESUMEN_EJECUTIVO_DESPLIEGUE_PROD.md` |
-| Template de reporte smoke (v1.0, vigente hasta 2026-02-28) | `TEMPLATE_PROD_SMOKE_REPORT_v1.0.0_vigente-hasta-2026-02-28.md` |
+| Template de reporte smoke (v1.0, vigente hasta 2026-02-28) | `TEMPLATE_PROD_SMOKE_REPORT_v1.2.4_vigente-hasta-2026-02-28.md` |
 
 ### 2.3 Archivos sin Versionado
 
@@ -145,9 +145,9 @@ Todo documento vigente **DEBE** comenzar con esta cabecera:
 ```markdown
 # PLAN DE SMOKE TESTS - PRODUCCIÓN
 
-**Versión:** 1.0.0  
+**Versión:** 1.2.4  
 **Fecha de última actualización:** 2026-01-28  
-**Vigente para:** SGED v1.0.0 y superior  
+**Vigente para:** SGED v1.2.4 y superior  
 **Responsable:** QA Team  
 **Estado:** ✅ Vigente  
 
@@ -165,7 +165,7 @@ Todo documento vigente **DEBE** comenzar con esta cabecera:
 
 Un documento es **VIGENTE** si:
 
-1. Aplica a la versión actual de SGED (v1.0.0 actualmente)
+1. Aplica a la versión actual de SGED (v1.2.4 actualmente)
 2. Ha sido testeado/validado en ese entorno
 3. No ha sido reemplazado por uno más nuevo
 4. El team responsable lo mantiene activo
@@ -191,7 +191,7 @@ Cuando un documento pasa a obsoleto:
 ```markdown
 # PLAN_DESPLIEGUE_PRODUCCION_OBSOLETO_2026-02-15.md
 
-**Versión:** 1.0.0 (OBSOLETO)  
+**Versión:** 1.2.4 (OBSOLETO)  
 **Fecha de última actualización:** 2026-01-28  
 **Marcado como obsoleto:** 2026-02-15  
 **Reemplazado por:** [Nuevo documento si aplica]  
@@ -214,9 +214,9 @@ Usar versionado semántico (MAJOR.MINOR.PATCH):
 
 | Cambio | Incremento | Ejemplo |
 |--------|-----------|---------|
-| Cambios mayores, restructuraciones | MAJOR | v1.0.0 → v2.0.0 |
-| Nuevas secciones, mejoras | MINOR | v1.0.0 → v1.1.0 |
-| Correcciones, actualizaciones menores | PATCH | v1.0.0 → v1.0.1 |
+| Cambios mayores, restructuraciones | MAJOR | v1.2.4 → v2.0.0 |
+| Nuevas secciones, mejoras | MINOR | v1.2.4 → v1.2.4 |
+| Correcciones, actualizaciones menores | PATCH | v1.2.4 → v1.0.1 |
 
 **Regla:** Solo incrementar versión cuando se actualiza el nombre del archivo o cuando hay cambios muy sustanciales. En cambios menores, solo actualizar la fecha de "Fecha de última actualización" en la cabecera.
 
@@ -248,7 +248,7 @@ Algunos documentos críticos pueden llevar fecha de expiración:
 
 Ejemplo:
 ```markdown
-**Vigencia:** 28 enero 2026 - 28 marzo 2026 (60 días desde despliegue)
+**Vigencia:** 28 Mayo 2026 - 28 marzo 2026 (60 días desde despliegue)
 ```
 
 ---
@@ -277,11 +277,11 @@ Todo documento que sea versionado debe tener un CHANGELOG al final:
 ```markdown
 ## CHANGELOG
 
-### v1.0.0 (2026-01-28)
+### v1.2.4 (2026-01-28)
 - Versión inicial de producción
-- Incluye todos los steps de smoke tests para v1.0.0
+- Incluye todos los steps de smoke tests para v1.2.4
 
-### v1.1.0 (Futuro)
+### v1.2.4 (Futuro)
 - [Cambios cuando se release]
 ```
 
@@ -320,7 +320,7 @@ Archivo central en `/docs/` que lista todos los documentos importantes. Ver secc
 ```markdown
 # [TÍTULO]
 
-**Versión:** 1.0.0  
+**Versión:** 1.2.4  
 **Fecha de última actualización:** YYYY-MM-DD  
 **Vigente para:** SGED vX.Y.Z o superior  
 **Responsable:** [Team]  
@@ -338,7 +338,7 @@ Archivo central en `/docs/` que lista todos los documentos importantes. Ver secc
 
 ## CHANGELOG
 
-### v1.0.0 (YYYY-MM-DD)
+### v1.2.4 (YYYY-MM-DD)
 - Versión inicial
 
 ---
