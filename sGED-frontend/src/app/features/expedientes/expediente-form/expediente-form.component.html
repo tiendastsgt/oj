@@ -1,10 +1,11 @@
-<p-card [header]="isEditMode() ? 'Editar expediente' : 'Nuevo expediente'">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="expediente-form">
+<p-card [header]="dto.isEditMode() ? 'Editar expediente' : 'Nuevo expediente'">
+  <form [formGroup]="svc.form" (ngSubmit)="svc.submit()" class="expediente-form">
+
     <div class="form-field">
       <label for="numero">Número de expediente</label>
       <input id="numero" pInputText formControlName="numero" />
-      @if (isInvalid('numero')) {
-      <small class="error">El número es requerido</small>
+      @if (svc.isInvalid('numero')) {
+        <small class="error">El número es requerido</small>
       }
     </div>
 
@@ -13,13 +14,13 @@
       <p-select
         id="tipoProcesoId"
         formControlName="tipoProcesoId"
-        [options]="tiposProceso"
+        [options]="dto.tiposProceso()"
         optionLabel="nombre"
         optionValue="id"
         placeholder="Seleccione tipo de proceso"
       ></p-select>
-      @if (isInvalid('tipoProcesoId')) {
-      <small class="error">El tipo es requerido</small>
+      @if (svc.isInvalid('tipoProcesoId')) {
+        <small class="error">El tipo es requerido</small>
       }
     </div>
 
@@ -28,13 +29,13 @@
       <p-select
         id="estadoId"
         formControlName="estadoId"
-        [options]="estados"
+        [options]="dto.estados()"
         optionLabel="nombre"
         optionValue="id"
         placeholder="Seleccione estado"
       ></p-select>
-      @if (isInvalid('estadoId')) {
-      <small class="error">El estado es requerido</small>
+      @if (svc.isInvalid('estadoId')) {
+        <small class="error">El estado es requerido</small>
       }
     </div>
 
@@ -43,29 +44,29 @@
       <p-select
         id="juzgadoId"
         formControlName="juzgadoId"
-        [options]="juzgados"
+        [options]="dto.juzgados()"
         optionLabel="nombre"
         optionValue="id"
         placeholder="Seleccione juzgado"
       ></p-select>
-      @if (isInvalid('juzgadoId')) {
-      <small class="error">El juzgado es requerido</small>
+      @if (svc.isInvalid('juzgadoId')) {
+        <small class="error">El juzgado es requerido</small>
       }
     </div>
 
     <div class="form-field">
       <label for="fechaInicio">Fecha de inicio</label>
       <p-datepicker id="fechaInicio" formControlName="fechaInicio" dateFormat="yy-mm-dd"></p-datepicker>
-      @if (isInvalid('fechaInicio')) {
-      <small class="error">La fecha es requerida</small>
+      @if (svc.isInvalid('fechaInicio')) {
+        <small class="error">La fecha es requerida</small>
       }
     </div>
 
     <div class="form-field">
       <label for="descripcion">Descripción</label>
       <textarea id="descripcion" pInputTextarea rows="3" formControlName="descripcion"></textarea>
-      @if (isInvalid('descripcion')) {
-      <small class="error">La descripción es requerida</small>
+      @if (svc.isInvalid('descripcion')) {
+        <small class="error">La descripción es requerida</small>
       }
     </div>
 
@@ -85,17 +86,18 @@
     </div>
 
     <div class="messages">
-      @if (successMessage) {
-      <p-message severity="success" [text]="successMessage"></p-message>
+      @if (dto.successMessage()) {
+        <p-message severity="success" [text]="dto.successMessage()"></p-message>
       }
-      @for (message of errorMessages; track message) {
-      <p-message severity="error" [text]="message"></p-message>
+      @for (msg of dto.errors(); track msg) {
+        <p-message severity="error" [text]="msg"></p-message>
       }
     </div>
 
     <div class="form-actions">
       <button pButton type="button" label="Cancelar" class="p-button-text" routerLink="/expedientes"></button>
-      <button pButton type="submit" label="Guardar" [loading]="loading" [disabled]="loading"></button>
+      <button pButton type="submit" label="Guardar" [loading]="dto.isLoading()" [disabled]="dto.isLoading()"></button>
     </div>
+
   </form>
 </p-card>
