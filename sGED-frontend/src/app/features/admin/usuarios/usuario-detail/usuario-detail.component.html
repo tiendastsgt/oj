@@ -1,0 +1,124 @@
+@if (dto.usuario()) {
+<div class="fade-in">
+  <div class="page-header-actions mb-6">
+    <div>
+      <h1 class="page-title">Perfil de Usuario</h1>
+      <p class="subtitle">Información detallada de la cuenta</p>
+    </div>
+    <div class="flex gap-3">
+      <button class="btn btn-primary" (click)="svc.editar()">
+        <i class="pi pi-pencil"></i> Editar
+      </button>
+      <button class="btn btn-secondary" (click)="svc.volver()">
+        <i class="pi pi-arrow-left"></i> Volver
+      </button>
+    </div>
+  </div>
+
+  <div class="card glass-panel shadow-lg mb-6 p-6 relative overflow-hidden">
+    <div class="absolute top-0 left-0 right-0 h-[3px]" style="background: linear-gradient(90deg, var(--primary), var(--accent-cyan), var(--accent-violet)); box-shadow: 0 0 10px var(--primary-glow);"></div>
+    <div class="flex items-center gap-6">
+      <div class="user-avatar" style="width:72px; height:72px; font-size:1.5rem;">
+        {{ dto.initials() }}
+      </div>
+      <div class="flex flex-col gap-1">
+        <span style="font-size: var(--font-2xl); font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em;">{{ dto.usuario()!.nombreCompleto }}</span>
+        <span style="font-size: var(--font-sm); color: var(--text-secondary);">{{ dto.usuario()!.email }}</span>
+        <div class="flex items-center gap-3 mt-2">
+          <span class="badge badge-info">
+            <i class="pi pi-shield" style="font-size:0.7rem;"></i>
+            {{ dto.usuario()!.rol }}
+          </span>
+          <span class="badge" [ngClass]="dto.usuario()!.activo ? 'badge-active' : 'badge-urgent'">
+            {{ dto.usuario()!.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+          @if (dto.usuario()!.bloqueado) {
+          <span class="badge badge-urgent">
+            <i class="pi pi-lock" style="font-size:0.7rem;"></i>
+            Bloqueado
+          </span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb-6">
+    <div class="card glass-panel p-5">
+      <div class="section-title mb-4">
+        <i class="pi pi-user"></i> INFORMACIÓN DE CUENTA
+      </div>
+      <div class="meta-list">
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-at"></i> Username</span>
+          <span class="detail-value">{{ dto.usuario()!.username }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-envelope"></i> Email</span>
+          <span class="detail-value">{{ dto.usuario()!.email }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-building"></i> Juzgado</span>
+          <span class="detail-value">{{ dto.usuario()!.juzgado }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-shield"></i> Rol</span>
+          <span class="detail-value" style="color: var(--accent-cyan); font-weight: 700;">{{ dto.usuario()!.rol }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card glass-panel p-5">
+      <div class="section-title mb-4">
+        <i class="pi pi-lock"></i> SEGURIDAD
+      </div>
+      <div class="meta-list">
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-check-circle"></i> Estado</span>
+          <span class="detail-value">
+            <span class="badge" [ngClass]="dto.usuario()!.activo ? 'badge-active' : 'badge-urgent'" style="font-size: 0.7rem;">
+              {{ dto.usuario()!.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-lock"></i> Bloqueo</span>
+          <span class="detail-value">
+            <span class="badge" [ngClass]="dto.usuario()!.bloqueado ? 'badge-urgent' : 'badge-active'" style="font-size: 0.7rem;">
+              {{ dto.usuario()!.bloqueado ? 'Bloqueado' : 'Desbloqueado' }}
+            </span>
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-key"></i> Debe Cambiar Contraseña</span>
+          <span class="detail-value">{{ dto.usuario()!.debeCambiarPassword ? 'Sí' : 'No' }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="pi pi-exclamation-triangle"></i> Intentos Fallidos</span>
+          <span class="detail-value" [style.color]="dto.usuario()!.intentosFallidos > 0 ? 'var(--accent-rose)' : 'var(--text-primary)'">
+            {{ dto.usuario()!.intentosFallidos }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card glass-panel p-5">
+    <div class="section-title mb-4">
+      <i class="pi pi-clock"></i> REGISTRO TEMPORAL
+    </div>
+    <div class="flex gap-8">
+      <div class="detail-row" style="flex:1;">
+        <span class="detail-label"><i class="pi pi-calendar-plus"></i> Fecha de Creación</span>
+        <span class="detail-value">{{ dto.usuario()!.fechaCreacion | date:'dd MMMM yyyy, HH:mm' }}</span>
+      </div>
+      <div class="detail-row" style="flex:1;">
+        <span class="detail-label"><i class="pi pi-calendar"></i> Última Modificación</span>
+        <span class="detail-value">{{ dto.usuario()!.fechaModificacion | date:'dd MMMM yyyy, HH:mm' }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+<p-toast></p-toast>

@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  &.active {
+    background: var(--accent-emerald);
+    box-shadow: 0 0 8px var(--accent-emerald);
+  }
+
+  &.blocked {
+    background: var(--accent-rose);
+    box-shadow: 0 0 8px var(--accent-rose);
+  }
+}
+
+::ng-deep {
+  .p-datatable { background: transparent !important; }
+  .p-paginator {
+    background: transparent !important;
+    border-top: 1px solid var(--border) !important;
+    padding: 1rem !important;
+  }
+}

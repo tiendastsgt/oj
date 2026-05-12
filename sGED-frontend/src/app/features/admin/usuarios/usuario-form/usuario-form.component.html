@@ -1,0 +1,122 @@
+<div class="fade-in">
+  <div class="page-header-actions mb-6">
+    <div>
+      <h1 class="page-title">{{ dto.isCreation() ? 'Crear Nuevo Usuario' : 'Editar Usuario' }}</h1>
+      <p class="subtitle">{{ dto.isCreation() ? 'Complete los datos para registrar una nueva cuenta' : 'Modifique los datos del usuario seleccionado' }}</p>
+    </div>
+    <button class="btn btn-secondary" (click)="svc.cancelar()">
+      <i class="pi pi-arrow-left"></i> Volver
+    </button>
+  </div>
+
+  <div class="card glass-panel shadow-lg" style="max-width: 800px;">
+    <div class="card-header">
+      <div class="section-title">
+        <i class="pi pi-user-edit"></i> {{ dto.isCreation() ? 'DATOS DE LA CUENTA' : 'DATOS DEL USUARIO' }}
+      </div>
+    </div>
+    <div class="card-body" style="padding: var(--space-6);">
+      <form [formGroup]="svc.form" (ngSubmit)="svc.guardar()">
+        @if (dto.isCreation()) {
+        <div class="form-field mb-4">
+          <label class="form-label" htmlFor="username"><i class="pi pi-at"></i> Username *</label>
+          <input type="text" id="username" class="form-input" placeholder="Ej: juan.perez" formControlName="username" />
+          @if (svc.isFieldInvalid('username')) {
+          <div class="field-error">
+            @if (svc.form.get('username')?.errors?.['required'])  { <span>El username es requerido</span> }
+            @if (svc.form.get('username')?.errors?.['minlength']) { <span>Mínimo 3 caracteres</span> }
+            @if (svc.form.get('username')?.errors?.['maxlength']) { <span>Máximo 50 caracteres</span> }
+          </div>
+          }
+        </div>
+        }
+
+        <div class="form-field mb-4">
+          <label class="form-label" htmlFor="nombreCompleto"><i class="pi pi-user"></i> Nombre Completo *</label>
+          <input type="text" id="nombreCompleto" class="form-input" placeholder="Nombre y apellidos" formControlName="nombreCompleto" />
+          @if (svc.isFieldInvalid('nombreCompleto')) {
+          <div class="field-error">
+            @if (svc.form.get('nombreCompleto')?.errors?.['required'])  { <span>El nombre completo es requerido</span> }
+            @if (svc.form.get('nombreCompleto')?.errors?.['minlength']) { <span>Mínimo 5 caracteres</span> }
+            @if (svc.form.get('nombreCompleto')?.errors?.['maxlength']) { <span>Máximo 150 caracteres</span> }
+          </div>
+          }
+        </div>
+
+        <div class="form-field mb-4">
+          <label class="form-label" htmlFor="email"><i class="pi pi-envelope"></i> Email *</label>
+          <input type="email" id="email" class="form-input" placeholder="correo@oj.gob.gt" formControlName="email" />
+          @if (svc.isFieldInvalid('email')) {
+          <div class="field-error">
+            @if (svc.form.get('email')?.errors?.['required'])  { <span>El email es requerido</span> }
+            @if (svc.form.get('email')?.errors?.['email'])     { <span>Email inválido</span> }
+            @if (svc.form.get('email')?.errors?.['maxlength']) { <span>Máximo 100 caracteres</span> }
+          </div>
+          }
+        </div>
+
+        <div class="grid-2 mb-4">
+          <div class="form-field">
+            <label class="form-label" htmlFor="rolId"><i class="pi pi-shield"></i> Rol *</label>
+            <select id="rolId" formControlName="rolId" class="form-input form-select">
+              <option value="">Seleccionar rol</option>
+              @for (rol of dto.roles(); track rol.value) {
+              <option [value]="rol.value">{{ rol.label }}</option>
+              }
+            </select>
+            @if (svc.isFieldInvalid('rolId')) {
+            <div class="field-error">
+              @if (svc.form.get('rolId')?.errors?.['required']) { <span>El rol es requerido</span> }
+            </div>
+            }
+          </div>
+          <div class="form-field">
+            <label class="form-label" htmlFor="juzgadoId"><i class="pi pi-building"></i> Juzgado *</label>
+            <select id="juzgadoId" formControlName="juzgadoId" class="form-input form-select">
+              <option value="">Seleccionar juzgado</option>
+              @for (juzgado of dto.juzgados(); track juzgado.value) {
+              <option [value]="juzgado.value">{{ juzgado.label }}</option>
+              }
+            </select>
+            @if (svc.isFieldInvalid('juzgadoId')) {
+            <div class="field-error">
+              @if (svc.form.get('juzgadoId')?.errors?.['required']) { <span>El juzgado es requerido</span> }
+            </div>
+            }
+          </div>
+        </div>
+
+        @if (!dto.isCreation()) {
+        <div class="grid-2 mb-6">
+          <div class="form-field">
+            <label class="form-label" htmlFor="activo"><i class="pi pi-check-circle"></i> Estado</label>
+            <select id="activo" formControlName="activo" class="form-input form-select">
+              <option [value]="true">Activo</option>
+              <option [value]="false">Inactivo</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label" htmlFor="bloqueado"><i class="pi pi-lock"></i> Bloqueo</label>
+            <select id="bloqueado" formControlName="bloqueado" class="form-input form-select">
+              <option [value]="false">Desbloqueado</option>
+              <option [value]="true">Bloqueado</option>
+            </select>
+          </div>
+        </div>
+        }
+
+        <div class="flex gap-3" style="border-top: 1px solid var(--border); padding-top: var(--space-6);">
+          <button type="submit" class="btn btn-primary" [disabled]="!svc.form.valid || dto.submitting()">
+            <i class="pi" [ngClass]="dto.submitting() ? 'pi-spin pi-spinner' : 'pi-check'"></i>
+            {{ dto.isCreation() ? 'Crear Usuario' : 'Guardar Cambios' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="svc.cancelar()">
+            <i class="pi pi-times"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

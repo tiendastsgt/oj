@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.field-error {
+  color: var(--accent-rose);
+  font-size: var(--font-xs);
+  margin-top: var(--space-1);
+}
