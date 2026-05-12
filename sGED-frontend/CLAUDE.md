@@ -73,3 +73,90 @@ npx ng build
 npx ng build --configuration=production
 ```
 Si no compila, arreglar antes de continuar. Nunca dejar código que no compile.
+
+---
+
+## Checklist de Auditoría Post-Migración
+
+Cuando se pida auditar un componente migrado, usar el rol de `.ai/agents/code-reviewer.md` y verificar:
+
+### Patrón de 6 Artefactos
+- [ ] `component.ts` es solo orquestador (≤30 líneas, sin lógica, sin HTTP)
+- [ ] `dto.ts` usa `signal()` y `computed()` correctamente, tiene mocks iniciales
+- [ ] `service.ts` contiene TODA la lógica, muta el DTO con `.set()`/`.update()`
+- [ ] `types.ts` separa tipos API de tipos UI, reutiliza `core/models/` sin duplicar
+- [ ] `component.html` lee del DTO con paréntesis `dto.x()`, llama `svc.metodo()`, sin lógica inline
+- [ ] `component.scss` usa `:host` y tokens CSS, sin `!important`
+
+### Anti-patrones Ausentes
+- [ ] Cero `ChangeDetectorRef` en archivos nuevos
+- [ ] Cero `setTimeout()` workarounds
+- [ ] Cero `any` (usar `unknown`)
+- [ ] Cero templates o styles inline
+- [ ] Cero propiedades planas (todo signal en el DTO)
+- [ ] Cero lógica de negocio en el template
+
+### Integridad del Sistema
+- [ ] `ng build` y `ng build --configuration=production` compilan sin errores
+- [ ] No hay imports huérfanos (archivos eliminados que aún se referencian)
+- [ ] Componentes no migrados siguen funcionando (rutas de otros features cargan)
+
+### Formato del Reporte
+Clasificar hallazgos como:
+- ✅ Correcto
+- 🔴 Crítico (debe arreglar antes de continuar)
+- 🟡 Importante (debería arreglar)
+- 💡 Sugerencia (nice to have)
+
+---
+
+## Routing de Modelos por Tarea
+
+| Tarea | Modelo | Por qué |
+|-------|--------|---------|
+| **Migrar componente** (crear 6 artefactos) | Sonnet | Trabajo operativo, sigue reglas claras |
+| **Corregir issues** post-auditoría | Sonnet | Aplica fixes puntuales |
+| **Auditar** migración | Opus | Requiere análisis profundo y criterio |
+| **Git commit** | Haiku | Tarea mecánica, cero análisis |
+| **Verificar build** (`ng build`) | Haiku | Ejecutar comando y reportar |
+
+### Prompts por rol:
+
+**Sonnet — Migrar:**
+```
+Migra src/app/features/<componente>/ al patrón de 6 artefactos. ng build al terminar.
+```
+
+**Sonnet — Corregir:**
+```
+Corrige estos issues en src/app/features/<componente>/: <lista de issues del audit>
+```
+
+**Opus — Auditar:**
+```
+Adopta .ai/agents/code-reviewer.md. Audita src/app/features/<componente>/ según el checklist de CLAUDE.md.
+```
+
+**Haiku — Commit:**
+```
+Haz git add -A && git commit con el mensaje de la fase correspondiente según CLAUDE.md.
+```
+
+---
+
+## Git Workflow — Un Commit por Fase
+
+Después de cada fase completada Y auditada:
+```bash
+git add -A
+git commit -m "refactor(frontend): migrate <componente> to 6-artifact pattern — Phase <N>"
+```
+
+Convención de mensajes:
+- Fase 0: `chore(frontend): add migration infrastructure (error helper, env, cleanup modules)`
+- Fase 1: `refactor(frontend): migrate dashboard to 6-artifact pattern`
+- Fase 2: `refactor(frontend): migrate expedientes-list to 6-artifact pattern`
+- Fase 3: `refactor(frontend): migrate expediente-form and detail to 6-artifact pattern`
+- Fase 4: `refactor(frontend): migrate documentos to 6-artifact pattern`
+- Fase 5: `refactor(frontend): migrate admin and busqueda to 6-artifact pattern`
+- Fase 6: `refactor(frontend): finalize routes, cleanup, enable zoneless`

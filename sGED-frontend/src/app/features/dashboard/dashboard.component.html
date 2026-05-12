@@ -1,0 +1,195 @@
+<div class="fade-in">
+  <header class="dashboard-header">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="subtitle">Bienvenido, {{ dto.userName() }}. Resumen del sistema al {{ dto.today() | date:'d MMMM, yyyy' }}.</p>
+  </header>
+
+  <!-- KPI Grid -->
+  <section class="grid-4 mb-8" style="margin-top: var(--space-6);">
+    <!-- Total Expedientes -->
+    <div class="kpi-card" [class.kpi-loading]="dto.loading()">
+      <div class="kpi-icon-box blue"><i class="pi pi-folder"></i></div>
+      <div>
+        <div class="kpi-value">
+          @if (!dto.loading()) { <span>{{ dto.stats().totalExpedientes | number }}</span> }
+          @if (dto.loading())  { <span class="skeleton-text">—</span> }
+        </div>
+        <div class="kpi-label">Expedientes Registrados</div>
+      </div>
+    </div>
+
+    <!-- En Proceso -->
+    <div class="kpi-card" [class.kpi-loading]="dto.loading()">
+      <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
+      <div>
+        <div class="kpi-value">
+          @if (!dto.loading()) { <span>{{ dto.stats().enProceso | number }}</span> }
+          @if (dto.loading())  { <span class="skeleton-text">—</span> }
+        </div>
+        <div class="kpi-label">En Proceso (Activos)</div>
+      </div>
+    </div>
+
+    <!-- Pendientes -->
+    <div class="kpi-card" [class.kpi-loading]="dto.loading()">
+      <div class="kpi-icon-box amber"><i class="pi pi-clock"></i></div>
+      <div>
+        <div class="kpi-value">
+          @if (!dto.loading()) { <span>{{ dto.stats().pendientes | number }}</span> }
+          @if (dto.loading())  { <span class="skeleton-text">—</span> }
+        </div>
+        <div class="kpi-label">Pendientes (En espera)</div>
+      </div>
+    </div>
+
+    <!-- Archivados -->
+    <div class="kpi-card" [class.kpi-loading]="dto.loading()">
+      <div class="kpi-icon-box violet"><i class="pi pi-inbox"></i></div>
+      <div>
+        <div class="kpi-value">
+          @if (!dto.loading()) { <span>{{ dto.stats().archivados | number }}</span> }
+          @if (dto.loading())  { <span class="skeleton-text">—</span> }
+        </div>
+        <div class="kpi-label">Archivados</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expedientes Recientes Table -->
+  <section class="card glass-panel" style="margin-top: var(--space-6);">
+    <div class="card-header">
+      <h3 class="section-title"><i class="pi pi-folder-open"></i> EXPEDIENTES RECIENTES</h3>
+      <a routerLink="/expedientes" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
+    </div>
+
+    <!-- Filtros (valueChanges dispara recarga vía switchMap) -->
+    <div class="dashboard-filters" [formGroup]="filterForm">
+      <select formControlName="estadoId" class="form-input form-select" aria-label="Filtrar por estado">
+        <option [ngValue]="null">Todos los estados</option>
+        <option [ngValue]="1">Activo</option>
+        <option [ngValue]="2">En espera</option>
+        <option [ngValue]="3">Suspendido</option>
+        <option [ngValue]="4">Cerrado</option>
+        <option [ngValue]="5">Archivado</option>
+      </select>
+      <input type="date" formControlName="fechaDesde" class="form-input" aria-label="Fecha desde" />
+      <input type="date" formControlName="fechaHasta" class="form-input" aria-label="Fecha hasta" />
+    </div>
+
+    <div style="overflow-x: auto;">
+      <!-- Loading skeleton -->
+      @if (dto.loading()) {
+      <div class="loading-rows">
+        @for (i of [1,2,3,4,5]; track $index) {
+        <div class="skeleton-row"></div>
+        }
+      </div>
+      }
+
+      <!-- Empty state -->
+      @if (!dto.loading() && !dto.hasExpedientes()) {
+      <div class="empty-state">
+        <i class="pi pi-inbox" style="font-size:2.5rem; color:var(--text-muted); opacity: 0.5;"></i>
+        <p style="color:var(--text-muted); margin-top:var(--space-3); font-weight: 500;">No hay expedientes vinculados a su cuenta.</p>
+      </div>
+      }
+
+      <!-- Data table -->
+      @if (!dto.loading() && dto.hasExpedientes()) {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 200px">No. EXPEDIENTE</th>
+            <th style="min-width: 300px">DESCRIPCIÓN</th>
+            <th>USUARIO CREACIÓN</th>
+            <th style="width: 180px">FECHA REGISTRO</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (exp of dto.expedientesRecientes(); track exp.id) {
+          <tr class="hover:bg-primary-light/5">
+            <td>
+              <a [routerLink]="['/expedientes', exp.id]"
+                 style="font-weight:700; color:var(--primary-hover); text-decoration:none;"
+                 class="flex items-center gap-2">
+                <i class="pi pi-folder-open text-xs"></i>
+                {{ exp.numero }}
+              </a>
+            </td>
+            <td style="max-width:350px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"
+                [title]="exp.descripcion">
+              <span class="text-white">{{ exp.descripcion || 'Sin descripción' }}</span>
+            </td>
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="user-avatar" style="width:28px;height:28px;font-size:0.6rem; background: var(--border-strong);">
+                  {{ svc.getInitials(exp.usuarioCreacion) }}
+                </div>
+                <span class="text-xs text-slate-300">{{ exp.usuarioCreacion }}</span>
+              </div>
+            </td>
+            <td style="color:var(--text-secondary); white-space:nowrap; font-size: 0.8rem;">
+              {{ exp.fechaCreacion | date:'dd MMM yyyy, HH:mm' }}
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      }
+    </div>
+  </section>
+
+  <!-- Actividad Reciente (Auditoría) -->
+  @if (dto.hasActividad() || dto.loadingAuditoria()) {
+  <section class="card glass-panel" style="margin-top: var(--space-6);">
+    <div class="card-header">
+      <h3 class="section-title"><i class="pi pi-history"></i> ACTIVIDAD RECIENTE</h3>
+      <a routerLink="/admin/auditoria" class="btn btn-text btn-sm">Ver todo <i class="pi pi-arrow-right"></i></a>
+    </div>
+    <div style="overflow-x: auto;">
+      @if (dto.loadingAuditoria()) {
+      <div class="loading-rows">
+        @for (i of [1,2,3]; track $index) {
+        <div class="skeleton-row"></div>
+        }
+      </div>
+      }
+      @if (!dto.loadingAuditoria() && dto.hasActividad()) {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>USUARIO</th>
+            <th>ACCIÓN</th>
+            <th>MÓDULO</th>
+            <th>FECHA / HORA</th>
+            <th>IP</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (log of dto.actividadReciente(); track log.id) {
+          <tr>
+            <td>
+              <div class="flex items-center gap-3">
+                <div class="user-avatar" style="width:28px;height:28px;font-size:0.6rem;">
+                  {{ svc.getInitials(log.usuario) }}
+                </div>
+                <span style="font-weight:600;">{{ log.usuario }}</span>
+              </div>
+            </td>
+            <td><span class="badge badge-info">{{ log.accion }}</span></td>
+            <td style="color:var(--text-secondary);">{{ log.modulo }}</td>
+            <td style="color:var(--text-secondary); white-space:nowrap;">
+              {{ log.fecha | date:'dd/MM/yyyy HH:mm' }}
+            </td>
+            <td style="font-family:monospace; color:var(--text-muted); font-size:var(--font-xs);">
+              {{ log.ip }}
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      }
+    </div>
+  </section>
+  }
+</div>

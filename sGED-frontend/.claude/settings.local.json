@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Remove-Item \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\auth\\\\auth.module.ts\" -Force)",
+      "Bash(Remove-Item \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\expedientes\\\\expedientes.module.ts\" -Force)",
+      "Bash(Remove-Item \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\documentos\\\\documentos.module.ts\" -Force)",
+      "Bash(Write-Output \"Módulos eliminados\")",
+      "PowerShell(Remove-Item *)"
+    ]
+  }
+}
