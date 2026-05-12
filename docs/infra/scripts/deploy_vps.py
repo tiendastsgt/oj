@@ -1,6 +1,10 @@
 import zipfile
 import os
 import paramiko
+from dotenv import load_dotenv
+
+# Load credentials from .env (gitignored)
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '..', '.env'))
 
 def create_bundle():
     print("Creating bundle.zip...")
@@ -29,12 +33,12 @@ def create_bundle():
     print("Bundle created successfully.")
 
 def deploy():
-    print("Connecting to VPS 51.161.32.204...")
-    hostname = '51.161.32.204'
-    port = 52022
-    username = 'ubuntu'
-    password = 'ElyLov10$'
+    hostname = os.environ['VPS_HOST']
+    port = int(os.environ.get('VPS_PORT', 52022))
+    username = os.environ['VPS_USER']
+    password = os.environ['VPS_PASSWORD']
 
+    print(f"Connecting to VPS {hostname}...")
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(hostname, port=port, username=username, password=password, timeout=30)

@@ -19,7 +19,8 @@
       "PowerShell(Get-ChildItem -Path \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\busqueda\\\\resultados-busqueda\\\\\" -File | ForEach-Object { $_.Name })",
       "PowerShell(Get-ChildItem -Path \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\busqueda\\\\busqueda-avanzada\\\\\" -File | ForEach-Object { $_.Name })",
       "Bash(Write-Output \"Done\")",
-      "Bash(xargs grep -l \"ChangeDetectorRef\")"
+      "Bash(xargs grep -l \"ChangeDetectorRef\")",
+      "Bash(python docs/infra/scripts/deploy_vps.py)"
     ]
   }
 }
