@@ -25,15 +25,14 @@
         <p class="login-subtitle">Ingrese sus credenciales para acceder al sistema</p>
       </div>
 
-      <!-- Error message -->
-      @if (errorMessage) {
+      @if (dto.errorMessage()) {
       <div class="login-error">
         <i class="pi pi-exclamation-triangle"></i>
-        <span>{{ errorMessage }}</span>
+        <span>{{ dto.errorMessage() }}</span>
       </div>
       }
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+      <form [formGroup]="svc.form" (ngSubmit)="svc.onSubmit()" class="login-form">
         <div class="login-field">
           <label for="username">Usuario</label>
           <div class="input-wrap">
@@ -44,7 +43,7 @@
               formControlName="username"
               placeholder="Ingrese su nombre de usuario"
               autocomplete="username"
-              [class.field-invalid]="isInvalid('username')"
+              [class.field-invalid]="svc.isInvalid('username')"
             />
           </div>
         </div>
@@ -59,7 +58,7 @@
               formControlName="password"
               placeholder="Ingrese su contraseña"
               autocomplete="current-password"
-              [class.field-invalid]="isInvalid('password')"
+              [class.field-invalid]="svc.isInvalid('password')"
             />
           </div>
         </div>
@@ -68,10 +67,10 @@
           <button
             type="submit"
             class="login-btn"
-            [disabled]="loading"
+            [disabled]="dto.loading()"
           >
-            <i class="pi" [ngClass]="loading ? 'pi-spin pi-spinner' : 'pi-sign-in'"></i>
-            {{ loading ? 'AUTENTICANDO...' : 'INGRESAR AL SISTEMA' }}
+            <i class="pi" [ngClass]="dto.loading() ? 'pi-spin pi-spinner' : 'pi-sign-in'"></i>
+            {{ dto.loading() ? 'AUTENTICANDO...' : 'INGRESAR AL SISTEMA' }}
           </button>
         </div>
       </form>

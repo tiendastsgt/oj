@@ -1,9 +1,7 @@
-<!-- Componente de carga estilizado removido por UX (Solo lectura) -->
-
 <div class="px-0">
   <p-table
-    [value]="documentos"
-    [loading]="loading"
+    [value]="dto.documentos()"
+    [loading]="dto.loading()"
     styleClass="p-datatable-sm custom-table-minimal"
     [responsiveLayout]="'scroll'"
   >
@@ -17,11 +15,11 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-doc>
-      <tr [class.active-row]="doc.id === selectedId">
+      <tr>
         <td>
           <div class="flex items-center gap-4">
-            <div class="type-icon-box" [ngClass]="getFormatClass(doc.extension)">
-              <i [class]="getFormatIcon(doc.extension)"></i>
+            <div class="type-icon-box" [ngClass]="svc.getFormatClass(doc.extension)">
+              <i [class]="svc.getFormatIcon(doc.extension)"></i>
             </div>
             <div class="flex flex-col">
               <span class="text-sm font-bold text-slate-700 truncate max-w-[200px]" [title]="doc.nombreOriginal">
@@ -43,7 +41,7 @@
               type="button"
               icon="pi pi-eye"
               class="p-button-text p-button-rounded p-button-info"
-              (click)="onVer(doc)"
+              (click)="viewDocumento.emit(doc)"
               pTooltip="Visualizar">
             </button>
             <button
@@ -51,10 +49,9 @@
               type="button"
               icon="pi pi-download"
               class="p-button-text p-button-rounded p-button-secondary"
-              (click)="onDescargar(doc)"
+              (click)="svc.descargarDocumento(doc)"
               pTooltip="Descargar">
             </button>
-
           </div>
         </td>
       </tr>
@@ -69,12 +66,12 @@
   </p-table>
 </div>
 
-@if (uploading) {
+@if (dto.uploading()) {
 <div class="progress-container mt-4">
-  <p-progressBar [value]="progress" styleClass="h-1"></p-progressBar>
+  <p-progressBar [value]="dto.progress()" styleClass="h-1"></p-progressBar>
 </div>
 }
 
-@for (message of errorMessages; track message) {
+@for (message of dto.errorMessages(); track message) {
 <p-message severity="error" [text]="message" class="mt-4 block"></p-message>
 }

@@ -1,27 +1,27 @@
 <p-toast position="top-right" />
-@if (documento) {
+@if (dto.documento(); as documento) {
 <div class="elite-viewer">
 
   <!-- Viewer Header — file info + actions -->
   <div class="viewer-header">
     <div class="viewer-file-info">
-      <i class="pi" [ngClass]="fileIcon"></i>
+      <i class="pi" [ngClass]="dto.fileIcon()"></i>
       <div>
         <span class="viewer-filename">{{ documento.nombreOriginal }}</span>
-        <span class="viewer-meta">{{ documento.extension?.toUpperCase() }} · {{ formatSize(documento.tamanio) }}</span>
+        <span class="viewer-meta">{{ documento.extension?.toUpperCase() }} · {{ svc.formatSize(documento.tamanio) }}</span>
       </div>
     </div>
     <div class="viewer-actions">
-      <button class="viewer-btn" title="Abrir en nueva pestaña" (click)="openExternal()">
+      <button class="viewer-btn" title="Abrir en nueva pestaña" (click)="svc.openExternal()">
         <i class="pi pi-external-link"></i>
       </button>
-      <button class="viewer-btn" [class.active]="readingModeActive" title="Modo Lectura (Expandir)" (click)="toggleReadingMode()">
-        <i class="pi" [ngClass]="readingModeActive ? 'pi-window-minimize' : 'pi-window-maximize'"></i>
+      <button class="viewer-btn" [class.active]="dto.readingModeActive()" title="Modo Lectura (Expandir)" (click)="onReadingModeToggle()">
+        <i class="pi" [ngClass]="dto.readingModeActive() ? 'pi-window-minimize' : 'pi-window-maximize'"></i>
       </button>
-      <button class="viewer-btn" [class.active]="isFullscreen" title="Pantalla Completa" (click)="toggleFullscreen()">
-        <i class="pi" [ngClass]="isFullscreen ? 'pi-window-minimize' : 'pi-arrows-alt'"></i>
+      <button class="viewer-btn" [class.active]="dto.isFullscreen()" title="Pantalla Completa" (click)="svc.toggleFullscreen()">
+        <i class="pi" [ngClass]="dto.isFullscreen() ? 'pi-window-minimize' : 'pi-arrows-alt'"></i>
       </button>
-      <button class="viewer-btn" title="Descargar" (click)="download()">
+      <button class="viewer-btn" title="Descargar" (click)="svc.download()">
         <i class="pi pi-download"></i>
       </button>
       <button class="viewer-btn" title="Cerrar visor" (click)="close.emit()">
@@ -31,7 +31,7 @@
   </div>
 
   <!-- Loading state -->
-  @if (loading) {
+  @if (dto.loading()) {
   <div class="elite-body viewer-centered">
     <div class="loading-pulse">
       <i class="pi pi-spin pi-spinner"></i>
@@ -41,13 +41,13 @@
   }
 
   <!-- Error state -->
-  @if (!loading && error) {
+  @if (!dto.loading() && dto.error()) {
   <div class="elite-body viewer-centered">
     <div class="viewer-notice error">
       <i class="pi pi-exclamation-triangle"></i>
       <h4>Error al cargar</h4>
-      <p>{{ error }}</p>
-      <button class="viewer-btn-action" (click)="download()">
+      <p>{{ dto.error() }}</p>
+      <button class="viewer-btn-action" (click)="svc.download()">
         <i class="pi pi-download"></i> Descargar archivo
       </button>
     </div>
@@ -55,21 +55,21 @@
   }
 
   <!-- PDF Viewer (también para Word convertido a PDF en backend) -->
-  @if (!loading && !error && (isPdf || previewAsPdf) && frameUrl) {
+  @if (!dto.loading() && !dto.error() && (dto.isPdf() || dto.previewAsPdf()) && dto.frameUrl()) {
   <div class="elite-body pdf-body">
-    <iframe [src]="frameUrl" class="viewer-iframe" title="Visor PDF"></iframe>
+    <iframe [src]="dto.frameUrl()" class="viewer-iframe" title="Visor PDF"></iframe>
   </div>
   }
 
   <!-- Image Viewer -->
-  @if (!loading && !error && isImage && mediaUrl) {
+  @if (!dto.loading() && !dto.error() && dto.isImage() && dto.mediaUrl()) {
   <div class="elite-body image-body">
-    <img [src]="mediaUrl" [alt]="documento.nombreOriginal" class="viewer-image" />
+    <img [src]="dto.mediaUrl()" [alt]="documento.nombreOriginal" class="viewer-image" />
   </div>
   }
 
   <!-- Audio Player -->
-  @if (!loading && !error && isAudio && blobReady) {
+  @if (!dto.loading() && !dto.error() && dto.isAudio() && dto.blobReady()) {
   <div class="elite-body viewer-centered">
     <div class="audio-card">
       <div class="audio-visual">
@@ -96,7 +96,7 @@
   }
 
   <!-- Video Player -->
-  @if (!loading && !error && isVideo && blobReady) {
+  @if (!dto.loading() && !dto.error() && dto.isVideo() && dto.blobReady()) {
   <div class="elite-body video-body">
     <video #videoPlayer controls class="viewer-video">
       Su navegador no soporta la reproducción de video.
@@ -105,13 +105,13 @@
   }
 
   <!-- Unsupported format -->
-  @if (!loading && !error && !isPdf && !isImage && !isAudio && !isVideo && !isWord) {
+  @if (!dto.loading() && !dto.error() && !dto.isPdf() && !dto.isImage() && !dto.isAudio() && !dto.isVideo() && !dto.isWord()) {
   <div class="elite-body viewer-centered">
     <div class="viewer-notice">
       <i class="pi pi-file"></i>
       <h4>Vista previa no disponible</h4>
       <p>Este formato ({{ documento.extension?.toUpperCase() }}) no se puede previsualizar en el navegador.</p>
-      <button class="viewer-btn-action" (click)="download()">
+      <button class="viewer-btn-action" (click)="svc.download()">
         <i class="pi pi-download"></i> Descargar archivo
       </button>
     </div>

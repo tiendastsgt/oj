@@ -28,68 +28,71 @@ export const routes: Routes = [
   },
   {
     path: 'expedientes',
-    loadComponent: () =>
-      import('./features/expedientes/expedientes-list/expedientes-list.component').then(m => m.ExpedientesListComponent),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/expedientes/expedientes-list/expedientes-list.component').then(m => m.ExpedientesListComponent)
+      },
+      {
+        path: 'nuevo',
+        loadComponent: () =>
+          import('./features/expedientes/expediente-form/expediente-form.component').then(m => m.ExpedienteFormComponent)
+      },
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('./features/expedientes/expediente-detail/expediente-detail.component').then(m => m.ExpedienteDetailComponent)
+      },
+      {
+        path: ':id/documentos',
+        loadComponent: () =>
+          import('./features/documentos/documentos-page.component').then(m => m.DocumentosPageComponent)
+      },
+      {
+        path: ':id/editar',
+        loadComponent: () =>
+          import('./features/expedientes/expediente-form/expediente-form.component').then(m => m.ExpedienteFormComponent)
+      }
+    ]
   },
   {
-    path: 'expedientes/nuevo',
-    loadComponent: () =>
-      import('./features/expedientes/expediente-form/expediente-form.component').then(m => m.ExpedienteFormComponent),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'expedientes/:id/documentos',
-    loadComponent: () =>
-      import('./features/documentos/documentos-page.component').then(m => m.DocumentosPageComponent),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'expedientes/:id/editar',
-    loadComponent: () =>
-      import('./features/expedientes/expediente-form/expediente-form.component').then(m => m.ExpedienteFormComponent),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'expedientes/:id',
-    loadComponent: () =>
-      import('./features/expedientes/expediente-detail/expediente-detail.component').then(m => m.ExpedienteDetailComponent),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'admin/usuarios',
-    loadComponent: () =>
-      import('./features/admin/usuarios/usuarios-list/usuarios-list.component').then(m => m.UsuariosListComponent),
+    path: 'admin',
     canActivate: [AuthGuard, RoleGuard],
-    data: { requiredRole: 'ADMINISTRADOR' }
-  },
-  {
-    path: 'admin/usuarios/nuevo',
-    loadComponent: () =>
-      import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { requiredRole: 'ADMINISTRADOR' }
-  },
-  {
-    path: 'admin/usuarios/:id',
-    loadComponent: () =>
-      import('./features/admin/usuarios/usuario-detail/usuario-detail.component').then(m => m.UsuarioDetailComponent),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { requiredRole: 'ADMINISTRADOR' }
-  },
-  {
-    path: 'admin/usuarios/:id/editar',
-    loadComponent: () =>
-      import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { requiredRole: 'ADMINISTRADOR' }
-  },
-  {
-    path: 'admin/auditoria',
-    loadComponent: () =>
-      import('./features/admin/auditoria/auditoria-list/auditoria-list.component').then(m => m.AuditoriaListComponent),
-    canActivate: [AuthGuard, RoleGuard],
-    data: { requiredRole: 'ADMINISTRADOR' }
+    data: { requiredRole: 'ADMINISTRADOR' },
+    children: [
+      {
+        path: 'usuarios',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/admin/usuarios/usuarios-list/usuarios-list.component').then(m => m.UsuariosListComponent)
+          },
+          {
+            path: 'nuevo',
+            loadComponent: () =>
+              import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent)
+          },
+          {
+            path: ':id',
+            loadComponent: () =>
+              import('./features/admin/usuarios/usuario-detail/usuario-detail.component').then(m => m.UsuarioDetailComponent)
+          },
+          {
+            path: ':id/editar',
+            loadComponent: () =>
+              import('./features/admin/usuarios/usuario-form/usuario-form.component').then(m => m.UsuarioFormComponent)
+          }
+        ]
+      },
+      {
+        path: 'auditoria',
+        loadComponent: () =>
+          import('./features/admin/auditoria/auditoria-list/auditoria-list.component').then(m => m.AuditoriaListComponent)
+      }
+    ]
   },
   {
     path: '',
