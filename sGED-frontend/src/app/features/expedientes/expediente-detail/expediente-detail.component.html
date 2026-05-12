@@ -1,49 +1,45 @@
-@if (expediente) {
+@if (dto.expediente(); as expediente) {
 <div class="fade-in flex-1 flex flex-col">
-  <div class="case-workspace" [class.reading-mode-active]="readingModeActive">
+  <div class="case-workspace" [class.reading-mode-active]="dto.readingModeActive()">
 
     <!-- LEFT MAIN: Document Workspace -->
     <div class="viewer-main flex-1">
 
-      <!-- Document List Section -->
-      @if (!selectedDocumento) {
+      @if (!dto.selectedDocumento()) {
       <div class="card glass-panel shadow-md flex-1 flex flex-col">
         <div class="card-header border-b border-white/5 p-6 flex justify-between items-center">
           <h3 class="section-title"><i class="pi pi-file"></i> CENTRO DE DOCUMENTACIÓN</h3>
-          <!-- (Upload button removed from list later if we decide to, but the list has its own toolbar) -->
         </div>
-
         <div class="p-0 flex-1">
           <app-documentos-list
             [expedienteId]="expediente.id"
-            (viewDocumento)="onViewDocumento($event)">
+            (viewDocumento)="svc.viewDocumento($event)">
           </app-documentos-list>
         </div>
       </div>
       }
 
-      <!-- Active Viewer Section -->
-      @if (selectedDocumento) {
+      @if (dto.selectedDocumento(); as doc) {
       <div class="viewer-container active-viewer flex flex-col">
         <div class="viewer-toolbar border-b border-white/10 bg-black/40 px-4 py-3 shrink-0 flex justify-between items-center z-10 relative">
           <div class="doc-info flex items-center gap-3">
             <div class="doc-icon"><i class="pi pi-file text-xl text-primary"></i></div>
             <div>
-              <div class="doc-name font-bold text-white">{{ selectedDocumento.nombre }}</div>
+              <div class="doc-name font-bold text-white">{{ doc.nombreOriginal }}</div>
               <div class="doc-meta text-xs text-slate-400">
-                {{ selectedDocumento.categoria }} — {{ selectedDocumento.tamanio }} — Subido: {{ selectedDocumento.fechaCreacion | date:'dd MMM yyyy' }}
+                {{ doc.categoria }} — {{ doc.tamanio }} — Subido: {{ doc.fechaCreacion | date:'dd MMM yyyy' }}
               </div>
             </div>
           </div>
           <div class="toolbar-actions flex gap-2">
-            <button class="btn-icon" title="Cerrar" (click)="onCloseViewer()"><i class="pi pi-times"></i></button>
+            <button class="btn-icon" title="Cerrar" (click)="svc.closeViewer()"><i class="pi pi-times"></i></button>
           </div>
         </div>
         <div class="viewer-workspace-body bg-black flex-1 relative overflow-hidden flex flex-col min-h-0">
           <app-documento-viewer
-            [documento]="selectedDocumento"
-            (close)="onCloseViewer()"
-            (readingMode)="readingModeActive = $event"
+            [documento]="doc"
+            (close)="svc.closeViewer()"
+            (readingMode)="svc.setReadingMode($event)"
             class="w-full h-full flex flex-col">
           </app-documento-viewer>
         </div>
@@ -59,17 +55,20 @@
         <a routerLink="/expedientes" class="case-back flex items-center gap-2 text-slate-400 text-xs font-bold uppercase mb-4 hover:text-primary transition-colors">
           <i class="pi pi-chevron-left"></i> Expedientes
         </a>
-        <div class="case-tipo-eyebrow text-[0.7rem] font-extrabold uppercase tracking-widest text-cyan-400 mb-1">{{ getTipoProcesoName(expediente.tipoProcesoId) }}</div>
+        <div class="case-tipo-eyebrow text-[0.7rem] font-extrabold uppercase tracking-widest text-cyan-400 mb-1">
+          {{ svc.getTipoProcesoName(expediente.tipoProcesoId) }}
+        </div>
         <div class="case-numero text-2xl font-extrabold tracking-tight text-white mb-2">{{ expediente.numero }}</div>
         <div class="case-vs text-sm text-slate-400 mb-4">{{ expediente.referenciaFuente || 'Organismo Judicial' }}</div>
         <app-status-badge [status]="expediente.estadoId"></app-status-badge>
-        <!-- Top accent gradient -->
         <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 via-cyan-400 to-violet-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
       </div>
 
       <!-- Parties Section -->
       <div class="card glass-panel p-5">
-        <div class="section-title mb-4 flex items-center gap-2 text-sm font-bold text-slate-400 tracking-wider uppercase"><i class="pi pi-users text-primary"></i> PARTES PROCESALES</div>
+        <div class="section-title mb-4 flex items-center gap-2 text-sm font-bold text-slate-400 tracking-wider uppercase">
+          <i class="pi pi-users text-primary"></i> PARTES PROCESALES
+        </div>
         <div class="meta-list flex flex-col gap-3">
           <div class="meta-item flex flex-col gap-[2px]">
             <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Actor / Demandante</span>
@@ -84,11 +83,13 @@
 
       <!-- Key Info Section -->
       <div class="card glass-panel p-5">
-        <div class="section-title mb-4 flex items-center gap-2 text-sm font-bold text-slate-400 tracking-wider uppercase"><i class="pi pi-info-circle text-primary"></i> INFORMACIÓN CLAVE</div>
+        <div class="section-title mb-4 flex items-center gap-2 text-sm font-bold text-slate-400 tracking-wider uppercase">
+          <i class="pi pi-info-circle text-primary"></i> INFORMACIÓN CLAVE
+        </div>
         <div class="meta-list flex flex-col gap-3">
           <div class="meta-item flex flex-col gap-[2px]">
             <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Juzgado</span>
-            <span class="meta-value text-sm text-white font-semibold">{{ getJuzgadoName(expediente.juzgadoId) }}</span>
+            <span class="meta-value text-sm text-white font-semibold">{{ svc.getJuzgadoName(expediente.juzgadoId) }}</span>
           </div>
           <div class="meta-item flex flex-col gap-[2px]">
             <span class="meta-label text-[0.65rem] font-bold uppercase tracking-widest text-slate-500">Ref. SGT</span>
@@ -107,18 +108,19 @@
           <i class="pi pi-print"></i> Imprimir Ficha
         </button>
       </div>
+
     </aside>
 
   </div>
 </div>
 }
 
-@if (loading) {
+@if (dto.isLoading()) {
 <div class="loading-overlay">
   <div class="spinner"></div>
 </div>
 }
 
-@if (errorMessage) {
-<p-message severity="error" [text]="errorMessage" class="m-8 block"></p-message>
+@if (dto.hasError()) {
+<p-message severity="error" [text]="dto.errorMessage()" class="m-8 block"></p-message>
 }
