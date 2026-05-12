@@ -5,39 +5,15 @@
       <h1 class="page-title">Gestión de Expedientes</h1>
       <p class="subtitle">Administración centralizada de casos judiciales</p>
     </div>
-    <div class="flex gap-3">
-      <!-- (Botón de nuevo expediente removido por UX - Solo lectura) -->
-    </div>
   </div>
 
   <!-- Quick Stats -->
-  <div class="grid-4 mb-6">
-    <div class="kpi-card">
+  <div class="mb-6">
+    <div class="kpi-card" style="max-width: 240px;">
       <div class="kpi-icon-box blue"><i class="pi pi-folder-open"></i></div>
       <div>
-        <div class="kpi-value">{{ totalRecords }}</div>
+        <div class="kpi-value">{{ dto.totalRecords() }}</div>
         <div class="kpi-label">Total Expedientes</div>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon-box amber"><i class="pi pi-clock"></i></div>
-      <div>
-        <div class="kpi-value">{{ loading ? '—' : (totalRecords > 0 ? totalRecords : 0) }}</div>
-        <div class="kpi-label">En trámite</div>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon-box green"><i class="pi pi-check-circle"></i></div>
-      <div>
-        <div class="kpi-value">{{ loading ? '—' : 0 }}</div>
-        <div class="kpi-label">Resueltos</div>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon-box violet"><i class="pi pi-inbox"></i></div>
-      <div>
-        <div class="kpi-value">{{ loading ? '—' : 0 }}</div>
-        <div class="kpi-label">Archivados</div>
       </div>
     </div>
   </div>
@@ -50,13 +26,13 @@
         <div class="flex flex-wrap gap-3 items-center">
           <div class="relative">
             <i class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input 
-              type="text" 
-              class="form-input pl-10 w-72 text-sm" 
+            <input
+              type="text"
+              class="form-input pl-10 w-72 text-sm"
               placeholder="Buscar por número o partes..."
             />
           </div>
-          
+
           <select class="form-input form-select text-sm w-auto py-2 pr-10">
             <option>Todos los estados</option>
             <option>Activo</option>
@@ -72,25 +48,32 @@
             <option>Juzgado Adolescentes</option>
           </select>
         </div>
-        
+
         <div class="text-slate-500 text-sm">
-          {{ totalRecords }} expedientes encontrados
+          {{ dto.totalRecords() }} expedientes encontrados
         </div>
       </div>
     </div>
 
+    <!-- Error -->
+    @if (dto.hasError()) {
+      <div class="px-6 py-3 text-sm" style="color: var(--color-error, #f87171);">
+        {{ dto.error() }}
+      </div>
+    }
+
     <!-- Professional Data Table -->
     <div class="p-0">
       <p-table
-        [value]="expedientes"
+        [value]="dto.expedientes()"
         [lazy]="true"
         [paginator]="true"
-        [rows]="rows"
-        [first]="first"
-        [totalRecords]="totalRecords"
-        [loading]="loading"
+        [rows]="dto.pagination().rows"
+        [first]="dto.pagination().first"
+        [totalRecords]="dto.totalRecords()"
+        [loading]="dto.isLoading()"
         [rowsPerPageOptions]="[10, 25, 50]"
-        (onLazyLoad)="onLazyLoad($event)"
+        (onLazyLoad)="svc.onLazyLoad($event)"
         styleClass="custom-p-table"
         [responsiveLayout]="'scroll'"
       >
@@ -114,10 +97,10 @@
                 {{ expediente.numero }}
               </a>
             </td>
-            <td><span class="text-xs text-slate-400">{{ getTipoProceso(expediente.tipoProcesoId) }}</span></td>
+            <td><span class="text-xs text-slate-400">{{ svc.getTipoProceso(expediente.tipoProcesoId) }}</span></td>
             <td><span class="text-sm font-medium">{{ expediente.actorPrincipal || '—' }}</span></td>
             <td><span class="text-sm">{{ expediente.demandado || '—' }}</span></td>
-            <td><span class="text-xs text-slate-500">{{ getJuzgado(expediente.juzgadoId) }}</span></td>
+            <td><span class="text-xs text-slate-500">{{ svc.getJuzgado(expediente.juzgadoId) }}</span></td>
             <td>
               <app-status-badge [status]="expediente.estadoId"></app-status-badge>
             </td>
@@ -137,7 +120,6 @@
                   pTooltip="Ver detalle"
                   [routerLink]="['/expedientes', expediente.id]"
                 ></button>
-
               </div>
             </td>
           </tr>
