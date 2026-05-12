@@ -5,25 +5,25 @@
 <div class="search-tabs">
   <div
     class="search-tab"
-    [class.active]="activeTab === 'rapida'"
-    (click)="setActiveTab('rapida')"
+    [class.active]="dto.activeTab() === 'rapida'"
+    (click)="svc.setActiveTab('rapida')"
   >
     <i class="pi pi-bolt"></i> Búsqueda Rápida
   </div>
   <div
     class="search-tab"
-    [class.active]="activeTab === 'avanzada'"
-    (click)="setActiveTab('avanzada')"
+    [class.active]="dto.activeTab() === 'avanzada'"
+    (click)="svc.setActiveTab('avanzada')"
   >
     <i class="pi pi-sliders-h"></i> Búsqueda Avanzada
   </div>
 </div>
 
 <div class="search-content">
-  @if (activeTab === 'rapida') {
+  @if (dto.activeTab() === 'rapida') {
   <app-busqueda-rapida></app-busqueda-rapida>
   }
-  @if (activeTab === 'avanzada') {
+  @if (dto.activeTab() === 'avanzada') {
   <app-busqueda-avanzada></app-busqueda-avanzada>
   }
 </div>

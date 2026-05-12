@@ -1,12 +1,12 @@
 <div class="px-0">
   <p-table
-    [value]="resultados?.content ?? []"
+    [value]="resultados()?.content ?? []"
     [lazy]="true"
     [paginator]="true"
-    [rows]="rows"
-    [first]="first"
-    [totalRecords]="totalRecords"
-    [loading]="loading"
+    [rows]="dto.rows()"
+    [first]="dto.first()"
+    [totalRecords]="dto.totalRecords()"
+    [loading]="loading()"
     [rowsPerPageOptions]="[10, 25, 50]"
     (onLazyLoad)="lazyLoad.emit($event)"
     sortField="fechaUltimoMovimiento"
@@ -66,7 +66,7 @@
 </div>
 
 <div class="messages">
-  @for (message of errorMessages; track message) {
+  @for (message of errorMessages(); track message) {
   <p-message severity="error" [text]="message"></p-message>
   }
 </div>

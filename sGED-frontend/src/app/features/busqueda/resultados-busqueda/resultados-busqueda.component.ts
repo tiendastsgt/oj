@@ -1,11 +1,11 @@
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output , ChangeDetectionStrategy} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { TableModule, TableLazyLoadEvent } from 'primeng/table';
-import { ExpedienteBusquedaResponse } from '../../../core/models/busqueda.model';
-import { Page } from '../../../core/models/page.model';
+import { ExpedienteBusquedaResponse, Page } from './resultados-busqueda.types';
+import { ResultadosBusquedaDto } from './resultados-busqueda.dto';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,24 +16,12 @@ import { Page } from '../../../core/models/page.model';
   styleUrls: ['./resultados-busqueda.component.scss']
 })
 export class ResultadosBusquedaComponent {
-  @Input() resultados?: Page<ExpedienteBusquedaResponse>;
-  @Input() loading = false;
-  @Input() errorMessages: string[] = [];
-  @Output() lazyLoad = new EventEmitter<TableLazyLoadEvent>();
+  resultados    = input<Page<ExpedienteBusquedaResponse>>();
+  loading       = input(false);
+  errorMessages = input<string[]>([]);
+  lazyLoad      = output<TableLazyLoadEvent>();
 
-  get totalRecords(): number {
-    return this.resultados?.totalElements ?? 0;
-  }
-
-  get rows(): number {
-    return this.resultados?.size ?? 10;
-  }
-
-  get first(): number {
-    const page = this.resultados?.page ?? 0;
-    const size = this.resultados?.size ?? 10;
-    return page * size;
-  }
+  protected dto = new ResultadosBusquedaDto(this.resultados);
 
   canNavigate(row: ExpedienteBusquedaResponse): boolean {
     return row.fuente === 'SGED' && Boolean(row.id);

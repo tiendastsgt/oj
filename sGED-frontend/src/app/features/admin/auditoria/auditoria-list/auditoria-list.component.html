@@ -8,7 +8,7 @@
     </div>
     <div class="flex gap-4">
       <button class="btn btn-secondary btn-sm"><i class="pi pi-download"></i> Exportar Log</button>
-      <button class="btn btn-primary btn-sm" (click)="cargarAuditoria(0)"><i class="pi pi-refresh"></i> Actualizar</button>
+      <button class="btn btn-primary btn-sm" (click)="svc.cargarAuditoria(0)"><i class="pi pi-refresh"></i> Actualizar</button>
     </div>
   </div>
 
@@ -17,28 +17,28 @@
     <div class="kpi-card">
       <div class="kpi-icon-box blue"><i class="pi pi-list"></i></div>
       <div>
-        <div class="kpi-value">{{ totalRecords }}</div>
+        <div class="kpi-value">{{ dto.totalRecords() }}</div>
         <div class="kpi-label">Total Eventos</div>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon-box cyan"><i class="pi pi-folder-open"></i></div>
       <div>
-        <div class="kpi-value">{{ countByModulo('expediente') }}</div>
+        <div class="kpi-value">{{ svc.countByModulo('expediente') }}</div>
         <div class="kpi-label">Expedientes Consultados</div>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon-box amber"><i class="pi pi-file"></i></div>
       <div>
-        <div class="kpi-value">{{ countByModulo('documento') }}</div>
+        <div class="kpi-value">{{ svc.countByModulo('documento') }}</div>
         <div class="kpi-label">Documentos Accedidos</div>
       </div>
     </div>
     <div class="kpi-card">
       <div class="kpi-icon-box green"><i class="pi pi-clock"></i></div>
       <div>
-        <div class="kpi-value" style="font-size:var(--font-sm);">{{ (auditoria.length > 0 ? auditoria[0].fecha : now) | date:'dd/MM/yyyy HH:mm' }}</div>
+        <div class="kpi-value" style="font-size:var(--font-sm);">{{ (dto.auditoria().length > 0 ? dto.auditoria()[0].fecha : dto.now()) | date:'dd/MM/yyyy HH:mm' }}</div>
         <div class="kpi-label">Último Registro</div>
       </div>
     </div>
@@ -46,7 +46,7 @@
 
   <!-- Audit Timeline Card -->
   <div class="card glass-panel">
-    <div class="card-header" [formGroup]="filterForm">
+    <div class="card-header" [formGroup]="svc.filterForm">
       <div class="flex gap-3 items-center">
         <div style="position:relative;">
           <i class="pi pi-search" style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.85rem;"></i>
@@ -56,10 +56,10 @@
             style="padding-left:2.25rem;width:250px;font-size:var(--font-sm);background:rgba(255,255,255,0.02);"
             placeholder="Buscar por usuario..."
             formControlName="usuario"
-            (change)="aplicarFiltros()"
+            (change)="svc.aplicarFiltros()"
           />
         </div>
-        <select class="form-input form-select" style="width:auto;padding:0.5rem 2rem 0.5rem 0.75rem;font-size:var(--font-sm);background:rgba(255,255,255,0.02);" formControlName="modulo" (change)="aplicarFiltros()">
+        <select class="form-input form-select" style="width:auto;padding:0.5rem 2rem 0.5rem 0.75rem;font-size:var(--font-sm);background:rgba(255,255,255,0.02);" formControlName="modulo" (change)="svc.aplicarFiltros()">
           <option value="">Todos los módulos</option>
           <option value="auth">Seguridad / Auth</option>
           <option value="expedientes">Expedientes</option>
@@ -84,11 +84,11 @@
           </tr>
         </thead>
         <tbody>
-          @for (item of auditoria; track item.id) {
+          @for (item of dto.auditoria(); track item.id) {
           <tr>
             <td>
               <div class="flex items-center gap-3">
-                <span class="timeline-dot" [style.background]="getDotColor(item.modulo)" [style.box-shadow]="'0 0 8px ' + getDotColor(item.modulo)"></span>
+                <span class="timeline-dot" [style.background]="svc.getDotColor(item.modulo)" [style.box-shadow]="'0 0 8px ' + svc.getDotColor(item.modulo)"></span>
                 <div class="flex flex-col">
                   <span style="font-weight:700;color:var(--text-primary);font-size:var(--font-sm);">{{ item.fecha | date: 'dd/MM/yyyy' }}</span>
                   <span style="font-size:var(--font-xs);color:var(--text-muted);">{{ item.fecha | date: 'HH:mm:ss' }}</span>
@@ -108,7 +108,7 @@
                 'badge-pending': item.modulo === 'documentos',
                 'badge-urgent': item.modulo === 'security'
               }">
-                <i class="pi" [ngClass]="getActivityIcon(item.modulo)" style="font-size:0.7rem;"></i>
+                <i class="pi" [ngClass]="svc.getActivityIcon(item.modulo)" style="font-size:0.7rem;"></i>
                 {{ item.modulo | uppercase }}
               </span>
             </td>
@@ -117,7 +117,7 @@
                 <span style="color:var(--primary-hover);font-size:var(--font-sm);font-weight:700;">{{ item.accion }}</span>
                 @if (item.recursoId) {
                 <span style="font-size:var(--font-xs); color:var(--accent-cyan); font-weight:bold;">
-                  {{ getResourceLabel(item) }}
+                  {{ svc.getResourceLabel(item) }}
                 </span>
                 }
               </div>
@@ -133,13 +133,13 @@
         </tbody>
       </table>
 
-      @if (auditoria.length === 0 && !loading) {
+      @if (dto.auditoria().length === 0 && !dto.isLoading()) {
       <div style="padding:3rem;text-align:center;color:var(--text-muted);">
         No hay registros de auditoría disponibles
       </div>
       }
 
-      @if (loading) {
+      @if (dto.isLoading()) {
       <div style="padding:3rem;text-align:center;color:var(--text-muted);">
         <i class="pi pi-spin pi-spinner" style="font-size:1.5rem;"></i>
       </div>
