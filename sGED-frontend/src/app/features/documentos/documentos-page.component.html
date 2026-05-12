@@ -2,38 +2,45 @@
   <h2>Documentos del expediente</h2>
 
   <app-documentos-upload
-    [expedienteId]="expedienteId"
-    (uploaded)="onUploaded()"
+    [expedienteId]="dto.expedienteId()"
+    (uploaded)="svc.onUploaded()"
   ></app-documentos-upload>
 
-  @if (loading) {
-  <p>Cargando documentos...</p>
+  @if (dto.isLoading()) {
+    <p>Cargando documentos...</p>
   }
-  @if (errorMessage) {
-  <p class="error">{{ errorMessage }}</p>
+  @if (dto.hasError()) {
+    <p class="error">{{ dto.errorMessage() }}</p>
   }
 
   <app-documentos-list
-    [documentos]="documentos"
-    (ver)="onVer($event)"
-    (descargar)="onDescargar($event)"
-    (imprimir)="onImprimir($event)"
-    (eliminar)="onEliminar($event)"
+    [documentos]="dto.documentos()"
+    (ver)="svc.onVer($event)"
+    (descargar)="svc.onDescargar($event)"
+    (imprimir)="svc.onImprimir($event)"
+    (eliminar)="svc.onEliminar($event)"
   ></app-documentos-list>
 
-  <p-dialog [visible]="viewerType !== null" [modal]="true" [maximizable]="true" [style]="{width: '85vw', height: '85vh'}" (onHide)="cerrarVisor()" header="{{ selectedDocumento?.nombreOriginal || 'Visor de Documentos' }}">
-    <div class="visor-content" style="height: 100%; display: flex; flex-direction: column;">
-      @if (viewerType === 'PDF' || viewerType === 'WORD') {
-      <app-visor-pdf [url]="viewerUrl"></app-visor-pdf>
+  <p-dialog
+    [visible]="dto.viewerVisible()"
+    [modal]="true"
+    [maximizable]="true"
+    [style]="{width: '85vw', height: '85vh'}"
+    [header]="dto.viewerTitle()"
+    (onHide)="svc.cerrarVisor()"
+  >
+    <div class="visor-content">
+      @if (dto.viewerType() === 'PDF' || dto.viewerType() === 'WORD') {
+        <app-visor-pdf [url]="dto.viewerUrl()"></app-visor-pdf>
       }
-      @if (viewerType === 'IMAGEN') {
-      <app-visor-imagen [url]="viewerUrl"></app-visor-imagen>
+      @if (dto.viewerType() === 'IMAGEN') {
+        <app-visor-imagen [url]="dto.viewerUrl()"></app-visor-imagen>
       }
-      @if (viewerType === 'AUDIO') {
-      <app-reproductor-audio [url]="viewerUrl"></app-reproductor-audio>
+      @if (dto.viewerType() === 'AUDIO') {
+        <app-reproductor-audio [url]="dto.viewerUrl()"></app-reproductor-audio>
       }
-      @if (viewerType === 'VIDEO') {
-      <app-reproductor-video [url]="viewerUrl"></app-reproductor-video>
+      @if (dto.viewerType() === 'VIDEO') {
+        <app-reproductor-video [url]="dto.viewerUrl()"></app-reproductor-video>
       }
     </div>
   </p-dialog>

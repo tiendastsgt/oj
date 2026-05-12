@@ -1,14 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input , ChangeDetectionStrategy} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-reproductor-video',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './reproductor-video.component.html',
   styleUrls: ['./reproductor-video.component.scss']
 })
 export class ReproductorVideoComponent {
-  @Input() url = '';
+  readonly url = input<string>('');
 }

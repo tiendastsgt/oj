@@ -1,13 +1,13 @@
 import {
   ChangeDetectionStrategy, Component, DestroyRef,
-  EventEmitter, Input, Output, inject, signal
+  inject, input, output, signal
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpEventType } from '@angular/common/http';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { MessageModule } from 'primeng/message';
-import { DocumentosService } from '../../../core/services/documentos.service';
+import { DocumentosService } from '../../../../core/services/documentos.service';
 
 const MAX_SIZE_BYTES = 100 * 1024 * 1024;
 const EXTENSIONES_PERMITIDAS = [
@@ -26,16 +26,16 @@ const EXTENSIONES_PERMITIDAS = [
   styleUrls: ['./documentos-upload.component.scss']
 })
 export class DocumentosUploadComponent {
-  @Input() expedienteId = 0;
-  @Output() uploaded = new EventEmitter<void>();
+  readonly expedienteId = input.required<number>();
+  readonly uploaded     = output<void>();
 
-  readonly uploading = signal(false);
-  readonly progress = signal(0);
+  readonly uploading    = signal(false);
+  readonly progress     = signal(0);
   readonly errorMessage = signal('');
-  readonly isDragOver = signal(false);
+  readonly isDragOver   = signal(false);
 
   private readonly documentosService = inject(DocumentosService);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly destroyRef        = inject(DestroyRef);
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -63,7 +63,7 @@ export class DocumentosUploadComponent {
   }
 
   private upload(file: File): void {
-    if (!this.expedienteId) {
+    if (!this.expedienteId()) {
       this.errorMessage.set('Expediente inválido');
       return;
     }
@@ -81,25 +81,25 @@ export class DocumentosUploadComponent {
     this.uploading.set(true);
     this.progress.set(0);
 
-    this.documentosService.cargar(this.expedienteId, file)
+    this.documentosService.cargar(this.expedienteId(), file)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-      next: (event) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          const total = event.total ?? file.size;
-          this.progress.set(Math.round((event.loaded / total) * 100));
-        }
-        if (event.type === HttpEventType.Response) {
+        next: (event) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            const total = event.total ?? file.size;
+            this.progress.set(Math.round((event.loaded / total) * 100));
+          }
+          if (event.type === HttpEventType.Response) {
+            this.uploading.set(false);
+            this.progress.set(0);
+            this.uploaded.emit();
+          }
+        },
+        error: (err) => {
           this.uploading.set(false);
           this.progress.set(0);
-          this.uploaded.emit();
+          this.errorMessage.set(err?.error?.message ?? 'Error al subir archivo');
         }
-      },
-      error: (err) => {
-        this.uploading.set(false);
-        this.progress.set(0);
-        this.errorMessage.set(err?.error?.message ?? 'Error al subir archivo');
-      }
-    });
+      });
   }
 }

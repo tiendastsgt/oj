@@ -1,5 +1,5 @@
-@if (documentos.length) {
-  <p-table [value]="documentos" [tableStyle]="{'min-width': '640px'}">
+@if (documentos().length) {
+  <p-table [value]="documentos()" [tableStyle]="{'min-width': '640px'}">
     <ng-template pTemplate="header">
       <tr>
         <th>Nombre</th>

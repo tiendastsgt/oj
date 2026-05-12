@@ -5,6 +5,11 @@
 - Backend: Java 21 Spring Boot, respuestas camelCase
 - Build: `npx ng build` | Dev: `npx ng serve`
 
+## Regla de Ejecución
+- **NO hacer planes, specs, ni documentos** antes de ejecutar. Ejecutar directamente.
+- NO escribir archivos en `docs/superpowers/`. Solo código fuente en `src/`.
+- Si tienes dudas, pregunta al usuario. No escribas un plan.
+
 ## Estándar de Arquitectura (OBLIGATORIO)
 
 El estándar completo está en `C:\proyectos\oj\mejoras\ARCHITECTURE.md` (1701 líneas).
