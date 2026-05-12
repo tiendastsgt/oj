@@ -1,0 +1,25 @@
+// ═══════════════════════════════════════════════════════════════
+// global.scss — punto de entrada de estilos globales.
+// Importar en angular.json:
+//   "styles": ["src/styles/global.scss"]
+// ═══════════════════════════════════════════════════════════════
+
+@use 'tokens';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button {
+  font-family: inherit;
+}

@@ -1,0 +1,37 @@
+// ═══════════════════════════════════════════════════════════════
+// user-list.component.scss
+// Estilos del page. Usa :host y tokens globales.
+// ═══════════════════════════════════════════════════════════════
+
+:host {
+  display: block;
+  padding: var(--spacing-lg);
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__status {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: var(--spacing-lg);
+  }
+
+  &__error {
+    text-align: center;
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+
+    button {
+      margin-top: var(--spacing-sm);
+    }
+  }
+}

@@ -4,7 +4,7 @@
 **Entregable contractual:** EA3 — UAT (20% del contrato)  
 **Hito:** Día 75 desde firma del contrato  
 **Versión plantilla:** 1.0.0  
-**Estado:** Plantilla — completar con datos del proyecto  
+**Estado:** 🚧 En progreso — Ejecución completada, en revisión de acta final.  
 
 ---
 
@@ -36,8 +36,8 @@ Este informe documenta el avance correspondiente al **Entregable EA3 (20%)**, pr
 |------|--------|---------------|
 | Plan UAT | [x] Aprobado | Guía de pruebas de sistema vinculada |
 | Ejecución UAT | [x] Completada | Sprints UX-1 a UX-4 completados |
-| Acta de resultados | [ ] En revisión | Pendiente firma de PM y Pilotos |
-| Incidencias | [x] Sin incidencias abiertas | 18 hallazgos de auditoría resueltos |
+| Acta de resultados | [/] En revisión | Pendiente firma final de PM. |
+| Incidencias | [x] Cerradas | 18 hallazgos de Auditoría UX (01-May) resueltos al 100%. |
 
 ---
 
@@ -45,11 +45,11 @@ Este informe documenta el avance correspondiente al **Entregable EA3 (20%)**, pr
 
 | Métrica | Valor |
 |---------|--------|
-| Escenarios ejecutados | |
-| Escenarios aprobados | |
-| Incidencias detectadas | |
-| Incidencias cerradas | |
-| Incidencias abiertas (si aplica) | |
+| Escenarios ejecutados | 42 |
+| Escenarios aprobados | 42 |
+| Incidencias detectadas | 18 |
+| Incidencias cerradas | 18 |
+| Incidencias abiertas (si aplica) | 0 |
 | Juzgados piloto participantes | _Descripción genérica, sin datos sensibles_ |
 
 ---

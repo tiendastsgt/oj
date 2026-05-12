@@ -25,6 +25,9 @@ El SGED ofrece dos modalidades de busqueda para localizar expedientes:
 La busqueda rapida es la forma mas directa de encontrar un expediente cuando conoce su numero:
 
 1. En el modulo de **Expedientes**, localice el campo de busqueda en la parte superior de la tabla (generalmente un cuadro de texto con un icono de lupa).
+
+![Interfaz de Búsqueda y Resultados](../img/listado_expedientes.png)
+
 2. Escriba el numero del expediente que desea encontrar, o una parte de el.
 3. Presione la tecla **Enter** o haga clic en el icono de lupa para ejecutar la busqueda.
 4. La tabla se actualizara mostrando unicamente los expedientes cuyo numero coincida con el texto ingresado.

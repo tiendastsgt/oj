@@ -1,0 +1,39 @@
+<!-- ════════════════════════════════════════════════════════════
+     user-list-header.component.html
+     ════════════════════════════════════════════════════════════ -->
+
+<header class="header">
+  <div class="header__title">
+    <h2>Usuarios</h2>
+    <span class="header__count">{{ resultCount() }} resultados</span>
+  </div>
+
+  <div class="header__filters">
+    <input
+      type="text"
+      class="header__search"
+      placeholder="Buscar por nombre o email…"
+      [value]="searchTerm()"
+      (input)="onSearchInput($event)"
+    />
+
+    <select
+      class="header__select"
+      [value]="selectedRole() ?? ''"
+      (change)="onRoleSelect($event)"
+    >
+      @for (r of roleOptions(); track r.value) {
+        <option [value]="r.value">{{ r.label }}</option>
+      }
+    </select>
+
+    <button
+      type="button"
+      class="header__reload"
+      (click)="reloadClick.emit()"
+      title="Recargar"
+    >
+      ↻
+    </button>
+  </div>
+</header>

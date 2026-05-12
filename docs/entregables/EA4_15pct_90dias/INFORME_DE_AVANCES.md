@@ -4,7 +4,7 @@
 **Entregable contractual:** EA4 — Despliegue, manuales y capacitación (15% del contrato)  
 **Hito:** Día 90 desde firma del contrato  
 **Versión plantilla:** 1.0.0  
-**Estado:** Plantilla — completar con datos del proyecto  
+**Estado:** 🚧 En progreso — Despliegue y Manuales completados, capacitación pendiente.  
 
 ---
 
@@ -44,7 +44,9 @@ Este informe documenta el avance correspondiente al **Entregable EA4 (15%)**, pr
 
 ## 4. Desvíos y observaciones
 
-_(Describir aquí cualquier desvío respecto al plan, retrasos o acuerdos con el PM/contratante.)_
+- **Despliegue Operativo:** El sistema se encuentra en línea y accesible mediante el puerto 8085 (frontend) y 8086 (backend).
+- **Manuales:** Se entregaron versiones digitales actualizadas del Manual de Usuario y Manual Técnico integrados en el portal.
+- **Capacitación:** Se está coordinando la fecha final con el PM para el cierre del hito.
 
 ---
 

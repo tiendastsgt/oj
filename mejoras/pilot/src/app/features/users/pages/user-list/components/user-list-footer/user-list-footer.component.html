@@ -1,0 +1,31 @@
+<!-- ════════════════════════════════════════════════════════════
+     user-list-footer.component.html
+     ════════════════════════════════════════════════════════════ -->
+
+<footer class="footer">
+  <span class="footer__info">
+    Total: {{ totalRecords() }} usuarios
+  </span>
+
+  <nav class="footer__pagination">
+    <button
+      type="button"
+      [disabled]="!canPrev()"
+      (click)="prev()"
+    >
+      ← Anterior
+    </button>
+
+    <span class="footer__page">
+      Página {{ page() }} de {{ totalPages() }}
+    </span>
+
+    <button
+      type="button"
+      [disabled]="!canNext()"
+      (click)="next()"
+    >
+      Siguiente →
+    </button>
+  </nav>
+</footer>

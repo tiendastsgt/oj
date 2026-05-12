@@ -15,6 +15,9 @@ Al terminar de leer este capitulo usted sabra:
 
 1. Abra su navegador (Chrome, Firefox, Edge o Safari).
 2. Escriba en la barra de direccion la URL del sistema que le proporcionaron desde su area de informatica.
+
+![Pantalla de Inicio de Sesión](../img/login.png)
+
 3. En la pantalla de acceso, escriba su **nombre de usuario** en el primer campo.
 4. Escriba su **contrasena** en el segundo campo.
 5. Haga clic en el boton **Ingresar**.

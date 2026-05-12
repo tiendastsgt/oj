@@ -13,6 +13,8 @@ Al terminar de leer este capitulo usted sabra:
 
 El **panel principal** (tambien llamado Dashboard) es la primera pantalla que ve al iniciar sesion en el SGED. Su proposito es darle una vista general e inmediata del estado de la informacion gestionada en el sistema, sin necesidad de navegar por cada modulo.
 
+![Dashboard del Sistema en Producción](../img/dashboard.png)
+
 El panel muestra indicadores numericos actualizados que resumen la actividad documental y el estado de los expedientes registrados.
 
 ---

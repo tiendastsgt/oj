@@ -1,0 +1,63 @@
+<!-- ════════════════════════════════════════════════════════════
+     user-detail-modal.component.html
+     ════════════════════════════════════════════════════════════ -->
+
+<div class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal" role="dialog" aria-modal="true">
+
+    <header class="modal__header">
+      <h3>Detalle de usuario</h3>
+      <button type="button" class="modal__close" (click)="close.emit()" aria-label="Cerrar">
+        ✕
+      </button>
+    </header>
+
+    <div class="modal__body">
+      @if (isLoading()) {
+        <p class="modal__loading">Cargando…</p>
+      } @else if (error(); as err) {
+        <p class="modal__error">{{ err }}</p>
+      } @else if (user(); as u) {
+        <dl class="modal__details">
+          <dt>Nombre</dt>
+          <dd>{{ u.name }}</dd>
+
+          <dt>Email</dt>
+          <dd>{{ u.email }}</dd>
+
+          <dt>Teléfono</dt>
+          <dd>{{ u.phone || '—' }}</dd>
+
+          <dt>Rol</dt>
+          <dd>{{ u.role }}</dd>
+
+          <dt>Estado</dt>
+          <dd>{{ u.active ? 'Activo' : 'Inactivo' }}</dd>
+
+          <dt>Último login</dt>
+          <dd>{{ u.lastLogin || 'Nunca' }}</dd>
+
+          <dt>Permisos</dt>
+          <dd>
+            @if (u.permissions.length > 0) {
+              <ul class="modal__permissions">
+                @for (p of u.permissions; track p) {
+                  <li>{{ p }}</li>
+                }
+              </ul>
+            } @else {
+              <span class="modal__empty">Sin permisos asignados</span>
+            }
+          </dd>
+        </dl>
+      } @else {
+        <p class="modal__loading">No hay datos</p>
+      }
+    </div>
+
+    <footer class="modal__footer">
+      <button type="button" (click)="close.emit()">Cerrar</button>
+    </footer>
+
+  </div>
+</div>

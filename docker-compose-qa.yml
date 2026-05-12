@@ -56,7 +56,7 @@ services:
       # Secrets (required by SecretsPropertySourceLocator)
       # Note: Database connection is via H2 in-memory
       # ========================================
-      JWT_SECRET: ${JWT_SECRET:sged-qa-jwt-secret-key-minimum-32-characters-long}
+      JWT_SECRET: ${JWT_SECRET:-sged-qa-jwt-secret-key-minimum-32-characters-long}
       JWT_EXPIRATION_MS: 28800000
       
       # ========================================

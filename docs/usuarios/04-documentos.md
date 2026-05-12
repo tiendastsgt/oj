@@ -19,6 +19,9 @@ Los documentos siempre estan asociados a un expediente. Para acceder a ellos:
 1. Vaya al modulo de **Expedientes** desde el menu lateral.
 2. En el listado, localice el expediente cuyos documentos desea consultar.
 3. Haga clic en el icono de **Documentos** o **Boveda** (representado por una carpeta de archivos o un archivador) en la fila del expediente.
+
+![Bóveda Documental en Producción](../img/boveda_documental.png)
+
 4. El sistema abrira la lista de documentos adjuntos a ese expediente.
 
 Alternativamente, puede acceder a los documentos desde la pantalla de detalle del expediente, donde aparece una seccion o pestana de documentos.
@@ -78,6 +81,22 @@ Para usar el visor:
 3. El sistema abrira el visor en pantalla completa o en una ventana superpuesta sobre el contenido.
 
 El visor funciona de forma diferente segun el tipo de archivo:
+
+- **📄 Documentos PDF y Office:** Visualización nativa de alta velocidad. Los documentos de Word se previsualizan automáticamente.
+
+````carousel
+![Visor PDF](../img/visor_pdf.png)
+<!-- slide -->
+![Visor Word](../img/visor_word.png)
+````
+
+- **🔊 Audio y Video:** Reproducción multimedia integrada sin salir de la plataforma.
+
+````carousel
+![Reproductor Audio](../img/reproductor_audio.png)
+<!-- slide -->
+![Reproductor Video](../img/reproductor_video.png)
+````
 
 | Tipo de archivo | Experiencia en el visor |
 |-----------------|------------------------|

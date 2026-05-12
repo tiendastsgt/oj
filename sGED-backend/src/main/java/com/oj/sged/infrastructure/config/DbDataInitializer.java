@@ -103,7 +103,10 @@ public class DbDataInitializer implements CommandLineRunner {
         CatTipoDocumento tipoVideo = ensureTipoDocumento("VIDEO", "Registro visual de diligencia MP4");
         CatTipoDocumento tipoWord = ensureTipoDocumento("WORD", "Minuta de resolución DOCX");
 
-        // 5. Semillado de Expedientes y Documentos Reales (Mockeados físicamente)
+        // 5. Migración: corregir documentos seed con ruta incorrecta (ruta == nombreStorage)
+        repararRutasSeed();
+
+        // 6. Semillado de Expedientes y Documentos Reales (Mockeados físicamente)
         if (expedienteRepository.count() == 0) {
             seedExpedientes(juzgado, estadoActivo, estadoPendiente, procesoCivil, procesoPenal, tipoPdf, tipoAudio, tipoVideo, tipoWord);
         }
@@ -151,14 +154,46 @@ public class DbDataInitializer implements CommandLineRunner {
             .build());
     }
 
+    private static final String SEED_RUTA = "seed";
+
+    /**
+     * Corrige registros seed que tienen ruta == nombreStorage (bug de versiones anteriores).
+     * resolvePath() construye {basePath}/{ruta}/{nombreStorage}, por lo que ruta debe ser
+     * el directorio y nombreStorage solo el nombre de archivo.
+     */
+    private void repararRutasSeed() {
+        documentoRepository.findAll().stream()
+            .filter(d -> !Boolean.TRUE.equals(d.getEliminado()))
+            .filter(d -> d.getRuta() != null && d.getRuta().equals(d.getNombreStorage()))
+            .forEach(d -> {
+                Path oldFile = Paths.get(storagePath, d.getNombreStorage());
+                Path newDir  = Paths.get(storagePath, SEED_RUTA);
+                Path newFile = newDir.resolve(d.getNombreStorage());
+                try {
+                    Files.createDirectories(newDir);
+                    if (Files.exists(oldFile) && !Files.exists(newFile)) {
+                        Files.move(oldFile, newFile);
+                    }
+                } catch (IOException ex) {
+                    log.warn("No se pudo mover archivo seed id={}: {}", d.getId(), ex.getMessage());
+                }
+                d.setRuta(SEED_RUTA);
+                documentoRepository.save(d);
+                log.info("Ruta corregida para documento seed id={}", d.getId());
+            });
+    }
+
     private void createDocumento(Expediente e, CatTipoDocumento tipo, String nombre, String mime, String ext) {
         String storageName = "seed_" + System.currentTimeMillis() + "_" + nombre;
-        
-        // Crear archivo dummy físico para que el visor no de error de 'archivo no encontrado'
+
+        // ruta es el directorio relativo; nombreStorage es solo el nombre de archivo.
+        // resolvePath() construye: {basePath}/{ruta}/{nombreStorage}
         try {
-            Path path = Paths.get(storagePath, storageName);
-            if (!Files.exists(path)) {
-                Files.write(path, "Contenido de prueba para SGED v1.2.1".getBytes());
+            Path dir = Paths.get(storagePath, SEED_RUTA);
+            Files.createDirectories(dir);
+            Path filePath = dir.resolve(storageName);
+            if (!Files.exists(filePath)) {
+                Files.write(filePath, ("Contenido de prueba SGED QA: " + nombre).getBytes());
             }
         } catch (IOException ex) {
             log.error("Error creando archivo físico de prueba: {}", ex.getMessage());
@@ -169,7 +204,7 @@ public class DbDataInitializer implements CommandLineRunner {
             .tipoDocumento(tipo)
             .nombreOriginal(nombre)
             .nombreStorage(storageName)
-            .ruta(storageName)
+            .ruta(SEED_RUTA)
             .tamanio(1024L)
             .mimeType(mime)
             .extension(ext)

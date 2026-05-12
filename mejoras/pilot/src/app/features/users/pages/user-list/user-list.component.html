@@ -1,0 +1,55 @@
+<!-- ════════════════════════════════════════════════════════════
+     user-list.component.html
+     Solo HTML + bindings al DTO via Service.
+     Toda la lógica está en el Service. Cero cálculos aquí.
+     ════════════════════════════════════════════════════════════ -->
+
+<section class="user-list">
+
+  <!-- HEADER: búsqueda + filtros -->
+  <app-user-list-header
+    [searchTerm]="dto.filters().search"
+    [roleOptions]="dto.roleOptions()"
+    [selectedRole]="dto.filters().roleId"
+    [resultCount]="dto.resultCount()"
+    (searchChange)="svc.onSearch($event)"
+    (roleChange)="svc.onRoleChange($event)"
+    (reloadClick)="svc.reload()"
+  />
+
+  <!-- CUERPO: estados de carga / error / data -->
+  @if (dto.isLoading()) {
+    <p class="user-list__status">Cargando usuarios…</p>
+  } @else if (dto.hasError()) {
+    <div class="user-list__error">
+      <p>{{ dto.error() }}</p>
+      <button type="button" (click)="svc.reload()">Reintentar</button>
+    </div>
+  } @else {
+    <app-user-list-table
+      [users]="dto.filteredUsers()"
+      (editClick)="svc.openModal($event)"
+      (deleteClick)="svc.deleteUser($event)"
+      (toggleClick)="svc.toggleActive($event)"
+    />
+  }
+
+  <!-- FOOTER: paginación -->
+  <app-user-list-footer
+    [page]="dto.page()"
+    [totalPages]="dto.totalPages()"
+    [totalRecords]="dto.totalRecords()"
+    (pageChange)="svc.goToPage($event)"
+  />
+
+  <!-- MODAL: detalle -->
+  @if (dto.modal().isOpen) {
+    <app-user-detail-modal
+      [user]="dto.selectedUser()"
+      [isLoading]="dto.isLoadingDetail()"
+      [error]="dto.detailError()"
+      (close)="svc.closeModal()"
+    />
+  }
+
+</section>

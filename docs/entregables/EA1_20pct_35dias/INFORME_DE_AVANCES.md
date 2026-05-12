@@ -4,13 +4,13 @@
 **Entregable contractual:** EA1 — Documentación (20% del contrato)  
 **Hito:** Día 35 desde firma del contrato  
 **Versión plantilla:** 1.0.0  
-**Estado:** Plantilla — completar con datos del proyecto  
+**Estado:** ✅ Finalizado — Para revisión del PM  
 
 ---
 
 ## 1. Resumen ejecutivo
 
-Este informe documenta el avance correspondiente al **Entregable EA1 (20%)**, previsto para el **Día 35** respecto a la fecha de firma del contrato. EA1 comprende la documentación de arquitectura, modelos de datos, prototipos y especificaciones técnicas aprobadas, alineadas al proyecto SGED (Angular 21 + Java 21 + Oracle 21c).
+Este informe documenta el avance correspondiente al **Entregable EA1 (20%)**, previsto para el **Día 35** respecto a la fecha de firma del contrato. EA1 comprende la documentación de arquitectura, modelos de datos, prototipos y especificaciones técnicas aprobadas, alineadas al proyecto SGED (Angular 21 + Java 21 + Oracle 21c). La base documental se encuentra centralizada en el Portal de Documentación Unificado.
 
 **Equipo responsable de la documentación:**
 - Amilcar Gil González (Arquitecto)
@@ -35,16 +35,18 @@ Este informe documenta el avance correspondiente al **Entregable EA1 (20%)**, pr
 
 | Ítem | Estado | Observaciones |
 |------|--------|---------------|
-| Arquitectura | [x] Aprobado | Ver diagramas y plan detallado |
-| Modelos de datos | [x] Aprobado | Migraciones Flyway implementadas |
-| Prototipos | [x] Aprobado | Ver Auditoría UX y Elite UX System |
-| Especificaciones técnicas | [x] Aprobado | Plan detallado y Roadmap actualizados |
+| Arquitectura | [x] Aprobado | Arquitectura de microservicios stateless con JWT. |
+| Modelos de datos | [x] Aprobado | Esquema Oracle 21c validado y versionado. |
+| Prototipos | [x] Aprobado | Diseño Elite UX (Dark Mode) validado por Auditoría. |
+| Especificaciones técnicas | [x] Aprobado | Plan Detallado v1.2 y Roadmap de 10 Sprints. |
 
 ---
 
 ## 4. Desvíos y observaciones
 
-_(Describir aquí cualquier desvío respecto al plan, retrasos o acuerdos con el PM/contratante.)_
+- **Evolución de Arquitectura:** Se realizó una transición exitosa hacia una arquitectura de procedimientos almacenados (SP) y DB Links para asegurar la resiliencia de datos.
+- **Elite UX Design System:** Se definió un sistema de diseño premium que prioriza la legibilidad y el rendimiento en el visor documental.
+- **Auditoría de Seguridad:** Se incluyeron los lineamientos de hardening desde la fase de diseño inicial.
 
 ---
 

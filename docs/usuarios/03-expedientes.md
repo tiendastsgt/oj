@@ -15,6 +15,9 @@ Al terminar de leer este capitulo usted sabra:
 ## 3.1 Acceder al listado de expedientes
 
 1. En el menu lateral, haga clic en **Expedientes**.
+
+![Listado de Expedientes en Producción](../img/listado_expedientes.png)
+
 2. El sistema mostrara una tabla con todos los expedientes registrados a los que tiene acceso.
 3. Cada fila de la tabla representa un expediente y muestra informacion resumida: numero de expediente, tipo de proceso, juzgado, estado y fecha de creacion.
 4. Al final de cada fila encontrara botones de accion para operar sobre ese expediente.
