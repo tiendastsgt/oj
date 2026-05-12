@@ -13,7 +13,13 @@
       "Bash(Remove-Item *)",
       "Bash(git rm *)",
       "Bash(git stash *)",
-      "Bash(Get-ChildItem *)"
+      "Bash(Get-ChildItem *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\admin\\\\auditoria\\\\auditoria-list\\\\\" -File | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\busqueda\\\\busqueda-container\\\\\" -File | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\busqueda\\\\resultados-busqueda\\\\\" -File | ForEach-Object { $_.Name })",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\proyectos\\\\oj\\\\sGED-frontend\\\\src\\\\app\\\\features\\\\busqueda\\\\busqueda-avanzada\\\\\" -File | ForEach-Object { $_.Name })",
+      "Bash(Write-Output \"Done\")",
+      "Bash(xargs grep -l \"ChangeDetectorRef\")"
     ]
   }
 }

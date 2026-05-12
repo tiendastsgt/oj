@@ -18,4 +18,9 @@ export class DocumentosPageDto {
   viewerTitle       = computed(() =>
     this.selectedDocumento()?.nombreOriginal ?? 'Visor de Documentos'
   );
+
+  showPdfViewer   = computed(() => this.viewerType() === 'PDF' || this.viewerType() === 'WORD');
+  showImageViewer = computed(() => this.viewerType() === 'IMAGEN');
+  showAudioPlayer = computed(() => this.viewerType() === 'AUDIO');
+  showVideoPlayer = computed(() => this.viewerType() === 'VIDEO');
 }

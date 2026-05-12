@@ -78,16 +78,20 @@ export class DocumentosPageService {
 
   onImprimir(documento: Documento): void {
     window.open(this.documentosCoreSvc.getContenidoUrl(documento.id, 'inline'), '_blank');
-    this.documentosCoreSvc.registrarImpresion(documento.id).subscribe();
+    this.documentosCoreSvc.registrarImpresion(documento.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
   onEliminar(documento: Documento): void {
-    this.documentosCoreSvc.eliminar(documento.id).subscribe({
-      next: () => this.cargarDocumentos(),
-      error: (error) => {
-        this.dto.errorMessage.set(error?.error?.message ?? 'No se pudo eliminar documento');
-      }
-    });
+    this.documentosCoreSvc.eliminar(documento.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => this.cargarDocumentos(),
+        error: (error) => {
+          this.dto.errorMessage.set(error?.error?.message ?? 'No se pudo eliminar documento');
+        }
+      });
   }
 
   cerrarVisor(): void {

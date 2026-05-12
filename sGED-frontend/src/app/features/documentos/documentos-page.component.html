@@ -30,16 +30,16 @@
     (onHide)="svc.cerrarVisor()"
   >
     <div class="visor-content">
-      @if (dto.viewerType() === 'PDF' || dto.viewerType() === 'WORD') {
+      @if (dto.showPdfViewer()) {
         <app-visor-pdf [url]="dto.viewerUrl()"></app-visor-pdf>
       }
-      @if (dto.viewerType() === 'IMAGEN') {
+      @if (dto.showImageViewer()) {
         <app-visor-imagen [url]="dto.viewerUrl()"></app-visor-imagen>
       }
-      @if (dto.viewerType() === 'AUDIO') {
+      @if (dto.showAudioPlayer()) {
         <app-reproductor-audio [url]="dto.viewerUrl()"></app-reproductor-audio>
       }
-      @if (dto.viewerType() === 'VIDEO') {
+      @if (dto.showVideoPlayer()) {
         <app-reproductor-video [url]="dto.viewerUrl()"></app-reproductor-video>
       }
     </div>
