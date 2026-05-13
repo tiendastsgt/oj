@@ -4,6 +4,7 @@ import com.oj.sged.infrastructure.persistence.auth.Auditoria;
 import com.oj.sged.infrastructure.persistence.auth.repository.AuditoriaRepository;
 import com.oj.sged.shared.util.SecurityUtil;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class AuditoriaService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuditoriaService.class);
+    private static final ZoneId ZONA_GT = ZoneId.of("America/Guatemala");
     private final AuditoriaRepository auditoriaRepository;
 
     public AuditoriaService(AuditoriaRepository auditoriaRepository) {
@@ -41,7 +43,7 @@ public class AuditoriaService {
     ) {
         try {
             Auditoria auditoria = Auditoria.builder()
-                .fecha(LocalDateTime.now())
+                .fecha(LocalDateTime.now(ZONA_GT))
                 .usuario(usuario != null ? usuario : "ANONIMO")
                 .ip(ip)
                 .accion(accion)

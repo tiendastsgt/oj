@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   sged-backend:
     container_name: sged-backend-lite
