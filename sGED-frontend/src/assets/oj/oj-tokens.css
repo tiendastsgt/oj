@@ -1,0 +1,294 @@
+/* ============================================================
+   VISOR DOCUMENTAL OJ — Sistema de Diseño Institucional
+   Tokens del Organismo Judicial de Guatemala
+   Sin reset: convive con styles.scss del frontend.
+   Las clases utilitarias están bajo `.oj-theme` para opt-in.
+   ============================================================ */
+
+:root {
+  /* === COLORES BASE === */
+  /* Azul cobalto profundo — color institucional dominante */
+  --c-azul-900: #061E40;
+  --c-azul-800: #0A2E5C;  /* PRINCIPAL */
+  --c-azul-700: #133E75;
+  --c-azul-600: #1E5091;
+  --c-azul-100: #DCE5F0;
+  --c-azul-50:  #F0F4FA;
+
+  /* Neutros — papel y archivo oficial */
+  --c-hueso:    #FAFAF7;
+  --c-crema:    #F5F4EE;
+  --c-piedra-900: #2A2A28;
+  --c-piedra-700: #4A4A48;
+  --c-piedra-500: #6E6E6A;
+  --c-piedra-300: #B8B8B2;
+  --c-piedra-200: #D8D8D2;
+  --c-piedra-100: #E8E8E2;
+  --c-blanco:   #FFFFFF;
+
+  /* === ACENTOS NACIONALES === */
+  --c-dorado-700: #9C8345;
+  --c-dorado-600: #B89656;
+  --c-dorado-500: #C9A961;  /* PRINCIPAL */
+  --c-dorado-400: #D6BC82;
+  --c-dorado-100: #F4ECDB;
+
+  --c-verde-700: #144A33;
+  --c-verde-600: #1B5E3F;
+  --c-verde-100: #DEEDE5;
+
+  --c-rojo-700: #6E1B28;
+  --c-rojo-600: #8B2332;
+  --c-rojo-100: #F3DCDF;
+
+  /* === SEMÁNTICOS === */
+  --c-fondo:        var(--c-hueso);
+  --c-fondo-elev:   var(--c-blanco);
+  --c-fondo-alt:    var(--c-crema);
+  --c-texto:        var(--c-piedra-700);
+  --c-texto-fuerte: var(--c-piedra-900);
+  --c-texto-suave:  var(--c-piedra-500);
+  --c-borde:        var(--c-piedra-200);
+  --c-borde-sutil:  var(--c-piedra-100);
+
+  /* === TIPOGRAFÍA === */
+  --font-serif: 'Source Serif 4', 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+  --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:  'JetBrains Mono', 'Roboto Mono', 'Courier New', monospace;
+
+  --fs-xs:   12px;
+  --fs-sm:   13px;
+  --fs-base: 14px;
+  --fs-md:   15px;
+  --fs-lg:   17px;
+  --fs-xl:   20px;
+  --fs-2xl:  26px;
+  --fs-3xl:  34px;
+
+  /* === ESPACIADO === */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* === RADIOS === */
+  --r-sm: 2px;
+  --r-md: 4px;
+  --r-lg: 6px;
+
+  /* === BORDES === */
+  --border-thin:  1px solid var(--c-borde);
+  --border-sutil: 1px solid var(--c-borde-sutil);
+
+  /* === SOMBRAS === */
+  --shadow-sm: 0 1px 2px rgba(10, 46, 92, 0.06);
+  --shadow-md: 0 2px 8px rgba(10, 46, 92, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(201, 169, 97, 0.25);
+
+  /* === TRANSICIONES === */
+  --t-fast: 120ms ease;
+  --t-base: 200ms ease;
+}
+
+/* ============================================================
+   CLASES UTILITARIAS — opt-in vía .oj-theme
+   ============================================================ */
+
+.oj-theme,
+.oj-theme * {
+  box-sizing: border-box;
+}
+
+.oj-theme {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--c-texto);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.oj-theme h1,
+.oj-theme h2,
+.oj-theme h3,
+.oj-theme h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--c-texto-fuerte);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.oj-theme a {
+  color: var(--c-azul-700);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+.oj-theme a:hover { color: var(--c-azul-800); text-decoration: underline; }
+
+/* --- Botones --- */
+.oj-theme .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 11px 20px;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--t-base);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  font-family: var(--font-sans);
+}
+
+.oj-theme .btn-primary {
+  background: var(--c-azul-800);
+  color: var(--c-blanco);
+  border-color: var(--c-azul-800);
+}
+.oj-theme .btn-primary:hover {
+  background: var(--c-azul-900);
+  border-color: var(--c-azul-900);
+  box-shadow: var(--shadow-md);
+}
+
+.oj-theme .btn-secondary {
+  background: transparent;
+  color: var(--c-azul-800);
+  border-color: var(--c-borde);
+}
+.oj-theme .btn-secondary:hover {
+  background: var(--c-azul-50);
+  border-color: var(--c-azul-700);
+}
+
+.oj-theme .btn-block { width: 100%; }
+
+/* --- Inputs --- */
+.oj-theme .field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.oj-theme .field-label {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--c-texto-fuerte);
+  letter-spacing: 0.02em;
+}
+
+.oj-theme .field-required::after {
+  content: ' *';
+  color: var(--c-rojo-600);
+}
+
+.oj-theme .input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--c-blanco);
+  border: 1px solid var(--c-borde);
+  border-radius: var(--r-md);
+  color: var(--c-texto-fuerte);
+  transition: all var(--t-fast);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+}
+.oj-theme .input::placeholder { color: var(--c-piedra-300); }
+.oj-theme .input:hover { border-color: var(--c-piedra-300); }
+.oj-theme .input:focus {
+  outline: none;
+  border-color: var(--c-dorado-500);
+  box-shadow: var(--shadow-focus);
+}
+
+.oj-theme .input-icon {
+  position: relative;
+}
+.oj-theme .input-icon .input { padding-left: 42px; }
+.oj-theme .input-icon .icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--c-texto-suave);
+  pointer-events: none;
+}
+
+/* --- Tarjetas --- */
+.oj-theme .card {
+  background: var(--c-fondo-elev);
+  border: var(--border-thin);
+  border-radius: var(--r-lg);
+}
+
+/* --- Badges --- */
+.oj-theme .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+.oj-theme .badge-verde { background: var(--c-verde-100); color: var(--c-verde-700); }
+.oj-theme .badge-dorado { background: var(--c-dorado-100); color: var(--c-dorado-700); }
+.oj-theme .badge-rojo { background: var(--c-rojo-100); color: var(--c-rojo-700); }
+.oj-theme .badge-azul { background: var(--c-azul-100); color: var(--c-azul-800); }
+
+/* --- Utilidades --- */
+.oj-theme .mono { font-family: var(--font-mono); }
+.oj-theme .serif { font-family: var(--font-serif); }
+.oj-theme .text-suave { color: var(--c-texto-suave); }
+.oj-theme .text-fuerte { color: var(--c-texto-fuerte); }
+
+.oj-theme .divider {
+  height: 1px;
+  background: var(--c-borde-sutil);
+  border: none;
+  margin: var(--sp-4) 0;
+}
+
+/* Línea decorativa con detalle dorado */
+.oj-theme .divider-oficial {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-5) 0;
+}
+.oj-theme .divider-oficial::before,
+.oj-theme .divider-oficial::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-borde);
+}
+.oj-theme .divider-oficial-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-dorado-500);
+}
+
+/* === Ícono común === */
+.oj-theme .ic {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  flex-shrink: 0;
+}

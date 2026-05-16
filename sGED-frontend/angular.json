@@ -22,6 +22,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/oj/oj-tokens.css",
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css"
             ],
@@ -83,6 +84,7 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "styles": [
+              "src/assets/oj/oj-tokens.css",
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css"
             ],
