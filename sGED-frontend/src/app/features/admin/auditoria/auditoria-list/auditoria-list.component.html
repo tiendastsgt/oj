@@ -1,149 +1,116 @@
-<div class="fade-in">
+<app-oj-shell
+  [sections]="dto.shellSections()"
+  [title]="'Auditoría'"
+  [breadcrumb]="dto.breadcrumb"
+  [user]="dto.shellUser()">
 
-  <!-- Header -->
-  <div class="flex justify-between items-center mb-8">
-    <div>
-      <h1 class="page-title">Bitácora de Auditoría</h1>
-      <p class="subtitle">Monitoreo de seguridad y trazabilidad de eventos del sistema</p>
+  <!-- ADMIN HEADER -->
+  <section class="admin-header">
+    <div class="admin-header-info">
+      <div class="admin-header-eyebrow">
+        <span class="admin-header-eyebrow-dot"></span>
+        Bitácora institucional
+      </div>
+      <h2 class="admin-header-title">Registro de actividad</h2>
+      <p class="admin-header-desc">Bitácora completa de acciones realizadas en el sistema, accesos y eventos de seguridad.</p>
     </div>
-    <div class="flex gap-4">
-      <button class="btn btn-secondary btn-sm"><i class="pi pi-download"></i> Exportar Log</button>
-      <button class="btn btn-primary btn-sm" (click)="svc.cargarAuditoria(0)"><i class="pi pi-refresh"></i> Actualizar</button>
+    <div class="admin-header-stats">
+      <div class="admin-stat">
+        <div class="admin-stat-value">{{ dto.totalRecords() }}</div>
+        <div class="admin-stat-label">Total eventos</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-value stat-modulo">{{ svc.countByModulo('expediente') }}</div>
+        <div class="admin-stat-label">Expedientes</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-value stat-doc">{{ svc.countByModulo('documento') }}</div>
+        <div class="admin-stat-label">Documentos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLBAR -->
+  <div class="admin-toolbar" [formGroup]="svc.filterForm">
+    <div class="admin-toolbar-left">
+      <div class="admin-toolbar-search">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input
+          type="text"
+          class="admin-toolbar-search-input"
+          placeholder="Buscar por usuario o acción..."
+          formControlName="usuario"
+          (change)="svc.aplicarFiltros()"
+        >
+      </div>
+      <select class="admin-toolbar-filter-select" formControlName="modulo" (change)="svc.aplicarFiltros()">
+        <option value="">Módulo: Todos</option>
+        <option value="auth">Seguridad / Auth</option>
+        <option value="expedientes">Expedientes</option>
+        <option value="documentos">Documentos</option>
+        <option value="security">Sistema</option>
+      </select>
+    </div>
+    <div class="admin-toolbar-right">
+      <button type="button" class="btn-refresh" (click)="svc.cargarAuditoria(0)">
+        <svg class="ic" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+        Actualizar
+      </button>
     </div>
   </div>
 
-  <!-- KPI Stats -->
-  <div class="grid-4 mb-8">
-    <div class="kpi-card">
-      <div class="kpi-icon-box blue"><i class="pi pi-list"></i></div>
-      <div>
-        <div class="kpi-value">{{ dto.totalRecords() }}</div>
-        <div class="kpi-label">Total Eventos</div>
+  <!-- TABLE -->
+  <div class="admin-table-wrap">
+    @if (dto.isLoading()) {
+      <div class="audit-loading">
+        <svg class="ic" viewBox="0 0 24 24" style="width:22px;height:22px;opacity:0.4"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Cargando registros...
       </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon-box cyan"><i class="pi pi-folder-open"></i></div>
-      <div>
-        <div class="kpi-value">{{ svc.countByModulo('expediente') }}</div>
-        <div class="kpi-label">Expedientes Consultados</div>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon-box amber"><i class="pi pi-file"></i></div>
-      <div>
-        <div class="kpi-value">{{ svc.countByModulo('documento') }}</div>
-        <div class="kpi-label">Documentos Accedidos</div>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon-box green"><i class="pi pi-clock"></i></div>
-      <div>
-        <div class="kpi-value" style="font-size:var(--font-sm);">{{ (dto.auditoria().length > 0 ? dto.auditoria()[0].fecha : dto.now()) | date:'dd/MM/yyyy HH:mm' }}</div>
-        <div class="kpi-label">Último Registro</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Audit Timeline Card -->
-  <div class="card glass-panel">
-    <div class="card-header" [formGroup]="svc.filterForm">
-      <div class="flex gap-3 items-center">
-        <div style="position:relative;">
-          <i class="pi pi-search" style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.85rem;"></i>
-          <input
-            type="text"
-            class="form-input"
-            style="padding-left:2.25rem;width:250px;font-size:var(--font-sm);background:rgba(255,255,255,0.02);"
-            placeholder="Buscar por usuario..."
-            formControlName="usuario"
-            (change)="svc.aplicarFiltros()"
-          />
-        </div>
-        <select class="form-input form-select" style="width:auto;padding:0.5rem 2rem 0.5rem 0.75rem;font-size:var(--font-sm);background:rgba(255,255,255,0.02);" formControlName="modulo" (change)="svc.aplicarFiltros()">
-          <option value="">Todos los módulos</option>
-          <option value="auth">Seguridad / Auth</option>
-          <option value="expedientes">Expedientes</option>
-          <option value="documentos">Documentos</option>
-          <option value="security">Sistema</option>
-        </select>
-      </div>
-      <span style="font-size:var(--font-xs);color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Mostrando registros históricos</span>
-    </div>
-
-    <!-- Timeline List -->
-    <div style="overflow-x:auto;">
-      <table class="data-table">
+    } @else if (dto.auditoria().length === 0) {
+      <div class="audit-empty">No hay registros de auditoría disponibles</div>
+    } @else {
+      <table class="admin-table">
         <thead>
           <tr>
-            <th>TIMELINE</th>
-            <th>USUARIO</th>
-            <th>MÓDULO</th>
-            <th>ACTIVIDAD / RECURSO</th>
-            <th>DETALLE</th>
-            <th>IP</th>
+            <th style="width:170px">Fecha y hora</th>
+            <th>Usuario</th>
+            <th>Acción</th>
+            <th>Expediente / recurso</th>
+            <th style="width:140px">Dirección IP</th>
           </tr>
         </thead>
         <tbody>
           @for (item of dto.auditoria(); track item.id) {
-          <tr>
-            <td>
-              <div class="flex items-center gap-3">
-                <span class="timeline-dot" [style.background]="svc.getDotColor(item.modulo)" [style.box-shadow]="'0 0 8px ' + svc.getDotColor(item.modulo)"></span>
-                <div class="flex flex-col">
-                  <span style="font-weight:700;color:var(--text-primary);font-size:var(--font-sm);">{{ item.fecha | date: 'dd/MM/yyyy' }}</span>
-                  <span style="font-size:var(--font-xs);color:var(--text-muted);">{{ item.fecha | date: 'HH:mm:ss' }}</span>
+            <tr>
+              <td class="audit-timestamp">{{ item.fecha | date:'dd/MM/yyyy · HH:mm:ss' }}</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar">{{ item.usuario.charAt(0).toUpperCase() }}</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">{{ item.usuario }}</div>
+                    <div class="user-cell-email">{{ item.modulo | uppercase }}</div>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td>
-              <div class="flex items-center gap-3">
-                <div class="user-avatar" style="width:32px;height:32px;font-size:0.65rem;">{{ item.usuario.charAt(0).toUpperCase() }}</div>
-                <span style="font-weight:600; color:white;">{{ item.usuario }}</span>
-              </div>
-            </td>
-            <td>
-              <span class="badge" [ngClass]="{
-                'badge-active': item.modulo === 'auth',
-                'badge-info': item.modulo === 'expedientes',
-                'badge-pending': item.modulo === 'documentos',
-                'badge-urgent': item.modulo === 'security'
-              }">
-                <i class="pi" [ngClass]="svc.getActivityIcon(item.modulo)" style="font-size:0.7rem;"></i>
-                {{ item.modulo | uppercase }}
-              </span>
-            </td>
-            <td>
-              <div class="flex flex-col">
-                <span style="color:var(--primary-hover);font-size:var(--font-sm);font-weight:700;">{{ item.accion }}</span>
-                @if (item.recursoId) {
-                <span style="font-size:var(--font-xs); color:var(--accent-cyan); font-weight:bold;">
-                  {{ svc.getResourceLabel(item) }}
+              </td>
+              <td>
+                <span class="audit-action-badge" [ngClass]="svc.getActionClass(item.modulo)">
+                  {{ item.accion }}
                 </span>
+              </td>
+              <td>
+                @if (item.recursoId) {
+                  <span class="audit-resource">{{ svc.getResourceLabel(item) }}</span>
                 }
-              </div>
-            </td>
-            <td>
-              <span style="font-size:var(--font-sm); color:var(--text-secondary); line-height:1.4;">{{ item.detalle }}</span>
-            </td>
-            <td>
-              <span style="font-family:monospace;font-size:var(--font-xs);color:var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">{{ item.ip }}</span>
-            </td>
-          </tr>
+                <span class="audit-detail">{{ item.detalle }}</span>
+              </td>
+              <td class="audit-ip">{{ item.ip }}</td>
+            </tr>
           }
         </tbody>
       </table>
-
-      @if (dto.auditoria().length === 0 && !dto.isLoading()) {
-      <div style="padding:3rem;text-align:center;color:var(--text-muted);">
-        No hay registros de auditoría disponibles
-      </div>
-      }
-
-      @if (dto.isLoading()) {
-      <div style="padding:3rem;text-align:center;color:var(--text-muted);">
-        <i class="pi pi-spin pi-spinner" style="font-size:1.5rem;"></i>
-      </div>
-      }
-    </div>
+    }
   </div>
-</div>
+
+  <p-toast></p-toast>
+
+</app-oj-shell>
