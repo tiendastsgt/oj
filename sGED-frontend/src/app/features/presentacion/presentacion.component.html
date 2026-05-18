@@ -1,0 +1,112 @@
+<div class="presentation-mode">
+
+  <!-- TOPBAR -->
+  <div class="pres-topbar">
+    <div class="pres-topbar-left">
+      <img src="/assets/oj/escudo-oj-dorado.png" alt="OJ" class="pres-escudo">
+      <div class="pres-context">
+        <span class="pres-context-num mono">Expediente {{ dto.expedienteNum() }}</span>
+        <span class="pres-context-label">Modo presentación — anclados de audiencia</span>
+      </div>
+    </div>
+
+    <div class="pres-topbar-right">
+      @if (dto.total() > 0) {
+        <span class="pres-counter">
+          Documento <strong>{{ dto.currentIdx() + 1 }}</strong> de <strong>{{ dto.total() }}</strong> anclados
+        </span>
+      }
+      <div class="pres-actions">
+        <button type="button" class="pres-icon-btn" title="Salir de presentación (Esc)" (click)="svc.exit()">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÁREA PRINCIPAL -->
+  <div class="pres-main">
+
+    <!-- Mini-mapa lateral -->
+    <aside class="pres-sidebar">
+      <div class="pres-sidebar-label">Anclados de audiencia</div>
+
+      @if (dto.docs().length === 0) {
+        <div class="pres-empty">
+          <svg class="ic" viewBox="0 0 24 24" style="width:32px;height:32px;opacity:0.3"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+          <p>No hay documentos anclados para este expediente</p>
+        </div>
+      }
+
+      @for (doc of dto.docs(); track doc.id; let i = $index) {
+        <button
+          type="button"
+          class="pres-mini"
+          [class.active]="dto.currentIdx() === i"
+          (click)="svc.goto(i)"
+        >
+          <span class="pres-mini-num mono">{{ (i + 1).toString().padStart(2, '0') }}</span>
+          <span class="pres-mini-icon tipo-{{ doc.type }}">
+            @if (doc.type === 'video') {
+              <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            } @else if (doc.type === 'audio') {
+              <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            } @else if (doc.type === 'img') {
+              <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            } @else {
+              <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            }
+          </span>
+          <span class="pres-mini-name">{{ doc.name }}</span>
+        </button>
+      }
+    </aside>
+
+    <!-- Stage central -->
+    <div class="pres-stage">
+
+      @if (dto.current(); as current) {
+        <div class="pres-doc-header">
+          <div class="pres-doc-title">{{ current.name }}</div>
+          <div class="pres-doc-meta mono">{{ current.type | uppercase }} · {{ current.category }}</div>
+        </div>
+
+        <div class="pres-stage-content">
+          @if (dto.currentDocumento()) {
+            <app-documento-viewer
+              [documento]="dto.currentDocumento()"
+              (close)="svc.exit()">
+            </app-documento-viewer>
+          }
+        </div>
+      } @else {
+        <div class="pres-stage-empty">
+          <svg class="ic" viewBox="0 0 24 24" style="width:64px;height:64px;opacity:0.15"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+          <p>No hay documentos anclados para presentar.<br>Ancle documentos desde la vista del expediente.</p>
+          <button type="button" class="pres-exit-btn" (click)="svc.exit()">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Volver al expediente
+          </button>
+        </div>
+      }
+
+      <!-- Navegación flotante -->
+      @if (dto.total() > 1) {
+        <div class="pres-nav">
+          <button type="button" class="pres-nav-btn" [disabled]="dto.isFirst()" (click)="svc.prev()" title="Anterior (←)">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <span class="pres-nav-counter mono">
+            <strong>{{ (dto.currentIdx() + 1).toString().padStart(2, '0') }}</strong> / {{ dto.total() }}
+          </span>
+          <button type="button" class="pres-nav-btn" [disabled]="dto.isLast()" (click)="svc.next()" title="Siguiente (→)">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      }
+
+    </div>
+
+  </div>
+
+</div>

@@ -95,6 +95,12 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'presentacion/:expedienteNum',
+    loadComponent: () =>
+      import('./features/presentacion/presentacion.component').then(m => m.PresentacionComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'
