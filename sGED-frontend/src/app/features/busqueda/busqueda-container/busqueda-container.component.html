@@ -1,29 +1,144 @@
-<div class="search-page-header">
-  <h1 class="page-title">Búsqueda Avanzada</h1>
-</div>
+<app-oj-shell
+  [sections]="dto.shellSections()"
+  [title]="'Búsqueda de expedientes'"
+  [breadcrumb]="dto.breadcrumb"
+  [user]="dto.shellUser()"
+>
+  <!-- ============ HERO DE BÚSQUEDA ============ -->
+  <section class="search-hero">
+    <div class="search-hero-content">
+      <div class="search-hero-eyebrow">
+        <span class="search-hero-eyebrow-dot"></span>
+        Consulta institucional
+      </div>
+      <h2 class="search-hero-title">Consulta de expediente judicial</h2>
+      <p class="search-hero-subtitle">
+        Ingrese el número o nomenclatura del expediente para acceder a su información,
+        documentos, audios, videos e imágenes asociadas.
+      </p>
+      <div class="search-main">
+        <span class="search-main-icon">
+          <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </span>
+        <input
+          type="text"
+          class="search-main-input"
+          placeholder="Ingrese número de expediente o nomenclatura"
+          [value]="dto.query()"
+          (input)="svc.updateQuery($event)"
+          (keyup.enter)="svc.buscar(dto.query())"
+        >
+        <button type="button" class="search-main-action" (click)="svc.buscar(dto.query())">
+          Buscar
+          <svg class="ic" style="width:14px;height:14px" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="search-suggestions">
+        <span class="search-suggestions-label">Ejemplos:</span>
+        <button type="button" class="search-chip" (click)="svc.buscar('01173-2024-00428')">01173-2024-00428</button>
+        <button type="button" class="search-chip" (click)="svc.buscar('C2-2025-00891')">C2-2025-00891</button>
+        <button type="button" class="search-chip" (click)="svc.buscar('NA-2024-1247')">NA-2024-1247</button>
+      </div>
+    </div>
+  </section>
 
-<div class="search-tabs">
-  <div
-    class="search-tab"
-    [class.active]="dto.activeTab() === 'rapida'"
-    (click)="svc.setActiveTab('rapida')"
-  >
-    <i class="pi pi-bolt"></i> Búsqueda Rápida
-  </div>
-  <div
-    class="search-tab"
-    [class.active]="dto.activeTab() === 'avanzada'"
-    (click)="svc.setActiveTab('avanzada')"
-  >
-    <i class="pi pi-sliders-h"></i> Búsqueda Avanzada
-  </div>
-</div>
+  <!-- ============ SECCIÓN ANCLADOS ============ -->
+  @if (dto.anclados().length > 0) {
+    <section class="anclados-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h3 class="section-title">
+            <span class="section-title-icon">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+            </span>
+            Mis anclados
+          </h3>
+          <span class="section-count">{{ dto.anclados().length }} expedientes · {{ dto.totalAnclados() }} documentos</span>
+        </div>
+      </div>
 
-<div class="search-content">
-  @if (dto.activeTab() === 'rapida') {
-  <app-busqueda-rapida></app-busqueda-rapida>
+      <div class="anclados-grid">
+        @for (anc of dto.anclados(); track anc.numeroExpediente) {
+          <article class="anclado-card" [routerLink]="['/expedientes', anc.numeroExpediente]">
+            <div class="anclado-header">
+              <span class="anclado-num">{{ anc.numeroExpediente }}</span>
+              <span class="anclado-pin-badge">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                {{ anc.docs.length }} anclados
+              </span>
+            </div>
+
+            <h4 class="anclado-juzgado">{{ anc.juzgado || 'Sin juzgado asignado' }}</h4>
+
+            <div class="anclado-meta">
+              <span class="anclado-meta-item">
+                <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                Preparado {{ anc.preparedAt | date:'dd MMM' }}
+              </span>
+              @if (anc.audienciaAt) {
+                <span class="anclado-meta-item anclado-meta-audiencia">
+                  <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  Audiencia {{ anc.audienciaAt | date:'dd MMM' }}
+                </span>
+              }
+            </div>
+
+            <div class="anclado-docs-preview">
+              @for (doc of anc.docs.slice(0, 4); track doc.id) {
+                <div class="anclado-doc-row">
+                  <span class="anclado-doc-icon tipo-{{ doc.type }}">
+                    <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                  </span>
+                  <span class="anclado-doc-name">{{ doc.name }}</span>
+                </div>
+              }
+              @if (anc.docs.length > 4) {
+                <span class="anclado-doc-more">+ {{ anc.docs.length - 4 }} archivos más</span>
+              }
+            </div>
+
+            <div class="anclado-actions" (click)="$event.stopPropagation()">
+              <a class="anclado-btn anclado-btn-ver"
+                 [routerLink]="['/expedientes', anc.numeroExpediente]"
+                 [queryParams]="{ tab: 'archivos' }">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver anclados
+              </a>
+              <a class="anclado-btn anclado-btn-presentar"
+                 [routerLink]="['/presentacion', anc.numeroExpediente]">
+                <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                Presentar
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
   }
-  @if (dto.activeTab() === 'avanzada') {
-  <app-busqueda-avanzada></app-busqueda-avanzada>
-  }
-</div>
+
+  <!-- ============ SECCIÓN RESULTADOS ============ -->
+  <section>
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <h3 class="section-title">
+          <span class="section-title-icon">
+            <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          </span>
+          Resultados de búsqueda
+        </h3>
+      </div>
+    </div>
+    @if (!dto.mostrandoResultados()) {
+      <div class="empty-state">
+        <span class="empty-state-icon">
+          <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </span>
+        <h4 class="empty-state-title">Realice una búsqueda para listar expedientes</h4>
+        <p class="empty-state-text">
+          Ingrese el número o nomenclatura del expediente en el buscador superior.
+          Los expedientes disponibles según su rol y permisos se mostrarán aquí.
+        </p>
+      </div>
+    }
+  </section>
+</app-oj-shell>
