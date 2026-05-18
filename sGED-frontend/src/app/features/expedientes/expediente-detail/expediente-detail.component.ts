@@ -1,14 +1,11 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { MessageModule } from 'primeng/message';
-import { TabsModule } from 'primeng/tabs';
-import { TooltipModule } from 'primeng/tooltip';
+import { OjShellComponent } from '../../../shared/components/oj-shell/oj-shell.component';
 import { DocumentosListComponent } from '../documentos-list/documentos-list.component';
 import { DocumentoViewerComponent } from '../documento-viewer/documento-viewer.component';
-import { StatusBadgeComponent } from '../../../shared/components/status-badge.component';
+import { ExpGeneralComponent } from './components/exp-general/exp-general.component';
 import { ExpedienteDetailService } from './expediente-detail.service';
 
 @Component({
@@ -18,16 +15,13 @@ import { ExpedienteDetailService } from './expediente-detail.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    DatePipe,
-    RouterModule,
-    ButtonModule,
-    CardModule,
+    CommonModule,
+    RouterLink,
     MessageModule,
-    TabsModule,
-    TooltipModule,
+    OjShellComponent,
     DocumentosListComponent,
     DocumentoViewerComponent,
-    StatusBadgeComponent,
+    ExpGeneralComponent,
   ],
   providers: [ExpedienteDetailService],
 })
