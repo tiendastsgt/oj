@@ -10,9 +10,8 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () =>
-      import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [AuthGuard]
+    redirectTo: 'busqueda',
+    pathMatch: 'full'
   },
   {
     path: 'cambiar-password',
@@ -108,11 +107,11 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'busqueda',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'busqueda'
   }
 ];
