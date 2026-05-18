@@ -1,0 +1,122 @@
+<!-- Chips de tipo -->
+<div class="exp-type-chips">
+  <button type="button" class="exp-type-chip" [class.active]="tipoFiltro() === 'todos'" (click)="setTipo('todos')">
+    Todos <span class="count">{{ countByTipo().todos }}</span>
+  </button>
+  <button type="button" class="exp-type-chip" [class.active]="tipoFiltro() === 'doc'" (click)="setTipo('doc')">
+    <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+    Documentos <span class="count">{{ countByTipo().doc }}</span>
+  </button>
+  <button type="button" class="exp-type-chip" [class.active]="tipoFiltro() === 'video'" (click)="setTipo('video')">
+    <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+    Video <span class="count">{{ countByTipo().video }}</span>
+  </button>
+  <button type="button" class="exp-type-chip" [class.active]="tipoFiltro() === 'audio'" (click)="setTipo('audio')">
+    <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    Audio <span class="count">{{ countByTipo().audio }}</span>
+  </button>
+  <button type="button" class="exp-type-chip" [class.active]="tipoFiltro() === 'img'" (click)="setTipo('img')">
+    <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+    Imágenes <span class="count">{{ countByTipo().img }}</span>
+  </button>
+
+  <span class="chips-sep"></span>
+
+  <button type="button" class="exp-type-chip chip-anclados" [class.active]="soloAnclados()" (click)="toggleSoloAnclados()">
+    <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+    Solo anclados <span class="count">{{ ancladosCount() }}</span>
+  </button>
+</div>
+
+<!-- Barra de búsqueda secundaria -->
+<div class="exp-secondary-bar">
+  <div class="exp-search">
+    <span class="exp-search-icon">
+      <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </span>
+    <input
+      type="text"
+      class="exp-search-input"
+      placeholder="Buscar por nombre de archivo..."
+      [value]="busqueda()"
+      (input)="updateBusqueda($event)"
+    >
+  </div>
+</div>
+
+<!-- Layout: lista + visor -->
+<div class="exp-archivos-layout">
+
+  <!-- Lista de documentos -->
+  <aside class="doc-list-panel">
+    <div class="doc-list-header">
+      <span class="doc-list-title">Archivos del expediente</span>
+      <span class="doc-list-count mono">{{ docsVista().length }} archivos</span>
+    </div>
+
+    @if (loading()) {
+      <div class="doc-list-loading">
+        <div class="doc-list-spinner"></div>
+        Cargando documentos...
+      </div>
+    }
+
+    <div class="doc-list">
+      @for (doc of docsVista(); track doc.id) {
+        <button
+          type="button"
+          class="doc-item"
+          [class.active]="selectedDoc()?.id === doc.id"
+          (click)="selectDoc(doc)"
+        >
+          <div class="doc-item-icon tipo-{{ getTipoIcon(doc) }}">
+            @if (getTipoIcon(doc) === 'video') {
+              <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            } @else if (getTipoIcon(doc) === 'audio') {
+              <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            } @else if (getTipoIcon(doc) === 'img') {
+              <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            } @else {
+              <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            }
+          </div>
+          <div class="doc-item-info">
+            <div class="doc-item-name" [title]="doc.nombreOriginal">{{ doc.nombreOriginal }}</div>
+            <div class="doc-item-meta">{{ formatSize(doc.tamanio) }} · .{{ doc.extension }}</div>
+            <div class="doc-item-category">{{ doc.categoria }}</div>
+          </div>
+          <button
+            type="button"
+            class="doc-pin-btn"
+            [class.pinned]="isAnclado(doc)"
+            title="{{ isAnclado(doc) ? 'Quitar anclado' : 'Anclar documento' }}"
+            (click)="togglePin(doc, $event)"
+          >
+            <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+          </button>
+        </button>
+      }
+      @if (!loading() && docsVista().length === 0) {
+        <div class="doc-list-empty">Sin archivos para mostrar</div>
+      }
+    </div>
+  </aside>
+
+  <!-- Visor -->
+  <div class="doc-viewer-panel">
+    @if (selectedDoc()) {
+      <app-documento-viewer
+        [documento]="selectedDoc()"
+        (close)="closeViewer()"
+        (readingMode)="$event"
+        class="archivos-viewer">
+      </app-documento-viewer>
+    } @else {
+      <div class="doc-viewer-empty">
+        <svg class="ic" viewBox="0 0 24 24" style="width:48px;height:48px;opacity:0.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        <p>Selecciona un archivo de la lista para visualizarlo</p>
+      </div>
+    }
+  </div>
+
+</div>

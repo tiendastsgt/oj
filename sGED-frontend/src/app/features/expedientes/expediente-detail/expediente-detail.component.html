@@ -91,44 +91,12 @@
       ></app-exp-general>
     }
 
-    <!-- TAB: ARCHIVOS (Phase 5 placeholder — lista de documentos original) -->
+    <!-- TAB: ARCHIVOS -->
     @if (dto.mode() === 'archivos') {
-      <div class="archivos-placeholder">
-        @if (!dto.selectedDocumento()) {
-          <div class="archivos-list-wrap">
-            <div class="archivos-list-header">
-              <h3 class="archivos-list-title">
-                <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-                Documentos del expediente
-              </h3>
-            </div>
-            <app-documentos-list
-              [expedienteId]="expediente.id"
-              (viewDocumento)="svc.viewDocumento($event)">
-            </app-documentos-list>
-          </div>
-        }
-        @if (dto.selectedDocumento(); as doc) {
-          <div class="visor-wrap" [class.reading-mode]="dto.readingModeActive()">
-            <div class="visor-toolbar">
-              <div class="visor-doc-info">
-                <div class="visor-doc-name">{{ doc.nombreOriginal }}</div>
-                <div class="visor-doc-meta">{{ doc.categoria }} — {{ doc.tamanio }} — {{ doc.fechaCreacion | date:'dd MMM yyyy' }}</div>
-              </div>
-              <button type="button" class="visor-close-btn" title="Cerrar" (click)="svc.closeViewer()">
-                <svg class="ic" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
-            <div class="visor-body">
-              <app-documento-viewer
-                [documento]="doc"
-                (close)="svc.closeViewer()"
-                (readingMode)="svc.setReadingMode($event)">
-              </app-documento-viewer>
-            </div>
-          </div>
-        }
-      </div>
+      <app-exp-archivos
+        [expedienteId]="expediente.id"
+        [expedienteNumero]="expediente.numero">
+      </app-exp-archivos>
     }
 
   }

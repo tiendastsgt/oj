@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MessageModule } from 'primeng/message';
 import { OjShellComponent } from '../../../shared/components/oj-shell/oj-shell.component';
-import { DocumentosListComponent } from '../documentos-list/documentos-list.component';
-import { DocumentoViewerComponent } from '../documento-viewer/documento-viewer.component';
 import { ExpGeneralComponent } from './components/exp-general/exp-general.component';
+import { ExpArchivosComponent } from './components/exp-archivos/exp-archivos.component';
 import { ExpedienteDetailService } from './expediente-detail.service';
 
 @Component({
@@ -19,9 +18,8 @@ import { ExpedienteDetailService } from './expediente-detail.service';
     RouterLink,
     MessageModule,
     OjShellComponent,
-    DocumentosListComponent,
-    DocumentoViewerComponent,
     ExpGeneralComponent,
+    ExpArchivosComponent,
   ],
   providers: [ExpedienteDetailService],
 })
