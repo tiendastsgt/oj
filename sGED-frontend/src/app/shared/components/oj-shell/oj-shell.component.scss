@@ -3,11 +3,12 @@
   min-height: 100vh;
 }
 
-.app-shell {
-  display: grid;
+:host .app-shell {
+  display: grid !important;
   grid-template-columns: 260px 1fr;
   min-height: 100vh;
   background: var(--c-fondo);
+  overflow: visible !important;
 }
 
 /* ============ SIDEBAR ============ */
