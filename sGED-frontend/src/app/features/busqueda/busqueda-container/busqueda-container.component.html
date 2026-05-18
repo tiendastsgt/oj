@@ -67,9 +67,7 @@
                 {{ anc.docs.length }} anclados
               </span>
             </div>
-
             <h4 class="anclado-juzgado">{{ anc.juzgado || 'Sin juzgado asignado' }}</h4>
-
             <div class="anclado-meta">
               <span class="anclado-meta-item">
                 <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
@@ -82,7 +80,6 @@
                 </span>
               }
             </div>
-
             <div class="anclado-docs-preview">
               @for (doc of anc.docs.slice(0, 4); track doc.id) {
                 <div class="anclado-doc-row">
@@ -96,7 +93,6 @@
                 <span class="anclado-doc-more">+ {{ anc.docs.length - 4 }} archivos más</span>
               }
             </div>
-
             <div class="anclado-actions" (click)="$event.stopPropagation()">
               <a class="anclado-btn anclado-btn-ver"
                  [routerLink]="['/expedientes', anc.numeroExpediente]"
@@ -128,7 +124,91 @@
         </h3>
       </div>
     </div>
-    @if (!dto.mostrandoResultados()) {
+
+    @if (dto.mostrandoResultados()) {
+      <!-- Barra de filtros aplicados -->
+      <div class="filters-bar">
+        <div class="filters-left">
+          <span class="filters-results">
+            <strong>{{ dto.paginacion().total }}</strong> resultados encontrados
+          </span>
+          @for (pill of dto.filtrosAplicados(); track pill.id) {
+            <span class="filter-pill">
+              {{ pill.label }}
+              <button type="button" title="Quitar filtro" (click)="svc.quitarFiltro(pill)">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </span>
+          }
+        </div>
+        <div class="filters-right">
+          <button type="button" class="sort-select" (click)="svc.abrirFiltros()">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+            Filtros avanzados
+          </button>
+        </div>
+      </div>
+
+      <!-- Lista de resultados -->
+      <div class="results-list">
+        @for (r of dto.resultados(); track r.numero) {
+          <a class="result-card {{ r.tipoClass }}"
+             [routerLink]="['/expedientes', r.id ?? r.numero]">
+            <div class="result-numero">
+              <span class="result-numero-label">N° de expediente</span>
+              <span class="result-numero-value">{{ r.numero }}</span>
+              @if (r.ancladosCount > 0) {
+                <span class="result-anclados-mini">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                  {{ r.ancladosCount }} anclados
+                </span>
+              }
+            </div>
+            <div class="result-data">
+              <div class="result-juzgado">{{ r.juzgado }}</div>
+              @if (r.partes) {
+                <div class="result-partes">{{ r.partes }}</div>
+              }
+              <div class="result-badges-row">
+                <span class="badge badge-azul">{{ r.tipoProceso }}</span>
+                <span class="badge badge-verde">{{ r.estado }}</span>
+              </div>
+            </div>
+            <div class="result-meta">
+              <span class="result-fecha">{{ r.fechaInicio | date:'dd·MMM·yyyy':'':'es' | uppercase }}</span>
+              <span class="result-arrow">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          </a>
+        }
+      </div>
+
+      <!-- Paginación -->
+      @if (dto.paginacion().totalPages > 1) {
+        <div class="pagination">
+          <div class="pagination-info">
+            Mostrando <strong>{{ dto.showingFrom() }}–{{ dto.showingTo() }}</strong> de <strong>{{ dto.paginacion().total }}</strong> resultados
+          </div>
+          <div class="pagination-controls">
+            <button type="button" class="page-btn" [disabled]="dto.isFirstPage()"
+                    (click)="svc.cambiarPagina(dto.paginacion().page - 1)">
+              <svg class="ic" style="width:14px;height:14px" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            @for (pageIdx of dto.pageNumbers(); track pageIdx) {
+              <button type="button" class="page-btn" [class.active]="pageIdx === dto.paginacion().page"
+                      (click)="svc.cambiarPagina(pageIdx)">
+                {{ pageIdx + 1 }}
+              </button>
+            }
+            <button type="button" class="page-btn" [disabled]="dto.isLastPage()"
+                    (click)="svc.cambiarPagina(dto.paginacion().page + 1)">
+              <svg class="ic" style="width:14px;height:14px" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      }
+    } @else {
       <div class="empty-state">
         <span class="empty-state-icon">
           <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -141,4 +221,13 @@
       </div>
     }
   </section>
+
+  <!-- Drawer de filtros avanzados (position: fixed, overlay independiente) -->
+  <app-filtros-drawer
+    [open]="dto.filtersOpen()"
+    (close)="svc.cerrarFiltros()"
+    (apply)="svc.aplicarFiltros($event)"
+    (clear)="svc.limpiarFiltros()"
+  ></app-filtros-drawer>
+
 </app-oj-shell>

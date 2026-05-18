@@ -1,0 +1,56 @@
+@if (open) {
+  <div class="filter-drawer-overlay" (click)="close.emit()"></div>
+
+  <aside class="filter-drawer">
+    <div class="filter-drawer-header">
+      <span class="filter-drawer-title">Filtros avanzados</span>
+      <button type="button" class="filter-drawer-close" (click)="close.emit()" title="Cerrar filtros">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="filter-drawer-body">
+      <p class="filter-drawer-desc">
+        La búsqueda se realiza por número o nomenclatura de expediente.
+        Estos filtros ayudan a acotar resultados cuando se ingresa un número parcial.
+      </p>
+
+      <div class="filter-group">
+        <span class="filter-group-label">Rango de fechas de ingreso</span>
+        <div class="filter-date-row">
+          <div class="field">
+            <label class="field-label">Desde</label>
+            <input type="date" class="input" [(ngModel)]="local.fechaDesde">
+          </div>
+          <div class="field">
+            <label class="field-label">Hasta</label>
+            <input type="date" class="input" [(ngModel)]="local.fechaHasta">
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-group-label">Mostrar solo</span>
+        <div class="filter-checks">
+          <label class="filter-check">
+            <input type="checkbox" [(ngModel)]="local.soloAnclados">
+            <span>Expedientes con documentos anclados</span>
+          </label>
+          <label class="filter-check">
+            <input type="checkbox" [(ngModel)]="local.soloAsignados">
+            <span>Expedientes asignados a mí</span>
+          </label>
+          <label class="filter-check">
+            <input type="checkbox" [(ngModel)]="local.soloAudienciaProxima">
+            <span>Con audiencia próxima (próximos 7 días)</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-drawer-footer">
+      <button type="button" class="btn btn-secondary" (click)="clearFilters()">Limpiar</button>
+      <button type="button" class="btn btn-primary" (click)="applyFilters()">Aplicar filtros</button>
+    </div>
+  </aside>
+}
