@@ -1,0 +1,184 @@
+<app-oj-shell
+  [sections]="dto.shellSections()"
+  [title]="'Reportes institucionales'"
+  [breadcrumb]="dto.breadcrumb"
+  [user]="dto.shellUser()">
+
+  <!-- ADMIN HEADER -->
+  <section class="admin-header">
+    <div class="admin-header-info">
+      <div class="admin-header-eyebrow">
+        <span class="admin-header-eyebrow-dot"></span>
+        Generación de informes
+      </div>
+      <h2 class="admin-header-title">Reportes del sistema</h2>
+      <p class="admin-header-desc">Configure parámetros, previsualice y exporte reportes institucionales en formato PDF o Excel.</p>
+    </div>
+  </section>
+
+  <!-- MAIN GRID -->
+  <div class="reportes-grid">
+
+    <!-- LISTA DE TIPOS -->
+    <div class="reportes-tipos">
+      <div class="reportes-tipos-header">
+        <div class="reportes-tipos-title">Reportes disponibles</div>
+      </div>
+
+      @for (tipo of dto.tipos(); track tipo.id) {
+        <button
+          type="button"
+          class="reporte-item"
+          [class.active]="dto.selectedTipo() === tipo.id"
+          (click)="svc.selectTipo(tipo.id)"
+        >
+          <div class="reporte-item-icon">
+            @if (tipo.id === 'movimiento') {
+              <svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+            } @else {
+              <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></svg>
+            }
+          </div>
+          <div class="reporte-item-info">
+            <div class="reporte-item-name">{{ tipo.name }}</div>
+            <div class="reporte-item-desc">{{ tipo.desc }}</div>
+          </div>
+          <div class="reporte-item-arrow">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </button>
+      }
+    </div>
+
+    <!-- CONFIG + PREVIEW -->
+    @if (dto.currentTipo(); as tipo) {
+      <div class="reporte-config">
+
+        <div class="reporte-config-header">
+          <div class="reporte-config-title-wrap">
+            <div class="reporte-config-eyebrow">Configuración del reporte</div>
+            <h3 class="reporte-config-title">{{ tipo.name }}</h3>
+          </div>
+          <div class="reporte-config-actions">
+            <button type="button" class="btn-secondary">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Excel
+            </button>
+            <button type="button" class="btn-primary" (click)="svc.generar()">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              Generar PDF
+            </button>
+          </div>
+        </div>
+
+        <div class="reporte-config-body">
+
+          <div class="reporte-filters-grid" [formGroup]="svc.configForm">
+            <div class="field">
+              <label class="field-label field-required">Fecha desde</label>
+              <input type="date" class="input" formControlName="fechaDesde">
+            </div>
+            <div class="field">
+              <label class="field-label field-required">Fecha hasta</label>
+              <input type="date" class="input" formControlName="fechaHasta">
+            </div>
+            <div class="field">
+              <label class="field-label">Tipo de juzgado</label>
+              <select class="input" formControlName="tipoJuzgado">
+                <option value="">Todos</option>
+                <option value="adolescentes">Adolescentes en Conflicto con la Ley Penal</option>
+                <option value="ninez">Niñez y Adolescencia</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Despacho específico</label>
+              <select class="input" formControlName="despacho">
+                <option value="">Todos los despachos</option>
+                <option value="j1">Juzgado 1° Adolescentes</option>
+                <option value="j2">Juzgado 2° Niñez y Adolescencia</option>
+                <option value="j3">Juzgado 3° Niñez y Adolescencia</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Estado del expediente</label>
+              <select class="input" formControlName="estado">
+                <option value="">Todos los estados</option>
+                <option value="tramite">En trámite</option>
+                <option value="audiencia">Audiencia próxima</option>
+                <option value="archivado">Archivado</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Agrupar por</label>
+              <select class="input" formControlName="agruparPor">
+                <option value="despacho">Despacho</option>
+                <option value="tipo">Tipo de juzgado</option>
+                <option value="mes">Mes de ingreso</option>
+                <option value="estado">Estado</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- PREVIEW -->
+          @if (dto.resultado(); as resultado) {
+            <div class="reporte-preview">
+              <div class="reporte-preview-label">Vista previa</div>
+
+              <div class="reporte-preview-doc">
+                <div class="reporte-preview-doc-header">
+                  <div class="reporte-preview-doc-org">Organismo Judicial de Guatemala</div>
+                  <div class="reporte-preview-doc-title">{{ resultado.titulo }}</div>
+                  <div class="reporte-preview-doc-subtitle">Período: {{ resultado.periodo }}</div>
+                </div>
+
+                <div class="reporte-kpis">
+                  @for (kpi of resultado.kpis; track kpi.label) {
+                    <div class="reporte-kpi" [ngClass]="'kpi-' + kpi.color">
+                      <div class="reporte-kpi-value mono">{{ kpi.value }}</div>
+                      <div class="reporte-kpi-label">{{ kpi.label }}</div>
+                    </div>
+                  }
+                </div>
+
+                <h4 class="reporte-preview-section-title">Detalle por despacho</h4>
+
+                <table class="reporte-preview-table">
+                  <thead>
+                    <tr>
+                      <th>Despacho</th>
+                      <th style="text-align:right">Ingresados</th>
+                      <th style="text-align:right">En trámite</th>
+                      <th style="text-align:right">Resueltos</th>
+                      <th style="text-align:right">Archivados</th>
+                      <th style="text-align:right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (fila of resultado.filas; track fila.despacho) {
+                      <tr>
+                        <td>{{ fila.despacho }}</td>
+                        <td class="mono" style="text-align:right">{{ fila.ingresados }}</td>
+                        <td class="mono" style="text-align:right">{{ fila.enTramite }}</td>
+                        <td class="mono" style="text-align:right">{{ fila.resueltos }}</td>
+                        <td class="mono" style="text-align:right">{{ fila.archivados }}</td>
+                        <td class="mono total-col" style="text-align:right">{{ svc.totalFila(fila) }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+
+                <div class="reporte-preview-footer">
+                  <span>Generado por: {{ resultado.generadoPor }}</span>
+                  <span>{{ resultado.fecha | date:'dd/MM/yyyy · HH:mm' }}</span>
+                </div>
+              </div>
+            </div>
+          }
+
+        </div>
+      </div>
+    }
+
+  </div>
+
+</app-oj-shell>
