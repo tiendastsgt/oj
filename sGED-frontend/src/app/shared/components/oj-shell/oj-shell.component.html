@@ -1,27 +1,27 @@
-<div class="oj-theme app-shell">
+<div class="oj-theme oj-app-shell">
 
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <img ngSrc="assets/oj/escudo-oj-dorado.png" alt="OJ" class="sidebar-escudo" width="40" height="40" priority>
-      <div class="sidebar-brand">
-        <span class="sidebar-brand-title">Visor Documental</span>
-        <span class="sidebar-brand-subtitle">Organismo Judicial</span>
+  <aside class="oj-sidebar">
+    <div class="oj-sidebar-header">
+      <img ngSrc="assets/oj/escudo-oj-dorado.png" alt="OJ" class="oj-sidebar-escudo" width="40" height="40" priority>
+      <div class="oj-sidebar-brand">
+        <span class="oj-sidebar-brand-title">Visor Documental</span>
+        <span class="oj-sidebar-brand-subtitle">Organismo Judicial</span>
       </div>
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="oj-sidebar-nav">
       @for (section of sections; track section.label) {
-        <span class="sidebar-section-label">{{ section.label }}</span>
+        <span class="oj-sidebar-section-label">{{ section.label }}</span>
         @for (item of section.items; track item.label) {
           <a
             [routerLink]="item.route"
             routerLinkActive="active"
-            class="sidebar-link"
+            class="oj-sidebar-link"
           >
-            <i [class]="item.icon" class="sidebar-link-icon"></i>
+            <i [class]="item.icon" class="oj-sidebar-link-icon"></i>
             {{ item.label }}
             @if (item.badge != null) {
-              <span class="sidebar-link-badge">{{ item.badge }}</span>
+              <span class="oj-sidebar-link-badge">{{ item.badge }}</span>
             }
           </a>
         }
@@ -29,24 +29,24 @@
     </nav>
 
     @if (user) {
-      <div class="sidebar-user">
-        <div class="sidebar-user-avatar">{{ user.initials }}</div>
-        <div class="sidebar-user-info">
-          <div class="sidebar-user-name">{{ user.name }}</div>
-          <div class="sidebar-user-role">{{ user.role }}</div>
+      <div class="oj-sidebar-user">
+        <div class="oj-sidebar-user-avatar">{{ user.initials }}</div>
+        <div class="oj-sidebar-user-info">
+          <div class="oj-sidebar-user-name">{{ user.name }}</div>
+          <div class="oj-sidebar-user-role">{{ user.role }}</div>
         </div>
-        <a [routerLink]="logoutRoute" class="sidebar-user-action" title="Cerrar sesión" aria-label="Cerrar sesión">
+        <a [routerLink]="logoutRoute" class="oj-sidebar-user-action" title="Cerrar sesión" aria-label="Cerrar sesión">
           <svg class="ic" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
         </a>
       </div>
     }
   </aside>
 
-  <div class="main">
-    <header class="topbar">
-      <div class="topbar-title-wrap">
+  <div class="oj-main">
+    <header class="oj-topbar">
+      <div class="oj-topbar-title-wrap">
         @if (breadcrumb.length > 0) {
-          <div class="topbar-breadcrumb">
+          <div class="oj-topbar-breadcrumb">
             @for (crumb of breadcrumb; track crumb.label; let last = $last) {
               @if (crumb.route && !last) {
                 <a [routerLink]="crumb.route">{{ crumb.label }}</a>
@@ -54,20 +54,20 @@
                 <span [class.current]="last">{{ crumb.label }}</span>
               }
               @if (!last) {
-                <span class="topbar-breadcrumb-sep">/</span>
+                <span class="oj-topbar-breadcrumb-sep">/</span>
               }
             }
           </div>
         }
-        <h1 class="topbar-title">{{ title }}</h1>
+        <h1 class="oj-topbar-title">{{ title }}</h1>
       </div>
 
-      <div class="topbar-actions">
+      <div class="oj-topbar-actions">
         <ng-content select="[topbar-actions]"></ng-content>
       </div>
     </header>
 
-    <main class="content">
+    <main class="oj-content">
       <ng-content></ng-content>
     </main>
   </div>
