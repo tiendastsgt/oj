@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
@@ -21,6 +22,7 @@ import { AuthService } from './core/services/auth.service';
 export class AppComponent {
   readonly currentUser$ = this.authService.currentUser$;
   isSidebarCollapsed = true;
+  readonly useLegacyShell = signal(true);
 
   constructor(
     private authService: AuthService,
@@ -45,6 +47,23 @@ export class AppComponent {
       emptyMessage: 'No se encontraron resultados',
       emptyFilterMessage: 'No se encontraron resultados',
     });
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(event => {
+      const url = (event as NavigationEnd).urlAfterRedirects;
+      this.useLegacyShell.set(this.isLegacyRoute(url));
+    });
+  }
+
+  private isLegacyRoute(url: string): boolean {
+    if (url.startsWith('/busqueda')) return false;
+    if (url.startsWith('/admin/')) return false;
+    if (url.startsWith('/reportes')) return false;
+    if (url.startsWith('/presentacion/')) return false;
+    if (/\/expedientes\/[^/]+$/.test(url)) return false;
+    if (/\/expedientes\/[^/]+\?/.test(url)) return false;
+    return true;
   }
 
   toggleSidebar(): void {

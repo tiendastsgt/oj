@@ -1,5 +1,6 @@
 import { DestroyRef, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { AncladosService } from '../../../core/services/anclados.service';
 import { BusquedaExpedientesService } from '../../../core/services/busqueda-expedientes.service';
@@ -60,10 +61,18 @@ export class BusquedaContainerService {
     private auth: AuthService,
     private ancladosSvc: AncladosService,
     private busquedaSvc: BusquedaExpedientesService,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private route: ActivatedRoute
   ) {
     this.dto = new BusquedaContainerDto(this.ancladosSvc.todos);
     this.initShell();
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      const numero = params['numero'];
+      if (numero) {
+        this.dto.query.set(numero);
+        this.buscar(numero);
+      }
+    });
   }
 
   updateQuery(event: Event): void {

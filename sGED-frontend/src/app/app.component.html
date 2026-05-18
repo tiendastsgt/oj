@@ -1,93 +1,97 @@
 @if (currentUser$ | async; as user) {
-  <div class="app-shell">
-    <aside class="sidebar" role="navigation" aria-label="Navegación principal">
-      <div class="sidebar-brand">
-        <div class="brand-icon">OJ</div>
-      </div>
-
-      <nav class="sidebar-nav">
-        <div class="nav-section">
-          <a routerLink="/dashboard" routerLinkActive="active" class="nav-item"
-            title="Dashboard" aria-label="Dashboard">
-            <i class="pi pi-th-large"></i>
-          </a>
-          <a routerLink="/expedientes" routerLinkActive="active" class="nav-item"
-            title="Expedientes" aria-label="Expedientes">
-            <i class="pi pi-folder"></i>
-          </a>
-          <a routerLink="/busqueda" routerLinkActive="active" class="nav-item"
-            title="Búsqueda" aria-label="Búsqueda">
-            <i class="pi pi-search"></i>
-          </a>
+  @if (useLegacyShell()) {
+    <div class="app-shell">
+      <aside class="sidebar" role="navigation" aria-label="Navegación principal">
+        <div class="sidebar-brand">
+          <div class="brand-icon">OJ</div>
         </div>
 
-        @if (user.rol === 'ADMIN' || user.rol === 'ADMINISTRADOR') {
+        <nav class="sidebar-nav">
           <div class="nav-section">
-            <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-item"
-              title="Usuarios" aria-label="Usuarios">
-              <i class="pi pi-users"></i>
+            <a routerLink="/dashboard" routerLinkActive="active" class="nav-item"
+              title="Dashboard" aria-label="Dashboard">
+              <i class="pi pi-th-large"></i>
             </a>
-            <a routerLink="/admin/auditoria" routerLinkActive="active" class="nav-item"
-              title="Auditoría" aria-label="Auditoría">
-              <i class="pi pi-history"></i>
+            <a routerLink="/expedientes" routerLinkActive="active" class="nav-item"
+              title="Expedientes" aria-label="Expedientes">
+              <i class="pi pi-folder"></i>
+            </a>
+            <a routerLink="/busqueda" routerLinkActive="active" class="nav-item"
+              title="Búsqueda" aria-label="Búsqueda">
+              <i class="pi pi-search"></i>
             </a>
           </div>
-        }
 
-        <div class="nav-section">
-          <a routerLink="/cambiar-password" routerLinkActive="active" class="nav-item"
-            title="Configuración" aria-label="Configuración">
-            <i class="pi pi-cog"></i>
-          </a>
-        </div>
-      </nav>
+          @if (user.rol === 'ADMIN' || user.rol === 'ADMINISTRADOR') {
+            <div class="nav-section">
+              <a routerLink="/admin/usuarios" routerLinkActive="active" class="nav-item"
+                title="Usuarios" aria-label="Usuarios">
+                <i class="pi pi-users"></i>
+              </a>
+              <a routerLink="/admin/auditoria" routerLinkActive="active" class="nav-item"
+                title="Auditoría" aria-label="Auditoría">
+                <i class="pi pi-history"></i>
+              </a>
+            </div>
+          }
 
-      <div class="sidebar-footer">
-        <button class="logout-btn" (click)="onLogout()"
-          title="Cerrar Sesión" aria-label="Cerrar sesión">
-          <i class="pi pi-sign-out"></i>
-        </button>
-      </div>
-    </aside>
-
-    <div class="main-content">
-      <header class="topbar">
-        <div class="topbar-left">
-          <div class="topbar-brand-text">
-            <span class="brand-bold">SGED</span>
-            <span class="brand-light">Visor Documental</span>
+          <div class="nav-section">
+            <a routerLink="/cambiar-password" routerLinkActive="active" class="nav-item"
+              title="Configuración" aria-label="Configuración">
+              <i class="pi pi-cog"></i>
+            </a>
           </div>
-        </div>
+        </nav>
 
-        <div class="topbar-right">
-          <div class="topbar-search">
-            <i class="pi pi-search topbar-search-icon"></i>
-            <input
-              type="search"
-              class="topbar-search-input"
-              placeholder="Buscar expediente..."
-              aria-label="Búsqueda global de expedientes"
-              (keydown.enter)="onRapidSearch($event)"
-            />
-          </div>
-          <button class="btn-icon" pTooltip="Notificaciones" aria-label="Notificaciones">
-            <i class="pi pi-bell"></i>
+        <div class="sidebar-footer">
+          <button class="logout-btn" (click)="onLogout()"
+            title="Cerrar Sesión" aria-label="Cerrar sesión">
+            <i class="pi pi-sign-out"></i>
           </button>
-          <div class="flex items-center gap-3">
-            <div class="user-avatar">{{ user.nombreCompleto.charAt(0) | uppercase }}</div>
-            <div>
-              <div class="user-info-name">{{ user.nombreCompleto }}</div>
-              <div class="user-info-role">{{ user.rol }}</div>
+        </div>
+      </aside>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="topbar-left">
+            <div class="topbar-brand-text">
+              <span class="brand-bold">SGED</span>
+              <span class="brand-light">Visor Documental</span>
             </div>
           </div>
-        </div>
-      </header>
 
-      <main class="page-content fade-in">
-        <router-outlet></router-outlet>
-      </main>
+          <div class="topbar-right">
+            <div class="topbar-search">
+              <i class="pi pi-search topbar-search-icon"></i>
+              <input
+                type="search"
+                class="topbar-search-input"
+                placeholder="Buscar expediente..."
+                aria-label="Búsqueda global de expedientes"
+                (keydown.enter)="onRapidSearch($event)"
+              />
+            </div>
+            <button class="btn-icon" pTooltip="Notificaciones" aria-label="Notificaciones">
+              <i class="pi pi-bell"></i>
+            </button>
+            <div class="flex items-center gap-3">
+              <div class="user-avatar">{{ user.nombreCompleto.charAt(0) | uppercase }}</div>
+              <div>
+                <div class="user-info-name">{{ user.nombreCompleto }}</div>
+                <div class="user-info-role">{{ user.rol }}</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main class="page-content fade-in">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
     </div>
-  </div>
+  } @else {
+    <main class="migrated-content"><router-outlet></router-outlet></main>
+  }
 } @else {
   <router-outlet></router-outlet>
 }

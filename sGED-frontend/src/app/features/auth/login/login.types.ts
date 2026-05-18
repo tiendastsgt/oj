@@ -1,1 +1,1 @@
-export const DEFAULT_REDIRECT = '/expedientes';
+export const DEFAULT_REDIRECT = '/busqueda';
