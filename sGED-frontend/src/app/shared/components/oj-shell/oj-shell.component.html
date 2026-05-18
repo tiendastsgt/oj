@@ -18,7 +18,7 @@
             routerLinkActive="active"
             class="sidebar-link"
           >
-            <span class="sidebar-link-icon" [innerHTML]="item.icon"></span>
+            <i [class]="item.icon" class="sidebar-link-icon"></i>
             {{ item.label }}
             @if (item.badge != null) {
               <span class="sidebar-link-badge">{{ item.badge }}</span>

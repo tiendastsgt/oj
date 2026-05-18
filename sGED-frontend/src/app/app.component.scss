@@ -1,8 +1,6 @@
 :host {
   display: block;
   height: 100vh;
-  width: 100vw;
-  overflow: hidden;
 }
 
 /* ============================================================
@@ -272,5 +270,6 @@
 
 .migrated-content {
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
+  overflow-x: hidden;
 }

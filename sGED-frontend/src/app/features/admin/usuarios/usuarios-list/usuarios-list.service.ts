@@ -15,7 +15,7 @@ const NAV_CONSULTA: OjShellSection = {
   items: [
     {
       label: 'Búsqueda de expedientes',
-      icon: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+      icon: 'pi pi-search',
       route: '/busqueda'
     }
   ]
@@ -26,7 +26,7 @@ const NAV_ANALISIS: OjShellSection = {
   items: [
     {
       label: 'Reportes',
-      icon: '<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>',
+      icon: 'pi pi-chart-bar',
       route: '/reportes'
     }
   ]
@@ -37,12 +37,12 @@ const NAV_ADMIN: OjShellSection = {
   items: [
     {
       label: 'Usuarios y roles',
-      icon: '<svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="7" r="3"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>',
+      icon: 'pi pi-users',
       route: '/admin/usuarios'
     },
     {
       label: 'Auditoría',
-      icon: '<svg viewBox="0 0 24 24"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/></svg>',
+      icon: 'pi pi-history',
       route: '/admin/auditoria'
     }
   ]

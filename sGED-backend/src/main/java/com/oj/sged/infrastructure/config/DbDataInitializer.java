@@ -253,11 +253,16 @@ public class DbDataInitializer implements CommandLineRunner {
     }
 
     private void ensureUser(String username, String password, String nombre, String email, CatRol rol, CatJuzgado juzgado) {
-        if (usuarioRepository.findByUsername(username).isEmpty()) {
+        Optional<Usuario> existing = usuarioRepository.findByUsername(username);
+        if (existing.isEmpty()) {
             usuarioRepository.save(Usuario.builder()
                 .username(username).password(password).nombreCompleto(nombre).email(email)
                 .rol(rol).juzgado(juzgado).activo(1).bloqueado(0).intentosFallidos(0)
                 .debeCambiarPass(0).fechaCreacion(LocalDateTime.now()).build());
+        } else {
+            Usuario u = existing.get();
+            u.setRol(rol);
+            usuarioRepository.save(u);
         }
     }
 }

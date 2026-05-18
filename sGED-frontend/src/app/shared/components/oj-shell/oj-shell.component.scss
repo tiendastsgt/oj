@@ -133,17 +133,9 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-}
-
-.sidebar-link-icon :global(svg),
-.sidebar-link-icon ::ng-deep svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
+  font-size: 16px;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-link-badge {
