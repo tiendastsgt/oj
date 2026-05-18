@@ -12,6 +12,12 @@
 }
 
 /* ============ SIDEBAR ============ */
+:host .sidebar {
+  position: relative !important;
+  width: 260px !important;
+  overflow: visible !important;
+}
+
 .sidebar {
   background: var(--c-azul-800);
   color: var(--c-blanco);
@@ -210,6 +216,11 @@
 }
 
 /* ============ MAIN ============ */
+:host .main {
+  min-width: 0;
+  flex: 1;
+}
+
 .main {
   display: flex;
   flex-direction: column;
