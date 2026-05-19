@@ -3,13 +3,13 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PresentacionService } from './presentacion.service';
-import { environment } from '../../../environments/environment';
+import { PresViewerComponent } from './components/pres-viewer/pres-viewer.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-presentacion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PresViewerComponent],
   providers: [PresentacionService],
   templateUrl: './presentacion.component.html',
   styleUrls: ['./presentacion.component.scss']
@@ -17,7 +17,6 @@ import { environment } from '../../../environments/environment';
 export class PresentacionComponent implements OnInit, OnDestroy {
   protected svc = inject(PresentacionService);
   protected dto = this.svc.dto;
-  protected readonly useMocks = environment.useMocks;
 
   ngOnInit(): void {
     document.body.style.overflow = 'hidden';

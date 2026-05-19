@@ -1,6 +1,22 @@
 import { AncladoDoc } from '../../core/models/anclado.model';
 import { Documento } from '../documentos/models/documento.model';
 
+export const DEMO_SAMPLE_PDFS: string[] = [
+  '/assets/demo/Demanda_Inicial.pdf',
+  '/assets/demo/Resolucion_Admision.pdf',
+  '/assets/demo/Contestacion_Demanda.pdf',
+  '/assets/demo/Auto_Medida_Cautelar.pdf',
+  '/assets/demo/Sentencia_Ordinario.pdf',
+  '/assets/demo/Acta_Audiencia_Penal.pdf',
+  '/assets/demo/Cedula_Notificacion.pdf',
+];
+
+export const MOCK_PRESENTACION_DOCS: PresentacionDoc[] = [
+  { id: '1', name: 'Demanda_Inicial.pdf',     type: 'pdf',   size: '250880', category: 'pdf' },
+  { id: '2', name: 'Resolucion_Admision.pdf', type: 'pdf',   size: '193536', category: 'pdf' },
+  { id: '3', name: 'Sentencia_Ordinario.pdf', type: 'pdf',   size: '430080', category: 'pdf' },
+];
+
 export interface PresentacionDoc {
   id: string;
   name: string;
