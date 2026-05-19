@@ -4,18 +4,20 @@ import { TipoProceso, EstadoExpediente, Juzgado } from '../../../core/models/cat
 import { Documento } from '../../documentos/models/documento.model';
 import { OjShellSection, OjShellUser, OjShellBreadcrumbItem } from '../../../shared/components/oj-shell/oj-shell.types';
 import { LoadState, ExpedienteTab, ExpedienteHeaderStats } from './expediente-detail.types';
+import { MOCK_EXPEDIENTE_DETALLE } from '../../../core/mocks/expedientes.mock';
+import { MOCK_TIPOS_PROCESO, MOCK_ESTADOS, MOCK_JUZGADOS } from '../../../core/mocks/catalogos.mock';
 
 export class ExpedienteDetailDto {
-  state     = signal<LoadState>(LoadState.Loading);
+  state     = signal<LoadState>(LoadState.Idle);
   isLoading = computed(() => this.state() === LoadState.Loading);
   hasError  = computed(() => this.state() === LoadState.Error);
 
-  expediente   = signal<ExpedienteResponse | null>(null);
+  expediente   = signal<ExpedienteResponse | null>(MOCK_EXPEDIENTE_DETALLE);
   errorMessage = signal<string>('');
 
-  tiposProceso = signal<TipoProceso[]>([]);
-  estados      = signal<EstadoExpediente[]>([]);
-  juzgados     = signal<Juzgado[]>([]);
+  tiposProceso = signal<TipoProceso[]>(MOCK_TIPOS_PROCESO);
+  estados      = signal<EstadoExpediente[]>(MOCK_ESTADOS);
+  juzgados     = signal<Juzgado[]>(MOCK_JUZGADOS);
 
   selectedDocumento = signal<Documento | null>(null);
   readingModeActive = signal<boolean>(false);

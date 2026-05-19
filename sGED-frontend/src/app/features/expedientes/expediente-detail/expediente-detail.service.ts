@@ -11,6 +11,7 @@ import { OjShellSection, OjShellUser } from '../../../shared/components/oj-shell
 import { Documento } from '../../documentos/models/documento.model';
 import { ExpedienteDetailDto } from './expediente-detail.dto';
 import { ExpedienteTab, LoadState } from './expediente-detail.types';
+import { environment } from '../../../../environments/environment';
 
 const NAV_CONSULTA: OjShellSection = {
   label: 'Consulta',
@@ -58,6 +59,7 @@ export class ExpedienteDetailService {
       return;
     }
     this.initShell();
+    if (environment.useMocks) return;
     this.cargarCatalogos();
     this.cargarExpediente(id);
   }
