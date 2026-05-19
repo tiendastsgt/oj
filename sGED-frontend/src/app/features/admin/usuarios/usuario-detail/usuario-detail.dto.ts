@@ -1,13 +1,11 @@
 import { signal, computed } from '@angular/core';
 import { LoadState, UsuarioAdminResponse } from './usuario-detail.types';
-import { MOCK_USUARIO_DETALLE } from '../../../../core/mocks/usuarios.mock';
-
 export class UsuarioDetailDto {
   state        = signal<LoadState>(LoadState.Idle);
   isLoading    = computed(() => this.state() === LoadState.Loading);
   hasError     = computed(() => this.state() === LoadState.Error);
 
-  usuario      = signal<UsuarioAdminResponse | null>(MOCK_USUARIO_DETALLE);
+  usuario      = signal<UsuarioAdminResponse | null>(null);
   usuarioId    = signal<number | null>(null);
   errorMessage = signal<string>('');
 

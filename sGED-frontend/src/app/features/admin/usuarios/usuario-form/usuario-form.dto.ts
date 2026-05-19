@@ -1,7 +1,5 @@
 import { signal, computed } from '@angular/core';
 import { LoadState, RolOption, JuzgadoOption } from './usuario-form.types';
-import { MOCK_JUZGADO_OPTIONS } from '../../../../core/mocks/usuarios.mock';
-
 export const ROLES_ESTATICOS: RolOption[] = [
   { label: 'ADMINISTRADOR', value: 1 },
   { label: 'SECRETARIO',    value: 2 },
@@ -15,7 +13,7 @@ export class UsuarioFormDto {
 
   isCreation   = signal<boolean>(true);
   usuarioId    = signal<number | null>(null);
-  juzgados     = signal<JuzgadoOption[]>(MOCK_JUZGADO_OPTIONS);
+  juzgados     = signal<JuzgadoOption[]>([]);
   roles        = signal<RolOption[]>(ROLES_ESTATICOS);
   submitting   = signal<boolean>(false);
   errorMessage = signal<string>('');

@@ -1,15 +1,13 @@
 import { computed, signal } from '@angular/core';
 import { OjShellBreadcrumbItem, OjShellSection, OjShellUser } from '../../../../shared/components/oj-shell/oj-shell.types';
 import { AuditoriaResponse, LoadState } from './auditoria-list.types';
-import { MOCK_AUDITORIA } from '../../../../core/mocks/auditoria.mock';
-
 export class AuditoriaListDto {
   state        = signal<LoadState>(LoadState.Idle);
   isLoading    = computed(() => this.state() === LoadState.Loading);
   hasError     = computed(() => this.state() === LoadState.Error);
 
-  auditoria    = signal<AuditoriaResponse[]>(MOCK_AUDITORIA);
-  totalRecords = signal<number>(MOCK_AUDITORIA.length);
+  auditoria    = signal<AuditoriaResponse[]>([]);
+  totalRecords = signal<number>(0);
   currentPage  = signal<number>(0);
   pageSize     = signal<number>(50);
   errorMessage = signal<string>('');

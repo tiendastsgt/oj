@@ -1,15 +1,13 @@
 import { signal, computed } from '@angular/core';
 import { OjShellBreadcrumbItem, OjShellSection, OjShellUser } from '../../../../shared/components/oj-shell/oj-shell.types';
 import { UsuarioAdminResponse, LoadState } from './usuarios-list.types';
-import { MOCK_USUARIOS } from '../../../../core/mocks/usuarios.mock';
-
 export class UsuariosListDto {
   state        = signal<LoadState>(LoadState.Idle);
   isLoading    = computed(() => this.state() === LoadState.Loading);
   hasError     = computed(() => this.state() === LoadState.Error);
 
-  usuarios     = signal<UsuarioAdminResponse[]>(MOCK_USUARIOS);
-  totalRecords = signal<number>(MOCK_USUARIOS.length);
+  usuarios     = signal<UsuarioAdminResponse[]>([]);
+  totalRecords = signal<number>(0);
   currentPage  = signal<number>(0);
   pageSize     = signal<number>(20);
   errorMessage = signal<string>('');

@@ -1,6 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
-  Input, NgZone, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild
+  AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef,
+  EventEmitter, Input, NgZone, OnChanges, OnDestroy, Output, SimpleChanges
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -17,7 +17,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs';
   templateUrl: './pres-viewer.component.html',
   styleUrls: ['./pres-viewer.component.scss'],
 })
-export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class PresViewerComponent implements AfterViewChecked, OnChanges, OnDestroy {
   @Input({ required: true }) mergedPdfUrl: string | null = null;
   @Input({ required: true }) pageOffsets: number[] = [];
   @Input({ required: true }) docs: PresentacionDoc[] = [];
@@ -27,41 +27,46 @@ export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy 
 
   @Output() activeDocIdxChange = new EventEmitter<number>();
 
-  // #pagesHost está siempre en el DOM (sin @if) para que ViewChild sea estable
-  @ViewChild('pagesHost') pagesHost?: ElementRef<HTMLDivElement>;
-
   private observer?: IntersectionObserver;
   private renderAbortController = new AbortController();
-  private viewInitialized = false;
-  private pendingUrl: string | null = null;
+  private pendingRenderUrl: string | null = null;
+  private pendingScrollPage: number | null = null;
 
-  constructor(private readonly zone: NgZone) {}
+  constructor(
+    private readonly zone: NgZone,
+    private readonly el: ElementRef<HTMLElement>
+  ) {}
 
-  ngAfterViewInit(): void {
-    this.viewInitialized = true;
-    if (this.pendingUrl) {
-      const url = this.pendingUrl;
-      this.pendingUrl = null;
-      this.zone.runOutsideAngular(() => this.renderMergedPdf(url));
-    }
+  private get pagesHost(): HTMLDivElement | null {
+    return this.el.nativeElement.querySelector<HTMLDivElement>('.pres-viewer-pages');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mergedPdfUrl']) {
       this.cancelRender();
-      this.clearContainer();
       if (this.mergedPdfUrl) {
-        if (this.viewInitialized) {
-          const url = this.mergedPdfUrl;
-          this.zone.runOutsideAngular(() => this.renderMergedPdf(url));
-        } else {
-          this.pendingUrl = this.mergedPdfUrl;
-        }
+        this.pendingRenderUrl = this.mergedPdfUrl;
+      } else {
+        this.clearContainer();
       }
     }
     if (changes['scrollTargetTick'] && this.scrollTargetTick) {
-      const host = this.pagesHost?.nativeElement;
-      const el = host?.querySelector(`[data-page-idx="${this.scrollTargetTick.page}"]`);
+      this.pendingScrollPage = this.scrollTargetTick.page;
+    }
+  }
+
+  // ngAfterViewChecked garantiza que el DOM esté actualizado antes de operar sobre él
+  ngAfterViewChecked(): void {
+    if (this.pendingRenderUrl) {
+      const url = this.pendingRenderUrl;
+      this.pendingRenderUrl = null;
+      this.clearContainer();
+      this.zone.runOutsideAngular(() => this.renderMergedPdf(url));
+    }
+    if (this.pendingScrollPage !== null) {
+      const page = this.pendingScrollPage;
+      this.pendingScrollPage = null;
+      const el = this.el.nativeElement.querySelector(`[data-page-idx="${page}"]`);
       el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
@@ -79,7 +84,7 @@ export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy 
   private clearContainer(): void {
     this.observer?.disconnect();
     this.observer = undefined;
-    const host = this.pagesHost?.nativeElement;
+    const host = this.pagesHost;
     if (host) host.innerHTML = '';
   }
 
@@ -97,7 +102,7 @@ export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy 
 
   private async renderMergedPdf(url: string): Promise<void> {
     const signal = this.renderAbortController.signal;
-    const host = this.pagesHost?.nativeElement;
+    const host = this.pagesHost;
     if (!host) return;
 
     this.setupScrollSpy();
@@ -109,14 +114,15 @@ export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy 
       return;
     }
 
-    const containerWidth = host.clientWidth || 900;
+    // Usar el ancho del scroll container (padre) para calcular la escala
+    const containerWidth = (host.parentElement?.clientWidth ?? host.clientWidth) || 900;
 
     for (let pageIdx = 0; pageIdx < pdf.numPages; pageIdx++) {
       if (signal.aborted) return;
 
       const page = await pdf.getPage(pageIdx + 1);
       const baseVp = page.getViewport({ scale: 1 });
-      const scale = Math.min((containerWidth - 48) / baseVp.width, 2);
+      const scale = Math.min((containerWidth - 64) / baseVp.width, 2);
       const vp = page.getViewport({ scale });
 
       const wrapper = document.createElement('div');
@@ -133,13 +139,13 @@ export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy 
 
       const canvas = document.createElement('canvas');
       canvas.className = 'pres-pdf-page';
-      canvas.width = vp.width;
-      canvas.height = vp.height;
+      canvas.width = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
 
       const textLyr = document.createElement('div');
       textLyr.className = 'textLayer';
-      textLyr.style.width = vp.width + 'px';
-      textLyr.style.height = vp.height + 'px';
+      textLyr.style.width = canvas.width + 'px';
+      textLyr.style.height = canvas.height + 'px';
 
       wrapper.appendChild(canvas);
       wrapper.appendChild(textLyr);
@@ -150,9 +156,11 @@ export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy 
       await page.render({ canvasContext: ctx as unknown as CanvasRenderingContext2D, viewport: vp }).promise;
 
       if (!signal.aborted) {
-        const textContent = await page.getTextContent();
-        const tl = new TextLayer({ textContentSource: textContent, container: textLyr, viewport: vp });
-        await tl.render();
+        try {
+          const textContent = await page.getTextContent();
+          const tl = new TextLayer({ textContentSource: textContent, container: textLyr, viewport: vp });
+          await tl.render();
+        } catch { /* textLayer no crítico */ }
       }
     }
   }

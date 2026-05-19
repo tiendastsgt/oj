@@ -9,8 +9,6 @@ import { AncladosService } from '../../../../../core/services/anclados.service';
 import { AncladoDoc } from '../../../../../core/models/anclado.model';
 import { Documento } from '../../../../documentos/models/documento.model';
 import { DocumentoViewerComponent } from '../../../documento-viewer/documento-viewer.component';
-import { environment } from '../../../../../../environments/environment';
-import { MOCK_DOCUMENTOS_EXP1 } from '../../../../../core/mocks/documentos.mock';
 
 type TipoFiltro = 'todos' | 'doc' | 'video' | 'audio' | 'img';
 
@@ -128,10 +126,6 @@ export class ExpArchivosComponent implements OnChanges {
   }
 
   private cargarDocumentos(): void {
-    if (environment.useMocks) {
-      this.documentos.set(MOCK_DOCUMENTOS_EXP1);
-      return;
-    }
     this.loading.set(true);
     this.docsSvc.getDocumentos(this.expedienteId)
       .pipe(takeUntilDestroyed(this.destroyRef))

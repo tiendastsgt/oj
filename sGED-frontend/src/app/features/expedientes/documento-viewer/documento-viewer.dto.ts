@@ -1,10 +1,8 @@
 import { computed, signal } from '@angular/core';
 import { SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Documento } from '../../documentos/models/documento.model';
-import { MOCK_DOCUMENTO_VIEWER } from '../../../core/mocks/documentos.mock';
-
 export class DocumentoViewerDto {
-  readonly documento         = signal<Documento | null>(MOCK_DOCUMENTO_VIEWER);
+  readonly documento         = signal<Documento | null>(null);
   readonly loading           = signal(false);
   readonly error             = signal('');
   readonly frameUrl          = signal<SafeResourceUrl | null>(null);
