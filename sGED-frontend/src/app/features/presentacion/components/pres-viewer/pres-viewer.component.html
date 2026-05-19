@@ -1,30 +1,18 @@
-<div class="pres-viewer-scroll">
+<div class="pres-viewer-scroll" #scrollHost>
+  <!-- pagesHost siempre en DOM para que @ViewChild esté disponible en ngOnChanges -->
+  <div class="pres-viewer-pages" #pagesHost></div>
 
-  @for (doc of docs; track doc.id; let i = $index) {
-    <section class="pres-doc-section" [id]="'pres-doc-' + i" [attr.data-doc-idx]="i" #sectionEl>
-
-      <header class="pres-doc-section-header">
-        <span class="pres-doc-section-num mono">{{ (i + 1).toString().padStart(2, '0') }}</span>
-        <div class="pres-doc-section-info">
-          <span class="pres-doc-section-name">{{ doc.name }}</span>
-          <span class="pres-doc-section-meta mono">{{ doc.type | uppercase }} · {{ doc.category }}</span>
-        </div>
-        <span class="pres-doc-section-badge">Doc {{ i + 1 }} de {{ docs.length }}</span>
-      </header>
-
-      <div class="pres-viewer-pages" #pagesEl></div>
-
-    </section>
-  }
-
-  @if (docs.length > 0) {
+  @if (mergedPdfUrl) {
     <div class="pres-scroll-footer">
       <span class="pres-scroll-footer-line"></span>
       <span class="pres-scroll-footer-text">
-        Fin de los {{ docs.length }} {{ docs.length === 1 ? 'documento anclado' : 'documentos anclados' }}
+        Fin del expediente — {{ totalPages }} {{ totalPages === 1 ? 'página' : 'páginas' }} en {{ docs.length }} {{ docs.length === 1 ? 'documento' : 'documentos' }}
       </span>
       <span class="pres-scroll-footer-line"></span>
     </div>
+  } @else if (mergeState === 'loading') {
+    <div class="pres-loading">Combinando expediente…</div>
+  } @else if (mergeState === 'error') {
+    <div class="pres-error">No se pudo combinar los documentos</div>
   }
-
 </div>

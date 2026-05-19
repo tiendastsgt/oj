@@ -1,10 +1,11 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component,
-  ElementRef, EventEmitter, Input, NgZone, OnDestroy, Output, QueryList, ViewChildren
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter,
+  Input, NgZone, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as pdfjsLib from 'pdfjs-dist';
-import { PresentacionDoc } from '../../presentacion.types';
+import { TextLayer } from 'pdfjs-dist';
+import { PresentacionDoc, MergeState, findDocIdxForPage } from '../../presentacion.types';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs';
 
@@ -16,91 +17,143 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs';
   templateUrl: './pres-viewer.component.html',
   styleUrls: ['./pres-viewer.component.scss'],
 })
-export class PresViewerComponent implements AfterViewInit, OnDestroy {
+export class PresViewerComponent implements AfterViewInit, OnChanges, OnDestroy {
+  @Input({ required: true }) mergedPdfUrl: string | null = null;
+  @Input({ required: true }) pageOffsets: number[] = [];
   @Input({ required: true }) docs: PresentacionDoc[] = [];
-  @Input({ required: true }) urls: (string | null)[] = [];
-  @Output() activeIdxChange = new EventEmitter<number>();
+  @Input() scrollTargetTick: { page: number; nonce: number } | null = null;
+  @Input() mergeState: MergeState = 'idle';
+  @Input() totalPages: number = 0;
 
-  @ViewChildren('pagesEl') pagesEls!: QueryList<ElementRef<HTMLDivElement>>;
-  @ViewChildren('sectionEl') sectionEls!: QueryList<ElementRef<HTMLElement>>;
+  @Output() activeDocIdxChange = new EventEmitter<number>();
+
+  // #pagesHost está siempre en el DOM (sin @if) para que ViewChild sea estable
+  @ViewChild('pagesHost') pagesHost?: ElementRef<HTMLDivElement>;
 
   private observer?: IntersectionObserver;
+  private renderAbortController = new AbortController();
+  private viewInitialized = false;
+  private pendingUrl: string | null = null;
 
-  constructor(
-    private readonly cdr: ChangeDetectorRef,
-    private readonly zone: NgZone,
-  ) {}
+  constructor(private readonly zone: NgZone) {}
 
   ngAfterViewInit(): void {
-    this.setupIntersection();
-    this.zone.runOutsideAngular(() => this.renderAll());
+    this.viewInitialized = true;
+    if (this.pendingUrl) {
+      const url = this.pendingUrl;
+      this.pendingUrl = null;
+      this.zone.runOutsideAngular(() => this.renderMergedPdf(url));
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['mergedPdfUrl']) {
+      this.cancelRender();
+      this.clearContainer();
+      if (this.mergedPdfUrl) {
+        if (this.viewInitialized) {
+          const url = this.mergedPdfUrl;
+          this.zone.runOutsideAngular(() => this.renderMergedPdf(url));
+        } else {
+          this.pendingUrl = this.mergedPdfUrl;
+        }
+      }
+    }
+    if (changes['scrollTargetTick'] && this.scrollTargetTick) {
+      const host = this.pagesHost?.nativeElement;
+      const el = host?.querySelector(`[data-page-idx="${this.scrollTargetTick.page}"]`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
+    this.renderAbortController.abort();
   }
 
-  private setupIntersection(): void {
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length > 0) {
-          const idx = Number((visible[0].target as HTMLElement).dataset['docIdx'] ?? 0);
-          this.zone.run(() => this.activeIdxChange.emit(idx));
-        }
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -80% 0px' }
-    );
-    this.sectionEls.forEach(el => this.observer!.observe(el.nativeElement));
+  private cancelRender(): void {
+    this.renderAbortController.abort();
+    this.renderAbortController = new AbortController();
   }
 
-  private async renderAll(): Promise<void> {
-    for (let i = 0; i < this.docs.length; i++) {
-      const url = this.urls[i];
-      const pagesEl = this.pagesEls.get(i)?.nativeElement;
-      if (!pagesEl) continue;
+  private clearContainer(): void {
+    this.observer?.disconnect();
+    this.observer = undefined;
+    const host = this.pagesHost?.nativeElement;
+    if (host) host.innerHTML = '';
+  }
 
-      if (!url) {
-        this.appendPlaceholder(pagesEl, this.docs[i].type);
-        continue;
+  private setupScrollSpy(): void {
+    this.observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (!visible.length) return;
+      const pageIdx = Number((visible[0].target as HTMLElement).dataset['pageIdx']);
+      const docIdx = findDocIdxForPage(pageIdx, this.pageOffsets);
+      this.zone.run(() => this.activeDocIdxChange.emit(docIdx));
+    }, { threshold: 0.15, rootMargin: '0px 0px -75% 0px' });
+  }
+
+  private async renderMergedPdf(url: string): Promise<void> {
+    const signal = this.renderAbortController.signal;
+    const host = this.pagesHost?.nativeElement;
+    if (!host) return;
+
+    this.setupScrollSpy();
+
+    let pdf: pdfjsLib.PDFDocumentProxy;
+    try {
+      pdf = await pdfjsLib.getDocument(url).promise;
+    } catch {
+      return;
+    }
+
+    const containerWidth = host.clientWidth || 900;
+
+    for (let pageIdx = 0; pageIdx < pdf.numPages; pageIdx++) {
+      if (signal.aborted) return;
+
+      const page = await pdf.getPage(pageIdx + 1);
+      const baseVp = page.getViewport({ scale: 1 });
+      const scale = Math.min((containerWidth - 48) / baseVp.width, 2);
+      const vp = page.getViewport({ scale });
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pres-page';
+      wrapper.dataset['pageIdx'] = String(pageIdx);
+
+      const docIdx = findDocIdxForPage(pageIdx, this.pageOffsets);
+      if (this.pageOffsets[docIdx] === pageIdx && this.docs[docIdx]) {
+        const marker = document.createElement('div');
+        marker.className = 'pres-page-marker';
+        marker.textContent = this.docs[docIdx].name;
+        wrapper.appendChild(marker);
       }
 
-      try {
-        const pdf = await pdfjsLib.getDocument(url).promise;
-        const containerWidth = pagesEl.parentElement?.clientWidth ?? 900;
+      const canvas = document.createElement('canvas');
+      canvas.className = 'pres-pdf-page';
+      canvas.width = vp.width;
+      canvas.height = vp.height;
 
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-          const page = await pdf.getPage(pageNum);
-          const baseViewport = page.getViewport({ scale: 1 });
-          const scale = Math.min((containerWidth - 48) / baseViewport.width, 2);
-          const viewport = page.getViewport({ scale });
+      const textLyr = document.createElement('div');
+      textLyr.className = 'textLayer';
+      textLyr.style.width = vp.width + 'px';
+      textLyr.style.height = vp.height + 'px';
 
-          const canvas = document.createElement('canvas');
-          canvas.className = 'pres-pdf-page';
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
+      wrapper.appendChild(canvas);
+      wrapper.appendChild(textLyr);
+      host.appendChild(wrapper);
+      this.observer!.observe(wrapper);
 
-          const ctx = canvas.getContext('2d')!;
-          await page.render({ canvasContext: ctx as unknown as CanvasRenderingContext2D, viewport }).promise;
-          pagesEl.appendChild(canvas);
-        }
-      } catch {
-        const errEl = document.createElement('div');
-        errEl.className = 'pres-pdf-error';
-        errEl.textContent = 'No se pudo cargar el documento';
-        pagesEl.appendChild(errEl);
-        this.zone.run(() => this.cdr.markForCheck());
+      const ctx = canvas.getContext('2d')!;
+      await page.render({ canvasContext: ctx as unknown as CanvasRenderingContext2D, viewport: vp }).promise;
+
+      if (!signal.aborted) {
+        const textContent = await page.getTextContent();
+        const tl = new TextLayer({ textContentSource: textContent, container: textLyr, viewport: vp });
+        await tl.render();
       }
     }
-    this.zone.run(() => this.cdr.markForCheck());
-  }
-
-  private appendPlaceholder(container: HTMLDivElement, type: string): void {
-    const el = document.createElement('div');
-    el.className = `pres-pdf-placeholder tipo-${type}`;
-    el.textContent = `${type.toUpperCase()} · modo demo`;
-    container.appendChild(el);
   }
 }

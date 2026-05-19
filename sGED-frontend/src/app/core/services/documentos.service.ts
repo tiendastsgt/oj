@@ -1,6 +1,6 @@
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { Documento } from '../../features/documentos/models/documento.model';
@@ -77,6 +77,18 @@ export class DocumentosService {
         url: URL.createObjectURL(response.body!),
         conversionFailed: response.headers.get('X-SGED-Conversion-Failed') === 'true'
       }))
+    );
+  }
+
+  fetchContenidoBytes(id: number): Observable<{ bytes: ArrayBuffer; mime: string }> {
+    return this.fetchContenidoBlob(id).pipe(
+      switchMap(async ({ url }) => {
+        const resp = await fetch(url);
+        const bytes = await resp.arrayBuffer();
+        const mime = resp.headers.get('Content-Type') ?? 'application/octet-stream';
+        URL.revokeObjectURL(url);
+        return { bytes, mime };
+      })
     );
   }
 

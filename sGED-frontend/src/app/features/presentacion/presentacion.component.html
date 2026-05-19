@@ -18,7 +18,13 @@
 
     <div class="pres-topbar-right">
       @if (dto.total() > 0) {
-        <button type="button" class="pres-print-btn" (click)="print()" title="Fusionar e imprimir todos los anclados">
+        <button
+          type="button"
+          class="pres-print-btn"
+          [disabled]="dto.mergeState() !== 'ready'"
+          (click)="svc.print()"
+          title="Imprimir todos los anclados como un único documento"
+        >
           <svg class="ic" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           <span>Imprimir todo</span>
         </button>
@@ -33,7 +39,7 @@
   <div class="pres-main">
 
     <!-- Sidebar: índice de documentos anclados -->
-    <aside class="pres-sidebar">
+    <aside class="pres-sidebar" [class.is-loading]="dto.mergeState() === 'loading'">
       <div class="pres-sidebar-label">Anclados de audiencia</div>
 
       @if (dto.docs().length === 0) {
@@ -47,8 +53,15 @@
         <button
           type="button"
           class="pres-mini"
+          draggable="true"
           [class.active]="dto.activeDocIdx() === i"
+          [class.is-drag-over]="dragOverIdx() === i"
           (click)="scrollToDoc(i)"
+          (dragstart)="onDragStart($event, i)"
+          (dragover)="onDragOver($event, i)"
+          (dragleave)="onDragLeave($event, i)"
+          (drop)="onDrop($event, i)"
+          (dragend)="onDragEnd()"
           [title]="doc.name"
         >
           <span class="pres-mini-num mono">{{ (i + 1).toString().padStart(2, '0') }}</span>
@@ -68,7 +81,7 @@
       }
     </aside>
 
-    <!-- Stage: scroll continuo con todos los documentos apilados -->
+    <!-- Stage: visor de PDF unificado -->
     <div class="pres-stage">
 
       @if (dto.docs().length === 0) {
@@ -81,39 +94,15 @@
           </button>
         </div>
       } @else {
-        <div class="pres-scroll">
-          @for (doc of dto.docs(); track doc.id; let i = $index) {
-            <section
-              class="pres-doc-section"
-              [id]="'pres-doc-' + i"
-              [attr.data-doc-idx]="i"
-            >
-              <header class="pres-doc-section-header">
-                <span class="pres-doc-section-num mono">{{ (i + 1).toString().padStart(2, '00') }}</span>
-                <div class="pres-doc-section-info">
-                  <span class="pres-doc-section-name">{{ doc.name }}</span>
-                  <span class="pres-doc-section-meta mono">{{ doc.type | uppercase }} · {{ doc.category }}</span>
-                </div>
-                <span class="pres-doc-section-badge">Doc {{ i + 1 }} de {{ dto.total() }}</span>
-              </header>
-
-              <div class="pres-doc-frame">
-                <app-documento-viewer
-                  [documento]="toDocumento(doc)"
-                  [showClose]="false"
-                />
-              </div>
-            </section>
-          }
-
-          <div class="pres-scroll-footer">
-            <span class="pres-scroll-footer-line"></span>
-            <span class="pres-scroll-footer-text">
-              Fin de los {{ dto.total() }} {{ dto.total() === 1 ? 'documento anclado' : 'documentos anclados' }}
-            </span>
-            <span class="pres-scroll-footer-line"></span>
-          </div>
-        </div>
+        <app-pres-viewer
+          [mergedPdfUrl]="dto.mergedPdfUrl()"
+          [pageOffsets]="dto.pageOffsets()"
+          [docs]="dto.docs()"
+          [scrollTargetTick]="dto.scrollTargetTick()"
+          [mergeState]="dto.mergeState()"
+          [totalPages]="dto.totalPages()"
+          (activeDocIdxChange)="onActiveIdxChange($event)"
+        />
       }
 
     </div>

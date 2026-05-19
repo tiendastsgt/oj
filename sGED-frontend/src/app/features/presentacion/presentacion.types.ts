@@ -1,6 +1,17 @@
 import { AncladoDoc } from '../../core/models/anclado.model';
 import { Documento } from '../documentos/models/documento.model';
 
+export type MergeState = 'idle' | 'loading' | 'ready' | 'error';
+
+export function findDocIdxForPage(pageIdx: number, offsets: number[]): number {
+  let lo = 0, hi = offsets.length - 1, ans = 0;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    if (offsets[mid] <= pageIdx) { ans = mid; lo = mid + 1; } else hi = mid - 1;
+  }
+  return ans;
+}
+
 export const DEMO_SAMPLE_PDFS: string[] = [
   '/assets/demo/Demanda_Inicial.pdf',
   '/assets/demo/Resolucion_Admision.pdf',

@@ -11,7 +11,6 @@ import { OjShellSection, OjShellUser } from '../../../shared/components/oj-shell
 import { Documento } from '../../documentos/models/documento.model';
 import { ExpedienteDetailDto } from './expediente-detail.dto';
 import { ExpedienteTab, LoadState } from './expediente-detail.types';
-import { environment } from '../../../../environments/environment';
 
 const NAV_CONSULTA: OjShellSection = {
   label: 'Consulta',
@@ -52,16 +51,16 @@ export class ExpedienteDetailService {
       this.dto.mode.set(tab);
     }
 
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (!id) {
+    const paramId = this.route.snapshot.paramMap.get('id') ?? '';
+    const numId = Number(paramId);
+    if (!paramId) {
       this.dto.state.set(LoadState.Error);
       this.dto.errorMessage.set('Expediente inválido');
       return;
     }
     this.initShell();
-    if (environment.useMocks) return;
     this.cargarCatalogos();
-    this.cargarExpediente(id);
+    this.cargarExpediente(numId || paramId);
   }
 
   canEdit(): boolean {
@@ -98,9 +97,9 @@ export class ExpedienteDetailService {
     this.dto.readingModeActive.set(active);
   }
 
-  private cargarExpediente(id: number): void {
+  private cargarExpediente(id: number | string): void {
     this.dto.state.set(LoadState.Loading);
-    this.expedientesService.getExpediente(id)
+    this.expedientesService.getExpediente(id as number)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
