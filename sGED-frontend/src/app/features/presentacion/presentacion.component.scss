@@ -79,17 +79,33 @@
 .pres-topbar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
-.pres-counter {
+.pres-print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  background: rgba(29, 78, 216, 0.25);
+  color: rgb(191, 219, 254);
+  font-family: inherit;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms;
+  letter-spacing: 0.02em;
 
-  strong { color: rgba(255, 255, 255, 0.9); }
+  &:hover {
+    background: rgba(29, 78, 216, 0.45);
+    border-color: rgba(96, 165, 250, 0.65);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  &:active { transform: translateY(0); }
 }
-
-.pres-actions { display: flex; gap: 4px; }
 
 .pres-icon-btn {
   width: 34px;
@@ -103,7 +119,6 @@
   justify-content: center;
   cursor: pointer;
   transition: all 150ms;
-  text-decoration: none;
 
   &:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
 }
@@ -112,7 +127,7 @@
 .pres-main {
   flex: 1;
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 240px 1fr;
   min-height: 0;
   overflow: hidden;
 }
@@ -212,7 +227,7 @@
   p { font-size: 12px; line-height: 1.5; margin: 0; }
 }
 
-/* ── STAGE ───────────────────────────────────────────── */
+/* ── STAGE (scroll container) ────────────────────────── */
 .pres-stage {
   position: relative;
   display: flex;
@@ -221,35 +236,221 @@
   background: #0f1e35;
 }
 
-.pres-doc-header {
-  padding: 12px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  flex-shrink: 0;
-  background: rgba(10, 22, 40, 0.5);
+.pres-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 24px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  &::-webkit-scrollbar { width: 8px; }
+  &::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    &:hover { background: rgba(255,255,255,0.25); }
+  }
 }
 
-.pres-doc-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+/* ── DOCUMENT SECTION ────────────────────────────────── */
+.pres-doc-section {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  scroll-margin-top: 16px;
 }
 
-.pres-doc-meta {
+.pres-doc-section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+  color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.pres-doc-section-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.35);
-  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
   letter-spacing: 0.04em;
 }
 
-.pres-stage-content {
+.pres-doc-section-info {
   flex: 1;
-  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pres-doc-section-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pres-doc-section-meta {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pres-doc-section-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* ── DOC FRAME (iframe / placeholder / loading) ──────── */
+.pres-doc-frame {
+  background: #f5f6fa;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
 }
 
+.pres-doc-iframe {
+  width: 100%;
+  height: 85vh;
+  border: none;
+  display: block;
+  background: #fff;
+}
+
+/* placeholder (demo mode) */
+.pres-doc-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 64px 24px;
+  background: linear-gradient(180deg, #fafbfd 0%, #eef0f5 100%);
+  color: #475569;
+}
+
+.pres-doc-placeholder-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+
+  .ic { width: 32px; height: 32px; stroke-width: 1.6; }
+
+  &.tipo-pdf   { background: rgba(239,68,68,0.12);  color: rgb(220,38,38); }
+  &.tipo-doc   { background: rgba(59,130,246,0.12); color: rgb(37,99,235); }
+  &.tipo-img   { background: rgba(34,197,94,0.12);  color: rgb(22,163,74); }
+  &.tipo-video { background: rgba(239,68,68,0.12);  color: rgb(220,38,38); }
+  &.tipo-audio { background: rgba(245,158,11,0.12); color: rgb(217,119,6); }
+}
+
+.pres-doc-placeholder-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+  text-align: center;
+}
+
+.pres-doc-placeholder-sub {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  text-align: center;
+}
+
+.pres-doc-placeholder-tag {
+  margin-top: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(15, 23, 42, 0.08);
+  color: #475569;
+  letter-spacing: 0.08em;
+}
+
+/* loading state */
+.pres-doc-loading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 64px;
+  color: #64748b;
+
+  p { font-size: 13px; margin: 0; }
+}
+
+.pres-doc-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid rgba(15, 23, 42, 0.08);
+  border-top-color: rgb(37, 99, 235);
+  animation: pres-spin 800ms linear infinite;
+}
+
+@keyframes pres-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── SCROLL FOOTER ───────────────────────────────────── */
+.pres-scroll-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 8px;
+  margin-top: 8px;
+}
+
+.pres-scroll-footer-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pres-scroll-footer-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+/* ── EMPTY STAGE ─────────────────────────────────────── */
 .pres-stage-empty {
   flex: 1;
   display: flex;
@@ -279,50 +480,106 @@
   &:hover { background: rgba(255, 255, 255, 0.14); color: #fff; }
 }
 
-/* ── NAV FLOTANTE ────────────────────────────────────── */
-.pres-nav {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(10, 22, 40, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 100px;
-  padding: 6px 16px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  z-index: 10;
-}
-
-.pres-nav-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.7);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 150ms;
-
-  &:hover:not([disabled]) { background: rgba(255, 255, 255, 0.15); color: #fff; }
-  &[disabled] { opacity: 0.25; cursor: not-allowed; }
-}
-
-.pres-nav-counter {
-  font-family: var(--font-mono, monospace);
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  min-width: 60px;
-  text-align: center;
-
-  strong { color: #fff; }
-}
-
 /* mono util */
 .mono { font-family: var(--font-mono, monospace); }
+
+/* ── PRINT STYLES: imprimir todos los anclados como un único documento ── */
+@media print {
+  :host {
+    position: static;
+    inset: auto;
+    overflow: visible;
+    z-index: auto;
+  }
+
+  .presentation-mode {
+    position: static;
+    background: #fff;
+    color: #000;
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+
+  .pres-topbar,
+  .pres-sidebar {
+    display: none !important;
+  }
+
+  .pres-main {
+    display: block;
+    grid-template-columns: none;
+    overflow: visible;
+    height: auto;
+  }
+
+  .pres-stage {
+    overflow: visible;
+    background: #fff;
+  }
+
+  .pres-scroll {
+    overflow: visible;
+    height: auto;
+    padding: 0;
+    gap: 0;
+    display: block;
+  }
+
+  .pres-doc-section {
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    background: #fff;
+    page-break-before: always;
+    page-break-inside: avoid;
+    margin: 0;
+  }
+
+  .pres-doc-section:first-child {
+    page-break-before: auto;
+  }
+
+  .pres-doc-section-header {
+    background: #fff !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000;
+    padding: 12px 0;
+
+    .pres-doc-section-num {
+      background: #000;
+      color: #fff;
+    }
+    .pres-doc-section-name,
+    .pres-doc-section-meta,
+    .pres-doc-section-badge {
+      color: #000 !important;
+    }
+    .pres-doc-section-badge {
+      background: #f0f0f0;
+      border: 1px solid #000;
+    }
+  }
+
+  .pres-doc-frame {
+    min-height: auto;
+    background: #fff;
+  }
+
+  .pres-doc-iframe {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    page-break-inside: avoid;
+  }
+
+  .pres-doc-placeholder {
+    background: #fff;
+    padding: 32px;
+    color: #000;
+  }
+
+  .pres-scroll-footer {
+    display: none !important;
+  }
+}

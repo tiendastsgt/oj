@@ -8,6 +8,8 @@ import { ExpedienteBusquedaResponse } from '../../../core/models/busqueda.model'
 import { AuthUser } from '../../../core/models/auth-user.model';
 import { OjShellSection, OjShellUser } from '../../../shared/components/oj-shell/oj-shell.types';
 import { BusquedaContainerDto } from './busqueda-container.dto';
+import { environment } from '../../../../environments/environment';
+import { MOCK_RESULTADOS_BUSQUEDA } from '../../../core/mocks/busqueda.mock';
 import { ExpedienteResultadoUI, FilterPill, FiltrosDrawerState } from './busqueda-container.types';
 
 const NAV_CONSULTA: OjShellSection = {
@@ -128,6 +130,17 @@ export class BusquedaContainerService {
   }
 
   private cargarResultados(query: string): void {
+    if (environment.useMocks) {
+      this.dto.resultados.set(MOCK_RESULTADOS_BUSQUEDA.content.map(r => this.toResultadoUI(r)));
+      this.dto.paginacion.update(p => ({
+        ...p,
+        total: MOCK_RESULTADOS_BUSQUEDA.totalElements,
+        totalPages: MOCK_RESULTADOS_BUSQUEDA.totalPages
+      }));
+      this.dto.mostrandoResultados.set(true);
+      this.actualizarPills(query);
+      return;
+    }
     const pag = this.dto.paginacion();
     this.busquedaSvc
       .buscarRapida(query, { page: pag.page, size: pag.size })

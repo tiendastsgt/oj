@@ -2,14 +2,14 @@ import {
   ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit, inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DocumentoViewerComponent } from '../expedientes/documento-viewer/documento-viewer.component';
 import { PresentacionService } from './presentacion.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-presentacion',
   standalone: true,
-  imports: [CommonModule, DocumentoViewerComponent],
+  imports: [CommonModule],
   providers: [PresentacionService],
   templateUrl: './presentacion.component.html',
   styleUrls: ['./presentacion.component.scss']
@@ -17,6 +17,7 @@ import { PresentacionService } from './presentacion.service';
 export class PresentacionComponent implements OnInit, OnDestroy {
   protected svc = inject(PresentacionService);
   protected dto = this.svc.dto;
+  protected readonly useMocks = environment.useMocks;
 
   ngOnInit(): void {
     document.body.style.overflow = 'hidden';
@@ -26,12 +27,15 @@ export class PresentacionComponent implements OnInit, OnDestroy {
     document.body.style.overflow = '';
   }
 
+  scrollToDoc(idx: number): void {
+    document.getElementById(`pres-doc-${idx}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    this.dto.activeDocIdx.set(idx);
+  }
+
+  print(): void {
+    window.print();
+  }
+
   @HostListener('window:keydown.escape')
   onEscape(): void { this.svc.exit(); }
-
-  @HostListener('window:keydown.arrowRight')
-  onRight(): void { this.svc.next(); }
-
-  @HostListener('window:keydown.arrowLeft')
-  onLeft(): void { this.svc.prev(); }
 }
