@@ -8,6 +8,8 @@ import { ToastModule } from 'primeng/toast';
 import { PrimeNG } from 'primeng/config';
 import { ConfirmationService } from 'primeng/api';
 import { AuthService } from './core/services/auth.service';
+import { StorageService } from './core/services/storage.service';
+import { environment } from '../environments/environment';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,8 +30,19 @@ export class AppComponent {
     private authService: AuthService,
     private router: Router,
     private primeng: PrimeNG,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private storage: StorageService
   ) {
+    if (environment.useMocks && !this.authService.isAuthenticated()) {
+      this.storage.setItem('sged_auth_token', 'demo.e30.mock');
+      this.storage.setJson('sged_auth_user', {
+        username: 'admin.qa',
+        nombreCompleto: 'Administrador QA',
+        rol: 'ADMINISTRADOR',
+        juzgado: 'Juzgado General de Pruebas',
+        debeCambiarPassword: false
+      });
+    }
     // Configurar PrimeNG en español
     this.primeng.setTranslation({
       firstDayOfWeek: 1,
