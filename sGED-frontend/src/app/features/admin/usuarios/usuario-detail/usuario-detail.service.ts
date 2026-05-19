@@ -5,9 +5,6 @@ import { MessageService } from 'primeng/api';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
 import { UsuarioDetailDto } from './usuario-detail.dto';
 import { LoadState } from './usuario-detail.types';
-import { environment } from '../../../../../environments/environment';
-import { MOCK_USUARIOS } from '../../../../core/mocks/usuarios.mock';
-
 @Injectable()
 export class UsuarioDetailService {
   private readonly destroyRef = inject(DestroyRef);
@@ -25,10 +22,6 @@ export class UsuarioDetailService {
         if (params['id']) {
           const id = +params['id'];
           this.dto.usuarioId.set(id);
-          if (environment.useMocks) {
-            this.dto.usuario.set(MOCK_USUARIOS.find(u => u.id === id) ?? MOCK_USUARIOS[0]);
-            return;
-          }
           this.cargarUsuario();
         }
       });

@@ -9,8 +9,6 @@ import { ExpedientesService } from '../../../core/services/expedientes.service';
 import { ExpedienteRequest, ExpedienteResponse } from '../../../core/models/expediente.model';
 import { ExpedienteFormDto } from './expediente-form.dto';
 import { LoadState } from './expediente-form.types';
-import { environment } from '../../../../environments/environment';
-
 @Injectable()
 export class ExpedienteFormService {
   private readonly fb                 = inject(FormBuilder);
@@ -43,7 +41,6 @@ export class ExpedienteFormService {
       this.dto.mode.set('edit');
       this.form.get('numero')?.disable();
     }
-    if (environment.useMocks) { return; }
     if (this.expedienteId) {
       this.cargarExpediente(this.expedienteId);
     }

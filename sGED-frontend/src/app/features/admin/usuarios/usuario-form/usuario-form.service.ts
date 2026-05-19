@@ -7,8 +7,6 @@ import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.s
 import { CatalogosService } from '../../../../core/services/catalogos.service';
 import { UsuarioFormDto } from './usuario-form.dto';
 import { LoadState, CrearUsuarioRequest, ActualizarUsuarioRequest } from './usuario-form.types';
-import { environment } from '../../../../../environments/environment';
-
 @Injectable()
 export class UsuarioFormService {
   private readonly destroyRef   = inject(DestroyRef);
@@ -37,11 +35,10 @@ export class UsuarioFormService {
         this.dto.isCreation.set(false);
         this.dto.usuarioId.set(+params['id']);
         this.form.get('username')?.disable();
-        if (!environment.useMocks) this.cargarUsuario();
+        this.cargarUsuario();
       }
     });
 
-    if (environment.useMocks) return;
     this.catalogosSvc.getJuzgados()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

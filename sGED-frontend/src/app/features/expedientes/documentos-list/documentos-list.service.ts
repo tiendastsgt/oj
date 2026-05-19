@@ -6,8 +6,6 @@ import { AuthService } from '../../../core/services/auth.service';
 import { DocumentosListDto } from './documentos-list.dto';
 import { Documento } from '../../documentos/models/documento.model';
 import { EXTENSIONES_PERMITIDAS, MAX_SIZE_BYTES } from './documentos-list.types';
-import { environment } from '../../../../environments/environment';
-
 @Injectable()
 export class DocumentosListService {
   private readonly documentosService = inject(DocumentosService);
@@ -28,7 +26,6 @@ export class DocumentosListService {
       this.dto.errorMessages.set(['Expediente inválido']);
       return;
     }
-    if (environment.useMocks) return;   // conserva mocks del DTO
     this.dto.loading.set(true);
     this.dto.errorMessages.set([]);
 

@@ -5,8 +5,6 @@ import { BusquedaExpedientesService } from '../../../core/services/busqueda-expe
 import { TableLazyLoadEvent } from 'primeng/table';
 import { BusquedaRapidaDto } from './busqueda-rapida.dto';
 import { BusquedaParams, DEFAULT_SIZE, DEFAULT_SORT } from './busqueda-rapida.types';
-import { environment } from '../../../environments/environment';
-
 @Injectable()
 export class BusquedaRapidaService {
   private readonly busquedaService = inject(BusquedaExpedientesService);
@@ -44,10 +42,6 @@ export class BusquedaRapidaService {
     this.dto.loading.set(true);
     this.dto.errorMessages.set([]);
     this.lastParams = params;
-    if (environment.useMocks) {
-      this.dto.loading.set(false);
-      return;
-    }
     this.busquedaService.buscarRapida(numero, params)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
