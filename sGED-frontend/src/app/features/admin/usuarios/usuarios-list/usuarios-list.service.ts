@@ -9,6 +9,7 @@ import { AuthUser } from '../../../../core/models/auth-user.model';
 import { OjShellSection, OjShellUser } from '../../../../shared/components/oj-shell/oj-shell.types';
 import { UsuariosListDto } from './usuarios-list.dto';
 import { LoadState, UsuarioAdminResponse, UsuarioListaFiltros } from './usuarios-list.types';
+import { environment } from '../../../../../environments/environment';
 
 const NAV_CONSULTA: OjShellSection = {
   label: 'Consulta',
@@ -68,6 +69,7 @@ export class UsuariosListService {
 
   constructor() {
     this.initShell();
+    if (environment.useMocks) return;
     this.cargarUsuarios();
   }
 
