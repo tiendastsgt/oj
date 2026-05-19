@@ -6,6 +6,7 @@ import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.s
 import { UsuarioDetailDto } from './usuario-detail.dto';
 import { LoadState } from './usuario-detail.types';
 import { environment } from '../../../../../environments/environment';
+import { MOCK_USUARIOS } from '../../../../core/mocks/usuarios.mock';
 
 @Injectable()
 export class UsuarioDetailService {
@@ -18,12 +19,16 @@ export class UsuarioDetailService {
   readonly dto = new UsuarioDetailDto();
 
   constructor() {
-    if (environment.useMocks) return;
     this.route.params
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
         if (params['id']) {
-          this.dto.usuarioId.set(+params['id']);
+          const id = +params['id'];
+          this.dto.usuarioId.set(id);
+          if (environment.useMocks) {
+            this.dto.usuario.set(MOCK_USUARIOS.find(u => u.id === id) ?? MOCK_USUARIOS[0]);
+            return;
+          }
           this.cargarUsuario();
         }
       });

@@ -32,16 +32,16 @@ export class UsuarioFormService {
   });
 
   constructor() {
-    if (environment.useMocks) return;
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       if (params['id']) {
         this.dto.isCreation.set(false);
         this.dto.usuarioId.set(+params['id']);
         this.form.get('username')?.disable();
-        this.cargarUsuario();
+        if (!environment.useMocks) this.cargarUsuario();
       }
     });
 
+    if (environment.useMocks) return;
     this.catalogosSvc.getJuzgados()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
