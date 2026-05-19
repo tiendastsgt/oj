@@ -64,10 +64,9 @@
 }
 
 /* Text layer for Ctrl+F — invisible but selectable */
-.textLayer {
+::ng-deep .textLayer {
   position: absolute;
   inset: 0;
-  opacity: 0.2;
   line-height: 1.0;
   user-select: text;
   overflow: hidden;
