@@ -6,6 +6,7 @@ import { DocumentosService } from '../../core/services/documentos.service';
 import { Documento } from './models/documento.model';
 import { DocumentosPageDto } from './documentos-page.dto';
 import { LoadState, ViewerType } from './documentos-page.types';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class DocumentosPageService {
@@ -16,6 +17,7 @@ export class DocumentosPageService {
   readonly dto = new DocumentosPageDto();
 
   constructor() {
+    if (environment.useMocks) return;
     this.route.paramMap.pipe(
       map(params => Number(params.get('id'))),
       filter(id => !Number.isNaN(id) && id > 0),
