@@ -3,21 +3,18 @@ import { ExpedienteResponse } from '../../../core/models/expediente.model';
 import { TipoProceso, Juzgado } from '../../../core/models/catalogos.model';
 import { AuthUser } from '../../../core/models/auth-user.model';
 import { ExpedienteListFilters, ListPagination, LoadState } from './expedientes-list.types';
-
-// Mock de referencia (no se usa en render inicial):
-// { id:1, numero:'EXP-2024-001', tipoProcesoId:1, juzgadoId:1, estadoId:1,
-//   fechaInicio:'2024-01-15', descripcion:'Demo A', actorPrincipal:'Juan Pérez',
-//   demandado:'Pedro García', usuarioCreacion:'admin', fechaCreacion:'2024-01-15', totalDocumentos:3 }
+import { MOCK_EXPEDIENTES } from '../../../core/mocks/expedientes.mock';
+import { MOCK_TIPOS_PROCESO, MOCK_JUZGADOS } from '../../../core/mocks/catalogos.mock';
 
 export class ExpedientesListDto {
-  state = signal<LoadState>(LoadState.Loading);
+  state = signal<LoadState>(LoadState.Idle);
   error = signal<string | null>(null);
 
   isLoading = computed(() => this.state() === LoadState.Loading);
   hasError  = computed(() => this.state() === LoadState.Error);
 
-  expedientes  = signal<ExpedienteResponse[]>([]);
-  totalRecords = signal(0);
+  expedientes  = signal<ExpedienteResponse[]>(MOCK_EXPEDIENTES);
+  totalRecords = signal(MOCK_EXPEDIENTES.length);
 
   pagination = signal<ListPagination>({
     page: 0,
@@ -27,8 +24,8 @@ export class ExpedientesListDto {
     sortDir: 'desc',
   });
 
-  tiposProceso = signal<TipoProceso[]>([]);
-  juzgados     = signal<Juzgado[]>([]);
+  tiposProceso = signal<TipoProceso[]>(MOCK_TIPOS_PROCESO);
+  juzgados     = signal<Juzgado[]>(MOCK_JUZGADOS);
   currentUser  = signal<AuthUser | null>(null);
 
   filters = signal<ExpedienteListFilters>({

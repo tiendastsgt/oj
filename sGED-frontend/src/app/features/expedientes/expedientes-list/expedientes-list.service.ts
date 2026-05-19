@@ -6,6 +6,7 @@ import { CatalogosService } from '../../../core/services/catalogos.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoadState } from './expedientes-list.types';
 import { ExpedientesListDto } from './expedientes-list.dto';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class ExpedientesListService {
@@ -18,6 +19,7 @@ export class ExpedientesListService {
 
   constructor() {
     this.dto.currentUser.set(this.authService.getCurrentUser());
+    if (environment.useMocks) return;
     this.cargarCatalogos();
     // cargarExpedientes() lo dispara el primer evento onLazyLoad de p-table
   }
