@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { DocumentosService } from '../../../core/services/documentos.service';
 import { Documento } from '../../documentos/models/documento.model';
 import { DocumentoViewerDto } from './documento-viewer.dto';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class DocumentoViewerService {
@@ -18,8 +19,9 @@ export class DocumentoViewerService {
   loadDocumento(documento: Documento | null): void {
     this.revocarBlobUrl();
     this.dto.previewAsPdf.set(false);
-    this.dto.documento.set(documento);
+    this.dto.documento.set(documento);  // metadatos visibles en demo
     if (!documento) return;
+    if (environment.useMocks) return;   // sin fetch de blob en modo demo
     if (!(this.dto.isPdf() || this.dto.isImage() || this.dto.isAudio() || this.dto.isVideo() || this.dto.isWord())) return;
 
     this.dto.loading.set(true);
