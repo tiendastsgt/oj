@@ -16,6 +16,8 @@ export class PresentacionService {
   private readonly router      = inject(Router);
   private readonly destroyRef  = inject(DestroyRef);
 
+  private expedienteId: number | null = null;
+
   readonly dto = new PresentacionDto();
 
   constructor() {
@@ -23,6 +25,7 @@ export class PresentacionService {
 
     const num = this.route.snapshot.paramMap.get('expedienteNum') ?? '';
     this.dto.expedienteNum.set(num);
+    this.expedienteId = Number(this.route.snapshot.queryParamMap.get('expId')) || null;
 
     const anclados = this.ancladosSvc.getByExpediente(num);
     const docs: PresentacionDoc[] = anclados.map(a => ({
@@ -87,7 +90,11 @@ export class PresentacionService {
   }
 
   exit(): void {
-    this.router.navigate(['/expedientes', this.dto.expedienteNum()]);
+    if (this.expedienteId) {
+      this.router.navigate(['/expedientes', this.expedienteId]);
+    } else {
+      this.router.navigate(['/busqueda']);
+    }
   }
 
   private async fetchBytesFor(doc: PresentacionDoc): Promise<{ bytes: ArrayBuffer; mime: string } | null> {

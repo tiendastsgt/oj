@@ -51,16 +51,15 @@ export class ExpedienteDetailService {
       this.dto.mode.set(tab);
     }
 
-    const paramId = this.route.snapshot.paramMap.get('id') ?? '';
-    const numId = Number(paramId);
-    if (!paramId) {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!id) {
       this.dto.state.set(LoadState.Error);
       this.dto.errorMessage.set('Expediente inválido');
       return;
     }
     this.initShell();
     this.cargarCatalogos();
-    this.cargarExpediente(numId || paramId);
+    this.cargarExpediente(id);
   }
 
   canEdit(): boolean {
@@ -97,9 +96,9 @@ export class ExpedienteDetailService {
     this.dto.readingModeActive.set(active);
   }
 
-  private cargarExpediente(id: number | string): void {
+  private cargarExpediente(id: number): void {
     this.dto.state.set(LoadState.Loading);
-    this.expedientesService.getExpediente(id as number)
+    this.expedientesService.getExpediente(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
