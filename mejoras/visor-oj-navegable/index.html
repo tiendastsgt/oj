@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa del proyecto — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background: var(--c-fondo);
+      padding: 60px 40px;
+    }
+    .map-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .map-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .map-escudo {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 24px;
+    }
+    .map-eyebrow {
+      font-size: 11px;
+      color: var(--c-dorado-700);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .map-title {
+      font-family: var(--font-serif);
+      font-size: 38px;
+      color: var(--c-texto-fuerte);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .map-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--c-texto-suave);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    .map-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 200px;
+      margin: 32px auto;
+    }
+    .map-divider::before, .map-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--c-borde);
+    }
+    .map-divider-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--c-dorado-500);
+      border-radius: 50%;
+    }
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .flow-card {
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 200ms ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .flow-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--c-dorado-500);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 300ms ease;
+    }
+    .flow-card:hover {
+      border-color: var(--c-dorado-500);
+      box-shadow: 0 8px 24px rgba(10, 46, 92, 0.08);
+      transform: translateY(-2px);
+    }
+    .flow-card:hover::before {
+      transform: scaleX(1);
+    }
+    .flow-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--c-dorado-700);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .flow-name {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      color: var(--c-texto-fuerte);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .flow-desc {
+      font-size: 13px;
+      color: var(--c-texto-suave);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .flow-file {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-texto-suave);
+      padding-top: 12px;
+      border-top: 1px dashed var(--c-borde-sutil);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .flow-file-arrow {
+      color: var(--c-dorado-500);
+      font-size: 14px;
+    }
+    .map-tips {
+      margin-top: 60px;
+      padding: 24px 32px;
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-lg);
+      border-left: 4px solid var(--c-dorado-500);
+    }
+    .map-tips-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      color: var(--c-texto-fuerte);
+      margin: 0 0 12px;
+      font-weight: 600;
+    }
+    .map-tips ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 14px;
+      color: var(--c-texto);
+      line-height: 1.8;
+    }
+    .map-tips code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--c-fondo-alt);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--c-azul-800);
+    }
+  </style>
+</head>
+<body>
+
+<div class="map-container">
+
+  <div class="map-header">
+    <img src="escudo-oj-dorado.png" alt="OJ" class="map-escudo" style="filter: hue-rotate(-10deg) saturate(0.9);">
+    <div class="map-eyebrow">Mockup HTML navegable</div>
+    <h1 class="map-title">Visor Documental</h1>
+    <p class="map-subtitle">
+      Prototipo de UX del sistema institucional de consulta de expedientes
+      judiciales del Organismo Judicial de Guatemala.
+    </p>
+    <div class="map-divider">
+      <span class="map-divider-dot"></span>
+    </div>
+  </div>
+
+  <div class="flow-grid">
+
+    <a href="login.html" class="flow-card">
+      <div class="flow-num">01 · ACCESO</div>
+      <div class="flow-name">Iniciar sesión</div>
+      <div class="flow-desc">Pantalla de autenticación institucional con identidad del OJ.</div>
+      <div class="flow-file">
+        <span>login.html</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="busqueda.html?rol=asesor" class="flow-card">
+      <div class="flow-num">02 · ENTRADA</div>
+      <div class="flow-name">Búsqueda (estado vacío)</div>
+      <div class="flow-desc">Hero de búsqueda + sección de anclados destacada. Aún sin resultados.</div>
+      <div class="flow-file">
+        <span>busqueda.html</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="busqueda-resultados.html?rol=asesor" class="flow-card">
+      <div class="flow-num">03 · LISTADO</div>
+      <div class="flow-name">Búsqueda con resultados</div>
+      <div class="flow-desc">Filtros aplicados, tarjetas de expedientes con indicador de anclados, paginación.</div>
+      <div class="flow-file">
+        <span>busqueda-resultados.html</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="expediente.html?rol=asesor" class="flow-card">
+      <div class="flow-num">04 · DETALLE</div>
+      <div class="flow-name">Expediente con visor</div>
+      <div class="flow-desc">Header del expediente, tabs por tipo de archivo, lista lateral y visor PDF embebido. Click en el pin para anclar/desanclar.</div>
+      <div class="flow-file">
+        <span>expediente.html</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="presentacion.html?rol=asesor" class="flow-card" style="grid-column: span 2;">
+      <div class="flow-num">05 · AUDIENCIA</div>
+      <div class="flow-name">Modo presentación</div>
+      <div class="flow-desc">Vista fullscreen optimizada para proyector. Mini-mapa lateral con los 12 anclados, navegación entre documentos, fondo oscuro para reducir fatiga visual en sala.</div>
+      <div class="flow-file">
+        <span>presentacion.html · ESC para salir</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="reportes.html?rol=asesor" class="flow-card">
+      <div class="flow-num">06 · ANÁLISIS</div>
+      <div class="flow-name">Reportes institucionales</div>
+      <div class="flow-desc">Configurador de reportes con preview en tiempo real. Movimiento de expedientes con tarjetas de resumen, tabla por despacho y exportación PDF/Excel.</div>
+      <div class="flow-file">
+        <span>reportes.html</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="usuarios.html?rol=asesor" class="flow-card">
+      <div class="flow-num">07 · ADMIN</div>
+      <div class="flow-name">Usuarios y roles</div>
+      <div class="flow-desc">CRUD completo con tabla de usuarios, 5 roles (Administrador, Juez, Secretario, Asesor, Consultor) y modal de edición funcional.</div>
+      <div class="flow-file">
+        <span>usuarios.html</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="auditoria.html?rol=asesor" class="flow-card" style="grid-column: span 2;">
+      <div class="flow-num">08 · ADMIN</div>
+      <div class="flow-name">Auditoría del sistema</div>
+      <div class="flow-desc">Bitácora institucional completa: inicio de sesión, consultas, anclados/desanclados, exportaciones, errores DB Link, intentos de acceso fallidos. Filtros por fecha, tipo de acción, usuario. Exportación CSV/PDF.</div>
+      <div class="flow-file">
+        <span>auditoria.html</span>
+        <span class="flow-file-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div style="margin-bottom: 40px; padding: 24px 32px; background: var(--c-blanco); border: 1px solid var(--c-borde-sutil); border-radius: var(--r-lg); border-left: 4px solid var(--c-azul-800);">
+    <h3 style="font-family: var(--font-serif); font-size: 16px; color: var(--c-texto-fuerte); margin: 0 0 16px; font-weight: 600;">Probar como diferente rol</h3>
+    <p style="font-size: 13px; color: var(--c-texto-suave); margin: 0 0 16px;">Las pantallas internas se adaptan según el usuario. Elegí desde aquí o desde el login:</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <a href="busqueda.html?rol=asesor" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--c-fondo-alt); border: 1px solid var(--c-borde-sutil); border-radius: var(--r-md); text-decoration: none; color: inherit; transition: all 200ms ease;" onmouseover="this.style.borderColor='var(--c-dorado-500)'; this.style.background='var(--c-dorado-100)'" onmouseout="this.style.borderColor='var(--c-borde-sutil)'; this.style.background='var(--c-fondo-alt)'">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--c-dorado-500), var(--c-dorado-700)); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 600; font-size: 13px; color: var(--c-azul-900);">MC</div>
+        <div>
+          <div style="font-size: 14px; font-weight: 500; color: var(--c-texto-fuerte);">María Cifuentes</div>
+          <div style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-texto-suave); font-weight: 600; margin-top: 2px;">Asesor · puede anclar</div>
+        </div>
+      </a>
+      <a href="busqueda.html?rol=juez" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--c-fondo-alt); border: 1px solid var(--c-borde-sutil); border-radius: var(--r-md); text-decoration: none; color: inherit; transition: all 200ms ease;" onmouseover="this.style.borderColor='var(--c-dorado-500)'; this.style.background='var(--c-dorado-100)'" onmouseout="this.style.borderColor='var(--c-borde-sutil)'; this.style.background='var(--c-fondo-alt)'">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--c-azul-700), var(--c-azul-900)); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 600; font-size: 13px; color: var(--c-dorado-400);">JR</div>
+        <div>
+          <div style="font-size: 14px; font-weight: 500; color: var(--c-texto-fuerte);">Juan Ramírez</div>
+          <div style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-texto-suave); font-weight: 600; margin-top: 2px;">Juez · solo lectura</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="map-tips">
+    <h3 class="map-tips-title">Flujo recomendado para probar</h3>
+    <ul>
+      <li>Empezá en <code>login.html</code> → "Ingresar al sistema" lleva a búsqueda.</li>
+      <li>En búsqueda, probá los <code>chips de ejemplo</code> o "Buscar" → llevan a resultados.</li>
+      <li>En las tarjetas de anclados, hay dos acciones: <code>Ver anclados</code> abre el expediente, <code>Presentar</code> entra a modo proyección.</li>
+      <li>En expediente, los íconos de pin (<code>📌</code>) en cada documento son toggleables.</li>
+      <li>El botón <code>Notificaciones</code> en el topbar de búsqueda abre un popover real.</li>
+      <li>En modo presentación, <code>Esc</code> vuelve al expediente.</li>
+    </ul>
+  </div>
+
+
+  <a href="diagramas.html" style="display: block; margin-top: 60px; padding: 32px 36px; background: linear-gradient(135deg, var(--c-azul-800) 0%, var(--c-azul-900) 100%); color: var(--c-blanco); border-radius: var(--r-lg); text-decoration: none; position: relative; overflow: hidden; transition: all 300ms ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 32px rgba(10,46,92,0.15)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+    <span style="position: absolute; top: 0; right: 0; width: 4px; height: 120px; background: var(--c-dorado-500);"></span>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 280px;">
+        <div style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-dorado-400); font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 12px;">
+          <span style="width: 32px; height: 1px; background: var(--c-dorado-500);"></span>
+          Documentación técnica
+        </div>
+        <h3 style="font-family: 'Source Serif 4', serif; font-size: 24px; font-weight: 600; margin: 0 0 8px; color: var(--c-blanco);">Arquitectura FE + Backend</h3>
+        <p style="color: rgba(255,255,255,0.7); font-size: 14px; margin: 0; line-height: 1.6;">Seis diagramas técnicos: tres del Frontend Angular (arquitectura, casos de uso, procesos) y tres del Backend Java (capas, endpoints REST, flujos paralelos a Oracle con cache de credenciales).</p>
+      </div>
+      <div style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; background: var(--c-dorado-500); color: var(--c-azul-900); border-radius: var(--r-md); font-weight: 600; font-size: 13px; letter-spacing: 0.02em;">
+        Ver diagramas
+        <svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+</body>
+</html>

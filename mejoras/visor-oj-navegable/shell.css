@@ -1,0 +1,308 @@
+/* ============================================================
+   SHELL DEL SISTEMA — Layout principal post-login
+   Compartido por todas las pantallas internas
+   ============================================================ */
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background: var(--c-fondo);
+}
+
+/* ============ SIDEBAR ============ */
+.sidebar {
+  background: var(--c-azul-800);
+  color: var(--c-blanco);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Acento dorado vertical a la derecha del sidebar */
+.sidebar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(201, 169, 97, 0.3) 20%,
+    rgba(201, 169, 97, 0.3) 80%,
+    transparent 100%
+  );
+}
+
+/* Header de la sidebar con escudo + nombre del sistema */
+.sidebar-header {
+  padding: var(--sp-6) var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-escudo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.sidebar-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.sidebar-brand-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--c-blanco);
+  letter-spacing: 0.01em;
+}
+
+.sidebar-brand-subtitle {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-dorado-400);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Navegación principal */
+.sidebar-nav {
+  flex: 1;
+  padding: var(--sp-5) var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-section-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 97, 0.7);
+  font-weight: 600;
+  padding: var(--sp-4) var(--sp-3) var(--sp-2);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 10px var(--sp-3);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: var(--fs-base);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  text-decoration: none;
+  position: relative;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--c-blanco);
+  text-decoration: none;
+}
+
+.sidebar-link.active {
+  background: rgba(201, 169, 97, 0.12);
+  color: var(--c-blanco);
+  font-weight: 500;
+}
+
+.sidebar-link.active::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: var(--c-dorado-500);
+  border-radius: 0 2px 2px 0;
+}
+
+.sidebar-link .ic {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.sidebar-link-badge {
+  margin-left: auto;
+  background: var(--c-dorado-500);
+  color: var(--c-azul-900);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+}
+
+/* Footer de sidebar — usuario logueado */
+.sidebar-user {
+  padding: var(--sp-4) var(--sp-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.sidebar-user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-dorado-500) 0%, var(--c-dorado-700) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  color: var(--c-azul-900);
+  flex-shrink: 0;
+}
+
+.sidebar-user-info {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.sidebar-user-name {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--c-blanco);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user-role {
+  font-size: var(--fs-xs);
+  color: var(--c-dorado-400);
+  letter-spacing: 0.05em;
+}
+
+.sidebar-user-action {
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--r-md);
+  transition: all var(--t-fast);
+  background: transparent;
+  border: none;
+}
+.sidebar-user-action:hover {
+  color: var(--c-blanco);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ============ MAIN ============ */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Topbar */
+.topbar {
+  background: var(--c-blanco);
+  border-bottom: 1px solid var(--c-borde-sutil);
+  padding: var(--sp-4) var(--sp-8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+}
+
+.topbar-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.topbar-breadcrumb {
+  font-size: var(--fs-xs);
+  color: var(--c-texto-suave);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.topbar-breadcrumb-sep {
+  color: var(--c-piedra-300);
+}
+
+.topbar-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  color: var(--c-texto-fuerte);
+  letter-spacing: -0.01em;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.topbar-icon-btn {
+  background: transparent;
+  border: 1px solid var(--c-borde-sutil);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-md);
+  color: var(--c-texto-suave);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast);
+  position: relative;
+}
+.topbar-icon-btn:hover {
+  border-color: var(--c-piedra-300);
+  color: var(--c-azul-800);
+  background: var(--c-azul-50);
+}
+
+.topbar-icon-btn-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  background: var(--c-dorado-500);
+  border-radius: 50%;
+  border: 2px solid var(--c-blanco);
+}
+
+/* Área de contenido */
+.content {
+  flex: 1;
+  padding: var(--sp-8);
+  overflow-y: auto;
+}
+
+/* ============ ICONO COMÚN ============ */
+.ic {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  flex-shrink: 0;
+}

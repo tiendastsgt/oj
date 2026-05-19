@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Endpoints del API — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="diagramas.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    /* === ESTILO ESPECIAL PARA ENDPOINTS === */
+    .endpoint-group {
+      margin-bottom: 32px;
+    }
+
+    .endpoint-group-title {
+      font-family: 'Source Serif 4', serif;
+      font-size: 16px;
+      color: var(--c-texto-fuerte);
+      margin: 0 0 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .endpoint-group-title::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: var(--c-dorado-500);
+      border-radius: 2px;
+    }
+
+    .endpoint-group-desc {
+      font-size: 12px;
+      color: var(--c-texto-suave);
+      margin: 0 0 16px 14px;
+      font-style: italic;
+    }
+
+    .endpoint-row {
+      display: grid;
+      grid-template-columns: 70px 1fr auto auto;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 18px;
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-md);
+      margin-bottom: 6px;
+      transition: all 200ms ease;
+    }
+
+    .endpoint-row:hover {
+      border-color: var(--c-dorado-500);
+      background: var(--c-fondo-alt);
+    }
+
+    .endpoint-method {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-align: center;
+      color: var(--c-blanco);
+    }
+
+    .endpoint-method.get { background: #1E5091; }
+    .endpoint-method.post { background: #1B5E3F; }
+    .endpoint-method.put { background: #C9A961; color: var(--c-azul-900); }
+    .endpoint-method.delete { background: #8B2332; }
+    .endpoint-method.patch { background: #6E6E6A; }
+
+    .endpoint-path {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--c-texto-fuerte);
+      letter-spacing: 0.01em;
+    }
+
+    .endpoint-path .param {
+      color: var(--c-dorado-700);
+      font-weight: 600;
+    }
+
+    .endpoint-desc {
+      font-size: 12px;
+      color: var(--c-texto-suave);
+      font-style: italic;
+      grid-column: 2 / -1;
+      margin-top: 4px;
+    }
+
+    .endpoint-roles {
+      display: flex;
+      gap: 4px;
+      flex-wrap: nowrap;
+    }
+
+    .endpoint-role {
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    .endpoint-role.admin { background: var(--c-rojo-100); color: var(--c-rojo-700); }
+    .endpoint-role.juez { background: var(--c-azul-100); color: var(--c-azul-800); }
+    .endpoint-role.asesor { background: var(--c-dorado-100); color: var(--c-dorado-700); }
+    .endpoint-role.secr { background: var(--c-verde-100); color: var(--c-verde-700); }
+    .endpoint-role.cons { background: var(--c-fondo-alt); color: var(--c-piedra-700); }
+    .endpoint-role.todos { background: var(--c-piedra-100); color: var(--c-piedra-700); }
+
+    .endpoint-info-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--c-fondo-alt);
+      color: var(--c-texto-suave);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: help;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="diagram-container">
+
+  <a href="diagramas.html" class="back-to-index">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Volver al índice de diagramas
+  </a>
+
+  <div class="diagram-header">
+    <div class="diagram-eyebrow">Documento técnico backend · 02 / 03</div>
+    <h1 class="diagram-title">Endpoints REST</h1>
+    <p class="diagram-subtitle">
+      Contrato del API que consume el frontend Angular,
+      agrupado por dominio funcional con sus roles autorizados.
+    </p>
+  </div>
+
+  <nav class="diagram-nav">
+    <a href="diagrama-be-arquitectura.html" class="diagram-nav-link"><span class="num">01</span> Arquitectura</a>
+    <a href="diagrama-be-endpoints.html" class="diagram-nav-link active"><span class="num">02</span> Endpoints</a>
+    <a href="diagrama-be-procesos.html" class="diagram-nav-link"><span class="num">03</span> Procesos</a>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- LISTADO DE ENDPOINTS                                          -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Contrato REST</div>
+        <h2 class="diagram-card-title">Catálogo de endpoints</h2>
+      </div>
+      <span class="diagram-card-meta">/api/v1 · OPENAPI 3.0</span>
+    </div>
+
+    <div class="diagram-card-body">
+
+      <!-- AUTENTICACIÓN -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Autenticación</h3>
+        <p class="endpoint-group-desc">Inicio de sesión, refresh de token y cierre de sesión institucional.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/auth/login</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role todos">Público</span>
+          </div>
+          <span class="endpoint-info-icon" title="Recibe { usuario, password }; retorna { token, refreshToken, user }">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/auth/refresh</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role todos">Auth</span>
+          </div>
+          <span class="endpoint-info-icon" title="Refresca el JWT usando el refreshToken">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/auth/logout</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role todos">Auth</span>
+          </div>
+          <span class="endpoint-info-icon" title="Invalida la sesión actual y registra en bitácora">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/auth/me</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role todos">Auth</span>
+          </div>
+          <span class="endpoint-info-icon" title="Retorna usuario, rol y permisos del JWT actual">i</span>
+        </div>
+      </div>
+
+      <!-- EXPEDIENTES -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Expedientes</h3>
+        <p class="endpoint-group-desc">Búsqueda y consulta. Ejecuta queries paralelas en las 3 BDs Oracle y unifica resultados.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/expedientes/search?q=<span class="param">01173-2024</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Busca por número parcial o completo. Aplica filtros de rol.">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/expedientes/<span class="param">{numero}</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Detalle completo del expediente con info general, partes y resumen de archivos">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/expedientes/<span class="param">{numero}</span>/archivos</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Lista de archivos del expediente con filtros opcionales (tipo, categoría, anclados)">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/expedientes/<span class="param">{numero}</span>/timeline</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Línea de tiempo del expediente: ingreso, audiencias, resoluciones">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/expedientes/recientes</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Últimos 12 expedientes consultados por el usuario">i</span>
+        </div>
+      </div>
+
+      <!-- ARCHIVOS -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Archivos</h3>
+        <p class="endpoint-group-desc">Descarga y streaming de documentos, imágenes, audio y video.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/archivos/<span class="param">{id}</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Metadata del archivo: nombre, tipo, tamaño, categoría, fuente">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/archivos/<span class="param">{id}</span>/contenido</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Streaming binario del archivo. Soporta Range requests para video">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/archivos/<span class="param">{id}</span>/thumbnail</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+            <span class="endpoint-role secr">SEC</span>
+            <span class="endpoint-role cons">CON</span>
+          </div>
+          <span class="endpoint-info-icon" title="Miniatura JPEG (solo aplica a imágenes y videos)">i</span>
+        </div>
+      </div>
+
+      <!-- ANCLADOS -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Anclados</h3>
+        <p class="endpoint-group-desc">Gestión de documentos seleccionados para audiencia. Persistencia en BD local PostgreSQL.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/anclados</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+          </div>
+          <span class="endpoint-info-icon" title="Lista todos los expedientes con anclados del usuario actual">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/anclados/expediente/<span class="param">{numero}</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role asesor">ASE</span>
+          </div>
+          <span class="endpoint-info-icon" title="Documentos anclados de un expediente específico, ordenados">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/anclados</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role asesor">ASE</span>
+          </div>
+          <span class="endpoint-info-icon" title="Ancla un documento. Body: { expedienteNum, archivoId }">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method delete">DEL</span>
+          <code class="endpoint-path">/api/v1/anclados/<span class="param">{id}</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role asesor">ASE</span>
+          </div>
+          <span class="endpoint-info-icon" title="Desancla un documento previamente anclado">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method put">PUT</span>
+          <code class="endpoint-path">/api/v1/anclados/<span class="param">{id}</span>/orden</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role asesor">ASE</span>
+          </div>
+          <span class="endpoint-info-icon" title="Reordena la secuencia de presentación de los anclados">i</span>
+        </div>
+      </div>
+
+      <!-- USUARIOS -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Usuarios y roles</h3>
+        <p class="endpoint-group-desc">Gestión de usuarios institucionales. Solo administrador.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/usuarios</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Lista de usuarios con paginación y filtros por rol/estado">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/usuarios</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Crear un nuevo usuario institucional">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method put">PUT</span>
+          <code class="endpoint-path">/api/v1/usuarios/<span class="param">{id}</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Modificar datos, rol o despacho del usuario">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method patch">PATCH</span>
+          <code class="endpoint-path">/api/v1/usuarios/<span class="param">{id}</span>/estado</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Activa o desactiva el usuario">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/usuarios/<span class="param">{id}</span>/reset-password</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Restablece la contraseña y envía notificación por correo institucional">i</span>
+        </div>
+      </div>
+
+      <!-- REPORTES -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Reportes</h3>
+        <p class="endpoint-group-desc">Generación de reportes institucionales con preview y exportación.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/reportes/tipos</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role secr">SEC</span>
+          </div>
+          <span class="endpoint-info-icon" title="Lista los tipos de reporte disponibles para el usuario">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/reportes/movimiento-expedientes</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role secr">SEC</span>
+          </div>
+          <span class="endpoint-info-icon" title="Genera el reporte de movimiento. Body con filtros. Devuelve JSON con datos para preview">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/reportes/<span class="param">{tipo}</span>/export</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+            <span class="endpoint-role juez">JUE</span>
+            <span class="endpoint-role secr">SEC</span>
+          </div>
+          <span class="endpoint-info-icon" title="Exporta a PDF o Excel. Query param: format=pdf|xlsx">i</span>
+        </div>
+      </div>
+
+      <!-- AUDITORÍA -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Auditoría</h3>
+        <p class="endpoint-group-desc">Bitácora institucional. Solo administrador.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/auditoria</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Listado paginado de bitácora con filtros por fecha, usuario, tipo de acción">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/auditoria/<span class="param">{id}</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Detalle completo de un evento de auditoría">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method post">POST</span>
+          <code class="endpoint-path">/api/v1/auditoria/export</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Exporta auditoría a CSV o PDF. Body con rango de fechas y filtros">i</span>
+        </div>
+      </div>
+
+      <!-- ADMINISTRACIÓN INTERNA -->
+      <div class="endpoint-group">
+        <h3 class="endpoint-group-title">Administración del sistema</h3>
+        <p class="endpoint-group-desc">Health checks y gestión del cache de conexiones. Solo administrador.</p>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/health</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role todos">Público</span>
+          </div>
+          <span class="endpoint-info-icon" title="Estado del API y conectividad con cada BD Oracle">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method get">GET</span>
+          <code class="endpoint-path">/api/v1/admin/cache/conexiones</code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Estado actual del cache de DataSources (sin exponer credenciales)">i</span>
+        </div>
+
+        <div class="endpoint-row">
+          <span class="endpoint-method delete">DEL</span>
+          <code class="endpoint-path">/api/v1/admin/cache/conexiones/<span class="param">{db}</span></code>
+          <div class="endpoint-roles">
+            <span class="endpoint-role admin">ADM</span>
+          </div>
+          <span class="endpoint-info-icon" title="Fuerza la invalidación de una entrada del cache (forzará refresh al próximo uso)">i</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px; padding: 20px 24px; background: var(--c-fondo-alt); border-radius: var(--r-md); border-left: 3px solid var(--c-dorado-500); font-size: 13px; color: var(--c-texto); line-height: 1.7;">
+        <strong style="color: var(--c-texto-fuerte); display: block; margin-bottom: 8px;">Notas sobre el contrato</strong>
+        <ul style="margin: 0; padding-left: 20px; color: var(--c-texto-suave);">
+          <li>Todos los endpoints excepto <code style="font-family: var(--font-mono); background: var(--c-blanco); padding: 1px 5px; border-radius: 3px; font-size: 11px;">/auth/login</code> y <code style="font-family: var(--font-mono); background: var(--c-blanco); padding: 1px 5px; border-radius: 3px; font-size: 11px;">/health</code> requieren JWT en el header <code style="font-family: var(--font-mono); background: var(--c-blanco); padding: 1px 5px; border-radius: 3px; font-size: 11px;">Authorization: Bearer &lt;token&gt;</code>.</li>
+          <li>Los endpoints de búsqueda de expedientes consultan <strong>siempre las 3 BDs</strong> en paralelo y unifican el resultado antes de responder.</li>
+          <li>Si una BD falla, el response incluye un campo <code style="font-family: var(--font-mono); background: var(--c-blanco); padding: 1px 5px; border-radius: 3px; font-size: 11px;">_meta.partialResults</code> indicando cuáles fuentes respondieron.</li>
+          <li>Cada acción se registra en la tabla de auditoría a través del <code style="font-family: var(--font-mono); background: var(--c-blanco); padding: 1px 5px; border-radius: 3px; font-size: 11px;">@Auditable</code> aspect.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({ startOnLoad: false });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="shell.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="escudo-oj-dorado.png" alt="OJ" class="sidebar-escudo">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-title">Visor Documental</span>
+        <span class="sidebar-brand-subtitle">Organismo Judicial</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="sidebar-section-label">Consulta</span>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Búsqueda de expedientes
+      </a>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13h6M9 17h4"/></svg>
+        Expedientes recientes
+        <span class="sidebar-link-badge">12</span>
+      </a>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+        Documentos anclados
+        <span class="sidebar-link-badge" id="sidebar-anclados-total">0</span>
+      </a>
+
+      <span class="sidebar-section-label">Análisis</span>
+      <a href="reportes.html" class="sidebar-link active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+        Reportes
+      </a>
+
+      <span class="sidebar-section-label">Administración</span>
+      <a href="usuarios.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="7" r="3"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        Usuarios y roles
+      </a>
+      <a href="auditoria.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/><circle cx="6" cy="5" r="0.5" fill="currentColor"/><circle cx="6" cy="12" r="0.5" fill="currentColor"/><circle cx="6" cy="19" r="0.5" fill="currentColor"/></svg>
+        Auditoría
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">MC</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">María Cifuentes</div>
+        <div class="sidebar-user-role">Asesor</div>
+      </div>
+      <a href="login.html" class="sidebar-user-action" title="Cerrar sesión" style="text-decoration:none">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="topbar-title-wrap">
+        <div class="topbar-breadcrumb">
+          <span>Análisis</span>
+          <span class="topbar-breadcrumb-sep">/</span>
+          <span style="color: var(--c-texto-fuerte)">Reportes</span>
+        </div>
+        <h1 class="topbar-title">Reportes institucionales</h1>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <section class="admin-header">
+        <div class="admin-header-info">
+          <div class="admin-header-eyebrow">
+            <span class="admin-header-eyebrow-dot"></span>
+            Generación de informes
+          </div>
+          <h2 class="admin-header-title">Reportes del sistema</h2>
+          <p class="admin-header-desc">Configure parámetros, previsualice y exporte reportes institucionales en formato PDF o Excel.</p>
+        </div>
+      </section>
+
+      <div class="reportes-grid">
+
+        <!-- LISTA DE REPORTES DISPONIBLES -->
+        <div class="reportes-tipos">
+          <div class="reportes-tipos-header">
+            <div class="reportes-tipos-title">Reportes disponibles</div>
+          </div>
+
+          <div class="reporte-item active">
+            <div class="reporte-item-icon">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+            </div>
+            <div class="reporte-item-info">
+              <div class="reporte-item-name">Movimiento de expedientes</div>
+              <div class="reporte-item-desc">Expedientes ingresados, en trámite y archivados por período</div>
+            </div>
+            <div class="reporte-item-arrow">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIGURACIÓN + PREVIEW -->
+        <div class="reporte-config">
+
+          <div class="reporte-config-header">
+            <div class="reporte-config-title-wrap">
+              <div class="reporte-config-eyebrow">Configuración del reporte</div>
+              <h3 class="reporte-config-title">Movimiento de expedientes</h3>
+            </div>
+            <div style="display: flex; gap: var(--sp-2);">
+              <button class="btn btn-secondary">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Excel
+              </button>
+              <button class="btn btn-primary">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                Generar PDF
+              </button>
+            </div>
+          </div>
+
+          <div class="reporte-config-body">
+
+            <div class="reporte-filters-grid">
+              <div class="field">
+                <label class="field-label field-required">Fecha desde</label>
+                <input type="date" class="input" value="2024-04-01">
+              </div>
+              <div class="field">
+                <label class="field-label field-required">Fecha hasta</label>
+                <input type="date" class="input" value="2024-04-30">
+              </div>
+              <div class="field">
+                <label class="field-label">Tipo de juzgado</label>
+                <select class="input">
+                  <option>Todos</option>
+                  <option>Adolescentes en Conflicto con la Ley Penal</option>
+                  <option>Niñez y Adolescencia</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label">Despacho específico</label>
+                <select class="input">
+                  <option>Todos los despachos</option>
+                  <option>Juzgado 1° Adolescentes</option>
+                  <option>Juzgado 2° Niñez y Adolescencia</option>
+                  <option>Juzgado 3° Niñez y Adolescencia</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label">Estado del expediente</label>
+                <select class="input">
+                  <option>Todos los estados</option>
+                  <option>En trámite</option>
+                  <option>Audiencia próxima</option>
+                  <option>Archivado</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field-label">Agrupar por</label>
+                <select class="input">
+                  <option>Despacho</option>
+                  <option>Tipo de juzgado</option>
+                  <option>Mes de ingreso</option>
+                  <option>Estado</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- PREVIEW -->
+            <div class="reporte-preview">
+              <div class="reporte-preview-label">Vista previa</div>
+
+              <div class="reporte-preview-doc">
+                <div class="reporte-preview-doc-header">
+                  <div class="reporte-preview-doc-org">Organismo Judicial de Guatemala</div>
+                  <div class="reporte-preview-doc-title">Movimiento de Expedientes</div>
+                  <div class="reporte-preview-doc-subtitle">Período: 01 al 30 de abril de 2024</div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); margin-bottom: var(--sp-4);">
+                  <div style="text-align: center; padding: var(--sp-3); background: var(--c-azul-50); border-radius: var(--r-md);">
+                    <div class="mono" style="font-size: var(--fs-xl); font-weight: 600; color: var(--c-azul-800);">87</div>
+                    <div style="font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-texto-suave); font-weight: 600; margin-top: 4px;">Ingresados</div>
+                  </div>
+                  <div style="text-align: center; padding: var(--sp-3); background: var(--c-dorado-100); border-radius: var(--r-md);">
+                    <div class="mono" style="font-size: var(--fs-xl); font-weight: 600; color: var(--c-dorado-700);">142</div>
+                    <div style="font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-texto-suave); font-weight: 600; margin-top: 4px;">En trámite</div>
+                  </div>
+                  <div style="text-align: center; padding: var(--sp-3); background: var(--c-verde-100); border-radius: var(--r-md);">
+                    <div class="mono" style="font-size: var(--fs-xl); font-weight: 600; color: var(--c-verde-700);">38</div>
+                    <div style="font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-texto-suave); font-weight: 600; margin-top: 4px;">Resueltos</div>
+                  </div>
+                  <div style="text-align: center; padding: var(--sp-3); background: var(--c-fondo-alt); border-radius: var(--r-md);">
+                    <div class="mono" style="font-size: var(--fs-xl); font-weight: 600; color: var(--c-piedra-700);">29</div>
+                    <div style="font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-texto-suave); font-weight: 600; margin-top: 4px;">Archivados</div>
+                  </div>
+                </div>
+
+                <h4 style="font-family: var(--font-serif); font-size: 12px; font-weight: 600; color: var(--c-texto-fuerte); margin: 0 0 8px;">Detalle por despacho</h4>
+
+                <table class="reporte-preview-table">
+                  <thead>
+                    <tr>
+                      <th>Despacho</th>
+                      <th style="text-align: right;">Ingresados</th>
+                      <th style="text-align: right;">En trámite</th>
+                      <th style="text-align: right;">Resueltos</th>
+                      <th style="text-align: right;">Archivados</th>
+                      <th style="text-align: right;">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Juzgado 1° Adolescentes</td>
+                      <td class="mono" style="text-align: right;">32</td>
+                      <td class="mono" style="text-align: right;">54</td>
+                      <td class="mono" style="text-align: right;">14</td>
+                      <td class="mono" style="text-align: right;">11</td>
+                      <td class="mono" style="text-align: right; font-weight: 600;">111</td>
+                    </tr>
+                    <tr>
+                      <td>Juzgado 2° Niñez y Adolescencia</td>
+                      <td class="mono" style="text-align: right;">28</td>
+                      <td class="mono" style="text-align: right;">47</td>
+                      <td class="mono" style="text-align: right;">12</td>
+                      <td class="mono" style="text-align: right;">9</td>
+                      <td class="mono" style="text-align: right; font-weight: 600;">96</td>
+                    </tr>
+                    <tr>
+                      <td>Juzgado 3° Niñez y Adolescencia</td>
+                      <td class="mono" style="text-align: right;">27</td>
+                      <td class="mono" style="text-align: right;">41</td>
+                      <td class="mono" style="text-align: right;">12</td>
+                      <td class="mono" style="text-align: right;">9</td>
+                      <td class="mono" style="text-align: right; font-weight: 600;">89</td>
+                    </tr>
+                    <tr style="background: var(--c-fondo-alt); font-weight: 600;">
+                      <td>TOTAL</td>
+                      <td class="mono" style="text-align: right;">87</td>
+                      <td class="mono" style="text-align: right;">142</td>
+                      <td class="mono" style="text-align: right;">38</td>
+                      <td class="mono" style="text-align: right;">29</td>
+                      <td class="mono" style="text-align: right;">296</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div style="margin-top: var(--sp-4); padding-top: var(--sp-3); border-top: 1px solid var(--c-borde-sutil); display: flex; justify-content: space-between; font-size: 10px; color: var(--c-texto-suave); font-family: var(--font-mono); letter-spacing: 0.05em;">
+                  <span>Generado por: María Cifuentes · Asesor</span>
+                  <span>12·MAY·2026 · 10:42 hrs</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="anclados.js"></script>
+<script>
+  function refreshAncladosSummary() {
+    const total = ancladosManager.totalCount();
+    const el = document.getElementById('sidebar-anclados-total');
+    if (el) el.textContent = total;
+  }
+  refreshAncladosSummary();
+</script>
+<script src="rol-switch.js"></script>
+
+</body>
+</html>

@@ -173,52 +173,53 @@ public class DbDataInitializer implements CommandLineRunner {
         Map<String, CatTipoDocumento> tipos = new HashMap<>();
         tipoDocumentoRepository.findAll().forEach(t -> tipos.put(t.getNombre(), t));
 
-        // E1 — Civil ordinario (ACTIVO) — 4 docs
+        // E1 — Civil ordinario (ACTIVO) — 5 docs (todos con contenido judicial realista)
         Expediente e1 = createExpediente("01173-2026-00045", procesos.get("CIVIL"), juzgado, activo,
             "Juicio Ordinario de Daños y Perjuicios");
         createDocumento(e1, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
-        createDocumento(e1, tipos.get("Auto"), "Auto_Admision.pdf", "pdf");
-        createDocumento(e1, tipos.get("Contestación de demanda"), "Contestacion.docx", "docx");
-        createDocumento(e1, tipos.get("Sentencia"), "Sentencia_Primera_Instancia.pdf", "pdf");
+        createDocumento(e1, tipos.get("Auto"), "Resolucion_Admision.pdf", "pdf");
+        createDocumento(e1, tipos.get("Contestación de demanda"), "Contestacion_Demanda.pdf", "pdf");
+        createDocumento(e1, tipos.get("Cédula de notificación"), "Cedula_Notificacion.pdf", "pdf");
+        createDocumento(e1, tipos.get("Sentencia"), "Sentencia_Ordinario.pdf", "pdf");
 
-        // E2 — Penal con multimedia COMPLETO (ACTIVO) — 6 docs (1 de cada tipo de archivo soportado)
+        // E2 — Penal con multimedia COMPLETO (ACTIVO) — 6 docs
         Expediente e2 = createExpediente("01108-2026-01234", procesos.get("PENAL"), juzgado, activo,
             "Proceso Penal por Estafa Propia");
-        createDocumento(e2, tipos.get("Demanda"), "Querella_Inicial.pdf", "pdf");
-        createDocumento(e2, tipos.get("Auto"), "Auto_Procesamiento.docx", "docx");
+        createDocumento(e2, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
+        createDocumento(e2, tipos.get("Auto"), "Auto_Medida_Cautelar.pdf", "pdf");
         createDocumento(e2, tipos.get("Acta de audiencia"), "Audiencia_Primera_Declaracion.mp3", "mp3");
         createDocumento(e2, tipos.get("Prueba multimedia"), "Reconstruccion_Hechos.mp4", "mp4");
         createDocumento(e2, tipos.get("Prueba documental"), "Foto_Escena.jpg", "jpg");
-        createDocumento(e2, tipos.get("Acta de declaración"), "Declaracion_Testigo.pdf", "pdf");
+        createDocumento(e2, tipos.get("Acta de declaración"), "Acta_Audiencia_Penal.pdf", "pdf");
 
         // E3 — Laboral (ACTIVO) — 3 docs
         Expediente e3 = createExpediente("01024-2026-00088", procesos.get("LABORAL"), juzgado, activo,
             "Juicio Ordinario Laboral por Despido Injustificado");
-        createDocumento(e3, tipos.get("Demanda"), "Demanda_Laboral.pdf", "pdf");
-        createDocumento(e3, tipos.get("Acta de audiencia"), "Audiencia_Conciliacion.docx", "docx");
-        createDocumento(e3, tipos.get("Sentencia"), "Sentencia_Laboral.pdf", "pdf");
+        createDocumento(e3, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
+        createDocumento(e3, tipos.get("Acta de audiencia"), "Acta_Audiencia_Penal.pdf", "pdf");
+        createDocumento(e3, tipos.get("Sentencia"), "Sentencia_Ordinario.pdf", "pdf");
 
         // E4 — Familia / Alimentos (ACTIVO) — 3 docs
         Expediente e4 = createExpediente("01044-2026-00321", procesos.get("FAMILIA"), juzgado, activo,
             "Pensión Alimenticia Provisional");
-        createDocumento(e4, tipos.get("Demanda"), "Demanda_Alimentos.pdf", "pdf");
-        createDocumento(e4, tipos.get("Auto"), "Resolucion_Provisional.pdf", "pdf");
-        createDocumento(e4, tipos.get("Cédula de notificación"), "Notificacion_Demandado.docx", "docx");
+        createDocumento(e4, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
+        createDocumento(e4, tipos.get("Auto"), "Resolucion_Admision.pdf", "pdf");
+        createDocumento(e4, tipos.get("Cédula de notificación"), "Cedula_Notificacion.pdf", "pdf");
 
         // E5 — Femicidio (PENDIENTE) — 3 docs con multimedia clave
         Expediente e5 = createExpediente("01069-2026-00012", procesos.get("FEMICIDIO"), juzgado, pendiente,
             "Femicidio en grado de tentativa — Decreto 22-2008");
-        createDocumento(e5, tipos.get("Demanda"), "Querella_Femicidio.pdf", "pdf");
-        createDocumento(e5, tipos.get("Prueba documental"), "Foto_Lugar_Hechos.jpg", "jpg");
-        createDocumento(e5, tipos.get("Prueba multimedia"), "Audio_Llamada_911.mp3", "mp3");
+        createDocumento(e5, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
+        createDocumento(e5, tipos.get("Prueba documental"), "Foto_Escena.jpg", "jpg");
+        createDocumento(e5, tipos.get("Prueba multimedia"), "Audiencia_Primera_Declaracion.mp3", "mp3");
 
         // E6 — Mercantil ejecución (CERRADO) — 2 docs
         Expediente e6 = createExpediente("01075-2025-00992", procesos.get("MERCANTIL"), juzgado, cerrado,
             "Ejecución Mercantil por Cobro de Pagaré");
-        createDocumento(e6, tipos.get("Memorial general"), "Memorial_Ejecucion.pdf", "pdf");
-        createDocumento(e6, tipos.get("Sentencia"), "Sentencia_Ejecucion.pdf", "pdf");
+        createDocumento(e6, tipos.get("Memorial general"), "Demanda_Inicial.pdf", "pdf");
+        createDocumento(e6, tipos.get("Sentencia"), "Sentencia_Ordinario.pdf", "pdf");
 
-        log.info("Sembrados 6 expedientes con 21 documentos físicos reales.");
+        log.info("Sembrados 6 expedientes con 22 documentos físicos reales.");
     }
 
     private Expediente createExpediente(String numero, CatTipoProceso tipo, CatJuzgado juzgado, CatEstado estado, String desc) {
@@ -241,7 +242,7 @@ public class DbDataInitializer implements CommandLineRunner {
      */
     private void createDocumento(Expediente e, CatTipoDocumento tipo, String nombreOriginal, String ext) {
         String storageName = "seed_" + System.currentTimeMillis() + "_" + nombreOriginal;
-        long tamanio = copySampleToStorage(ext, storageName);
+        long tamanio = copySampleToStorage(nombreOriginal, ext, storageName);
 
         documentoRepository.save(Documento.builder()
             .expediente(e)
@@ -259,14 +260,18 @@ public class DbDataInitializer implements CommandLineRunner {
     }
 
     /**
-     * Copia seed-samples/sample.<ext> desde el classpath al directorio de
-     * storage y devuelve el tamaño real del archivo escrito (0 si falla).
+     * Copia el archivo correspondiente desde el classpath al directorio de
+     * storage. Primero intenta buscar por nombre original de archivo,
+     * si no existe, busca el sample genérico de la extensión.
      */
-    private long copySampleToStorage(String ext, String storageName) {
-        String sampleName = "sample." + ext.toLowerCase(Locale.ROOT);
-        ClassPathResource resource = new ClassPathResource(SAMPLES_CLASSPATH + sampleName);
+    private long copySampleToStorage(String nombreOriginal, String ext, String storageName) {
+        ClassPathResource resource = new ClassPathResource(SAMPLES_CLASSPATH + nombreOriginal);
         if (!resource.exists()) {
-            log.warn("Sample no encontrado en classpath: {}", sampleName);
+            String sampleName = "sample." + ext.toLowerCase(Locale.ROOT);
+            resource = new ClassPathResource(SAMPLES_CLASSPATH + sampleName);
+        }
+        if (!resource.exists()) {
+            log.warn("Sample no encontrado en classpath para: {} o extensión {}", nombreOriginal, ext);
             return 0L;
         }
         try {
@@ -278,7 +283,7 @@ public class DbDataInitializer implements CommandLineRunner {
             }
             return Files.size(target);
         } catch (IOException ex) {
-            log.error("Error copiando sample {} a storage: {}", sampleName, ex.getMessage());
+            log.error("Error copiando recurso a storage: {}", ex.getMessage());
             return 0L;
         }
     }

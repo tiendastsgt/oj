@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arquitectura del Backend — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="diagramas.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<div class="diagram-container">
+
+  <a href="diagramas.html" class="back-to-index">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Volver al índice de diagramas
+  </a>
+
+  <div class="diagram-header">
+    <div class="diagram-eyebrow">Documento técnico backend · 01 / 03</div>
+    <h1 class="diagram-title">Arquitectura del API</h1>
+    <p class="diagram-subtitle">
+      Estructura del backend Java del Visor Documental, con resolución
+      de credenciales institucional, pool de conexiones Oracle y
+      consulta paralela a las tres bases de datos.
+    </p>
+  </div>
+
+  <nav class="diagram-nav">
+    <a href="diagrama-be-arquitectura.html" class="diagram-nav-link active"><span class="num">01</span> Arquitectura</a>
+    <a href="diagrama-be-endpoints.html" class="diagram-nav-link"><span class="num">02</span> Endpoints</a>
+    <a href="diagrama-be-procesos.html" class="diagram-nav-link"><span class="num">03</span> Procesos</a>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 1: ARQUITECTURA GENERAL                              -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Vista por capas</div>
+        <h2 class="diagram-card-title">Arquitectura del API</h2>
+      </div>
+      <span class="diagram-card-meta">JAVA · SPRING BOOT 3</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TB
+    classDef external fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef presentationLayer fill:#1E5091,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef appLayer fill:#C9A961,stroke:#9C8345,color:#0A2E5C,stroke-width:2px
+    classDef domainLayer fill:#1B5E3F,stroke:#1B5E3F,color:#FAFAF7,stroke-width:2px
+    classDef infraLayer fill:#8B2332,stroke:#8B2332,color:#FAFAF7,stroke-width:2px
+    classDef cacheLayer fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:2px
+    classDef dbLayer fill:#061E40,stroke:#0A2E5C,color:#C9A961,stroke-width:2px
+
+    FE["Frontend Angular<br/>Visor Documental"]:::external
+
+    subgraph PRESENTATION ["▌  CAPA WEB  ·  REST Controllers"]
+        direction LR
+        AUTH_CTRL["AuthController<br/>POST /auth/login"]
+        EXP_CTRL["ExpedienteController<br/>GET /expedientes/:numero"]
+        FILE_CTRL["ArchivoController<br/>GET /archivos/:id"]
+        ANCL_CTRL["AncladosController<br/>POST/DELETE /anclados"]
+        ADMIN_CTRL["AdminControllers<br/>Usuarios · Reportes · Auditoría"]
+    end
+
+    subgraph FILTERS ["▌  Filtros y Aspectos"]
+        direction LR
+        JWT["JwtAuthFilter"]
+        AUDIT["AuditAspect"]
+        ERROR["GlobalExceptionHandler"]
+    end
+
+    subgraph APP ["▌  CAPA DE APLICACIÓN  ·  Servicios de orquestación"]
+        direction LR
+        EXP_SVC["ExpedienteService<br/>orquesta búsqueda<br/>en 3 BDs en paralelo"]
+        FILE_SVC["ArchivoService<br/>streaming de binarios"]
+        ANCL_SVC["AncladosService<br/>persistencia local"]
+        REP_SVC["ReporteService<br/>generación PDF/Excel"]
+    end
+
+    subgraph DOMAIN ["▌  CAPA DE DOMINIO  ·  Lógica de negocio"]
+        direction LR
+        ENT["Entidades JPA<br/>· Expediente · Documento<br/>· Usuario · Anclado<br/>· AuditoriaEntry"]
+        REPO["Repositorios<br/>· ExpedienteRepository<br/>· ArchivoRepository<br/>· por cada BD"]
+        UNIFIER["ExpedienteUnifier<br/>fusiona resultados<br/>de las 3 BDs"]
+    end
+
+    subgraph INFRA ["▌  CAPA DE INFRAESTRUCTURA"]
+        direction TB
+        CRED_RESOLVER["CredentialResolver<br/>llama al API interno<br/>y maneja cache"]
+        DS_FACTORY["DataSourceFactory<br/>crea HikariCP por BD<br/>dinámicamente"]
+        DS_REGISTRY["DataSourceRegistry<br/>3 DataSources activos<br/>en memoria"]
+    end
+
+    subgraph CACHE ["▌  CACHE DE CONEXIONES"]
+        direction LR
+        CACHE_STORE["ConnectionCache<br/>· ADOLES_EN_CONFLICTO<br/>· GUATEMALA<br/>· SGT2_PRODUCCION"]
+    end
+
+    INTERNAL_API[("API Interno OJ<br/>provee credenciales")]:::external
+
+    subgraph DBS ["▌  ORACLE  ·  3 bases de datos institucionales"]
+        direction LR
+        DB1[("ADOLES_EN_<br/>CONFLICTO")]
+        DB2[("GUATEMALA")]
+        DB3[("SGT2_<br/>PRODUCCION")]
+    end
+
+    LOCAL_DB[("PostgreSQL local<br/>anclados · usuarios<br/>auditoría")]:::dbLayer
+
+    FE -->|HTTPS + JWT| PRESENTATION
+    PRESENTATION --> FILTERS
+    FILTERS --> APP
+    APP --> DOMAIN
+    DOMAIN --> INFRA
+    INFRA --> CACHE
+    CRED_RESOLVER -.->|consulta inicial<br/>o si falla conexión| INTERNAL_API
+    DS_REGISTRY --> DB1
+    DS_REGISTRY --> DB2
+    DS_REGISTRY --> DB3
+    APP --> LOCAL_DB
+
+    class AUTH_CTRL,EXP_CTRL,FILE_CTRL,ANCL_CTRL,ADMIN_CTRL presentationLayer
+    class JWT,AUDIT,ERROR appLayer
+    class EXP_SVC,FILE_SVC,ANCL_SVC,REP_SVC appLayer
+    class ENT,REPO,UNIFIER domainLayer
+    class CRED_RESOLVER,DS_FACTORY,DS_REGISTRY infraLayer
+    class CACHE_STORE cacheLayer
+    class DB1,DB2,DB3 dbLayer
+        </pre>
+      </div>
+
+      <div class="diagram-legend">
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #1E5091;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Capa Web</div>
+            <div class="legend-desc">REST Controllers que reciben las peticiones del FE. Validan, delegan, no contienen lógica de negocio.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #C9A961;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Aplicación</div>
+            <div class="legend-desc">Servicios de orquestación. El ExpedienteService es el corazón: lanza las 3 búsquedas paralelas.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #1B5E3F;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Dominio</div>
+            <div class="legend-desc">Entidades JPA, repositorios por BD y el Unifier que fusiona los resultados de las 3 fuentes.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #8B2332;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Infraestructura</div>
+            <div class="legend-desc">CredentialResolver, DataSourceFactory y Registry. Aquí ocurre la magia del cache y resolución dinámica.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #F4ECDB; border: 1px solid #C9A961;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Cache de conexiones</div>
+            <div class="legend-desc">Mantiene los 3 DataSources Hikari activos en memoria. Se refresca on-demand al fallar.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 2: ESTRUCTURA DE PAQUETES                            -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Estructura del proyecto</div>
+        <h2 class="diagram-card-title">Organización de paquetes Java</h2>
+      </div>
+      <span class="diagram-card-meta">com.oj.visor</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart LR
+    classDef pkg fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7
+    classDef sub fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:1.5px
+    classDef leaf fill:#FAFAF7,stroke:#D8D8D2,color:#4A4A48
+
+    ROOT["com.oj.visor"]
+
+    WEB["web/"]
+    APP["application/"]
+    DOM["domain/"]
+    INFRA["infrastructure/"]
+    CONF["config/"]
+
+    WEB_CTRL["controller/<br/>· AuthController<br/>· ExpedienteController<br/>· ArchivoController<br/>· AncladosController"]
+    WEB_DTO["dto/<br/>· request · response"]
+    WEB_FILTER["filter/<br/>· JwtAuthFilter"]
+    WEB_HANDLER["handler/<br/>· GlobalExceptionHandler"]
+
+    APP_SVC["service/<br/>· ExpedienteService<br/>· ArchivoService<br/>· AncladosService<br/>· ReporteService"]
+    APP_FACADE["facade/<br/>· ExpedienteFacade"]
+    APP_MAPPER["mapper/<br/>· MapStruct"]
+
+    DOM_ENTITY["entity/<br/>· Expediente<br/>· Documento<br/>· Usuario"]
+    DOM_REPO["repository/<br/>· adoles/<br/>· guatemala/<br/>· sgt2/"]
+    DOM_UNIFIER["unifier/<br/>· ExpedienteUnifier<br/>· ArchivoMerger"]
+
+    INFRA_CRED["credentials/<br/>· CredentialResolver<br/>· ConnectionCache<br/>· InternalApiClient"]
+    INFRA_DS["datasource/<br/>· DataSourceFactory<br/>· DataSourceRegistry<br/>· DynamicRoutingDS"]
+    INFRA_AUDIT["audit/<br/>· AuditAspect<br/>· AuditWriter"]
+
+    CONF_SEC["security/<br/>· SecurityConfig<br/>· JwtProvider"]
+    CONF_DB["database/<br/>· JpaConfig<br/>· HikariConfig"]
+    CONF_ASYNC["async/<br/>· ExecutorConfig<br/>para queries paralelas"]
+
+    ROOT --> WEB
+    ROOT --> APP
+    ROOT --> DOM
+    ROOT --> INFRA
+    ROOT --> CONF
+
+    WEB --> WEB_CTRL
+    WEB --> WEB_DTO
+    WEB --> WEB_FILTER
+    WEB --> WEB_HANDLER
+
+    APP --> APP_SVC
+    APP --> APP_FACADE
+    APP --> APP_MAPPER
+
+    DOM --> DOM_ENTITY
+    DOM --> DOM_REPO
+    DOM --> DOM_UNIFIER
+
+    INFRA --> INFRA_CRED
+    INFRA --> INFRA_DS
+    INFRA --> INFRA_AUDIT
+
+    CONF --> CONF_SEC
+    CONF --> CONF_DB
+    CONF --> CONF_ASYNC
+
+    class ROOT pkg
+    class WEB,APP,DOM,INFRA,CONF sub
+    class WEB_CTRL,WEB_DTO,WEB_FILTER,WEB_HANDLER,APP_SVC,APP_FACADE,APP_MAPPER,DOM_ENTITY,DOM_REPO,DOM_UNIFIER,INFRA_CRED,INFRA_DS,INFRA_AUDIT,CONF_SEC,CONF_DB,CONF_ASYNC leaf
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 3: DETALLE DEL CACHE DE CONEXIONES                   -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Componente clave</div>
+        <h2 class="diagram-card-title">Resolución de credenciales y cache</h2>
+      </div>
+      <span class="diagram-card-meta">CACHE STRATEGY</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TB
+    classDef caller fill:#1E5091,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef cache fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:2px
+    classDef external fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef decision fill:#FFFFFF,stroke:#C9A961,color:#9C8345,stroke-width:2px
+    classDef action fill:#FAFAF7,stroke:#D8D8D2,color:#4A4A48
+
+    REQ["Servicio de aplicación<br/>necesita una conexión Oracle"]:::caller
+
+    RESOLVE["CredentialResolver<br/>getDataSource del dbName"]:::action
+
+    CHECK{"¿La conexión existe<br/>en el cache?"}:::decision
+
+    USE_CACHE["Devuelve el<br/>DataSource cacheado"]:::cache
+    USE_DS["Repositorio ejecuta query"]:::action
+
+    OK{"¿Query exitosa?"}:::decision
+
+    FAIL["Detectar tipo de error"]:::action
+    AUTH_ERR{"¿Error de<br/>credenciales o<br/>timeout?"}:::decision
+
+    INVALIDATE["Invalidar entrada<br/>del cache"]:::action
+
+    FETCH_API["InternalApiClient<br/>llama al API interno"]:::action
+    INTERNAL[("API Interno OJ<br/>devuelve credenciales")]:::external
+
+    BUILD_DS["DataSourceFactory<br/>crea HikariDataSource<br/>con nuevas credenciales"]:::action
+    STORE["Guardar en<br/>ConnectionCache"]:::cache
+
+    RETRY{"¿Es reintento?"}:::decision
+
+    RETURN_OK["Devuelve resultado<br/>al servicio"]:::action
+    LOG_ERROR["Registrar en bitácora<br/>+ devolver error parcial"]:::action
+
+    REQ --> RESOLVE
+    RESOLVE --> CHECK
+
+    CHECK -->|Sí| USE_CACHE
+    CHECK -->|No · primera vez<br/>o cache vacío| FETCH_API
+
+    USE_CACHE --> USE_DS
+    USE_DS --> OK
+
+    OK -->|Sí| RETURN_OK
+    OK -->|No| FAIL
+
+    FAIL --> AUTH_ERR
+    AUTH_ERR -->|Sí| INVALIDATE
+    AUTH_ERR -->|No · error de datos| LOG_ERROR
+
+    INVALIDATE --> RETRY
+    RETRY -->|No · primer intento| FETCH_API
+    RETRY -->|Sí · ya reintentado| LOG_ERROR
+
+    FETCH_API --> INTERNAL
+    INTERNAL --> BUILD_DS
+    BUILD_DS --> STORE
+    STORE --> USE_CACHE
+        </pre>
+      </div>
+
+      <div class="diagram-legend">
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #F4ECDB; border: 1px solid #C9A961;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Estrategia de cache</div>
+            <div class="legend-desc">Lazy load + invalidación on-failure. Las credenciales NUNCA expiran por tiempo, solo cuando una conexión falla.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #1E5091;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Reintento controlado</div>
+            <div class="legend-desc">Solo un reintento por request. Si falla dos veces, se devuelve resultado parcial y se registra en bitácora.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #0A2E5C;"></span>
+          <div class="legend-content">
+            <div class="legend-name">API interno del OJ</div>
+            <div class="legend-desc">Solo se invoca en arranque y cuando una credencial deja de funcionar. Bajo tráfico hacia él.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 4: CONSULTA PARALELA A LAS 3 BDS                     -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Patrón clave</div>
+        <h2 class="diagram-card-title">Consulta paralela a las 3 bases de datos</h2>
+      </div>
+      <span class="diagram-card-meta">SCATTER-GATHER</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+sequenceDiagram
+    participant FE as Frontend
+    participant Ctrl as ExpedienteController
+    participant Svc as ExpedienteService
+    participant Exec as ExecutorService
+    participant R1 as AdolesRepository
+    participant R2 as GuatemalaRepository
+    participant R3 as Sgt2Repository
+    participant Unif as ExpedienteUnifier
+    participant DB1 as ADOLES_EN_CONFLICTO
+    participant DB2 as GUATEMALA
+    participant DB3 as SGT2_PRODUCCION
+
+    FE->>Ctrl: GET /expedientes/01173-2024-00428
+    Ctrl->>Svc: buscarExpediente(numero)
+
+    Note over Svc,Exec: Lanza 3 tareas en paralelo
+
+    par Consulta paralela
+        Svc->>Exec: submit AdolesQuery
+        Exec->>R1: findByNumero(num)
+        R1->>DB1: SELECT expediente + archivos
+        DB1-->>R1: 8 archivos
+        R1-->>Exec: resultado parcial 1
+    and
+        Svc->>Exec: submit GuatemalaQuery
+        Exec->>R2: findByNumero(num)
+        R2->>DB2: SELECT expediente + archivos
+        DB2-->>R2: 12 archivos
+        R2-->>Exec: resultado parcial 2
+    and
+        Svc->>Exec: submit Sgt2Query
+        Exec->>R3: findByNumero(num)
+        R3->>DB3: SELECT expediente + archivos
+        DB3-->>R3: 5 archivos
+        R3-->>Exec: resultado parcial 3
+    end
+
+    Exec-->>Svc: 3 resultados parciales
+
+    Svc->>Unif: unify(p1, p2, p3)
+
+    Note over Unif: Deduplica archivos por hash<br/>Ordena por fecha<br/>Aplica categorías judiciales
+
+    Unif-->>Svc: ExpedienteCompleto con 25 archivos
+    Svc-->>Ctrl: ExpedienteResponse DTO
+    Ctrl-->>FE: 200 OK + JSON
+        </pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '12px',
+      primaryColor: '#0A2E5C',
+      primaryTextColor: '#FAFAF7',
+      primaryBorderColor: '#0A2E5C',
+      lineColor: '#6E6E6A',
+      secondaryColor: '#F4ECDB',
+      tertiaryColor: '#FAFAF7',
+      noteBkgColor: '#F4ECDB',
+      noteBorderColor: '#C9A961',
+      noteTextColor: '#4A4A48',
+      actorBkg: '#0A2E5C',
+      actorBorder: '#0A2E5C',
+      actorTextColor: '#FAFAF7',
+      labelBoxBkgColor: '#C9A961',
+      labelBoxBorderColor: '#9C8345',
+      labelTextColor: '#0A2E5C',
+      activationBkgColor: '#F4ECDB',
+      activationBorderColor: '#C9A961'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 16,
+      htmlLabels: true,
+      useMaxWidth: true
+    },
+    sequence: {
+      diagramMarginX: 32,
+      diagramMarginY: 16,
+      actorMargin: 50,
+      boxMargin: 10,
+      noteMargin: 12,
+      messageMargin: 30,
+      useMaxWidth: true
+    }
+  });
+</script>
+
+</body>
+</html>

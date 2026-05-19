@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visor Documental — Organismo Judicial de Guatemala</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    body { min-height: 100vh; overflow-x: hidden; }
+
+    .login-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* === COLUMNA IZQUIERDA === */
+    .login-brand {
+      background: var(--c-azul-800);
+      color: var(--c-blanco);
+      padding: var(--sp-10);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-brand::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px;
+      height: 140px;
+      background: var(--c-dorado-500);
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      font-size: var(--fs-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-dorado-400);
+      font-weight: 500;
+    }
+
+    .brand-header-line {
+      width: 32px;
+      height: 1px;
+      background: var(--c-dorado-500);
+    }
+
+    .brand-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--sp-8) 0;
+    }
+
+    .brand-escudo-wrap {
+      margin-bottom: var(--sp-8);
+      position: relative;
+    }
+
+    .brand-escudo-wrap::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .brand-escudo {
+      width: 260px;
+      height: auto;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      width: 280px;
+      margin: var(--sp-2) 0 var(--sp-6);
+    }
+    .brand-divider::before,
+    .brand-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(201, 169, 97, 0.4);
+    }
+    .brand-divider-dot {
+      width: 5px; height: 5px;
+      background: var(--c-dorado-500);
+      border-radius: 50%;
+    }
+
+    .brand-system-name {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--c-blanco);
+      letter-spacing: 0.02em;
+      margin-bottom: var(--sp-3);
+      line-height: 1.15;
+    }
+
+    .brand-system-tagline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--fs-md);
+      color: var(--c-dorado-400);
+      font-weight: 400;
+      max-width: 380px;
+      line-height: 1.5;
+    }
+
+    .brand-footer {
+      padding-top: var(--sp-6);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--fs-xs);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .brand-footer-meta {
+      font-family: var(--font-mono);
+      letter-spacing: 0.1em;
+      color: var(--c-dorado-400);
+    }
+
+    /* === COLUMNA DERECHA === */
+    .login-form-wrap {
+      background: var(--c-fondo);
+      padding: var(--sp-10);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .login-utility {
+      position: absolute;
+      top: var(--sp-6);
+      right: var(--sp-8);
+      display: flex;
+      gap: var(--sp-5);
+      font-size: var(--fs-sm);
+      color: var(--c-texto-suave);
+    }
+    .login-utility a {
+      color: var(--c-texto-suave);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-1);
+      text-decoration: none;
+    }
+    .login-utility a:hover { color: var(--c-azul-800); }
+
+    .login-form-container {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .form-eyebrow {
+      font-size: var(--fs-xs);
+      color: var(--c-dorado-700);
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+
+    .form-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--c-dorado-500);
+    }
+
+    .form-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-3xl);
+      font-weight: 600;
+      color: var(--c-texto-fuerte);
+      margin-bottom: var(--sp-2);
+      letter-spacing: -0.02em;
+    }
+
+    .form-subtitle {
+      color: var(--c-texto-suave);
+      margin-bottom: var(--sp-6);
+      font-size: var(--fs-md);
+      line-height: 1.6;
+    }
+
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-5);
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--sp-5);
+      font-size: var(--fs-sm);
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      color: var(--c-texto);
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox input {
+      width: 16px; height: 16px;
+      accent-color: var(--c-azul-800);
+      cursor: pointer;
+    }
+
+    .forgot {
+      color: var(--c-azul-700);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .forgot:hover { color: var(--c-azul-900); }
+
+    /* === SELECTOR DE USUARIO DEMO === */
+    .demo-users {
+      margin-top: var(--sp-5);
+      padding-top: var(--sp-5);
+      border-top: 1px dashed var(--c-borde);
+    }
+
+    .demo-users-label {
+      font-size: var(--fs-xs);
+      color: var(--c-dorado-700);
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-3);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+
+    .demo-users-label-dot {
+      width: 5px; height: 5px;
+      background: var(--c-dorado-500);
+      border-radius: 50%;
+    }
+
+    .demo-users-hint {
+      font-size: var(--fs-xs);
+      color: var(--c-texto-suave);
+      margin-bottom: var(--sp-3);
+      font-style: italic;
+    }
+
+    .demo-user-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+
+    .demo-user-card {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3);
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: all var(--t-fast);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .demo-user-card:hover {
+      border-color: var(--c-dorado-500);
+      background: var(--c-dorado-100);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .demo-user-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--c-dorado-500), var(--c-dorado-700));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      color: var(--c-azul-900);
+      flex-shrink: 0;
+    }
+
+    .demo-user-avatar.role-juez {
+      background: linear-gradient(135deg, var(--c-azul-700), var(--c-azul-900));
+      color: var(--c-dorado-400);
+    }
+
+    .demo-user-info { min-width: 0; flex: 1; }
+
+    .demo-user-name {
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--c-texto-fuerte);
+      line-height: 1.2;
+    }
+
+    .demo-user-role {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-texto-suave);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    /* === AVISO DE SEGURIDAD === */
+    .security-notice {
+      margin-top: var(--sp-6);
+      padding: var(--sp-4) var(--sp-5);
+      background: var(--c-fondo-alt);
+      border-left: 3px solid var(--c-dorado-500);
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+      font-size: var(--fs-sm);
+      color: var(--c-texto-suave);
+      line-height: 1.6;
+    }
+
+    .security-notice strong {
+      color: var(--c-texto-fuerte);
+      font-weight: 600;
+      display: block;
+      margin-bottom: var(--sp-1);
+      font-size: var(--fs-sm);
+      letter-spacing: 0.02em;
+    }
+
+    .ic {
+      width: 18px; height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .login-layout { grid-template-columns: 1fr; }
+      .login-brand { padding: var(--sp-8) var(--sp-6); }
+      .brand-escudo { width: 180px; }
+      .brand-system-name { font-size: 24px; }
+      .login-form-wrap { padding: var(--sp-10) var(--sp-6); }
+      .login-utility { position: static; justify-content: flex-end; margin-bottom: var(--sp-4); }
+      .demo-user-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-layout">
+
+  <!-- COLUMNA IZQUIERDA: IDENTIDAD -->
+  <aside class="login-brand">
+
+    <div class="brand-header">
+      <span class="brand-header-line"></span>
+      <span>República de Guatemala</span>
+    </div>
+
+    <div class="brand-content">
+      <div class="brand-escudo-wrap">
+        <img src="escudo-oj-dorado.png"
+             alt="Escudo Organismo Judicial de Guatemala"
+             class="brand-escudo">
+      </div>
+
+      <div class="brand-divider">
+        <span class="brand-divider-dot"></span>
+      </div>
+
+      <h1 class="brand-system-name">Visor Documental</h1>
+      <p class="brand-system-tagline">
+        Sistema institucional de consulta de expedientes judiciales
+      </p>
+    </div>
+
+    <div class="brand-footer">
+      <span>© Gerencia de Informática · OJ</span>
+      <span class="brand-footer-meta">v1.0 · 2026</span>
+    </div>
+
+  </aside>
+
+  <!-- COLUMNA DERECHA: FORMULARIO -->
+  <main class="login-form-wrap">
+
+    <div class="login-utility">
+      <a href="#" title="Ayuda">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 1-1 1.7v.5"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg>
+        Ayuda
+      </a>
+      <a href="#" title="Soporte técnico">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/></svg>
+        Soporte
+      </a>
+    </div>
+
+    <div class="login-form-container">
+
+      <div class="form-eyebrow">
+        <span class="form-eyebrow-dot"></span>
+        Acceso al sistema
+      </div>
+
+      <h2 class="form-title">Iniciar sesión</h2>
+      <p class="form-subtitle">
+        Ingrese sus credenciales institucionales para acceder al
+        Visor Documental de los Juzgados de la Niñez y Adolescencia.
+      </p>
+
+      <div class="form-fields">
+        <div class="field">
+          <label class="field-label field-required" for="usuario">Usuario institucional</label>
+          <div class="input-icon">
+            <svg class="ic icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+            <input class="input" type="text" id="usuario" placeholder="usuario.apellido" autocomplete="username">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label field-required" for="clave">Contraseña</label>
+          <div class="input-icon">
+            <svg class="ic icon" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <input class="input" type="password" id="clave" placeholder="••••••••••" autocomplete="current-password">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox">
+          <input type="checkbox">
+          <span>Mantener sesión en este equipo</span>
+        </label>
+        <a href="#" class="forgot">¿Olvidó su contraseña?</a>
+      </div>
+
+      <a href="busqueda.html?rol=asesor" class="btn btn-primary btn-block" style="text-decoration:none">
+        Ingresar al sistema
+        <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <!-- SELECTOR DE USUARIOS DEMO (solo en mockup) -->
+      <div class="demo-users">
+        <div class="demo-users-label">
+          <span class="demo-users-label-dot"></span>
+          Acceso rápido — Demo
+        </div>
+        <p class="demo-users-hint">Seleccione un perfil para ver la experiencia según el rol:</p>
+
+        <div class="demo-user-grid">
+          <a href="busqueda.html?rol=asesor" class="demo-user-card">
+            <div class="demo-user-avatar">MC</div>
+            <div class="demo-user-info">
+              <div class="demo-user-name">María Cifuentes</div>
+              <div class="demo-user-role">Asesor</div>
+            </div>
+          </a>
+
+          <a href="busqueda.html?rol=juez" class="demo-user-card">
+            <div class="demo-user-avatar role-juez">JR</div>
+            <div class="demo-user-info">
+              <div class="demo-user-name">Juan Ramírez</div>
+              <div class="demo-user-role">Juez</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="security-notice">
+        <strong>Aviso de seguridad institucional</strong>
+        El acceso a este sistema queda registrado en bitácora de auditoría.
+        El uso no autorizado o la divulgación de información sensible está
+        sujeto a las sanciones establecidas en la normativa interna del
+        Organismo Judicial.
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

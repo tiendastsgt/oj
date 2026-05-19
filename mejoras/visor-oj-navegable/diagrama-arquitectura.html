@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arquitectura FE Angular — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="diagramas.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<div class="diagram-container">
+
+  <a href="diagramas.html" class="back-to-index">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Volver al índice de diagramas
+  </a>
+
+  <div class="diagram-header">
+    <div class="diagram-eyebrow">Documento técnico · 01 / 03</div>
+    <h1 class="diagram-title">Arquitectura Frontend</h1>
+    <p class="diagram-subtitle">
+      Estructura de capas del Visor Documental implementado en Angular,
+      con módulos, componentes, servicios e integraciones.
+    </p>
+  </div>
+
+  <nav class="diagram-nav">
+    <a href="diagrama-arquitectura.html" class="diagram-nav-link active"><span class="num">01</span> Arquitectura</a>
+    <a href="diagrama-casos-uso.html" class="diagram-nav-link"><span class="num">02</span> Casos de uso</a>
+    <a href="diagrama-procesos.html" class="diagram-nav-link"><span class="num">03</span> Procesos</a>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 1: ARQUITECTURA POR CAPAS                            -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Vista por capas</div>
+        <h2 class="diagram-card-title">Arquitectura de la aplicación</h2>
+      </div>
+      <span class="diagram-card-meta">ANGULAR 18 · STANDALONE</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TB
+    classDef presentationLayer fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef appLayer fill:#C9A961,stroke:#9C8345,color:#0A2E5C,stroke-width:2px
+    classDef domainLayer fill:#1B5E3F,stroke:#1B5E3F,color:#FAFAF7,stroke-width:2px
+    classDef infraLayer fill:#8B2332,stroke:#8B2332,color:#FAFAF7,stroke-width:2px
+    classDef sharedLayer fill:#F4ECDB,stroke:#C9A961,color:#4A4A48,stroke-width:1.5px
+
+    subgraph PRESENTATION ["▌  CAPA DE PRESENTACIÓN  ·  Componentes y Vistas"]
+        direction TB
+        AUTH[AuthModule<br/>· LoginPage]
+        SEARCH[SearchModule<br/>· SearchPage<br/>· ResultsPage]
+        EXPEDIENTE[ExpedienteModule<br/>· DetallePage<br/>· GeneralView<br/>· ArchivosView<br/>· FileViewer*]
+        PRESENTATION_MOD[PresentationModule<br/>· FullscreenModal<br/>· SlideNavigator]
+        ADMIN[AdminModule<br/>· UsuariosPage<br/>· AuditoríaPage<br/>· ReportesPage]
+    end
+
+    subgraph APP ["▌  CAPA DE APLICACIÓN  ·  Lógica de orquestación"]
+        direction LR
+        ROUTER[Router<br/>+ AuthGuard<br/>+ RoleGuard]
+        STATE[State Mgmt<br/>· Signals<br/>· RxJS]
+        FACADES[Facades<br/>· ExpedienteFacade<br/>· AncladosFacade<br/>· AuthFacade]
+    end
+
+    subgraph DOMAIN ["▌  CAPA DE DOMINIO  ·  Servicios y Modelos"]
+        direction LR
+        SERVICES[Services<br/>· ExpedienteService<br/>· AncladosService<br/>· AuthService<br/>· AuditService<br/>· ReporteService]
+        MODELS[Models / DTOs<br/>· Expediente<br/>· Documento<br/>· Usuario<br/>· Auditoria]
+    end
+
+    subgraph INFRA ["▌  CAPA DE INFRAESTRUCTURA  ·  Comunicación externa"]
+        direction LR
+        HTTP[HttpClient<br/>+ Interceptors<br/>  · AuthInterceptor<br/>  · ErrorInterceptor<br/>  · LoadingInterceptor]
+        STORAGE[Storage<br/>· localStorage<br/>· sessionStorage]
+        BACKEND[(Backend Java<br/>REST API)]
+    end
+
+    subgraph SHARED ["▌  SHARED  ·  Reutilizable transversal"]
+        direction LR
+        UI[UI Library<br/>· Button · Input<br/>· Modal · Card<br/>· Badge · Sidebar]
+        PIPES[Pipes & Directives]
+        UTILS[Utils<br/>· Date · Format<br/>· Validators]
+        DESIGN[Design Tokens<br/>tokens.scss<br/>theme.scss]
+    end
+
+    PRESENTATION --> APP
+    APP --> DOMAIN
+    DOMAIN --> INFRA
+    INFRA --> BACKEND
+    PRESENTATION -.uses.-> SHARED
+    APP -.uses.-> SHARED
+    DOMAIN -.uses.-> SHARED
+
+    class AUTH,SEARCH,EXPEDIENTE,PRESENTATION_MOD,ADMIN presentationLayer
+    class ROUTER,STATE,FACADES appLayer
+    class SERVICES,MODELS domainLayer
+    class HTTP,STORAGE,BACKEND infraLayer
+    class UI,PIPES,UTILS,DESIGN sharedLayer
+        </pre>
+      </div>
+
+      <div class="diagram-legend">
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #0A2E5C;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Presentación</div>
+            <div class="legend-desc">Componentes Angular standalone organizados por feature. Páginas y vistas de cada módulo.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #C9A961;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Aplicación</div>
+            <div class="legend-desc">Router con guards de auth y rol, signals de estado y facades que orquestan dominio.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #1B5E3F;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Dominio</div>
+            <div class="legend-desc">Servicios de negocio puros y modelos/DTOs. Sin conocimiento de HTTP ni UI.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #8B2332;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Infraestructura</div>
+            <div class="legend-desc">HttpClient, interceptores de auth/error/loading, localStorage y conexión al backend.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #C9A961; opacity: 0.5;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Shared</div>
+            <div class="legend-desc">Librería de componentes UI, pipes, utils y los design tokens del sistema visual.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 2: ESTRUCTURA DE CARPETAS                            -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Estructura del proyecto</div>
+        <h2 class="diagram-card-title">Organización de carpetas</h2>
+      </div>
+      <span class="diagram-card-meta">src/ · Feature-based</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart LR
+    classDef folder fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7
+    classDef feat fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:1.5px
+    classDef leaf fill:#FAFAF7,stroke:#D8D8D2,color:#4A4A48
+
+    SRC[src/]
+    APP[app/]
+    CORE[core/]
+    SHARED2[shared/]
+    FEATURES[features/]
+    ASSETS[assets/]
+    STYLES[styles/]
+
+    AUTH_F[auth/]
+    SEARCH_F[search/]
+    EXP_F[expediente/]
+    PRES_F[presentation/]
+    ADMIN_F[admin/]
+
+    AUTH_PAGES[pages/login/]
+    AUTH_GUARD[guards/]
+    AUTH_SVC[services/auth.service.ts]
+
+    EXP_PAGES[pages/detalle/]
+    EXP_COMP[components/<br/>file-list/<br/>viewer-pdf/<br/>viewer-image/<br/>viewer-audio/<br/>viewer-video/]
+    EXP_SVC[services/<br/>expediente.service.ts<br/>anclados.service.ts]
+
+    CORE_INT[interceptors/<br/>http-error<br/>auth-token]
+    CORE_GUARDS[guards/<br/>auth.guard<br/>role.guard]
+    CORE_MODELS[models/<br/>expediente.model<br/>usuario.model]
+
+    SHARED_UI[ui/<br/>button · input<br/>modal · card<br/>badge · sidebar]
+    SHARED_PIPES[pipes/]
+    SHARED_TOKENS[tokens.scss]
+
+    SRC --> APP
+    APP --> CORE
+    APP --> SHARED2
+    APP --> FEATURES
+    SRC --> ASSETS
+    SRC --> STYLES
+
+    FEATURES --> AUTH_F
+    FEATURES --> SEARCH_F
+    FEATURES --> EXP_F
+    FEATURES --> PRES_F
+    FEATURES --> ADMIN_F
+
+    AUTH_F --> AUTH_PAGES
+    AUTH_F --> AUTH_GUARD
+    AUTH_F --> AUTH_SVC
+
+    EXP_F --> EXP_PAGES
+    EXP_F --> EXP_COMP
+    EXP_F --> EXP_SVC
+
+    CORE --> CORE_INT
+    CORE --> CORE_GUARDS
+    CORE --> CORE_MODELS
+
+    SHARED2 --> SHARED_UI
+    SHARED2 --> SHARED_PIPES
+    STYLES --> SHARED_TOKENS
+
+    class SRC,APP,CORE,SHARED2,FEATURES,ASSETS,STYLES folder
+    class AUTH_F,SEARCH_F,EXP_F,PRES_F,ADMIN_F feat
+    class AUTH_PAGES,AUTH_GUARD,AUTH_SVC,EXP_PAGES,EXP_COMP,EXP_SVC,CORE_INT,CORE_GUARDS,CORE_MODELS,SHARED_UI,SHARED_PIPES,SHARED_TOKENS leaf
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 3: FLUJO DE DATOS                                    -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Comunicación entre capas</div>
+        <h2 class="diagram-card-title">Flujo de datos · ejemplo Anclar documento</h2>
+      </div>
+      <span class="diagram-card-meta">FLUJO REACTIVO</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+sequenceDiagram
+    actor Usuario as Asesor
+    participant UI as FileListComponent
+    participant Facade as AncladosFacade
+    participant Service as AncladosService
+    participant HTTP as HttpClient
+    participant LS as localStorage
+    participant API as Backend Java
+
+    Usuario->>UI: click en pin
+    activate UI
+    UI->>Facade: toggleAnclado(expNum, docId)
+    activate Facade
+
+    Facade->>Service: toggle(expNum, doc)
+    activate Service
+
+    Note over Service,LS: Optimistic update local
+    Service->>LS: get / set anclados
+    LS-->>Service: estado actualizado
+
+    Service->>HTTP: POST /api/anclados
+    activate HTTP
+    HTTP->>API: HTTP request + JWT
+    activate API
+    API-->>HTTP: 200 OK
+    deactivate API
+    HTTP-->>Service: Observable de Anclado
+    deactivate HTTP
+
+    Service-->>Facade: Signal de AncladosState
+    deactivate Service
+
+    Facade-->>UI: render reactivo
+    deactivate Facade
+
+    UI-->>Usuario: pin dorado + contador actualizado
+    deactivate UI
+
+    Note over UI,API: Si el HTTP falla, se hace rollback del estado local
+        </pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '13px',
+      primaryColor: '#0A2E5C',
+      primaryTextColor: '#FAFAF7',
+      primaryBorderColor: '#0A2E5C',
+      lineColor: '#6E6E6A',
+      secondaryColor: '#F4ECDB',
+      tertiaryColor: '#FAFAF7',
+      noteBkgColor: '#F4ECDB',
+      noteBorderColor: '#C9A961',
+      noteTextColor: '#4A4A48',
+      actorBkg: '#0A2E5C',
+      actorBorder: '#0A2E5C',
+      actorTextColor: '#FAFAF7',
+      actorLineColor: '#6E6E6A',
+      signalColor: '#4A4A48',
+      signalTextColor: '#4A4A48',
+      labelBoxBkgColor: '#C9A961',
+      labelBoxBorderColor: '#9C8345',
+      labelTextColor: '#0A2E5C',
+      activationBkgColor: '#F4ECDB',
+      activationBorderColor: '#C9A961'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 16,
+      htmlLabels: true,
+      useMaxWidth: true
+    },
+    sequence: {
+      diagramMarginX: 32,
+      diagramMarginY: 16,
+      actorMargin: 60,
+      boxMargin: 10,
+      noteMargin: 12,
+      messageMargin: 32,
+      mirrorActors: false,
+      useMaxWidth: true
+    }
+  });
+</script>
+
+</body>
+</html>

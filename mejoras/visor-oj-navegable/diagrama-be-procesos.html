@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procesos del Backend — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="diagramas.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<div class="diagram-container">
+
+  <a href="diagramas.html" class="back-to-index">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Volver al índice de diagramas
+  </a>
+
+  <div class="diagram-header">
+    <div class="diagram-eyebrow">Documento técnico backend · 03 / 03</div>
+    <h1 class="diagram-title">Procesos del Backend</h1>
+    <p class="diagram-subtitle">
+      Flujos operativos del API: arranque, búsqueda paralela en Oracle,
+      manejo del cache de credenciales y descarga de archivos.
+    </p>
+  </div>
+
+  <nav class="diagram-nav">
+    <a href="diagrama-be-arquitectura.html" class="diagram-nav-link"><span class="num">01</span> Arquitectura</a>
+    <a href="diagrama-be-endpoints.html" class="diagram-nav-link"><span class="num">02</span> Endpoints</a>
+    <a href="diagrama-be-procesos.html" class="diagram-nav-link active"><span class="num">03</span> Procesos</a>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 1: ARRANQUE DEL API                                   -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Proceso · bootstrap</div>
+        <h2 class="diagram-card-title">Arranque del API</h2>
+      </div>
+      <span class="diagram-card-meta">STARTUP SEQUENCE</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TD
+    classDef start fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef action fill:#FAFAF7,stroke:#D8D8D2,color:#4A4A48
+    classDef decision fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:1.5px
+    classDef success fill:#DEEDE5,stroke:#1B5E3F,color:#144A33
+    classDef error fill:#F3DCDF,stroke:#8B2332,color:#6E1B28
+    classDef terminal fill:#1B5E3F,stroke:#1B5E3F,color:#FAFAF7,stroke-width:2px
+
+    INIT(["Spring Boot inicia"]):::start
+    LOAD_CONF["Carga configuración<br/>application.yml"]
+    INIT_LOCAL["Inicia PostgreSQL local<br/>anclados · usuarios · auditoría"]
+
+    CALL_API["CredentialResolver llama<br/>al API interno del OJ"]
+    API_OK{"¿Respuesta exitosa?"}
+
+    BUILD_DS["Construye 3 DataSources<br/>HikariCP con credenciales"]
+    REGISTER["Registra en<br/>DataSourceRegistry"]
+    INIT_POOLS["Inicializa pools<br/>de conexiones"]
+
+    TEST{"¿Test de conexión<br/>a cada BD OK?"}
+
+    READY["API listo para<br/>recibir peticiones"]
+    DEGRADED["Arranca en modo degradado<br/>con BDs disponibles"]
+    FAIL["Registra error crítico<br/>continúa sin esa BD"]
+
+    LISTEN((("API escuchando<br/>en puerto 8080"))):::terminal
+
+    INIT --> LOAD_CONF
+    LOAD_CONF --> INIT_LOCAL
+    INIT_LOCAL --> CALL_API
+    CALL_API --> API_OK
+
+    API_OK -->|Sí| BUILD_DS
+    API_OK -->|No| FAIL
+
+    BUILD_DS --> REGISTER
+    REGISTER --> INIT_POOLS
+    INIT_POOLS --> TEST
+
+    TEST -->|Las 3 OK| READY
+    TEST -->|Alguna falló| DEGRADED
+
+    READY --> LISTEN
+    DEGRADED --> LISTEN
+    FAIL --> LISTEN
+
+    class INIT start
+    class LOAD_CONF,INIT_LOCAL,CALL_API,BUILD_DS,REGISTER,INIT_POOLS,READY,DEGRADED action
+    class API_OK,TEST decision
+    class FAIL error
+    class LISTEN terminal
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 2: BÚSQUEDA DE EXPEDIENTE                             -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Proceso clave · scatter-gather</div>
+        <h2 class="diagram-card-title">Búsqueda de expediente en las 3 BDs</h2>
+      </div>
+      <span class="diagram-card-meta">PARALELO + UNIFICACIÓN</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TD
+    classDef start fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef action fill:#FAFAF7,stroke:#D8D8D2,color:#4A4A48
+    classDef decision fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:1.5px
+    classDef parallel fill:#DCE5F0,stroke:#0A2E5C,color:#0A2E5C,stroke-width:1.5px
+    classDef success fill:#DEEDE5,stroke:#1B5E3F,color:#144A33
+    classDef error fill:#F3DCDF,stroke:#8B2332,color:#6E1B28
+    classDef terminal fill:#1B5E3F,stroke:#1B5E3F,color:#FAFAF7,stroke-width:2px
+
+    REQ(["FE solicita<br/>GET /expedientes/01173-2024-00428"]):::start
+
+    JWT["JwtAuthFilter valida token<br/>extrae usuario y rol"]
+    AUDIT_START["AuditAspect registra<br/>inicio de consulta"]
+
+    CTRL["ExpedienteController<br/>recibe el número"]
+    SVC["ExpedienteService.buscar"]
+
+    SUBMIT["Submite 3 tareas<br/>al ExecutorService"]
+
+    Q1["Query a<br/>ADOLES_EN_CONFLICTO"]:::parallel
+    Q2["Query a<br/>GUATEMALA"]:::parallel
+    Q3["Query a<br/>SGT2_PRODUCCION"]:::parallel
+
+    R1{"¿Conexión OK?"}
+    R2{"¿Conexión OK?"}
+    R3{"¿Conexión OK?"}
+
+    RES1["Resultado parcial 1"]
+    RES2["Resultado parcial 2"]
+    RES3["Resultado parcial 3"]
+
+    REFRESH["Invalidar cache<br/>+ refresh credenciales"]
+    PARTIAL["Marcar fuente<br/>como no disponible"]
+
+    WAIT["Espera las 3 respuestas<br/>con timeout 5s"]
+    ALL{"¿Alguna respondió?"}
+
+    NOT_FOUND["Devolver 404<br/>Expediente no encontrado"]
+    UNIFY["ExpedienteUnifier<br/>fusiona resultados"]
+
+    DEDUP["Deduplica archivos<br/>por hash o nombre"]
+    CATEGORIZE["Clasifica por<br/>categoría judicial"]
+    ORDER["Ordena por fecha"]
+
+    BUILD_DTO["Construye<br/>ExpedienteResponse"]
+    META["Agrega metadata<br/>partialResults"]
+
+    AUDIT_END["Registra consulta<br/>exitosa en bitácora"]
+    RESPONSE(["Devuelve 200 OK<br/>JSON con expediente"]):::terminal
+
+    REQ --> JWT
+    JWT --> AUDIT_START
+    AUDIT_START --> CTRL
+    CTRL --> SVC
+    SVC --> SUBMIT
+
+    SUBMIT --> Q1
+    SUBMIT --> Q2
+    SUBMIT --> Q3
+
+    Q1 --> R1
+    Q2 --> R2
+    Q3 --> R3
+
+    R1 -->|Sí| RES1
+    R1 -->|No| REFRESH
+    R2 -->|Sí| RES2
+    R2 -->|No| REFRESH
+    R3 -->|Sí| RES3
+    R3 -->|No| REFRESH
+
+    REFRESH -->|Reintento OK| RES1
+    REFRESH -->|Falla persistente| PARTIAL
+
+    RES1 --> WAIT
+    RES2 --> WAIT
+    RES3 --> WAIT
+    PARTIAL --> WAIT
+
+    WAIT --> ALL
+    ALL -->|Ninguna| NOT_FOUND
+    ALL -->|Al menos una| UNIFY
+
+    UNIFY --> DEDUP
+    DEDUP --> CATEGORIZE
+    CATEGORIZE --> ORDER
+    ORDER --> BUILD_DTO
+    BUILD_DTO --> META
+    META --> AUDIT_END
+    AUDIT_END --> RESPONSE
+
+    NOT_FOUND --> AUDIT_END
+
+    class JWT,AUDIT_START,CTRL,SVC,SUBMIT,RES1,RES2,RES3,WAIT,UNIFY,DEDUP,CATEGORIZE,ORDER,BUILD_DTO,META,AUDIT_END action
+    class R1,R2,R3,ALL decision
+    class REFRESH,PARTIAL error
+    class NOT_FOUND error
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 3: REFRESH DE CREDENCIALES                            -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Recovery</div>
+        <h2 class="diagram-card-title">Refresh on-failure del cache</h2>
+      </div>
+      <span class="diagram-card-meta">SECUENCIA</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+sequenceDiagram
+    participant Repo as Repository
+    participant Cache as ConnectionCache
+    participant Resolver as CredentialResolver
+    participant API as InternalApiClient
+    participant Internal as API Interno OJ
+    participant Factory as DataSourceFactory
+    participant Oracle as Oracle DB
+
+    Repo->>Cache: getDataSource(ADOLES_EN_CONFLICTO)
+    Cache-->>Repo: HikariDataSource
+
+    Repo->>Oracle: SELECT ...
+    Oracle--xRepo: ORA-01017 invalid credentials
+
+    Note over Repo,Resolver: Detecta error de credencial
+
+    Repo->>Resolver: refreshCredentials(ADOLES_EN_CONFLICTO)
+
+    Resolver->>Cache: invalidate(ADOLES_EN_CONFLICTO)
+    Cache->>Cache: cierra pool antiguo
+    Cache-->>Resolver: ok
+
+    Resolver->>API: fetchCredentials(ADOLES_EN_CONFLICTO)
+    API->>Internal: GET /credentials/ADOLES_EN_CONFLICTO
+    Internal-->>API: 200 OK con nueva credencial
+    API-->>Resolver: CredentialDto
+
+    Resolver->>Factory: build(credentialDto)
+    Factory->>Factory: crea HikariDataSource nuevo
+    Factory-->>Resolver: DataSource listo
+
+    Resolver->>Cache: store(ADOLES_EN_CONFLICTO, ds)
+    Cache-->>Resolver: ok
+
+    Resolver-->>Repo: nuevo DataSource
+
+    Repo->>Oracle: SELECT ... reintentando
+    Oracle-->>Repo: resultados OK
+
+    Note over Repo,Oracle: Si vuelve a fallar, se marca como degradado<br/>y se incluye en _meta.partialResults
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 4: DESCARGA DE ARCHIVO BINARIO                        -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Streaming</div>
+        <h2 class="diagram-card-title">Descarga de archivo binario</h2>
+      </div>
+      <span class="diagram-card-meta">STREAMING + RANGE</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+sequenceDiagram
+    participant FE as Frontend
+    participant Filter as JwtAuthFilter
+    participant Ctrl as ArchivoController
+    participant Svc as ArchivoService
+    participant Resolver as CredentialResolver
+    participant Repo as ArchivoRepository
+    participant DS as DataSource
+    participant Oracle as Oracle DB
+    participant Audit as AuditAspect
+
+    FE->>Filter: GET /archivos/abc123/contenido<br/>Range: bytes=0-1048575
+    Filter->>Filter: valida JWT y permisos
+    Filter->>Ctrl: continúa
+
+    Ctrl->>Svc: streamArchivo(id, rangeHeader)
+
+    Svc->>Repo: findById(id)
+    Repo->>Resolver: getDataSource(fuente)
+    Resolver-->>Repo: DataSource del cache
+    Repo->>DS: abre conexión
+    DS->>Oracle: SELECT metadata + lob_locator
+    Oracle-->>DS: archivo encontrado
+    DS-->>Repo: ArchivoEntity con BLOB stream
+    Repo-->>Svc: entity
+
+    Note over Svc,Ctrl: Soporta Range requests<br/>para video y audio
+
+    Svc->>Svc: calcula offset y longitud
+    Svc->>Oracle: lee bytes solicitados desde BLOB
+
+    Svc-->>Ctrl: ResponseEntity con InputStream
+    Ctrl->>Audit: registra descarga
+    Audit-->>Ctrl: ok asíncrono
+    Ctrl-->>FE: 206 Partial Content<br/>Content-Range bytes 0-1048575
+
+    Note over FE,Oracle: El navegador continúa pidiendo<br/>rangos para reproducir video
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 5: ANCLAR DOCUMENTO                                   -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Operación transaccional</div>
+        <h2 class="diagram-card-title">Anclar documento</h2>
+      </div>
+      <span class="diagram-card-meta">FLOWCHART</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TD
+    classDef start fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef action fill:#FAFAF7,stroke:#D8D8D2,color:#4A4A48
+    classDef decision fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:1.5px
+    classDef success fill:#DEEDE5,stroke:#1B5E3F,color:#144A33
+    classDef error fill:#F3DCDF,stroke:#8B2332,color:#6E1B28
+    classDef terminal fill:#1B5E3F,stroke:#1B5E3F,color:#FAFAF7,stroke-width:2px
+
+    REQ(["POST /api/v1/anclados<br/>body con expedienteNum y archivoId"]):::start
+
+    AUTH["JwtAuthFilter valida<br/>JWT y rol = ASESOR"]
+    AUTH_OK{"¿Es Asesor?"}
+
+    REJECT["403 Forbidden<br/>solo Asesor puede anclar"]:::error
+
+    CTRL["AncladosController"]
+    VALIDATE["Validar payload<br/>expedienteNum no vacío<br/>archivoId existe"]
+
+    VAL_OK{"¿Válido?"}
+    BAD_REQ["400 Bad Request<br/>+ mensaje de error"]:::error
+
+    SVC["AncladosService anclar"]
+
+    CHECK_EXISTS{"¿Ya existe<br/>este anclado?"}
+    DUPLICATE["409 Conflict<br/>Ya está anclado"]:::error
+
+    VERIFY_FILE["Verifica que el archivo<br/>pertenece al expediente"]
+    FILE_OK{"¿Pertenece?"}
+    NOT_FOUND["404 Not Found<br/>Archivo no encontrado"]:::error
+
+    BEGIN["BEGIN TX en<br/>PostgreSQL local"]
+    INSERT["INSERT en tabla<br/>anclados"]
+    AUDIT["INSERT en tabla<br/>auditoría"]
+    COMMIT["COMMIT TX"]
+
+    BUILD_RES["Construye AncladoResponse<br/>con id generado"]
+    RESP(["201 Created<br/>+ objeto Anclado"]):::terminal
+
+    REQ --> AUTH
+    AUTH --> AUTH_OK
+    AUTH_OK -->|No| REJECT
+    AUTH_OK -->|Sí| CTRL
+
+    CTRL --> VALIDATE
+    VALIDATE --> VAL_OK
+    VAL_OK -->|No| BAD_REQ
+    VAL_OK -->|Sí| SVC
+
+    SVC --> CHECK_EXISTS
+    CHECK_EXISTS -->|Sí| DUPLICATE
+    CHECK_EXISTS -->|No| VERIFY_FILE
+
+    VERIFY_FILE --> FILE_OK
+    FILE_OK -->|No| NOT_FOUND
+    FILE_OK -->|Sí| BEGIN
+
+    BEGIN --> INSERT
+    INSERT --> AUDIT
+    AUDIT --> COMMIT
+    COMMIT --> BUILD_RES
+    BUILD_RES --> RESP
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 6: ESTADOS DEL CACHE                                  -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">State machine</div>
+        <h2 class="diagram-card-title">Ciclo de vida de una entrada del cache</h2>
+      </div>
+      <span class="diagram-card-meta">STATE MACHINE</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+stateDiagram-v2
+    direction LR
+
+    [*] --> NoCargado: Estado inicial<br/>al arrancar el API
+
+    NoCargado --> Cargando: Primera petición<br/>llama al API interno
+
+    Cargando --> Activo: Credenciales obtenidas<br/>HikariCP iniciado
+
+    Cargando --> Fallido: API interno no responde<br/>o credencial inválida
+
+    Activo --> Activo: Queries exitosas<br/>uso normal
+
+    Activo --> Invalidado: Query falla con<br/>error de credenciales
+
+    Invalidado --> Cargando: Refresh on-demand<br/>se reintenta
+
+    Activo --> Cerrado: Admin invalida<br/>vía endpoint
+
+    Cerrado --> Cargando: Próxima petición<br/>fuerza refresh
+
+    Fallido --> Cargando: Reintento automático<br/>en próxima petición
+
+    Activo --> [*]: Shutdown del API
+    Fallido --> [*]: Shutdown del API
+        </pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '12px',
+      primaryColor: '#0A2E5C',
+      primaryTextColor: '#FAFAF7',
+      primaryBorderColor: '#0A2E5C',
+      lineColor: '#6E6E6A',
+      secondaryColor: '#F4ECDB',
+      tertiaryColor: '#FAFAF7',
+      noteBkgColor: '#F4ECDB',
+      noteBorderColor: '#C9A961',
+      noteTextColor: '#4A4A48',
+      actorBkg: '#0A2E5C',
+      actorBorder: '#0A2E5C',
+      actorTextColor: '#FAFAF7',
+      labelBoxBkgColor: '#C9A961',
+      labelBoxBorderColor: '#9C8345',
+      labelTextColor: '#0A2E5C',
+      activationBkgColor: '#F4ECDB',
+      activationBorderColor: '#C9A961'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 16,
+      htmlLabels: true,
+      useMaxWidth: true,
+      nodeSpacing: 40,
+      rankSpacing: 50
+    },
+    sequence: {
+      diagramMarginX: 32,
+      diagramMarginY: 16,
+      actorMargin: 50,
+      boxMargin: 10,
+      noteMargin: 12,
+      messageMargin: 30,
+      useMaxWidth: true
+    }
+  });
+</script>
+
+</body>
+</html>

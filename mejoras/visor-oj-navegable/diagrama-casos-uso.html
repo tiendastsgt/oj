@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casos de uso — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="diagramas.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<div class="diagram-container">
+
+  <a href="diagramas.html" class="back-to-index">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Volver al índice de diagramas
+  </a>
+
+  <div class="diagram-header">
+    <div class="diagram-eyebrow">Documento técnico · 02 / 03</div>
+    <h1 class="diagram-title">Casos de uso</h1>
+    <p class="diagram-subtitle">
+      Diagrama UML de actores del sistema y sus interacciones con el Visor,
+      junto a la matriz detallada de permisos por rol.
+    </p>
+  </div>
+
+  <nav class="diagram-nav">
+    <a href="diagrama-arquitectura.html" class="diagram-nav-link"><span class="num">01</span> Arquitectura</a>
+    <a href="diagrama-casos-uso.html" class="diagram-nav-link active"><span class="num">02</span> Casos de uso</a>
+    <a href="diagrama-procesos.html" class="diagram-nav-link"><span class="num">03</span> Procesos</a>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- DIAGRAMA 1: ACTORES Y CASOS DE USO PRINCIPALES                -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Diagrama de casos de uso</div>
+        <h2 class="diagram-card-title">Actores y funcionalidades</h2>
+      </div>
+      <span class="diagram-card-meta">5 ROLES · 18 CASOS DE USO</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart LR
+    classDef actor fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef uc fill:#FAFAF7,stroke:#C9A961,color:#0A2E5C,stroke-width:1.5px
+    classDef ucAdmin fill:#F3DCDF,stroke:#8B2332,color:#6E1B28,stroke-width:1.5px
+    classDef ucConsulta fill:#DCE5F0,stroke:#0A2E5C,color:#0A2E5C,stroke-width:1.5px
+    classDef ucAnclados fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:1.5px
+
+    ADMIN((Administrador))
+    JUEZ((Juez))
+    ASESOR((Asesor))
+    SECR((Secretario))
+    CONS((Consultor))
+
+    UC01[CU-01<br/>Iniciar sesión]
+    UC02[CU-02<br/>Buscar expediente]
+    UC03[CU-03<br/>Ver detalle expediente]
+    UC04[CU-04<br/>Visualizar documento PDF/Word]
+    UC05[CU-05<br/>Ver galería de imágenes]
+    UC06[CU-06<br/>Reproducir audio/video]
+    UC07[CU-07<br/>Filtrar por categoría judicial]
+    UC08[CU-08<br/>Anclar documento]
+    UC09[CU-09<br/>Desanclar documento]
+    UC10[CU-10<br/>Ver anclados preparados]
+    UC11[CU-11<br/>Modo presentación]
+    UC12[CU-12<br/>Generar reporte]
+    UC13[CU-13<br/>Exportar a PDF / Excel]
+    UC14[CU-14<br/>Gestionar usuarios]
+    UC15[CU-15<br/>Asignar roles]
+    UC16[CU-16<br/>Restablecer contraseña]
+    UC17[CU-17<br/>Consultar bitácora]
+    UC18[CU-18<br/>Exportar auditoría]
+
+    ADMIN --- UC01
+    JUEZ --- UC01
+    ASESOR --- UC01
+    SECR --- UC01
+    CONS --- UC01
+
+    ADMIN --- UC02
+    JUEZ --- UC02
+    ASESOR --- UC02
+    SECR --- UC02
+    CONS --- UC02
+
+    ADMIN --- UC03
+    JUEZ --- UC03
+    ASESOR --- UC03
+    SECR --- UC03
+    CONS --- UC03
+
+    JUEZ --- UC04
+    ASESOR --- UC04
+    SECR --- UC04
+    CONS --- UC04
+
+    JUEZ --- UC05
+    ASESOR --- UC05
+    SECR --- UC05
+    CONS --- UC05
+
+    JUEZ --- UC06
+    ASESOR --- UC06
+    SECR --- UC06
+    CONS --- UC06
+
+    JUEZ --- UC07
+    ASESOR --- UC07
+    SECR --- UC07
+    CONS --- UC07
+
+    ASESOR --- UC08
+    ASESOR --- UC09
+
+    JUEZ --- UC10
+    ASESOR --- UC10
+
+    JUEZ --- UC11
+    ASESOR --- UC11
+
+    ADMIN --- UC12
+    JUEZ --- UC12
+    SECR --- UC12
+
+    ADMIN --- UC13
+    JUEZ --- UC13
+    SECR --- UC13
+
+    ADMIN --- UC14
+    ADMIN --- UC15
+    ADMIN --- UC16
+    ADMIN --- UC17
+    ADMIN --- UC18
+
+    class ADMIN,JUEZ,ASESOR,SECR,CONS actor
+    class UC01,UC02,UC03,UC04,UC05,UC06,UC07 ucConsulta
+    class UC08,UC09,UC10,UC11 ucAnclados
+    class UC12,UC13 uc
+    class UC14,UC15,UC16,UC17,UC18 ucAdmin
+        </pre>
+      </div>
+
+      <div class="diagram-legend">
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #DCE5F0; border: 1px solid #0A2E5C;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Consulta (CU-01 a CU-07)</div>
+            <div class="legend-desc">Acciones de lectura, búsqueda y visualización de expedientes. Disponibles según rol.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #F4ECDB; border: 1px solid #C9A961;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Anclados (CU-08 a CU-11)</div>
+            <div class="legend-desc">Preparación de audiencias. Solo Asesor gestiona; Juez consume y presenta.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #FAFAF7; border: 1px solid #C9A961;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Análisis (CU-12, CU-13)</div>
+            <div class="legend-desc">Generación de reportes institucionales y exportación.</div>
+          </div>
+        </div>
+        <div class="legend-item">
+          <span class="legend-marker" style="background: #F3DCDF; border: 1px solid #8B2332;"></span>
+          <div class="legend-content">
+            <div class="legend-name">Administración (CU-14 a CU-18)</div>
+            <div class="legend-desc">Gestión exclusiva del Administrador: usuarios, roles, bitácora.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MATRIZ DE PERMISOS                                            -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Matriz de autorización</div>
+        <h2 class="diagram-card-title">Permisos por rol</h2>
+      </div>
+      <span class="diagram-card-meta">RBAC · 5 ROLES</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <table class="use-case-table">
+        <thead>
+          <tr>
+            <th style="width: 70px;">ID</th>
+            <th>Caso de uso</th>
+            <th class="center" style="width: 80px;">Admin</th>
+            <th class="center" style="width: 80px;">Juez</th>
+            <th class="center" style="width: 80px;">Asesor</th>
+            <th class="center" style="width: 80px;">Secretario</th>
+            <th class="center" style="width: 80px;">Consultor</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td class="uc-id">CU-01</td>
+            <td>
+              <div class="uc-name">Iniciar sesión</div>
+              <div class="uc-desc">Autenticación con credenciales institucionales</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-02</td>
+            <td>
+              <div class="uc-name">Buscar expediente</div>
+              <div class="uc-desc">Búsqueda por número o nomenclatura</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-03</td>
+            <td>
+              <div class="uc-name">Ver detalle expediente</div>
+              <div class="uc-desc">Información general, partes, línea de tiempo</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-04</td>
+            <td>
+              <div class="uc-name">Visualizar documento</div>
+              <div class="uc-desc">Visor de PDF, Word, RTF embebido</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-05</td>
+            <td>
+              <div class="uc-name">Galería de imágenes</div>
+              <div class="uc-desc">Vista con miniaturas, zoom y navegación</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-06</td>
+            <td>
+              <div class="uc-name">Reproducir audio/video</div>
+              <div class="uc-desc">Player HTML5 con controles y velocidad</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-07</td>
+            <td>
+              <div class="uc-name">Filtrar por categoría</div>
+              <div class="uc-desc">Tipo de archivo + categoría judicial + búsqueda</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+          </tr>
+
+          <tr style="background: rgba(201, 169, 97, 0.05);">
+            <td class="uc-id">CU-08</td>
+            <td>
+              <div class="uc-name">Anclar documento</div>
+              <div class="uc-desc">Marcar archivo como relevante para audiencia</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(201, 169, 97, 0.05);">
+            <td class="uc-id">CU-09</td>
+            <td>
+              <div class="uc-name">Desanclar documento</div>
+              <div class="uc-desc">Quitar de la selección de anclados</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(201, 169, 97, 0.05);">
+            <td class="uc-id">CU-10</td>
+            <td>
+              <div class="uc-name">Ver anclados preparados</div>
+              <div class="uc-desc">Listado de documentos pineados</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(201, 169, 97, 0.05);">
+            <td class="uc-id">CU-11</td>
+            <td>
+              <div class="uc-name">Modo presentación</div>
+              <div class="uc-desc">Vista fullscreen para proyector en audiencia</div>
+            </td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-12</td>
+            <td>
+              <div class="uc-name">Generar reporte</div>
+              <div class="uc-desc">Reportes institucionales con filtros</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr>
+            <td class="uc-id">CU-13</td>
+            <td>
+              <div class="uc-name">Exportar reporte</div>
+              <div class="uc-desc">Descarga en PDF o Excel</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(139, 35, 50, 0.04);">
+            <td class="uc-id">CU-14</td>
+            <td>
+              <div class="uc-name">Gestionar usuarios</div>
+              <div class="uc-desc">Crear, modificar, desactivar usuarios</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(139, 35, 50, 0.04);">
+            <td class="uc-id">CU-15</td>
+            <td>
+              <div class="uc-name">Asignar roles</div>
+              <div class="uc-desc">Configurar rol y despacho del usuario</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(139, 35, 50, 0.04);">
+            <td class="uc-id">CU-16</td>
+            <td>
+              <div class="uc-name">Restablecer contraseña</div>
+              <div class="uc-desc">Reset administrativo de credenciales</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(139, 35, 50, 0.04);">
+            <td class="uc-id">CU-17</td>
+            <td>
+              <div class="uc-name">Consultar bitácora</div>
+              <div class="uc-desc">Registro de auditoría del sistema</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+          <tr style="background: rgba(139, 35, 50, 0.04);">
+            <td class="uc-id">CU-18</td>
+            <td>
+              <div class="uc-name">Exportar auditoría</div>
+              <div class="uc-desc">Descarga de bitácora a CSV/PDF</div>
+            </td>
+            <td class="uc-check"><span class="yes">✓</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+            <td class="uc-check"><span class="no">—</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <div style="margin-top: 24px; padding: 16px 20px; background: var(--c-fondo-alt); border-radius: var(--r-md); border-left: 3px solid var(--c-dorado-500); font-size: 13px; color: var(--c-texto-suave); line-height: 1.7;">
+        <strong style="color: var(--c-texto-fuerte); display: block; margin-bottom: 4px;">Notas de autorización</strong>
+        El Administrador no consume archivos directamente (su rol es gestión del sistema). El Asesor es el único que prepara anclados; el Juez los consume y presenta. El Consultor tiene acceso de solo lectura sin capacidad de reportar ni anclar.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '12px',
+      primaryColor: '#0A2E5C',
+      primaryTextColor: '#FAFAF7',
+      primaryBorderColor: '#0A2E5C',
+      lineColor: '#6E6E6A',
+      secondaryColor: '#F4ECDB',
+      tertiaryColor: '#FAFAF7'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 16,
+      htmlLabels: true,
+      useMaxWidth: true
+    }
+  });
+</script>
+
+</body>
+</html>

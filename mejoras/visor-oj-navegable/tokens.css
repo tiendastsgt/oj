@@ -1,0 +1,368 @@
+/* ============================================================
+   VISOR DOCUMENTAL OJ — Sistema de Diseño
+   Identidad visual institucional Guatemala
+   ============================================================ */
+
+:root {
+  /* === COLORES BASE === */
+  /* Azul cobalto profundo — color institucional dominante */
+  --c-azul-900: #061E40;
+  --c-azul-800: #0A2E5C;  /* PRINCIPAL */
+  --c-azul-700: #133E75;
+  --c-azul-600: #1E5091;
+  --c-azul-100: #DCE5F0;
+  --c-azul-50:  #F0F4FA;
+
+  /* Neutros — papel y archivo oficial */
+  --c-hueso:    #FAFAF7;  /* Fondo papel */
+  --c-crema:    #F5F4EE;  /* Fondo secundario */
+  --c-piedra-900: #2A2A28;
+  --c-piedra-700: #4A4A48;  /* Texto principal */
+  --c-piedra-500: #6E6E6A;  /* Texto secundario */
+  --c-piedra-300: #B8B8B2;  /* Texto deshabilitado */
+  --c-piedra-200: #D8D8D2;  /* Bordes */
+  --c-piedra-100: #E8E8E2;  /* Bordes sutiles */
+  --c-blanco:   #FFFFFF;
+
+  /* === ACENTOS NACIONALES (uso disciplinado, <10%) === */
+  /* Dorado quetzal — botones primarios, destacados */
+  --c-dorado-700: #9C8345;
+  --c-dorado-600: #B89656;
+  --c-dorado-500: #C9A961;  /* PRINCIPAL */
+  --c-dorado-400: #D6BC82;
+  --c-dorado-100: #F4ECDB;
+
+  /* Verde quetzal — éxito, aprobado */
+  --c-verde-700: #144A33;
+  --c-verde-600: #1B5E3F;  /* PRINCIPAL */
+  --c-verde-100: #DEEDE5;
+
+  /* Rojo sello — alertas, error */
+  --c-rojo-700: #6E1B28;
+  --c-rojo-600: #8B2332;  /* PRINCIPAL */
+  --c-rojo-100: #F3DCDF;
+
+  /* === SEMÁNTICOS === */
+  --c-fondo:        var(--c-hueso);
+  --c-fondo-elev:   var(--c-blanco);
+  --c-fondo-alt:    var(--c-crema);
+  --c-texto:        var(--c-piedra-700);
+  --c-texto-fuerte: var(--c-piedra-900);
+  --c-texto-suave:  var(--c-piedra-500);
+  --c-borde:        var(--c-piedra-200);
+  --c-borde-sutil:  var(--c-piedra-100);
+
+  /* === TIPOGRAFÍA === */
+  /* Serif institucional para títulos y encabezados oficiales */
+  --font-serif: 'Source Serif 4', 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+  /* Sans-serif funcional para UI y cuerpo */
+  --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Monospaciada para números de expediente y datos oficiales */
+  --font-mono:  'JetBrains Mono', 'Roboto Mono', 'Courier New', monospace;
+
+  /* Escala tipográfica */
+  --fs-xs:   12px;
+  --fs-sm:   13px;
+  --fs-base: 14px;
+  --fs-md:   15px;
+  --fs-lg:   17px;
+  --fs-xl:   20px;
+  --fs-2xl:  26px;
+  --fs-3xl:  34px;
+
+  /* === ESPACIADO === */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* === RADIOS === */
+  --r-sm: 2px;
+  --r-md: 4px;
+  --r-lg: 6px;
+
+  /* === BORDES === */
+  --border-thin:  1px solid var(--c-borde);
+  --border-sutil: 1px solid var(--c-borde-sutil);
+
+  /* === SOMBRAS (mínimas, institucional) === */
+  --shadow-sm: 0 1px 2px rgba(10, 46, 92, 0.06);
+  --shadow-md: 0 2px 8px rgba(10, 46, 92, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(201, 169, 97, 0.25);
+
+  /* === TRANSICIONES === */
+  --t-fast: 120ms ease;
+  --t-base: 200ms ease;
+}
+
+/* ============================================================
+   RESET BÁSICO
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--c-texto);
+  background: var(--c-fondo);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--c-texto-fuerte);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: var(--c-azul-700);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+a:hover { color: var(--c-azul-800); text-decoration: underline; }
+
+/* ============================================================
+   COMPONENTES COMUNES
+   ============================================================ */
+
+/* --- Botones --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 11px 20px;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--t-base);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--c-azul-800);
+  color: var(--c-blanco);
+  border-color: var(--c-azul-800);
+}
+.btn-primary:hover {
+  background: var(--c-azul-900);
+  border-color: var(--c-azul-900);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--c-azul-800);
+  border-color: var(--c-borde);
+}
+.btn-secondary:hover {
+  background: var(--c-azul-50);
+  border-color: var(--c-azul-700);
+}
+
+.btn-block { width: 100%; }
+
+/* --- Inputs --- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.field-label {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--c-texto-fuerte);
+  letter-spacing: 0.02em;
+}
+
+.field-required::after {
+  content: ' *';
+  color: var(--c-rojo-600);
+}
+
+.input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--c-blanco);
+  border: 1px solid var(--c-borde);
+  border-radius: var(--r-md);
+  color: var(--c-texto-fuerte);
+  transition: all var(--t-fast);
+}
+.input::placeholder { color: var(--c-piedra-300); }
+.input:hover { border-color: var(--c-piedra-300); }
+.input:focus {
+  outline: none;
+  border-color: var(--c-dorado-500);
+  box-shadow: var(--shadow-focus);
+}
+
+.input-icon {
+  position: relative;
+}
+.input-icon .input { padding-left: 42px; }
+.input-icon .icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--c-texto-suave);
+  pointer-events: none;
+}
+
+/* --- Tarjetas --- */
+.card {
+  background: var(--c-fondo-elev);
+  border: var(--border-thin);
+  border-radius: var(--r-lg);
+}
+
+/* --- Badges --- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+.badge-verde { background: var(--c-verde-100); color: var(--c-verde-700); }
+.badge-dorado { background: var(--c-dorado-100); color: var(--c-dorado-700); }
+.badge-rojo { background: var(--c-rojo-100); color: var(--c-rojo-700); }
+.badge-azul { background: var(--c-azul-100); color: var(--c-azul-800); }
+
+/* --- Utilidades --- */
+.mono { font-family: var(--font-mono); }
+.serif { font-family: var(--font-serif); }
+.text-suave { color: var(--c-texto-suave); }
+.text-fuerte { color: var(--c-texto-fuerte); }
+
+.divider {
+  height: 1px;
+  background: var(--c-borde-sutil);
+  border: none;
+  margin: var(--sp-4) 0;
+}
+
+/* Línea decorativa con detalle dorado — recurso visual institucional */
+.divider-oficial {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-5) 0;
+}
+.divider-oficial::before,
+.divider-oficial::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-borde);
+}
+.divider-oficial-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-dorado-500);
+}
+
+/* ============================================================
+   ANCLADOS COLAPSABLES + DETALLE
+   ============================================================ */
+.section-header-collapsible {
+  cursor: pointer;
+  user-select: none;
+  transition: opacity var(--t-fast);
+}
+.section-header-collapsible:hover { opacity: 0.85; }
+
+.section-collapse-icon {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-texto-suave);
+  transition: transform var(--t-base);
+  margin-right: var(--sp-1);
+}
+.section-collapse-icon .ic { width: 14px; height: 14px; stroke-width: 2.2; }
+.anclados-section.collapsed .section-collapse-icon { transform: rotate(-90deg); }
+.anclados-section.collapsed .anclados-grid { display: none; }
+.anclados-section.collapsed .section-header { margin-bottom: 0; padding-bottom: var(--sp-3); border-bottom: 1px solid var(--c-borde-sutil); }
+
+/* Lista preview dentro de tarjeta de anclado */
+.anclado-docs-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px dashed var(--c-borde-sutil);
+}
+
+.anclado-doc-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  color: var(--c-texto);
+  min-width: 0;
+}
+
+.anclado-doc-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.anclado-doc-icon .ic { width: 11px; height: 11px; }
+.anclado-doc-icon.tipo-pdf { background: var(--c-rojo-100); color: var(--c-rojo-700); }
+.anclado-doc-icon.tipo-doc { background: var(--c-azul-50); color: var(--c-azul-800); }
+.anclado-doc-icon.tipo-img { background: var(--c-verde-100); color: var(--c-verde-700); }
+.anclado-doc-icon.tipo-video { background: var(--c-rojo-100); color: var(--c-rojo-700); }
+.anclado-doc-icon.tipo-audio { background: var(--c-dorado-100); color: var(--c-dorado-700); }
+
+.anclado-doc-name {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.anclado-doc-more {
+  font-size: 11px;
+  color: var(--c-dorado-700);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  padding: 2px 6px;
+  background: var(--c-dorado-100);
+  border-radius: 4px;
+  margin-top: 2px;
+}

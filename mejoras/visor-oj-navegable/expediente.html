@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expediente 01173-2024-00428 — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="shell.css">
+  <link rel="stylesheet" href="expediente.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="escudo-oj-dorado.png" alt="OJ" class="sidebar-escudo">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-title">Visor Documental</span>
+        <span class="sidebar-brand-subtitle">Organismo Judicial</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="sidebar-section-label">Consulta</span>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Búsqueda de expedientes
+      </a>
+      <a href="busqueda-resultados.html" class="sidebar-link active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13h6M9 17h4"/></svg>
+        Expedientes recientes
+        <span class="sidebar-link-badge">12</span>
+      </a>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+        Documentos anclados
+        <span class="sidebar-link-badge">8</span>
+      </a>
+
+      <span class="sidebar-section-label">Análisis</span>
+      <a href="reportes.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+        Reportes
+      </a>
+
+      <span class="sidebar-section-label">Administración</span>
+      <a href="usuarios.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="7" r="3"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        Usuarios y roles
+      </a>
+      <a href="auditoria.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/><circle cx="6" cy="5" r="0.5" fill="currentColor"/><circle cx="6" cy="12" r="0.5" fill="currentColor"/><circle cx="6" cy="19" r="0.5" fill="currentColor"/></svg>
+        Auditoría
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">MC</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">María Cifuentes</div>
+        <div class="sidebar-user-role">Asesor</div>
+      </div>
+      <a href="login.html" class="sidebar-user-action" title="Cerrar sesión" style="text-decoration:none">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="topbar-title-wrap">
+        <div class="topbar-breadcrumb">
+          <a href="busqueda.html" style="color:inherit; text-decoration:none">Consulta</a>
+          <span class="topbar-breadcrumb-sep">/</span>
+          <a href="busqueda-resultados.html" style="color:inherit; text-decoration:none">Resultados</a>
+          <span class="topbar-breadcrumb-sep">/</span>
+          <span style="color: var(--c-texto-fuerte)">01173-2024-00428</span>
+        </div>
+        <h1 class="topbar-title">Detalle del expediente</h1>
+      </div>
+
+      <div class="topbar-actions">
+        <a href="busqueda-resultados.html" class="btn btn-secondary" style="text-decoration:none">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Volver
+        </a>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- HEADER DEL EXPEDIENTE -->
+      <section class="exp-header">
+        <div class="exp-header-top">
+          <div class="exp-header-info">
+            <div class="exp-header-eyebrow">
+              <span class="badge badge-azul">Adolescentes en Conflicto con la Ley Penal</span>
+            </div>
+            <div class="exp-header-num">
+              01173-2024-00428
+              <span class="badge badge-verde">En trámite</span>
+            </div>
+            <p class="exp-header-juzgado">Juzgado Primero de Adolescentes en Conflicto con la Ley Penal</p>
+          </div>
+
+          <div class="exp-header-actions">
+            <button class="btn btn-primary" onclick="openPresentation()">
+              <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              Presentar anclados
+            </button>
+          </div>
+        </div>
+
+        <div class="exp-header-stats">
+          <div class="exp-stat">
+            <span class="exp-stat-label">Fecha de ingreso</span>
+            <span class="exp-stat-value mono">15·MAR·2024</span>
+          </div>
+          <div class="exp-stat">
+            <span class="exp-stat-label">Partes</span>
+            <span class="exp-stat-value">Iniciales A.R.M.</span>
+          </div>
+          <div class="exp-stat">
+            <span class="exp-stat-label">Próxima audiencia</span>
+            <span class="exp-stat-value mono" style="color: var(--c-azul-800)">18·MAY·2024 · 09:30</span>
+          </div>
+          <div class="exp-stat">
+            <span class="exp-stat-label">Total de archivos</span>
+            <span class="exp-stat-value">25 archivos</span>
+          </div>
+          <div class="exp-stat">
+            <span class="exp-stat-label">Anclados</span>
+            <span class="exp-stat-value" style="color: var(--c-dorado-700)">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+              <span id="anclados-count">0</span> documentos
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PESTAÑAS DE MODO: GENERAL vs ARCHIVOS -->
+      <div class="exp-mode-tabs">
+        <a href="#general" class="exp-mode-tab" id="mode-general" onclick="switchMode('general'); return false;">
+          <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+          General
+        </a>
+        <a href="#archivos" class="exp-mode-tab active" id="mode-archivos" onclick="switchMode('archivos'); return false;">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          Archivos
+          <span class="count">25</span>
+        </a>
+      </div>
+
+      <!-- ============================ -->
+      <!-- MODO: GENERAL                -->
+      <!-- ============================ -->
+      <section id="view-general" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 380px; gap: var(--sp-5);">
+
+          <!-- Columna izquierda: información del expediente -->
+          <div>
+
+            <!-- Datos generales del expediente -->
+            <div class="card" style="padding: var(--sp-6);">
+              <div style="display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-5);">
+                <div style="width: 4px; height: 18px; background: var(--c-dorado-500); border-radius: 2px;"></div>
+                <h3 style="font-family: var(--font-serif); font-size: var(--fs-lg); font-weight: 600; color: var(--c-texto-fuerte); margin: 0;">Información general del expediente</h3>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5) var(--sp-6);">
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">N° de expediente</div>
+                  <div class="mono" style="font-size: var(--fs-md); font-weight: 600; color: var(--c-texto-fuerte);">01173-2024-00428</div>
+                </div>
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">Tipo de juzgado</div>
+                  <div style="color: var(--c-texto-fuerte);">Adolescentes en Conflicto con la Ley Penal</div>
+                </div>
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">Juzgado</div>
+                  <div style="color: var(--c-texto-fuerte); font-family: var(--font-serif);">Juzgado Primero</div>
+                </div>
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">Despacho</div>
+                  <div style="color: var(--c-texto-fuerte);">Despacho 1-A · Torre de Tribunales</div>
+                </div>
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">Fecha de ingreso</div>
+                  <div class="mono" style="color: var(--c-texto-fuerte);">15 de marzo de 2024</div>
+                </div>
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">Estado actual</div>
+                  <div><span class="badge badge-verde">En trámite</span></div>
+                </div>
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">Materia</div>
+                  <div style="color: var(--c-texto-fuerte);">Penal de adolescentes</div>
+                </div>
+                <div>
+                  <div class="exp-stat-label" style="margin-bottom: 4px;">Jueza titular</div>
+                  <div style="color: var(--c-texto-fuerte); font-family: var(--font-serif);">Dra. Ana Lorena Pérez</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Partes intervinientes -->
+            <div class="card" style="padding: var(--sp-6); margin-top: var(--sp-4);">
+              <div style="display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-5);">
+                <div style="width: 4px; height: 18px; background: var(--c-azul-700); border-radius: 2px;"></div>
+                <h3 style="font-family: var(--font-serif); font-size: var(--fs-lg); font-weight: 600; color: var(--c-texto-fuerte); margin: 0;">Partes intervinientes</h3>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: var(--sp-3);">
+                <div style="display: grid; grid-template-columns: 36px 1fr auto; gap: var(--sp-3); align-items: center; padding: var(--sp-3) var(--sp-4); background: var(--c-fondo-alt); border-radius: var(--r-md); border-left: 3px solid var(--c-azul-700);">
+                  <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--c-azul-100); color: var(--c-azul-800); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 600; font-size: var(--fs-sm);">AR</div>
+                  <div>
+                    <div style="font-weight: 500; color: var(--c-texto-fuerte);">Iniciales A.R.M. <span style="color: var(--c-texto-suave); font-weight: 400; font-size: var(--fs-xs);">· 15 años</span></div>
+                    <div style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-top: 2px;">Adolescente procesado · identidad protegida</div>
+                  </div>
+                  <span class="badge badge-azul">Procesado</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 36px 1fr auto; gap: var(--sp-3); align-items: center; padding: var(--sp-3) var(--sp-4); background: var(--c-fondo-alt); border-radius: var(--r-md); border-left: 3px solid var(--c-verde-600);">
+                  <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--c-verde-100); color: var(--c-verde-700); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 600; font-size: var(--fs-sm);">MP</div>
+                  <div>
+                    <div style="font-weight: 500; color: var(--c-texto-fuerte);">Ministerio Público</div>
+                    <div style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-top: 2px;">Fiscalía de la Niñez y Adolescencia · Lic. Roberto Morales</div>
+                  </div>
+                  <span class="badge badge-verde">Acusador</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 36px 1fr auto; gap: var(--sp-3); align-items: center; padding: var(--sp-3) var(--sp-4); background: var(--c-fondo-alt); border-radius: var(--r-md); border-left: 3px solid var(--c-dorado-500);">
+                  <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--c-dorado-100); color: var(--c-dorado-700); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 600; font-size: var(--fs-sm);">DP</div>
+                  <div>
+                    <div style="font-weight: 500; color: var(--c-texto-fuerte);">Defensa Pública</div>
+                    <div style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-top: 2px;">Lic. Carmen Estrada · Instituto de la Defensa Pública Penal</div>
+                  </div>
+                  <span class="badge badge-dorado">Defensa</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Línea de tiempo del expediente -->
+            <div class="card" style="padding: var(--sp-6); margin-top: var(--sp-4);">
+              <div style="display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-5);">
+                <div style="width: 4px; height: 18px; background: var(--c-verde-600); border-radius: 2px;"></div>
+                <h3 style="font-family: var(--font-serif); font-size: var(--fs-lg); font-weight: 600; color: var(--c-texto-fuerte); margin: 0;">Línea de tiempo</h3>
+              </div>
+
+              <div style="position: relative; padding-left: var(--sp-5);">
+                <!-- Línea vertical -->
+                <div style="position: absolute; left: 8px; top: 8px; bottom: 8px; width: 2px; background: var(--c-borde);"></div>
+
+                <div style="position: relative; padding-bottom: var(--sp-5);">
+                  <div style="position: absolute; left: calc(-1 * var(--sp-5) + 1px); top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--c-blanco); border: 3px solid var(--c-azul-800);"></div>
+                  <div class="mono" style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-bottom: 2px;">15·MAR·2024</div>
+                  <div style="font-weight: 500; color: var(--c-texto-fuerte);">Ingreso del expediente</div>
+                  <div style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-top: 2px;">Recibida la denuncia del Ministerio Público</div>
+                </div>
+
+                <div style="position: relative; padding-bottom: var(--sp-5);">
+                  <div style="position: absolute; left: calc(-1 * var(--sp-5) + 1px); top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--c-blanco); border: 3px solid var(--c-azul-700);"></div>
+                  <div class="mono" style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-bottom: 2px;">22·MAR·2024</div>
+                  <div style="font-weight: 500; color: var(--c-texto-fuerte);">Audiencia preliminar</div>
+                  <div style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-top: 2px;">Acta de audiencia preliminar y resolución de medida cautelar</div>
+                </div>
+
+                <div style="position: relative; padding-bottom: var(--sp-5);">
+                  <div style="position: absolute; left: calc(-1 * var(--sp-5) + 1px); top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--c-blanco); border: 3px solid var(--c-azul-700);"></div>
+                  <div class="mono" style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-bottom: 2px;">05·ABR·2024</div>
+                  <div style="font-weight: 500; color: var(--c-texto-fuerte);">Informes técnicos</div>
+                  <div style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-top: 2px;">Trabajo Social y Psicología completaron sus informes</div>
+                </div>
+
+                <div style="position: relative;">
+                  <div style="position: absolute; left: calc(-1 * var(--sp-5) + 1px); top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--c-dorado-500); border: 3px solid var(--c-dorado-500);"></div>
+                  <div class="mono" style="font-size: var(--fs-xs); color: var(--c-dorado-700); margin-bottom: 2px; font-weight: 600;">18·MAY·2024 · 09:30 hrs</div>
+                  <div style="font-weight: 600; color: var(--c-azul-800);">Audiencia de debate</div>
+                  <div style="font-size: var(--fs-xs); color: var(--c-texto-suave); margin-top: 2px;">Próxima audiencia · pendiente</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Columna derecha: resumen rápido -->
+          <div>
+
+            <!-- Resumen de archivos -->
+            <div class="card" style="padding: var(--sp-5);">
+              <div style="display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-4);">
+                <div style="width: 4px; height: 16px; background: var(--c-dorado-500); border-radius: 2px;"></div>
+                <h3 style="font-family: var(--font-serif); font-size: var(--fs-base); font-weight: 600; color: var(--c-texto-fuerte); margin: 0;">Resumen de archivos</h3>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: var(--sp-2);">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--c-fondo-alt); border-radius: var(--r-md);">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-sm);">
+                    <span style="width: 22px; height: 22px; border-radius: 4px; background: var(--c-rojo-100); color: var(--c-rojo-700); display: flex; align-items: center; justify-content: center;">
+                      <svg class="ic" viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                    </span>
+                    Documentos
+                  </span>
+                  <span class="mono" style="font-weight: 600; color: var(--c-texto-fuerte);">15</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--c-fondo-alt); border-radius: var(--r-md);">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-sm);">
+                    <span style="width: 22px; height: 22px; border-radius: 4px; background: var(--c-rojo-100); color: var(--c-rojo-700); display: flex; align-items: center; justify-content: center;">
+                      <svg class="ic" viewBox="0 0 24 24" style="width:12px;height:12px"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                    </span>
+                    Video
+                  </span>
+                  <span class="mono" style="font-weight: 600; color: var(--c-texto-fuerte);">2</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--c-fondo-alt); border-radius: var(--r-md);">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-sm);">
+                    <span style="width: 22px; height: 22px; border-radius: 4px; background: var(--c-dorado-100); color: var(--c-dorado-700); display: flex; align-items: center; justify-content: center;">
+                      <svg class="ic" viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    </span>
+                    Audio
+                  </span>
+                  <span class="mono" style="font-weight: 600; color: var(--c-texto-fuerte);">3</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--c-fondo-alt); border-radius: var(--r-md);">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; font-size: var(--fs-sm);">
+                    <span style="width: 22px; height: 22px; border-radius: 4px; background: var(--c-verde-100); color: var(--c-verde-700); display: flex; align-items: center; justify-content: center;">
+                      <svg class="ic" viewBox="0 0 24 24" style="width:12px;height:12px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                    </span>
+                    Imágenes
+                  </span>
+                  <span class="mono" style="font-weight: 600; color: var(--c-texto-fuerte);">8</span>
+                </div>
+
+                <div style="padding-top: var(--sp-3); margin-top: var(--sp-2); border-top: 1px dashed var(--c-borde-sutil); display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: var(--fs-sm); color: var(--c-dorado-700); font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                    <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                    Anclados
+                  </span>
+                  <span class="mono" style="font-weight: 600; color: var(--c-dorado-700);">12 / 25</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Últimos archivos agregados -->
+            <div class="card" style="padding: var(--sp-5); margin-top: var(--sp-4);">
+              <div style="display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-4);">
+                <div style="width: 4px; height: 16px; background: var(--c-azul-700); border-radius: 2px;"></div>
+                <h3 style="font-family: var(--font-serif); font-size: var(--fs-base); font-weight: 600; color: var(--c-texto-fuerte); margin: 0;">Últimos archivos agregados</h3>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--r-md); cursor: pointer; transition: background 200ms;" onmouseover="this.style.background='var(--c-fondo-alt)'" onmouseout="this.style.background='transparent'">
+                  <span style="width: 28px; height: 28px; border-radius: 4px; background: var(--c-rojo-100); color: var(--c-rojo-700); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                  </span>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Peritaje médico.pdf</div>
+                    <div class="mono" style="font-size: 10px; color: var(--c-texto-suave);">Hace 2 días</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--r-md); cursor: pointer; transition: background 200ms;" onmouseover="this.style.background='var(--c-fondo-alt)'" onmouseout="this.style.background='transparent'">
+                  <span style="width: 28px; height: 28px; border-radius: 4px; background: var(--c-azul-50); color: var(--c-azul-800); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                  </span>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Informe Psicológico.docx</div>
+                    <div class="mono" style="font-size: 10px; color: var(--c-texto-suave);">Hace 5 días</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--r-md); cursor: pointer; transition: background 200ms;" onmouseover="this.style.background='var(--c-fondo-alt)'" onmouseout="this.style.background='transparent'">
+                  <span style="width: 28px; height: 28px; border-radius: 4px; background: var(--c-rojo-100); color: var(--c-rojo-700); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                  </span>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Video cámara seguridad.mp4</div>
+                    <div class="mono" style="font-size: 10px; color: var(--c-texto-suave);">Hace 1 semana</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================ -->
+      <!-- MODO: ARCHIVOS               -->
+      <!-- ============================ -->
+      <section id="view-archivos">
+
+        <!-- Chips horizontales de tipo de archivo -->
+        <div class="exp-type-chips">
+          <button class="exp-type-chip active" onclick="setActiveTypeChip(this)">
+            Todos <span class="count">25</span>
+          </button>
+          <button class="exp-type-chip" onclick="setActiveTypeChip(this)">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            Documentos <span class="count">15</span>
+          </button>
+          <button class="exp-type-chip" onclick="setActiveTypeChip(this)">
+            <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            Video <span class="count">2</span>
+          </button>
+          <button class="exp-type-chip" onclick="setActiveTypeChip(this)">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            Audio <span class="count">3</span>
+          </button>
+          <button class="exp-type-chip" onclick="setActiveTypeChip(this)">
+            <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            Imágenes <span class="count">8</span>
+          </button>
+
+          <span class="exp-chips-separator"></span>
+
+          <button class="exp-type-chip chip-anclados active" onclick="this.classList.toggle('active')">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+            Solo anclados <span class="count" id="chip-anclados-count">0</span>
+          </button>
+        </div>
+
+        <!-- Barra secundaria: buscador + categorías judiciales -->
+        <div class="exp-secondary-bar">
+          <div class="exp-secondary-search">
+            <span class="exp-secondary-search-icon">
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </span>
+            <input type="text" class="exp-secondary-search-input" placeholder="Buscar por nombre de archivo...">
+          </div>
+
+          <span class="exp-categories-label">Categoría judicial:</span>
+
+          <div class="exp-categories">
+            <button class="exp-category active" onclick="setActiveCategory(this)">
+              Todas <span class="exp-category-count">25</span>
+            </button>
+            <button class="exp-category" onclick="setActiveCategory(this)">
+              Demandas y resoluciones <span class="exp-category-count">5</span>
+            </button>
+            <button class="exp-category" onclick="setActiveCategory(this)">
+              Informes técnicos <span class="exp-category-count">7</span>
+            </button>
+            <button class="exp-category" onclick="setActiveCategory(this)">
+              Pruebas y evidencias <span class="exp-category-count">9</span>
+            </button>
+            <button class="exp-category" onclick="setActiveCategory(this)">
+              Notificaciones <span class="exp-category-count">4</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Layout: lista + visor -->
+        <div class="exp-content">
+
+          <aside class="doc-list-wrap">
+            <div class="doc-list-header">
+              <div class="doc-list-header-info">
+                <span class="doc-list-title">Archivos del expediente</span>
+                <span class="doc-list-header-count">Mostrando <span id="anclados-mostrando">0</span> anclados de 25</span>
+              </div>
+            </div>
+
+            <div class="doc-list">
+
+              <a class="doc-item active" href="javascript:void(0)" onclick="selectDoc(0, 'pdf', 'Demanda inicial.pdf', '240 KB · 12 páginas · Demandas y resoluciones')">
+                <div class="doc-item-icon tipo-pdf">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Demanda inicial.pdf</div>
+                  <div class="doc-item-meta">240 KB · 12 págs</div>
+                  <div class="doc-item-category">Demandas y resoluciones</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="0" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 0)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+              <a class="doc-item" href="javascript:void(0)" onclick="selectDoc(1, 'pdf', 'Acta audiencia preliminar.pdf', '180 KB · 8 páginas · Demandas y resoluciones')">
+                <div class="doc-item-icon tipo-pdf">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Acta audiencia preliminar.pdf</div>
+                  <div class="doc-item-meta">180 KB · 8 págs</div>
+                  <div class="doc-item-category">Demandas y resoluciones</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="1" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 1)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+              <a class="doc-item" href="javascript:void(0)" onclick="selectDoc(2, 'doc', 'Informe Trabajo Social.docx', '320 KB · 15 páginas · Informes técnicos')">
+                <div class="doc-item-icon tipo-doc">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Informe Trabajo Social.docx</div>
+                  <div class="doc-item-meta">320 KB · 15 págs</div>
+                  <div class="doc-item-category">Informes técnicos</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="2" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 2)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+              <a class="doc-item" href="javascript:void(0)" onclick="selectDoc(3, 'doc', 'Informe Psicológico.docx', '410 KB · 22 páginas · Informes técnicos')">
+                <div class="doc-item-icon tipo-doc">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Informe Psicológico.docx</div>
+                  <div class="doc-item-meta">410 KB · 22 págs</div>
+                  <div class="doc-item-category">Informes técnicos</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="3" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 3)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+              <a class="doc-item" href="javascript:void(0)" onclick="selectDoc(4, 'pdf', 'Peritaje médico.pdf', '680 KB · 28 páginas · Informes técnicos')">
+                <div class="doc-item-icon tipo-pdf">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Peritaje médico.pdf</div>
+                  <div class="doc-item-meta">680 KB · 28 págs</div>
+                  <div class="doc-item-category">Informes técnicos</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="4" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 4)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+              <a class="doc-item" href="javascript:void(0)" onclick="selectDoc(5, 'video', 'Video cámara seguridad.mp4', '12.4 MB · 02:30 · Pruebas y evidencias')">
+                <div class="doc-item-icon tipo-video">
+                  <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Video cámara seguridad.mp4</div>
+                  <div class="doc-item-meta">12.4 MB · 02:30</div>
+                  <div class="doc-item-category">Pruebas y evidencias</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="5" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 5)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+              <a class="doc-item" href="javascript:void(0)" onclick="selectDoc(6, 'audio', 'Declaración testigo 1.mp3', '3.8 MB · 08:14 · Pruebas y evidencias')">
+                <div class="doc-item-icon tipo-audio">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Declaración testigo 1.mp3</div>
+                  <div class="doc-item-meta">3.8 MB · 08:14</div>
+                  <div class="doc-item-category">Pruebas y evidencias</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="6" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 6)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+              <a class="doc-item" href="javascript:void(0)" onclick="selectDoc(7, 'img', 'Evidencia fotográfica 01.jpg', '2.1 MB · 4032×3024 · Pruebas y evidencias')">
+                <div class="doc-item-icon tipo-img">
+                  <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                </div>
+                <div class="doc-item-info">
+                  <div class="doc-item-name">Evidencia fotográfica 01.jpg</div>
+                  <div class="doc-item-meta">2.1 MB · 4032×3024</div>
+                  <div class="doc-item-category">Pruebas y evidencias</div>
+                </div>
+                <button class="doc-item-pin" data-doc-idx="7" onclick="event.preventDefault(); event.stopPropagation(); togglePin(this, 7)">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </button>
+              </a>
+
+            </div>
+          </aside>
+
+          <!-- VISOR -->
+          <div class="doc-viewer" id="doc-viewer">
+
+            <!-- Toolbar: se actualiza dinámicamente -->
+            <div class="doc-viewer-toolbar">
+              <div class="doc-viewer-info">
+                <div class="doc-viewer-icon tipo-pdf" id="viewer-icon">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div>
+                  <div class="doc-viewer-title" id="viewer-title">Demanda inicial.pdf</div>
+                  <div class="doc-viewer-meta" id="viewer-meta">240 KB · 12 páginas · Demandas y resoluciones</div>
+                </div>
+              </div>
+
+              <div class="doc-viewer-controls" id="viewer-controls">
+                <!-- Los controles se inyectan según el tipo -->
+                <button class="viewer-btn"><svg class="ic" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+                <span class="viewer-page-indicator">1 / 12</span>
+                <button class="viewer-btn"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+                <span style="width: 1px; height: 22px; background: var(--c-borde); margin: 0 4px;"></span>
+                <button class="viewer-btn"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+                <button class="viewer-btn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+                <span style="width: 1px; height: 22px; background: var(--c-borde); margin: 0 4px;"></span>
+                <button class="viewer-btn" title="Descargar"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+              </div>
+            </div>
+
+            <!-- ===================== -->
+            <!-- VISOR PDF / WORD      -->
+            <!-- ===================== -->
+            <div class="doc-viewer-content" id="content-pdf">
+              <div class="pdf-page">
+                <div class="pdf-page-header">
+                  <div class="pdf-page-org">Organismo Judicial de Guatemala</div>
+                  <div class="pdf-page-title">Juzgado Primero de Adolescentes en Conflicto con la Ley Penal</div>
+                  <div class="pdf-page-subtitle">Expediente N° 01173-2024-00428</div>
+                </div>
+
+                <div class="pdf-page-body">
+                  <h3>DEMANDA INICIAL</h3>
+                  <p>Guatemala de la Asunción, quince de marzo del año dos mil veinticuatro. Compareciendo ante este Juzgado en el ejercicio de las atribuciones que la ley confiere, el suscrito representante del Ministerio Público presenta formal denuncia en relación con los hechos que a continuación se describen.</p>
+
+                  <h3>I. ANTECEDENTES</h3>
+                  <p>De conformidad con la información recabada en investigación preliminar y los elementos de prueba aportados por las autoridades de seguridad ciudadana, se establece que en fecha doce de marzo del año en curso ocurrieron los hechos motivo del presente proceso.</p>
+
+                  <p>El adolescente cuyas iniciales son A.R.M., de quince años de edad cumplidos al momento de los hechos, presuntamente participó en los acontecimientos descritos en el parte policial número PNC-2024-00891, mismo que se acompaña como medio probatorio.</p>
+
+                  <h3>II. FUNDAMENTOS DE DERECHO</h3>
+                  <p>El presente proceso se rige por las disposiciones contenidas en la Ley de Protección Integral de la Niñez y Adolescencia, particularmente en lo referente al procedimiento especial aplicable a adolescentes en conflicto con la ley penal.</p>
+                </div>
+
+                <div class="pdf-page-num-meta">
+                  <span>Pág. 1 / 12</span>
+                  <span>Exp. 01173-2024-00428</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== -->
+            <!-- VISOR IMAGEN          -->
+            <!-- ===================== -->
+            <div class="image-viewer-content" id="content-img" style="display: none;">
+
+              <button class="image-viewer-nav prev" title="Anterior">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+
+              <div class="image-viewer-stage">
+                <div class="image-viewer-img">
+                  <span style="position: relative; z-index: 1;">EVIDENCIA · 4032 × 3024</span>
+                  <span class="image-viewer-overlay-tag">EVD-01 · 12·MAR·2024 · 14:23</span>
+                </div>
+              </div>
+
+              <button class="image-viewer-nav next" title="Siguiente">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+
+              <div class="image-viewer-thumbs">
+                <div class="image-viewer-thumb active"></div>
+                <div class="image-viewer-thumb"></div>
+                <div class="image-viewer-thumb"></div>
+                <div class="image-viewer-thumb"></div>
+                <div class="image-viewer-thumb"></div>
+                <div class="image-viewer-thumb"></div>
+                <div class="image-viewer-thumb"></div>
+                <div class="image-viewer-thumb"></div>
+              </div>
+            </div>
+
+            <!-- ===================== -->
+            <!-- VISOR AUDIO           -->
+            <!-- ===================== -->
+            <div class="audio-viewer-content" id="content-audio" style="display: none;">
+              <div class="audio-player">
+
+                <div class="audio-icon-big">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </div>
+
+                <div class="audio-title">Declaración testigo 1</div>
+                <div class="audio-subtitle">Audio grabado · 12 de marzo de 2024</div>
+
+                <div class="audio-waveform" id="audio-wf">
+                  <!-- Bars generados por JS -->
+                </div>
+
+                <div class="audio-time">
+                  <span class="audio-time-current">02:43</span>
+                  <span>08:14</span>
+                </div>
+
+                <div class="audio-controls">
+                  <button class="audio-ctrl-btn" title="Retroceder 10s">
+                    <svg class="ic" viewBox="0 0 24 24"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+                  </button>
+                  <button class="audio-ctrl-btn primary" title="Reproducir/Pausar">
+                    <svg class="ic" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </button>
+                  <button class="audio-ctrl-btn" title="Avanzar 10s">
+                    <svg class="ic" viewBox="0 0 24 24"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
+                  </button>
+                </div>
+
+                <div class="audio-speed-row">
+                  <button class="audio-speed-btn">0.5×</button>
+                  <button class="audio-speed-btn">0.75×</button>
+                  <button class="audio-speed-btn active">1×</button>
+                  <button class="audio-speed-btn">1.25×</button>
+                  <button class="audio-speed-btn">1.5×</button>
+                  <button class="audio-speed-btn">2×</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===================== -->
+            <!-- VISOR VIDEO           -->
+            <!-- ===================== -->
+            <div class="video-viewer-content" id="content-video" style="display: none;">
+              <div class="video-player">
+                <div class="video-screen">
+
+                  <span class="video-timestamp">14:23:08 · 12·MAR·2024</span>
+                  <span class="video-overlay-cam">CÁM 03</span>
+
+                  <div class="video-play-overlay">
+                    <svg class="ic" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  </div>
+
+                  <div class="video-controls-bar">
+                    <div class="video-timeline">
+                      <div class="video-timeline-progress"></div>
+                    </div>
+
+                    <div class="video-controls-row">
+                      <button class="video-ctrl-btn play">
+                        <svg class="ic" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                      </button>
+                      <button class="video-ctrl-btn">
+                        <svg class="ic" viewBox="0 0 24 24"><path d="M11 17l-5-5 5-5"/></svg>
+                      </button>
+                      <button class="video-ctrl-btn">
+                        <svg class="ic" viewBox="0 0 24 24"><path d="M13 17l5-5-5-5"/></svg>
+                      </button>
+                      <span class="video-time">00:52 / 02:30</span>
+
+                      <span class="video-spacer"></span>
+
+                      <div class="video-volume">
+                        <svg class="ic" viewBox="0 0 24 24" style="color: rgba(255,255,255,0.8)"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                        <div class="video-volume-bar"></div>
+                      </div>
+
+                      <button class="video-ctrl-btn">
+                        <svg class="ic" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  // Cambio de modo entre General y Archivos
+  function switchMode(mode) {
+    document.querySelectorAll('.exp-mode-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('mode-' + mode).classList.add('active');
+    document.getElementById('view-general').style.display = mode === 'general' ? 'block' : 'none';
+    document.getElementById('view-archivos').style.display = mode === 'archivos' ? 'block' : 'none';
+  }
+
+  // Chips de tipo de archivo
+  function setActiveTypeChip(el) {
+    if (el.classList.contains('chip-anclados')) return;
+    el.parentNode.querySelectorAll('.exp-type-chip:not(.chip-anclados)').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Categorías judiciales
+  function setActiveCategory(el) {
+    el.parentNode.querySelectorAll('.exp-category').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function openPresentation() {
+    window.location.href = 'presentacion.html';
+  }
+
+  // === SELECCIÓN DE DOCUMENTO: cambia el visor según el tipo ===
+  function selectDoc(idx, tipo, name, meta) {
+    // Marcar el doc-item activo
+    document.querySelectorAll('.doc-item').forEach(d => d.classList.remove('active'));
+    const items = document.querySelectorAll('.doc-item');
+    if (items[idx]) items[idx].classList.add('active');
+
+    // Actualizar toolbar
+    document.getElementById('viewer-title').textContent = name;
+    document.getElementById('viewer-meta').textContent = meta;
+
+    // Cambiar el ícono del toolbar según el tipo
+    const iconEl = document.getElementById('viewer-icon');
+    iconEl.className = 'doc-viewer-icon tipo-' + tipo;
+    const icons = {
+      pdf: '<svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
+      doc: '<svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
+      img: '<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>',
+      video: '<svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>',
+      audio: '<svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
+    };
+    iconEl.innerHTML = icons[tipo] || icons.pdf;
+
+    // Mostrar el visor correcto, ocultar los demás
+    const map = { pdf: 'content-pdf', doc: 'content-pdf', img: 'content-img', audio: 'content-audio', video: 'content-video' };
+    ['content-pdf', 'content-img', 'content-audio', 'content-video'].forEach(id => {
+      document.getElementById(id).style.display = 'none';
+    });
+    const targetId = map[tipo] || 'content-pdf';
+    document.getElementById(targetId).style.display = 'flex';
+
+    // Si es PDF/Word, restaurar el display original (block o el default)
+    if (targetId === 'content-pdf') {
+      document.getElementById('content-pdf').style.display = 'flex';
+    }
+
+    // Si es audio, actualizar título
+    if (tipo === 'audio') {
+      const audioTitle = document.querySelector('#content-audio .audio-title');
+      if (audioTitle) audioTitle.textContent = name.replace(/\.[^.]+$/, '');
+    }
+
+    // Mostrar/ocultar controles del toolbar según tipo
+    const controlsEl = document.getElementById('viewer-controls');
+    if (tipo === 'pdf' || tipo === 'doc') {
+      controlsEl.style.visibility = 'visible';
+    } else {
+      // Para audio/video/img los controles están dentro del visor
+      controlsEl.style.visibility = 'hidden';
+    }
+  }
+
+  // Generar barras de waveform aleatorias para el audio
+  (function generateWaveform() {
+    const wf = document.getElementById('audio-wf');
+    if (!wf) return;
+    const total = 80;
+    const playedUntil = Math.floor(total * 0.33); // 33% reproducido
+    for (let i = 0; i < total; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'audio-waveform-bar';
+      // Altura pseudo-aleatoria pero determinística
+      const h = 15 + Math.abs(Math.sin(i * 0.7) * 35) + Math.abs(Math.cos(i * 0.3) * 15);
+      bar.style.height = h + 'px';
+      if (i < playedUntil) bar.classList.add('played');
+      if (i === playedUntil) bar.classList.add('current');
+      wf.appendChild(bar);
+    }
+  })();
+
+  // Speed buttons del audio
+  document.querySelectorAll('.audio-speed-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.parentNode.querySelectorAll('.audio-speed-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // === MANEJO DE PINS CON LOCALSTORAGE ===
+  const EXP_NUM = '01173-2024-00428';
+
+  // Datos completos de los documentos (mismo orden que las llamadas selectDoc)
+  const ALL_DOCS = [
+    { idx: 0, id: 'demanda-inicial-pdf', name: 'Demanda inicial.pdf', type: 'pdf', size: '240 KB', category: 'Demandas y resoluciones' },
+    { idx: 1, id: 'acta-audiencia-preliminar-pdf', name: 'Acta audiencia preliminar.pdf', type: 'pdf', size: '180 KB', category: 'Demandas y resoluciones' },
+    { idx: 2, id: 'informe-trabajo-social-docx', name: 'Informe Trabajo Social.docx', type: 'doc', size: '320 KB', category: 'Informes técnicos' },
+    { idx: 3, id: 'informe-psicologico-docx', name: 'Informe Psicológico.docx', type: 'doc', size: '410 KB', category: 'Informes técnicos' },
+    { idx: 4, id: 'peritaje-medico-pdf', name: 'Peritaje médico.pdf', type: 'pdf', size: '680 KB', category: 'Informes técnicos' },
+    { idx: 5, id: 'video-camara-seguridad-mp4', name: 'Video cámara seguridad.mp4', type: 'video', size: '12.4 MB', category: 'Pruebas y evidencias' },
+    { idx: 6, id: 'declaracion-testigo-1-mp3', name: 'Declaración testigo 1.mp3', type: 'audio', size: '3.8 MB', category: 'Pruebas y evidencias' },
+    { idx: 7, id: 'evidencia-fotografica-01-jpg', name: 'Evidencia fotográfica 01.jpg', type: 'img', size: '2.1 MB', category: 'Pruebas y evidencias' }
+  ];
+
+  function togglePin(btn, idx) {
+    const doc = ALL_DOCS[idx];
+    const wasPinned = ancladosManager.toggle(EXP_NUM, doc);
+    btn.classList.toggle('pinned', wasPinned);
+    refreshCounters();
+
+    // Pequeña animación de feedback
+    btn.style.transform = 'scale(1.3)';
+    setTimeout(() => btn.style.transform = '', 200);
+  }
+
+  function refreshCounters() {
+    const count = ancladosManager.countByExpediente(EXP_NUM);
+    const countEl1 = document.getElementById('anclados-count');
+    const countEl2 = document.getElementById('chip-anclados-count');
+    const countEl3 = document.getElementById('anclados-mostrando');
+    if (countEl1) countEl1.textContent = count;
+    if (countEl2) countEl2.textContent = count;
+    if (countEl3) countEl3.textContent = count;
+  }
+
+  // Al cargar la página, sincronizar los pins visuales con localStorage
+  function syncPinsFromStorage() {
+    const list = ancladosManager.getByExpediente(EXP_NUM);
+    const pinnedIds = list.map(d => d.id);
+    document.querySelectorAll('.doc-item-pin').forEach(btn => {
+      const idx = parseInt(btn.dataset.docIdx);
+      const doc = ALL_DOCS[idx];
+      if (!doc) return;
+      btn.classList.toggle('pinned', pinnedIds.includes(doc.id));
+    });
+    refreshCounters();
+  }
+
+  syncPinsFromStorage();
+
+  // Si llega con ?tab=anclados, mantener en modo Archivos
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('tab') === 'anclados') {
+    switchMode('archivos');
+  }
+</script>
+<script src="anclados.js"></script>
+<script src="rol-switch.js"></script>
+
+</body>
+</html>

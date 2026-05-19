@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentación técnica — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="diagramas.css">
+  <style>
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 56px 0 32px;
+    }
+    .section-divider::before, .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--c-borde);
+    }
+    .section-divider-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-dorado-700);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-divider-label::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--c-dorado-500);
+      border-radius: 50%;
+    }
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .doc-grid { grid-template-columns: 1fr; }
+    }
+    .doc-card {
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-lg);
+      padding: 32px 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 300ms ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 340px;
+    }
+    .doc-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--c-dorado-500);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 400ms ease;
+    }
+    .doc-card.be::before { background: var(--c-azul-700); }
+    .doc-card:hover {
+      border-color: var(--c-dorado-500);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(10, 46, 92, 0.08);
+    }
+    .doc-card.be:hover { border-color: var(--c-azul-700); }
+    .doc-card:hover::before { transform: scaleX(1); }
+    .doc-card-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--c-dorado-700);
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      margin-bottom: 20px;
+    }
+    .doc-card.be .doc-card-num { color: var(--c-azul-700); }
+    .doc-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--r-md);
+      background: var(--c-azul-50);
+      color: var(--c-azul-800);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      transition: all 300ms ease;
+    }
+    .doc-card.be .doc-card-icon {
+      background: var(--c-fondo-alt);
+      color: var(--c-azul-800);
+    }
+    .doc-card-icon svg { width: 28px; height: 28px; }
+    .doc-card:hover .doc-card-icon {
+      background: var(--c-dorado-100);
+      color: var(--c-dorado-700);
+    }
+    .doc-card.be:hover .doc-card-icon {
+      background: var(--c-azul-100);
+      color: var(--c-azul-900);
+    }
+    .doc-card-title {
+      font-family: 'Source Serif 4', serif;
+      font-size: 22px;
+      color: var(--c-texto-fuerte);
+      margin: 0 0 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .doc-card-desc {
+      font-size: 14px;
+      color: var(--c-texto-suave);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+    .doc-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--c-borde-sutil);
+    }
+    .doc-card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      background: var(--c-fondo-alt);
+      color: var(--c-texto-suave);
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .doc-card-cta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--c-azul-800);
+      font-weight: 500;
+    }
+    .doc-card-cta svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 300ms ease;
+    }
+    .doc-card:hover .doc-card-cta {
+      color: var(--c-dorado-700);
+    }
+    .doc-card:hover .doc-card-cta svg {
+      transform: translateX(4px);
+    }
+    .summary-strip {
+      margin-top: 56px;
+      padding: 32px 36px;
+      background: var(--c-azul-800);
+      color: var(--c-blanco);
+      border-radius: var(--r-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .summary-strip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100px;
+      background: var(--c-dorado-500);
+    }
+    .summary-strip-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-dorado-400);
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .summary-strip-eyebrow::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--c-dorado-500);
+    }
+    .summary-strip-title {
+      font-family: 'Source Serif 4', serif;
+      font-size: 26px;
+      font-weight: 600;
+      margin: 0 0 24px;
+      letter-spacing: -0.01em;
+    }
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    @media (max-width: 700px) {
+      .summary-stats { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    }
+    .summary-stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      color: var(--c-dorado-400);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .summary-stat-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .back-to-app {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--c-texto-suave);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 24px;
+      padding: 6px 12px;
+      border-radius: var(--r-md);
+      transition: all 200ms ease;
+    }
+    .back-to-app:hover {
+      color: var(--c-azul-800);
+      background: var(--c-fondo-alt);
+    }
+    .back-to-app svg {
+      width: 14px;
+      height: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="diagram-container">
+
+  <a href="index.html" class="back-to-app">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Volver al mockup del Visor
+  </a>
+
+  <div class="diagram-header">
+    <div class="diagram-eyebrow">Documentación técnica</div>
+    <h1 class="diagram-title">Arquitectura del Sistema</h1>
+    <p class="diagram-subtitle">
+      Diagramas técnicos para implementación del Visor Documental
+      del Organismo Judicial de Guatemala: Frontend Angular y Backend Java.
+    </p>
+  </div>
+
+  <div class="section-divider">
+    <span class="section-divider-label">Frontend · Angular</span>
+  </div>
+
+  <div class="doc-grid">
+
+    <a href="diagrama-arquitectura.html" class="doc-card">
+      <div class="doc-card-num">FE · 01 / 03</div>
+      <div class="doc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9h18M9 21V9M3 5h18M3 5l0 14M21 5l0 14"/>
+        </svg>
+      </div>
+      <h2 class="doc-card-title">Arquitectura FE</h2>
+      <p class="doc-card-desc">
+        Estructura por capas, módulos Angular, organización de carpetas
+        y flujo de datos entre presentación, dominio e infraestructura.
+      </p>
+      <div class="doc-card-meta">
+        <span class="doc-card-tag">3 DIAGRAMAS</span>
+        <span class="doc-card-tag">ANGULAR 18</span>
+        <span class="doc-card-tag">STANDALONE</span>
+      </div>
+      <div class="doc-card-cta">
+        Ver arquitectura
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </a>
+
+    <a href="diagrama-casos-uso.html" class="doc-card">
+      <div class="doc-card-num">FE · 02 / 03</div>
+      <div class="doc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+          <circle cx="17" cy="7" r="3"/>
+          <path d="M21 21v-2a4 4 0 0 0-3-3.87"/>
+        </svg>
+      </div>
+      <h2 class="doc-card-title">Casos de uso</h2>
+      <p class="doc-card-desc">
+        Diagrama UML de actores y funcionalidades, junto a la matriz
+        completa de permisos por rol (RBAC) y notas de autorización.
+      </p>
+      <div class="doc-card-meta">
+        <span class="doc-card-tag">5 ROLES</span>
+        <span class="doc-card-tag">18 CASOS</span>
+        <span class="doc-card-tag">RBAC</span>
+      </div>
+      <div class="doc-card-cta">
+        Ver casos de uso
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </a>
+
+    <a href="diagrama-procesos.html" class="doc-card">
+      <div class="doc-card-num">FE · 03 / 03</div>
+      <div class="doc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/>
+          <path d="M7 14l4-4 4 4 5-5"/>
+        </svg>
+      </div>
+      <h2 class="doc-card-title">Procesos FE</h2>
+      <p class="doc-card-desc">
+        Flujos operativos del usuario: navegación general, preparación
+        de audiencia, presentación en sala, máquina de estados de anclados.
+      </p>
+      <div class="doc-card-meta">
+        <span class="doc-card-tag">5 FLUJOS</span>
+        <span class="doc-card-tag">BPMN</span>
+        <span class="doc-card-tag">STATE MACHINE</span>
+      </div>
+      <div class="doc-card-cta">
+        Ver procesos
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="section-divider">
+    <span class="section-divider-label">Backend · Java + Spring Boot</span>
+  </div>
+
+  <div class="doc-grid">
+
+    <a href="diagrama-be-arquitectura.html" class="doc-card be">
+      <div class="doc-card-num">BE · 01 / 03</div>
+      <div class="doc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+          <path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/>
+        </svg>
+      </div>
+      <h2 class="doc-card-title">Arquitectura BE</h2>
+      <p class="doc-card-desc">
+        Capas del API Java, resolución de credenciales con cache,
+        consulta paralela a las 3 BDs Oracle y unificación de resultados.
+      </p>
+      <div class="doc-card-meta">
+        <span class="doc-card-tag">4 DIAGRAMAS</span>
+        <span class="doc-card-tag">SPRING BOOT 3</span>
+        <span class="doc-card-tag">3 BDS</span>
+      </div>
+      <div class="doc-card-cta">
+        Ver arquitectura
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </a>
+
+    <a href="diagrama-be-endpoints.html" class="doc-card be">
+      <div class="doc-card-num">BE · 02 / 03</div>
+      <div class="doc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+          <line x1="14" y1="4" x2="10" y2="20"/>
+        </svg>
+      </div>
+      <h2 class="doc-card-title">Endpoints REST</h2>
+      <p class="doc-card-desc">
+        Catálogo completo de endpoints REST con métodos HTTP,
+        rutas, parámetros y permisos por rol. Contrato del API.
+      </p>
+      <div class="doc-card-meta">
+        <span class="doc-card-tag">28 ENDPOINTS</span>
+        <span class="doc-card-tag">REST</span>
+        <span class="doc-card-tag">OPENAPI 3</span>
+      </div>
+      <div class="doc-card-cta">
+        Ver endpoints
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </a>
+
+    <a href="diagrama-be-procesos.html" class="doc-card be">
+      <div class="doc-card-num">BE · 03 / 03</div>
+      <div class="doc-card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 2"/>
+          <path d="M3 12a9 9 0 0 1 9-9"/>
+        </svg>
+      </div>
+      <h2 class="doc-card-title">Procesos BE</h2>
+      <p class="doc-card-desc">
+        Arranque del API, búsqueda paralela en Oracle, refresh
+        de cache on-failure, streaming de archivos y ciclo de vida del cache.
+      </p>
+      <div class="doc-card-meta">
+        <span class="doc-card-tag">6 FLUJOS</span>
+        <span class="doc-card-tag">SECUENCIAS</span>
+        <span class="doc-card-tag">STATE MACHINE</span>
+      </div>
+      <div class="doc-card-cta">
+        Ver procesos
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="summary-strip">
+    <div class="summary-strip-eyebrow">Resumen del sistema</div>
+    <h2 class="summary-strip-title">Visor Documental — Organismo Judicial</h2>
+
+    <div class="summary-stats">
+      <div>
+        <div class="summary-stat-value">6</div>
+        <div class="summary-stat-label">Documentos técnicos</div>
+      </div>
+      <div>
+        <div class="summary-stat-value">28</div>
+        <div class="summary-stat-label">Endpoints REST</div>
+      </div>
+      <div>
+        <div class="summary-stat-value">3</div>
+        <div class="summary-stat-label">BDs Oracle</div>
+      </div>
+      <div>
+        <div class="summary-stat-value">5</div>
+        <div class="summary-stat-label">Roles RBAC</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

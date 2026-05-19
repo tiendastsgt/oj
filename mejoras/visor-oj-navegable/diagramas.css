@@ -1,0 +1,326 @@
+/* ============================================================
+   DIAGRAMAS — Hereda tokens del visor
+   ============================================================ */
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--c-fondo);
+  margin: 0;
+  min-height: 100vh;
+}
+
+.diagram-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+.diagram-header {
+  text-align: center;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.diagram-header::before {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: var(--c-dorado-500);
+  margin: 0 auto 24px;
+}
+
+.diagram-eyebrow {
+  font-size: 11px;
+  color: var(--c-dorado-700);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.diagram-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 38px;
+  color: var(--c-texto-fuerte);
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.diagram-subtitle {
+  font-family: 'Source Serif 4', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--c-texto-suave);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.diagram-card {
+  background: var(--c-blanco);
+  border: 1px solid var(--c-borde-sutil);
+  border-radius: var(--r-lg);
+  padding: 40px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.diagram-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: var(--c-dorado-500);
+}
+
+.diagram-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--c-borde-sutil);
+}
+
+.diagram-card-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.diagram-card-eyebrow {
+  font-size: 10px;
+  color: var(--c-dorado-700);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.diagram-card-title {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--c-texto-fuerte);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.diagram-card-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--c-texto-suave);
+  letter-spacing: 0.1em;
+}
+
+.diagram-card-body {
+  overflow-x: auto;
+}
+
+.diagram-mermaid {
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* Override Mermaid */
+.mermaid {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Sección de leyendas / descripciones */
+.diagram-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--c-borde-sutil);
+}
+
+.legend-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.legend-marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.legend-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.legend-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-texto-fuerte);
+  margin-bottom: 2px;
+}
+
+.legend-desc {
+  font-size: 12px;
+  color: var(--c-texto-suave);
+  line-height: 1.5;
+}
+
+/* Navegación entre diagramas */
+.diagram-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.diagram-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--c-blanco);
+  border: 1px solid var(--c-borde-sutil);
+  border-radius: var(--r-md);
+  color: var(--c-texto);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 200ms ease;
+}
+
+.diagram-nav-link:hover {
+  border-color: var(--c-dorado-500);
+  color: var(--c-azul-800);
+}
+
+.diagram-nav-link.active {
+  background: var(--c-azul-800);
+  border-color: var(--c-azul-800);
+  color: var(--c-blanco);
+  font-weight: 600;
+}
+
+.diagram-nav-link .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.diagram-nav-link.active .num {
+  color: var(--c-dorado-400);
+  opacity: 1;
+}
+
+/* Volver al index */
+.back-to-index {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--c-texto-suave);
+  text-decoration: none;
+  font-size: 13px;
+  margin-bottom: 24px;
+  padding: 6px 12px;
+  border-radius: var(--r-md);
+  transition: all 200ms ease;
+}
+
+.back-to-index:hover {
+  color: var(--c-azul-800);
+  background: var(--c-fondo-alt);
+}
+
+.back-to-index svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Use case table styling */
+.use-case-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.use-case-table thead {
+  background: var(--c-azul-800);
+  color: var(--c-blanco);
+}
+
+.use-case-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.use-case-table th.center { text-align: center; }
+
+.use-case-table tbody tr {
+  border-bottom: 1px solid var(--c-borde-sutil);
+  transition: background 200ms ease;
+}
+.use-case-table tbody tr:hover { background: var(--c-fondo-alt); }
+.use-case-table tbody tr:last-child { border-bottom: none; }
+
+.use-case-table td {
+  padding: 12px 14px;
+  vertical-align: middle;
+  color: var(--c-texto);
+}
+
+.use-case-table .uc-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--c-dorado-700);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.use-case-table .uc-name {
+  font-weight: 500;
+  color: var(--c-texto-fuerte);
+}
+
+.use-case-table .uc-desc {
+  color: var(--c-texto-suave);
+  font-size: 12px;
+}
+
+.uc-check {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.uc-check .yes {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  background: var(--c-verde-100);
+  color: var(--c-verde-700);
+  border-radius: 50%;
+  font-weight: 700;
+}
+.uc-check .no { color: var(--c-piedra-300); }
+.uc-check .partial {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  background: var(--c-dorado-100);
+  color: var(--c-dorado-700);
+  border-radius: 50%;
+  font-weight: 700;
+}

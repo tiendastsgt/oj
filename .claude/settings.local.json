@@ -66,7 +66,32 @@
       "Bash(docker compose *)",
       "Bash(grep -n '${.*:' /c/proyectos/oj/docker-compose-qa.yml)",
       "Bash(docker exec sged-mysql-lite *)",
-      "Bash(ssh *)"
+      "Bash(ssh *)",
+      "Skill(superpowers:writing-plans)",
+      "Skill(superpowers:executing-plans)",
+      "PowerShell($fe = Invoke-WebRequest -Uri \"http://51.161.32.204:8085\" -TimeoutSec 15 -UseBasicParsing; \"STATUS: $\\($fe.StatusCode\\)\"; $fe.Content.Substring\\(0, [Math]::Min\\(400, $fe.Content.Length\\)\\))",
+      "PowerShell($be = Invoke-WebRequest -Uri \"http://51.161.32.204:8086/health\" -TimeoutSec 15 -UseBasicParsing; \"STATUS: $\\($be.StatusCode\\)\"; $be.Content)",
+      "PowerShell(cd C:\\\\proyectos\\\\oj && git log --oneline origin/main..main; echo \"Commits ahead: $\\(git rev-list --count origin/main..main\\)\"; git log --oneline -5)",
+      "PowerShell(Remove-Item *)",
+      "Skill(superpowers:systematic-debugging)",
+      "Skill(superpowers:verification-before-completion)",
+      "Bash(grep -oE 'host\\\\] \\\\.sidebar[^\"]{0,80}' /c/proyectos/oj/sGED-frontend/dist/sged-frontend/browser/chunk-BEVUHB3X.js)",
+      "Bash(grep -oE '\\\\.sidebar\\\\[_ngcontent[^\"]{0,100}' /c/proyectos/oj/sGED-frontend/dist/sged-frontend/browser/chunk-BEVUHB3X.js)",
+      "Bash(grep -oE 'sidebar[^,;]{0,150}260px[^,;]{0,80}' /c/proyectos/oj/sGED-frontend/dist/sged-frontend/browser/chunk-BEVUHB3X.js)",
+      "Bash(grep -oE '[^\"]{0,80}260px[^\"]{0,150}' /c/proyectos/oj/sGED-frontend/dist/sged-frontend/browser/chunk-MIVDYIRQ.js)",
+      "Bash(grep -oE '\\\\\\\\[_nghost[^]]{0,30}\\\\\\\\]\\\\\\\\s*\\\\\\\\.\\(sidebar|app-shell|main\\)[^{,]{0,80}\\\\\\\\{[^}]{0,200}' /c/proyectos/oj/sGED-frontend/dist/sged-frontend/browser/chunk-MIVDYIRQ.js)",
+      "Bash(grep -oE '\\\\.oj-sidebar\\\\[_ngcontent[^\"]{0,150}' /c/proyectos/oj/sGED-frontend/dist/sged-frontend/browser/chunk-BEVUHB3X.js)",
+      "Bash(grep -oE '\\\\.oj-\\(sidebar|app-shell|main|topbar|content\\)[a-z-]*\\\\[_ngcontent[^\"]{0,100}' /c/proyectos/oj/sGED-frontend/dist/sged-frontend/browser/chunk-VKFE4DRT.js)",
+      "WebSearch",
+      "WebFetch(domain:ww2.oj.gob.gt)",
+      "PowerShell(ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 ubuntu@51.161.32.204 \"docker logs sged-backend-lite --tail 80 2>&1 | grep -iE 'semilla|seed|expediente|sembrad|tipo|error' | tail -30\" 2>&1)",
+      "PowerShell(if \\($env:VPS_HOST -and $env:VPS_USER -and $env:VPS_PASSWORD\\) { \"OK envs set: $env:VPS_USER@$env:VPS_HOST\" } else { \"MISSING envs\" })",
+      "Skill(superpowers:brainstorming)",
+      "Bash(Move-Item \"C:\\\\proyectos\\\\oj\\\\docs\\\\superpowers\\\\specs\\\\2026-05-19-demo-mode-mocks-design.md\" \"C:\\\\proyectos\\\\oj\\\\docs\\\\specs\\\\2026-05-19-demo-mode-mocks-design.md\")",
+      "Skill(superpowers:subagent-driven-development)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://51.161.32.204:8085/api/v1/health\" -TimeoutSec 10 | Select-Object StatusCode, Content)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://51.161.32.204:8085/api/health\" -TimeoutSec 10 | Select-Object StatusCode, Content)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://51.161.32.204:8080/api/health\" -TimeoutSec 10 | Select-Object StatusCode, Content)"
     ]
   }
 }

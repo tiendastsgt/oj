@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auditoría — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="shell.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="escudo-oj-dorado.png" alt="OJ" class="sidebar-escudo">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-title">Visor Documental</span>
+        <span class="sidebar-brand-subtitle">Organismo Judicial</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="sidebar-section-label">Consulta</span>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Búsqueda de expedientes
+      </a>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13h6M9 17h4"/></svg>
+        Expedientes recientes
+        <span class="sidebar-link-badge">12</span>
+      </a>
+      <a href="busqueda.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+        Documentos anclados
+        <span class="sidebar-link-badge" id="sidebar-anclados-total">0</span>
+      </a>
+
+      <span class="sidebar-section-label">Análisis</span>
+      <a href="reportes.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+        Reportes
+      </a>
+
+      <span class="sidebar-section-label">Administración</span>
+      <a href="usuarios.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="7" r="3"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        Usuarios y roles
+      </a>
+      <a href="auditoria.html" class="sidebar-link active">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/><circle cx="6" cy="5" r="0.5" fill="currentColor"/><circle cx="6" cy="12" r="0.5" fill="currentColor"/><circle cx="6" cy="19" r="0.5" fill="currentColor"/></svg>
+        Auditoría
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">MC</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">María Cifuentes</div>
+        <div class="sidebar-user-role">Asesor</div>
+      </div>
+      <a href="login.html" class="sidebar-user-action" title="Cerrar sesión" style="text-decoration:none">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="topbar-title-wrap">
+        <div class="topbar-breadcrumb">
+          <span>Administración</span>
+          <span class="topbar-breadcrumb-sep">/</span>
+          <span style="color: var(--c-texto-fuerte)">Auditoría</span>
+        </div>
+        <h1 class="topbar-title">Auditoría del sistema</h1>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <section class="admin-header">
+        <div class="admin-header-info">
+          <div class="admin-header-eyebrow">
+            <span class="admin-header-eyebrow-dot"></span>
+            Bitácora institucional
+          </div>
+          <h2 class="admin-header-title">Registro de actividad</h2>
+          <p class="admin-header-desc">Bitácora completa de acciones realizadas en el sistema, accesos y eventos de seguridad.</p>
+        </div>
+
+        <div class="admin-header-stats">
+          <div class="admin-stat">
+            <div class="admin-stat-value">2.847</div>
+            <div class="admin-stat-label">Eventos hoy</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-value" style="color: var(--c-verde-700);">2.831</div>
+            <div class="admin-stat-label">Exitosos</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-value" style="color: var(--c-rojo-700);">16</div>
+            <div class="admin-stat-label">Con error</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="admin-toolbar">
+        <div class="admin-toolbar-left">
+          <div class="admin-toolbar-search">
+            <span class="admin-toolbar-search-icon">
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </span>
+            <input type="text" class="admin-toolbar-search-input" placeholder="Buscar por usuario, expediente o acción...">
+          </div>
+
+          <button class="admin-toolbar-filter active">
+            <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Hoy
+          </button>
+
+          <button class="admin-toolbar-filter">
+            Tipo de acción: Todas
+            <svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <button class="admin-toolbar-filter">
+            Usuario: Todos
+            <svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="admin-toolbar-right">
+          <button class="btn btn-secondary">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar CSV
+          </button>
+          <button class="btn btn-primary">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            Exportar PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th class="sortable" style="width: 160px;">Fecha y hora</th>
+              <th>Usuario</th>
+              <th>Acción</th>
+              <th>Expediente / recurso</th>
+              <th class="sortable" style="width: 140px;">Dirección IP</th>
+              <th style="width: 60px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td class="audit-timestamp">12·MAY·2026 · 10:42:18</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar" style="width:28px;height:28px;font-size:11px;">MC</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">María Cifuentes</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Asesor</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-anclar">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                  Anclado documento
+                </span>
+              </td>
+              <td>
+                <span class="mono" style="color: var(--c-azul-800); font-weight: 500;">01173-2024-00428</span>
+                <span style="color: var(--c-texto-suave); font-size: 11px; display: block; margin-top: 2px;">Demanda inicial.pdf</span>
+              </td>
+              <td class="audit-ip">192.168.10.42</td>
+              <td>
+                <button class="row-action-btn" title="Ver detalle">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="audit-timestamp">12·MAY·2026 · 10:38:02</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar rol-juez" style="width:28px;height:28px;font-size:11px;">AP</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">Dra. Ana Lorena Pérez</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Juez</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-view">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Consultó expediente
+                </span>
+              </td>
+              <td>
+                <span class="mono" style="color: var(--c-azul-800); font-weight: 500;">01173-2024-00428</span>
+              </td>
+              <td class="audit-ip">192.168.10.17</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="audit-timestamp">12·MAY·2026 · 10:23:51</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar" style="width:28px;height:28px;font-size:11px;">MC</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">María Cifuentes</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Asesor</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-login">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                  Inicio de sesión
+                </span>
+              </td>
+              <td style="color: var(--c-texto-suave); font-style: italic;">Acceso al sistema</td>
+              <td class="audit-ip">192.168.10.42</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="audit-timestamp">12·MAY·2026 · 09:58:14</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar rol-juez" style="width:28px;height:28px;font-size:11px;">AP</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">Dra. Ana Lorena Pérez</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Juez</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-export">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Exportó reporte
+                </span>
+              </td>
+              <td>
+                <span style="color: var(--c-texto-fuerte);">Movimiento de expedientes</span>
+                <span style="color: var(--c-texto-suave); font-size: 11px; display: block; margin-top: 2px;">Abril 2024 · PDF</span>
+              </td>
+              <td class="audit-ip">192.168.10.17</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="audit-timestamp">12·MAY·2026 · 09:42:03</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar rol-admin" style="width:28px;height:28px;font-size:11px;">RV</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">Roberto Valdez</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Administrador</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-edit">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Modificó usuario
+                </span>
+              </td>
+              <td>
+                <span style="color: var(--c-texto-fuerte);">Patricia Rodríguez Solís</span>
+                <span style="color: var(--c-texto-suave); font-size: 11px; display: block; margin-top: 2px;">Cambio de estado a Inactivo</span>
+              </td>
+              <td class="audit-ip">10.0.5.12</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr style="background: rgba(139, 35, 50, 0.04);">
+              <td class="audit-timestamp">12·MAY·2026 · 09:14:27</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar rol-consultor" style="width:28px;height:28px;font-size:11px;">??</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name" style="color: var(--c-rojo-700);">Usuario desconocido</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Intento de acceso</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-error">
+                  <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+                  Acceso fallido
+                </span>
+              </td>
+              <td style="color: var(--c-rojo-700); font-style: italic;">Credenciales incorrectas · 3er intento</td>
+              <td class="audit-ip" style="color: var(--c-rojo-700);">203.118.45.221</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="audit-timestamp">12·MAY·2026 · 08:52:38</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar rol-secretario" style="width:28px;height:28px;font-size:11px;">JR</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">Juan Ramírez Estrada</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Secretario</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-view">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                  Visualizó documento
+                </span>
+              </td>
+              <td>
+                <span class="mono" style="color: var(--c-azul-800); font-weight: 500;">01173-2024-00432</span>
+                <span style="color: var(--c-texto-suave); font-size: 11px; display: block; margin-top: 2px;">Informe psicológico.docx</span>
+              </td>
+              <td class="audit-ip">192.168.10.28</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="audit-timestamp">12·MAY·2026 · 08:31:09</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar" style="width:28px;height:28px;font-size:11px;">MC</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">María Cifuentes</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Asesor</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-anclar" style="background: var(--c-fondo-alt); color: var(--c-texto-suave);">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                  Desancló documento
+                </span>
+              </td>
+              <td>
+                <span class="mono" style="color: var(--c-azul-800); font-weight: 500;">01173-2024-00501</span>
+                <span style="color: var(--c-texto-suave); font-size: 11px; display: block; margin-top: 2px;">Declaración testigo 2.pdf</span>
+              </td>
+              <td class="audit-ip">192.168.10.42</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="audit-timestamp">11·MAY·2026 · 17:42:55</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar rol-juez" style="width:28px;height:28px;font-size:11px;">LC</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">Dra. Lucía Castillo</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Juez</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-view">
+                  <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                  Modo presentación
+                </span>
+              </td>
+              <td>
+                <span class="mono" style="color: var(--c-azul-800); font-weight: 500;">01173-2024-00612</span>
+              </td>
+              <td class="audit-ip">192.168.10.55</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr style="background: rgba(139, 35, 50, 0.04);">
+              <td class="audit-timestamp">11·MAY·2026 · 14:08:22</td>
+              <td>
+                <div class="user-cell">
+                  <div class="user-cell-avatar rol-admin" style="width:28px;height:28px;font-size:11px;">RV</div>
+                  <div class="user-cell-info">
+                    <div class="user-cell-name">Roberto Valdez</div>
+                    <div class="user-cell-email" style="font-family:var(--font-sans);font-size:10px;">Administrador</div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="audit-action-badge action-error">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  Error DB Link
+                </span>
+              </td>
+              <td style="color: var(--c-rojo-700); font-style: italic;">Conexión SGT2_PRODUCCION fallida · timeout</td>
+              <td class="audit-ip">10.0.5.12</td>
+              <td>
+                <button class="row-action-btn">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="admin-pagination">
+          <div class="admin-pagination-info">
+            Mostrando <strong>1–10</strong> de <strong>2.847</strong> registros
+          </div>
+          <div class="pagination-controls">
+            <button class="page-btn" disabled>
+              <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span style="display:inline-flex;align-items:center;padding:0 8px;color:var(--c-texto-suave);">…</span>
+            <button class="page-btn">285</button>
+            <button class="page-btn">
+              <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="anclados.js"></script>
+<script>
+  function refreshAncladosSummary() {
+    const total = ancladosManager.totalCount();
+    const el = document.getElementById('sidebar-anclados-total');
+    if (el) el.textContent = total;
+  }
+  refreshAncladosSummary();
+</script>
+<script src="rol-switch.js"></script>
+
+</body>
+</html>

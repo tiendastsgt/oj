@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Búsqueda de expedientes — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="shell.css">
+  <style>
+    /* ============ HERO DE BÚSQUEDA ============ */
+    .search-hero {
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-lg);
+      padding: var(--sp-8) var(--sp-8);
+      margin-bottom: var(--sp-6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .search-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 3px;
+      background: var(--c-dorado-500);
+    }
+
+    .search-hero-content {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .search-hero-eyebrow {
+      font-size: var(--fs-xs);
+      color: var(--c-dorado-700);
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-3);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+
+    .search-hero-eyebrow-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--c-dorado-500);
+      border-radius: 50%;
+    }
+
+    .search-hero-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-2xl);
+      color: var(--c-texto-fuerte);
+      margin-bottom: var(--sp-3);
+      letter-spacing: -0.01em;
+    }
+
+    .search-hero-subtitle {
+      color: var(--c-texto-suave);
+      font-size: var(--fs-md);
+      margin-bottom: var(--sp-5);
+      line-height: 1.6;
+    }
+
+    .search-main {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto var(--sp-4);
+    }
+
+    .search-main-input {
+      width: 100%;
+      padding: 16px 64px 16px 52px;
+      font-size: var(--fs-md);
+      font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+      background: var(--c-blanco);
+      border: 1.5px solid var(--c-borde);
+      border-radius: var(--r-lg);
+      color: var(--c-texto-fuerte);
+      transition: all var(--t-fast);
+    }
+
+    .search-main-input::placeholder {
+      color: var(--c-piedra-300);
+      font-family: var(--font-sans);
+      letter-spacing: 0;
+    }
+
+    .search-main-input:hover { border-color: var(--c-piedra-300); }
+    .search-main-input:focus {
+      outline: none;
+      border-color: var(--c-dorado-500);
+      box-shadow: var(--shadow-focus);
+    }
+
+    .search-main-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--c-texto-suave);
+      pointer-events: none;
+    }
+    .search-main-icon .ic { width: 20px; height: 20px; }
+
+    .search-main-action {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--c-azul-800);
+      color: var(--c-blanco);
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: var(--fs-sm);
+      transition: all var(--t-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .search-main-action:hover { background: var(--c-azul-900); }
+
+    .search-suggestions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+      font-size: var(--fs-sm);
+    }
+
+    .search-suggestions-label { color: var(--c-texto-suave); }
+
+    .search-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      background: var(--c-fondo-alt);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: 999px;
+      color: var(--c-texto);
+      font-size: var(--fs-xs);
+      cursor: pointer;
+      transition: all var(--t-fast);
+      font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+    }
+    .search-chip:hover {
+      border-color: var(--c-dorado-500);
+      color: var(--c-azul-800);
+      background: var(--c-dorado-100);
+    }
+
+    /* ============ SECCIÓN ANCLADOS ============ */
+    .anclados-section {
+      margin-bottom: var(--sp-6);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-4);
+      padding-bottom: var(--sp-3);
+      border-bottom: 1px solid var(--c-borde-sutil);
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-3);
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-lg);
+      font-weight: 600;
+      color: var(--c-texto-fuerte);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+
+    .section-title-icon {
+      color: var(--c-dorado-600);
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+    }
+    .section-title-icon .ic { width: 18px; height: 18px; stroke-width: 2; }
+
+    .section-count {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--c-texto-suave);
+      background: var(--c-fondo-alt);
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+
+    .section-action {
+      font-size: var(--fs-sm);
+      color: var(--c-azul-700);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+    .section-action:hover { color: var(--c-azul-900); }
+    .section-action .ic { width: 14px; height: 14px; }
+
+    /* Grid de tarjetas anclados */
+    .anclados-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--sp-4);
+    }
+
+    .anclado-card {
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-lg);
+      padding: var(--sp-5);
+      cursor: pointer;
+      transition: all var(--t-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .anclado-card:hover {
+      border-color: var(--c-dorado-500);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    /* Acento dorado superior — refuerza el carácter "preparado" */
+    .anclado-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--c-dorado-500), var(--c-dorado-400));
+    }
+
+    .anclado-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--sp-3);
+      margin-bottom: var(--sp-4);
+    }
+
+    .anclado-num {
+      font-family: var(--font-mono);
+      font-size: var(--fs-base);
+      font-weight: 600;
+      color: var(--c-texto-fuerte);
+      letter-spacing: 0.02em;
+    }
+
+    .anclado-pin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: var(--c-dorado-100);
+      color: var(--c-dorado-700);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .anclado-pin-badge .ic { width: 12px; height: 12px; stroke-width: 2; }
+
+    .anclado-juzgado {
+      font-family: var(--font-serif);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--c-texto-fuerte);
+      margin-bottom: var(--sp-2);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .anclado-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      font-size: var(--fs-xs);
+      color: var(--c-texto-suave);
+      margin-bottom: var(--sp-4);
+      padding-bottom: var(--sp-4);
+      border-bottom: 1px dashed var(--c-borde-sutil);
+    }
+
+    .anclado-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .anclado-meta-item .ic { width: 13px; height: 13px; }
+
+    .anclado-meta-audiencia {
+      color: var(--c-azul-800);
+      font-weight: 500;
+    }
+
+    /* Composición previa: thumbnail strip de los anclados */
+    .anclado-thumbs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: var(--sp-4);
+    }
+
+    .anclado-thumb {
+      flex: 1;
+      aspect-ratio: 1;
+      background: var(--c-fondo-alt);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--c-texto-suave);
+    }
+    .anclado-thumb .ic { width: 16px; height: 16px; }
+    .anclado-thumb.tipo-doc { background: var(--c-azul-50); color: var(--c-azul-700); border-color: var(--c-azul-100); }
+    .anclado-thumb.tipo-img { background: var(--c-verde-100); color: var(--c-verde-700); border-color: rgba(27, 94, 63, 0.15); }
+    .anclado-thumb.tipo-video { background: var(--c-rojo-100); color: var(--c-rojo-700); border-color: rgba(139, 35, 50, 0.15); }
+    .anclado-thumb.tipo-audio { background: var(--c-dorado-100); color: var(--c-dorado-700); border-color: rgba(201, 169, 97, 0.2); }
+
+    .anclado-thumb.extra {
+      background: var(--c-fondo-alt);
+      color: var(--c-texto-suave);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .anclado-actions {
+      display: flex;
+      gap: var(--sp-2);
+    }
+
+    .anclado-btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: all var(--t-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      letter-spacing: 0.02em;
+      border: 1px solid;
+    }
+    .anclado-btn .ic { width: 13px; height: 13px; }
+
+    .anclado-btn-ver {
+      background: transparent;
+      color: var(--c-azul-800);
+      border-color: var(--c-borde);
+    }
+    .anclado-btn-ver:hover {
+      background: var(--c-azul-50);
+      border-color: var(--c-azul-700);
+    }
+
+    .anclado-btn-presentar {
+      background: var(--c-azul-800);
+      color: var(--c-blanco);
+      border-color: var(--c-azul-800);
+    }
+    .anclado-btn-presentar:hover {
+      background: var(--c-azul-900);
+    }
+
+    /* ============ FILTROS AVANZADOS ============ */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-4);
+      margin-bottom: var(--sp-5);
+      padding: var(--sp-3) var(--sp-5);
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-md);
+    }
+
+    .filters-left {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      flex-wrap: wrap;
+    }
+
+    .filters-results {
+      font-size: var(--fs-sm);
+      color: var(--c-texto-suave);
+    }
+    .filters-results strong {
+      font-family: var(--font-mono);
+      color: var(--c-texto-fuerte);
+      font-weight: 600;
+    }
+
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px 4px 12px;
+      background: var(--c-azul-50);
+      color: var(--c-azul-800);
+      font-size: var(--fs-xs);
+      border-radius: 999px;
+      font-weight: 500;
+      border: 1px solid var(--c-azul-100);
+    }
+    .filter-pill button {
+      background: none;
+      border: none;
+      color: var(--c-azul-700);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      opacity: 0.6;
+      transition: opacity var(--t-fast);
+    }
+    .filter-pill button:hover { opacity: 1; }
+    .filter-pill .ic { width: 12px; height: 12px; stroke-width: 2; }
+
+    .filters-right {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+
+    .sort-select {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      background: transparent;
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-md);
+      color: var(--c-texto);
+      font-size: var(--fs-sm);
+      cursor: pointer;
+      transition: all var(--t-fast);
+    }
+    .sort-select:hover { border-color: var(--c-piedra-300); }
+    .sort-select.active {
+      background: var(--c-azul-50);
+      border-color: var(--c-azul-700);
+      color: var(--c-azul-800);
+    }
+    .sort-select .ic { width: 14px; height: 14px; }
+
+    /* ============ PANEL DE FILTROS AVANZADOS (DRAWER) ============ */
+    .filter-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 46, 92, 0.4);
+      z-index: 50;
+      display: none;
+    }
+    .filter-drawer-overlay.open { display: block; }
+
+    .filter-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 420px;
+      max-width: 90vw;
+      background: var(--c-blanco);
+      box-shadow: -10px 0 40px rgba(10, 46, 92, 0.15);
+      z-index: 51;
+      display: none;
+      flex-direction: column;
+    }
+    .filter-drawer.open { display: flex; }
+
+    .filter-drawer-header {
+      padding: var(--sp-5) var(--sp-6);
+      border-bottom: 1px solid var(--c-borde-sutil);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .filter-drawer-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-lg);
+      font-weight: 600;
+      color: var(--c-texto-fuerte);
+    }
+    .filter-drawer-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--c-texto-suave);
+      padding: 4px;
+      border-radius: var(--r-md);
+    }
+    .filter-drawer-close:hover { color: var(--c-texto-fuerte); background: var(--c-fondo-alt); }
+
+    .filter-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--sp-5) var(--sp-6);
+    }
+
+    .filter-group {
+      margin-bottom: var(--sp-6);
+    }
+    .filter-group-label {
+      font-size: var(--fs-xs);
+      color: var(--c-texto-suave);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-3);
+      display: block;
+    }
+
+    .filter-checks {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .filter-check {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: 8px 12px;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: background var(--t-fast);
+      font-size: var(--fs-sm);
+    }
+    .filter-check:hover { background: var(--c-fondo-alt); }
+    .filter-check input { accent-color: var(--c-azul-800); cursor: pointer; }
+    .filter-check-count {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--c-texto-suave);
+    }
+
+    .filter-date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+    }
+    .filter-date-row .field { gap: 6px; }
+
+    .filter-drawer-footer {
+      padding: var(--sp-4) var(--sp-6);
+      border-top: 1px solid var(--c-borde-sutil);
+      display: flex;
+      gap: var(--sp-3);
+      background: var(--c-fondo-alt);
+    }
+
+    /* ============ RESULTADOS ============ */
+    .results-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+
+    .result-card {
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-md);
+      padding: var(--sp-5) var(--sp-6);
+      cursor: pointer;
+      transition: all var(--t-fast);
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--sp-5);
+      align-items: center;
+    }
+
+    .result-card:hover {
+      border-color: var(--c-dorado-500);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .result-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: var(--sp-5);
+      bottom: var(--sp-5);
+      width: 3px;
+      background: var(--c-azul-700);
+      border-radius: 0 2px 2px 0;
+    }
+    .result-card.tipo-adolescentes::before { background: var(--c-azul-700); }
+    .result-card.tipo-ninez::before { background: var(--c-verde-600); }
+
+    .result-numero {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 200px;
+    }
+
+    .result-numero-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-texto-suave);
+      font-weight: 600;
+    }
+
+    .result-numero-value {
+      font-family: var(--font-mono);
+      font-size: var(--fs-md);
+      font-weight: 600;
+      color: var(--c-texto-fuerte);
+      letter-spacing: 0.02em;
+    }
+
+    .result-anclados-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: var(--fs-xs);
+      color: var(--c-dorado-700);
+      font-weight: 600;
+      background: var(--c-dorado-100);
+      padding: 2px 8px;
+      border-radius: 999px;
+      width: fit-content;
+      margin-top: 2px;
+    }
+    .result-anclados-mini .ic { width: 11px; height: 11px; stroke-width: 2; }
+
+    .result-data {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      min-width: 0;
+    }
+
+    .result-juzgado {
+      font-family: var(--font-serif);
+      font-size: var(--fs-md);
+      font-weight: 500;
+      color: var(--c-texto-fuerte);
+      margin-bottom: var(--sp-1);
+      line-height: 1.3;
+    }
+
+    .result-partes {
+      color: var(--c-texto-suave);
+      font-size: var(--fs-sm);
+    }
+
+    .result-badges-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+    }
+    .result-archivos {
+      color: var(--c-texto-suave);
+      font-size: var(--fs-xs);
+      margin-left: var(--sp-2);
+    }
+
+    .result-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--sp-3);
+      min-width: 140px;
+    }
+
+    .result-fecha {
+      font-family: var(--font-mono);
+      font-size: var(--fs-xs);
+      color: var(--c-texto-suave);
+      letter-spacing: 0.02em;
+    }
+
+    .result-arrow {
+      color: var(--c-piedra-300);
+      transition: all var(--t-fast);
+    }
+    .result-card:hover .result-arrow {
+      color: var(--c-dorado-500);
+      transform: translateX(2px);
+    }
+
+    /* Estado vacío sin búsqueda */
+    .empty-state {
+      text-align: center;
+      padding: var(--sp-12) var(--sp-6);
+      background: var(--c-blanco);
+      border: 1px dashed var(--c-borde);
+      border-radius: var(--r-lg);
+    }
+    .empty-state-icon {
+      color: var(--c-piedra-300);
+      margin-bottom: var(--sp-4);
+      display: inline-flex;
+    }
+    .empty-state-icon .ic { width: 56px; height: 56px; stroke-width: 1.2; }
+    .empty-state-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-lg);
+      color: var(--c-texto-fuerte);
+      margin-bottom: var(--sp-2);
+    }
+    .empty-state-text {
+      color: var(--c-texto-suave);
+      font-size: var(--fs-sm);
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Paginación */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-4) 0 0;
+      margin-top: var(--sp-2);
+    }
+    .pagination-info { font-size: var(--fs-sm); color: var(--c-texto-suave); }
+    .pagination-info strong {
+      color: var(--c-texto-fuerte);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .pagination-controls { display: flex; gap: var(--sp-1); }
+    .page-btn {
+      min-width: 34px;
+      height: 34px;
+      padding: 0 10px;
+      background: transparent;
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-md);
+      color: var(--c-texto);
+      font-size: var(--fs-sm);
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all var(--t-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page-btn:hover:not(:disabled) { border-color: var(--c-azul-700); color: var(--c-azul-800); }
+    .page-btn.active {
+      background: var(--c-azul-800);
+      color: var(--c-blanco);
+      border-color: var(--c-azul-800);
+      font-weight: 500;
+    }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ============ POPOVER DE NOTIFICACIONES ============ */
+    .notif-popover {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 400px;
+      background: var(--c-blanco);
+      border: 1px solid var(--c-borde-sutil);
+      border-radius: var(--r-lg);
+      box-shadow: 0 10px 40px rgba(10, 46, 92, 0.15);
+      z-index: 30;
+      display: none;
+      overflow: hidden;
+    }
+    .notif-popover.open { display: block; }
+
+    .notif-arrow {
+      position: absolute;
+      top: -7px;
+      right: 14px;
+      width: 14px;
+      height: 14px;
+      background: var(--c-blanco);
+      transform: rotate(45deg);
+      border-top: 1px solid var(--c-borde-sutil);
+      border-left: 1px solid var(--c-borde-sutil);
+    }
+
+    .notif-header {
+      padding: var(--sp-4) var(--sp-5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--c-borde-sutil);
+      background: var(--c-fondo-alt);
+    }
+    .notif-header-title {
+      font-family: var(--font-serif);
+      font-size: var(--fs-base);
+      font-weight: 600;
+      color: var(--c-texto-fuerte);
+    }
+    .notif-header-action {
+      font-size: var(--fs-xs);
+      color: var(--c-azul-700);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-weight: 500;
+    }
+
+    .notif-list {
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .notif-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--sp-3);
+      padding: var(--sp-3) var(--sp-5);
+      border-bottom: 1px solid var(--c-borde-sutil);
+      cursor: pointer;
+      transition: background var(--t-fast);
+      align-items: flex-start;
+    }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item:hover { background: var(--c-fondo-alt); }
+    .notif-item.unread { background: rgba(201, 169, 97, 0.04); }
+    .notif-item.unread:hover { background: rgba(201, 169, 97, 0.08); }
+
+    .notif-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-icon .ic { width: 16px; height: 16px; }
+    .notif-icon.tipo-anclado { background: var(--c-dorado-100); color: var(--c-dorado-700); }
+    .notif-icon.tipo-audiencia { background: var(--c-azul-50); color: var(--c-azul-800); }
+    .notif-icon.tipo-doc { background: var(--c-verde-100); color: var(--c-verde-700); }
+    .notif-icon.tipo-error { background: var(--c-rojo-100); color: var(--c-rojo-700); }
+
+    .notif-content { min-width: 0; }
+    .notif-title {
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--c-texto-fuerte);
+      margin-bottom: 2px;
+      line-height: 1.4;
+    }
+    .notif-desc {
+      font-size: var(--fs-xs);
+      color: var(--c-texto-suave);
+      line-height: 1.5;
+    }
+    .notif-time {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--c-texto-suave);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .notif-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--c-dorado-500);
+      border-radius: 50%;
+      align-self: center;
+    }
+
+    .notif-footer {
+      padding: var(--sp-3) var(--sp-5);
+      text-align: center;
+      border-top: 1px solid var(--c-borde-sutil);
+      background: var(--c-fondo-alt);
+    }
+    .notif-footer a {
+      font-size: var(--fs-sm);
+      color: var(--c-azul-700);
+      font-weight: 500;
+    }
+
+    /* Topbar action con relative para popover */
+    .topbar-action-wrap {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+
+    <div class="sidebar-header">
+      <img src="escudo-oj-dorado.png" alt="OJ" class="sidebar-escudo">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-title">Visor Documental</span>
+        <span class="sidebar-brand-subtitle">Organismo Judicial</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="sidebar-section-label">Consulta</span>
+
+      <a href="#" class="sidebar-link active">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Búsqueda de expedientes
+      </a>
+
+      <a href="#" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 13h6M9 17h4"/></svg>
+        Expedientes recientes
+        <span class="sidebar-link-badge">12</span>
+      </a>
+
+      <a href="#" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+        Documentos anclados
+        <span class="sidebar-link-badge">8</span>
+      </a>
+
+      <span class="sidebar-section-label">Análisis</span>
+
+      <a href="reportes.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+        Reportes
+      </a>
+
+      <span class="sidebar-section-label">Administración</span>
+
+      <a href="usuarios.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="17" cy="7" r="3"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        Usuarios y roles
+      </a>
+
+      <a href="auditoria.html" class="sidebar-link">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/><circle cx="6" cy="5" r="0.5" fill="currentColor"/><circle cx="6" cy="12" r="0.5" fill="currentColor"/><circle cx="6" cy="19" r="0.5" fill="currentColor"/></svg>
+        Auditoría
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">MC</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">María Cifuentes</div>
+        <div class="sidebar-user-role">Asesor</div>
+      </div>
+      <a href="login.html" class="sidebar-user-action" title="Cerrar sesión" style="text-decoration:none">
+        <svg class="ic" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-title-wrap">
+        <div class="topbar-breadcrumb">
+          <span>Consulta</span>
+          <span class="topbar-breadcrumb-sep">/</span>
+          <span>Búsqueda de expedientes</span>
+        </div>
+        <h1 class="topbar-title">Búsqueda de expedientes</h1>
+      </div>
+
+      <div class="topbar-actions">
+
+        <div class="topbar-action-wrap">
+          <button class="topbar-icon-btn" id="notif-btn" title="Notificaciones" onclick="toggleNotifs()">
+            <svg class="ic" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="topbar-icon-btn-dot"></span>
+          </button>
+
+          <!-- Popover de notificaciones -->
+          <div class="notif-popover" id="notif-popover">
+            <div class="notif-arrow"></div>
+            <div class="notif-header">
+              <span class="notif-header-title">Notificaciones</span>
+              <button class="notif-header-action">Marcar todas como leídas</button>
+            </div>
+
+            <div class="notif-list">
+
+              <div class="notif-item unread">
+                <div class="notif-icon tipo-anclado">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                </div>
+                <div class="notif-content">
+                  <div class="notif-title">Nuevo anclado en 01173-2024-00428</div>
+                  <div class="notif-desc">María Cifuentes ancló 3 documentos para audiencia del 18 mayo.</div>
+                  <div class="notif-time">Hace 12 min</div>
+                </div>
+                <span class="notif-dot"></span>
+              </div>
+
+              <div class="notif-item unread">
+                <div class="notif-icon tipo-audiencia">
+                  <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                </div>
+                <div class="notif-content">
+                  <div class="notif-title">Audiencia próxima — 01173-2024-00432</div>
+                  <div class="notif-desc">Programada para mañana, 13 mayo a las 09:30 hrs.</div>
+                  <div class="notif-time">Hace 1 hora</div>
+                </div>
+                <span class="notif-dot"></span>
+              </div>
+
+              <div class="notif-item">
+                <div class="notif-icon tipo-doc">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div class="notif-content">
+                  <div class="notif-title">Nuevo documento en 01173-2024-00501</div>
+                  <div class="notif-desc">Informe de Trabajo Social incorporado al expediente.</div>
+                  <div class="notif-time">Hace 4 hrs</div>
+                </div>
+              </div>
+
+              <div class="notif-item">
+                <div class="notif-icon tipo-audiencia">
+                  <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                </div>
+                <div class="notif-content">
+                  <div class="notif-title">Recordatorio: revisión semanal</div>
+                  <div class="notif-desc">Pendiente revisión de 4 expedientes asignados esta semana.</div>
+                  <div class="notif-time">Ayer</div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="notif-footer">
+              <a href="#">Ver todas las notificaciones</a>
+            </div>
+          </div>
+        </div>
+
+        <button class="topbar-icon-btn" title="Ayuda">
+          <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 1-1 1.7v.5"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <main class="content">
+
+      <!-- HERO DE BÚSQUEDA -->
+      <section class="search-hero">
+        <div class="search-hero-content">
+
+          <div class="search-hero-eyebrow">
+            <span class="search-hero-eyebrow-dot"></span>
+            Consulta institucional
+          </div>
+
+          <h2 class="search-hero-title">Consulta de expediente judicial</h2>
+          <p class="search-hero-subtitle">
+            Ingrese el número o nomenclatura del expediente para acceder a su información,
+            documentos, audios, videos e imágenes asociadas.
+          </p>
+
+          <div class="search-main">
+            <span class="search-main-icon">
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </span>
+            <input type="text" class="search-main-input"
+                   placeholder="Ingrese número de expediente o nomenclatura"
+                   value="01173-2024">
+            <a href="busqueda-resultados.html" class="search-main-action" style="text-decoration:none">
+              Buscar
+              <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+
+          <div class="search-suggestions">
+            <span class="search-suggestions-label">Ejemplos:</span>
+            <a href="busqueda-resultados.html" class="search-chip" style="text-decoration:none">01173-2024-00428</a>
+            <a href="busqueda-resultados.html" class="search-chip" style="text-decoration:none">C2-2025-00891</a>
+            <a href="busqueda-resultados.html" class="search-chip" style="text-decoration:none">NA-2024-1247</a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECCIÓN ANCLADOS -->
+      <section class="anclados-section collapsed" id="anclados-section">
+
+        <div class="section-header section-header-collapsible" onclick="toggleAnclados()">
+          <div class="section-title-wrap">
+            <h3 class="section-title" data-rol-title>
+              <span class="section-collapse-icon">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+              </span>
+              <span class="section-title-icon">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+              </span>
+              Mis anclados
+            </h3>
+            <span class="section-count" id="anclados-summary">0 expedientes · 0 documentos</span>
+          </div>
+
+          <button class="section-action">
+            Ver todos los anclados
+            <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <div class="anclados-grid">
+
+          <!-- Anclado 1: con audiencia próxima -->
+          <article class="anclado-card" onclick="if(!event.target.closest('.anclado-btn')) location.href='expediente.html'">
+            <div class="anclado-header">
+              <span class="anclado-num">01173-2024-00428</span>
+              <span class="anclado-pin-badge">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                12 anclados
+              </span>
+            </div>
+
+            <h4 class="anclado-juzgado">Juzgado Primero de Adolescentes en Conflicto con la Ley Penal</h4>
+
+            <div class="anclado-meta">
+              <span class="anclado-meta-item">
+                <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                Preparado hace 2 días
+              </span>
+              <span class="anclado-meta-item anclado-meta-audiencia">
+                <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                Audiencia 18 may
+              </span>
+            </div>
+
+            <div class="anclado-docs-preview">
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-pdf">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </span>
+                <span class="anclado-doc-name">Demanda inicial.pdf</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-pdf">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </span>
+                <span class="anclado-doc-name">Acta audiencia preliminar.pdf</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-doc">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </span>
+                <span class="anclado-doc-name">Informe Trabajo Social.docx</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-video">
+                  <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                </span>
+                <span class="anclado-doc-name">Video cámara seguridad.mp4</span>
+              </div>
+              <span class="anclado-doc-more">+ 8 archivos más</span>
+            </div>
+
+            <div class="anclado-actions">
+              <a href="expediente.html?tab=anclados" class="anclado-btn anclado-btn-ver" style="text-decoration:none">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver anclados
+              </a>
+              <a href="presentacion.html" class="anclado-btn anclado-btn-presentar" style="text-decoration:none">
+                <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                Presentar
+              </a>
+            </div>
+          </article>
+
+          <!-- Anclado 2: audiencia mañana -->
+          <article class="anclado-card" onclick="if(!event.target.closest('.anclado-btn')) location.href='expediente.html'">
+            <div class="anclado-header">
+              <span class="anclado-num">01173-2024-00432</span>
+              <span class="anclado-pin-badge">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                8 anclados
+              </span>
+            </div>
+
+            <h4 class="anclado-juzgado">Juzgado Segundo de la Niñez y Adolescencia</h4>
+
+            <div class="anclado-meta">
+              <span class="anclado-meta-item">
+                <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                Preparado ayer
+              </span>
+              <span class="anclado-meta-item anclado-meta-audiencia">
+                <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                Audiencia mañana
+              </span>
+            </div>
+
+            <div class="anclado-docs-preview">
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-pdf">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </span>
+                <span class="anclado-doc-name">Resolución protección integral.pdf</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-doc">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </span>
+                <span class="anclado-doc-name">Informe psicológico.docx</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-img">
+                  <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                </span>
+                <span class="anclado-doc-name">Evidencia visual 01.jpg</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-audio">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                </span>
+                <span class="anclado-doc-name">Declaración testigo.mp3</span>
+              </div>
+              <span class="anclado-doc-more">+ 4 archivos más</span>
+            </div>
+
+            <div class="anclado-actions">
+              <a href="expediente.html?tab=anclados" class="anclado-btn anclado-btn-ver" style="text-decoration:none">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver anclados
+              </a>
+              <a href="presentacion.html" class="anclado-btn anclado-btn-presentar" style="text-decoration:none">
+                <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                Presentar
+              </a>
+            </div>
+          </article>
+
+          <!-- Anclado 3: en preparación -->
+          <article class="anclado-card" onclick="if(!event.target.closest('.anclado-btn')) location.href='expediente.html'">
+            <div class="anclado-header">
+              <span class="anclado-num">01173-2024-00501</span>
+              <span class="anclado-pin-badge">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                8 anclados
+              </span>
+            </div>
+
+            <h4 class="anclado-juzgado">Juzgado Primero de Adolescentes en Conflicto con la Ley Penal</h4>
+
+            <div class="anclado-meta">
+              <span class="anclado-meta-item">
+                <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                En preparación
+              </span>
+              <span class="anclado-meta-item">
+                <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                Sin fecha
+              </span>
+            </div>
+
+            <div class="anclado-docs-preview">
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-pdf">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </span>
+                <span class="anclado-doc-name">Demanda inicial.pdf</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-doc">
+                  <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </span>
+                <span class="anclado-doc-name">Peritaje médico.docx</span>
+              </div>
+              <div class="anclado-doc-row">
+                <span class="anclado-doc-icon tipo-video">
+                  <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                </span>
+                <span class="anclado-doc-name">Video declaración.mp4</span>
+              </div>
+              <span class="anclado-doc-more">+ 5 archivos más</span>
+            </div>
+
+            <div class="anclado-actions">
+              <a href="expediente.html?tab=anclados" class="anclado-btn anclado-btn-ver" style="text-decoration:none">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Ver anclados
+              </a>
+              <a href="presentacion.html" class="anclado-btn anclado-btn-presentar" style="text-decoration:none">
+                <svg class="ic" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                Presentar
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- SECCIÓN RESULTADOS -->
+      <section>
+
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h3 class="section-title">
+              <span class="section-title-icon">
+                <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </span>
+              Resultados de búsqueda
+            </h3>
+          </div>
+        </div>
+
+        <!-- Barra de filtros aplicados -->
+        <div class="filters-bar">
+          <div class="filters-left">
+            <span class="filters-results">
+              <strong>4</strong> resultados encontrados
+            </span>
+            <span class="filter-pill">
+              Coincidencia: 01173-2024
+              <button title="Quitar filtro">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </button>
+            </span>
+          </div>
+
+          <div class="filters-right">
+            <button class="sort-select" onclick="openFilters()">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+              Filtros avanzados
+            </button>
+            <button class="sort-select">
+              Más recientes
+              <svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista de resultados -->
+        <div class="results-list">
+
+          <a href="expediente.html" class="result-card tipo-adolescentes" style="text-decoration:none; color:inherit;">
+            <div class="result-numero">
+              <span class="result-numero-label">N° de expediente</span>
+              <span class="result-numero-value">01173-2024-00428</span>
+              <span class="result-anclados-mini">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                12 anclados
+              </span>
+            </div>
+
+            <div class="result-data">
+              <div class="result-juzgado">Juzgado Primero de Adolescentes en Conflicto con la Ley Penal</div>
+              <div class="result-partes">Menor de edad protegido · Ministerio Público vs. iniciales A.R.M.</div>
+              <div class="result-badges-row">
+                <span class="badge badge-azul">Adolescentes</span>
+                <span class="badge badge-verde">En trámite</span>
+                <span class="result-archivos">12 documentos · 3 audios · 2 videos · 8 imágenes</span>
+              </div>
+            </div>
+
+            <div class="result-meta">
+              <span class="result-fecha">15·MAR·2024</span>
+              <span class="result-arrow">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <a href="expediente.html" class="result-card tipo-ninez" style="text-decoration:none; color:inherit;">
+            <div class="result-numero">
+              <span class="result-numero-label">N° de expediente</span>
+              <span class="result-numero-value">01173-2024-00432</span>
+              <span class="result-anclados-mini">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                8 anclados
+              </span>
+            </div>
+
+            <div class="result-data">
+              <div class="result-juzgado">Juzgado Segundo de la Niñez y Adolescencia</div>
+              <div class="result-partes">Procuraduría General de la Nación · Medida de protección integral</div>
+              <div class="result-badges-row">
+                <span class="badge badge-verde">Niñez</span>
+                <span class="badge badge-dorado">Audiencia próxima</span>
+                <span class="result-archivos">8 documentos · 1 audio · 4 imágenes</span>
+              </div>
+            </div>
+
+            <div class="result-meta">
+              <span class="result-fecha">22·MAR·2024</span>
+              <span class="result-arrow">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <a href="expediente.html" class="result-card tipo-adolescentes" style="text-decoration:none; color:inherit;">
+            <div class="result-numero">
+              <span class="result-numero-label">N° de expediente</span>
+              <span class="result-numero-value">01173-2024-00501</span>
+              <span class="result-anclados-mini">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
+                8 anclados
+              </span>
+            </div>
+
+            <div class="result-data">
+              <div class="result-juzgado">Juzgado Primero de Adolescentes en Conflicto con la Ley Penal</div>
+              <div class="result-partes">Menor de edad protegido · Iniciales L.E.S. — informe Trabajo Social</div>
+              <div class="result-badges-row">
+                <span class="badge badge-azul">Adolescentes</span>
+                <span class="badge badge-verde">En trámite</span>
+                <span class="result-archivos">15 documentos · 5 audios · 1 video</span>
+              </div>
+            </div>
+
+            <div class="result-meta">
+              <span class="result-fecha">08·ABR·2024</span>
+              <span class="result-arrow">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <a href="expediente.html" class="result-card tipo-ninez" style="text-decoration:none; color:inherit;">
+            <div class="result-numero">
+              <span class="result-numero-label">N° de expediente</span>
+              <span class="result-numero-value">01173-2024-00612</span>
+            </div>
+
+            <div class="result-data">
+              <div class="result-juzgado">Juzgado Tercero de la Niñez y Adolescencia</div>
+              <div class="result-partes">Medida cautelar · Informe psicológico integrado</div>
+              <div class="result-badges-row">
+                <span class="badge badge-verde">Niñez</span>
+                <span class="badge badge-rojo">Archivado</span>
+                <span class="result-archivos">6 documentos · 12 imágenes</span>
+              </div>
+            </div>
+
+            <div class="result-meta">
+              <span class="result-fecha">17·MAY·2024</span>
+              <span class="result-arrow">
+                <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination">
+          <div class="pagination-info">
+            Mostrando <strong>1–4</strong> de <strong>4</strong> resultados
+          </div>
+          <div class="pagination-controls">
+            <button class="page-btn" disabled>
+              <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn" disabled>
+              <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>
+
+<!-- ============ FILTROS AVANZADOS (DRAWER) ============ -->
+<!-- Oculto por defecto. Se abre desde "Filtros avanzados" cuando hay resultados activos -->
+<div class="filter-drawer-overlay" id="filter-overlay" onclick="closeFilters()"></div>
+<aside class="filter-drawer" id="filter-drawer">
+  <div class="filter-drawer-header">
+    <span class="filter-drawer-title">Filtros avanzados</span>
+    <button class="filter-drawer-close" onclick="closeFilters()">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <div class="filter-drawer-body">
+
+    <p style="font-size: var(--fs-sm); color: var(--c-texto-suave); margin: 0 0 var(--sp-5); line-height: 1.6;">
+      La búsqueda se realiza por número o nomenclatura de expediente.
+      Estos filtros ayudan a acotar resultados cuando se ingresa un número parcial.
+    </p>
+
+    <div class="filter-group">
+      <span class="filter-group-label">Rango de fechas de ingreso</span>
+      <div class="filter-date-row">
+        <div class="field">
+          <label class="field-label" style="font-size: var(--fs-xs);">Desde</label>
+          <input type="date" class="input" value="2024-01-01">
+        </div>
+        <div class="field">
+          <label class="field-label" style="font-size: var(--fs-xs);">Hasta</label>
+          <input type="date" class="input" value="2024-12-31">
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-group-label">Mostrar solo</span>
+      <div class="filter-checks">
+        <label class="filter-check">
+          <input type="checkbox">
+          <span>Expedientes con documentos anclados</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox">
+          <span>Expedientes asignados a mí</span>
+        </label>
+        <label class="filter-check">
+          <input type="checkbox">
+          <span>Con audiencia próxima (próximos 7 días)</span>
+        </label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="filter-drawer-footer">
+    <button class="btn btn-secondary" style="flex: 1;">Limpiar</button>
+    <button class="btn btn-primary" style="flex: 2;">Aplicar filtros</button>
+  </div>
+</aside>
+
+<script>
+  function toggleNotifs() {
+    document.getElementById('notif-popover').classList.toggle('open');
+  }
+  function openFilters() {
+    document.getElementById('filter-overlay').classList.add('open');
+    document.getElementById('filter-drawer').classList.add('open');
+  }
+  function closeFilters() {
+    document.getElementById('filter-overlay').classList.remove('open');
+    document.getElementById('filter-drawer').classList.remove('open');
+  }
+
+  // Cerrar popover al hacer clic fuera
+  document.addEventListener('click', function(e) {
+    const popover = document.getElementById('notif-popover');
+    const btn = document.getElementById('notif-btn');
+    if (popover.classList.contains('open') && !popover.contains(e.target) && !btn.contains(e.target)) {
+      popover.classList.remove('open');
+    }
+  });
+</script>
+
+<script src="anclados.js"></script>
+<script>
+  function refreshAncladosSummary() {
+    const exps = ancladosManager.expedientesConAnclados();
+    const total = ancladosManager.totalCount();
+    const summary = document.getElementById('anclados-summary');
+    if (summary) summary.textContent = exps.length + ' expedientes · ' + total + ' documentos';
+    const sidebarBadge = document.getElementById('sidebar-anclados-total');
+    if (sidebarBadge) sidebarBadge.textContent = total;
+  }
+  refreshAncladosSummary();
+  // Actualizar también si la página vuelve a foco (storage event)
+  window.addEventListener('storage', refreshAncladosSummary);
+  window.addEventListener('focus', refreshAncladosSummary);
+</script>
+<script src="rol-switch.js"></script>
+</body>
+</html>

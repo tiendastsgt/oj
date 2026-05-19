@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procesos — Visor Documental OJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="diagramas.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+
+<div class="diagram-container">
+
+  <a href="diagramas.html" class="back-to-index">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Volver al índice de diagramas
+  </a>
+
+  <div class="diagram-header">
+    <div class="diagram-eyebrow">Documento técnico · 03 / 03</div>
+    <h1 class="diagram-title">Procesos del sistema</h1>
+    <p class="diagram-subtitle">
+      Flujos operativos del Visor Documental: navegación general,
+      preparación de audiencia y consulta en sala.
+    </p>
+  </div>
+
+  <nav class="diagram-nav">
+    <a href="diagrama-arquitectura.html" class="diagram-nav-link"><span class="num">01</span> Arquitectura</a>
+    <a href="diagrama-casos-uso.html" class="diagram-nav-link"><span class="num">02</span> Casos de uso</a>
+    <a href="diagrama-procesos.html" class="diagram-nav-link active"><span class="num">03</span> Procesos</a>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 1: FLUJO PRINCIPAL DEL SISTEMA                        -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Proceso principal · navegación</div>
+        <h2 class="diagram-card-title">Flujo general del sistema</h2>
+      </div>
+      <span class="diagram-card-meta">END-TO-END</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TD
+    classDef start fill:#0A2E5C,stroke:#0A2E5C,color:#FAFAF7,stroke-width:2px
+    classDef action fill:#FAFAF7,stroke:#D8D8D2,color:#4A4A48
+    classDef decision fill:#F4ECDB,stroke:#C9A961,color:#9C8345,stroke-width:1.5px
+    classDef success fill:#DEEDE5,stroke:#1B5E3F,color:#144A33
+    classDef error fill:#F3DCDF,stroke:#8B2332,color:#6E1B28
+    classDef terminal fill:#0A2E5C,stroke:#0A2E5C,color:#C9A961,stroke-width:2px
+
+    START([Inicio]):::start
+    LOGIN[Pantalla de login<br/>credenciales institucionales]
+    AUTH{¿Autenticación válida?}
+    BITACORA1[(Registrar en bitácora<br/>Inicio de sesión)]
+    BITACORA_ERR[(Registrar acceso fallido)]
+    SEARCH[Pantalla de búsqueda<br/>· Anclados arriba<br/>· Buscador central]
+
+    SEARCH_DEC{¿Acción del usuario?}
+
+    DO_SEARCH[Ingresar número<br/>de expediente]
+    EXP_EXISTS{¿Existe<br/>expediente?}
+    SHOW_RESULTS[Mostrar resultados<br/>con coincidencias]
+    NOT_FOUND[Mostrar mensaje<br/>Expediente no encontrado]
+
+    OPEN_EXP[Detalle del expediente<br/>· Modo General<br/>· Modo Archivos]
+    FILTER[Aplicar filtros<br/>· Tipo · Categoría<br/>· Solo anclados]
+    SELECT_FILE[Seleccionar archivo<br/>de la lista lateral]
+
+    VIEWER{¿Tipo de archivo?}
+    VIEW_PDF[Visor PDF/Word<br/>navegación de páginas]
+    VIEW_IMG[Galería de imagen<br/>zoom y miniaturas]
+    VIEW_AUDIO[Reproductor audio<br/>waveform + speed]
+    VIEW_VIDEO[Reproductor video<br/>timeline + CCTV]
+
+    BITACORA2[(Registrar consulta)]
+
+    ROL{¿Rol del usuario?}
+    ANCLAR[Anclar/desanclar<br/>documento]
+    PRES[Modo presentación<br/>fullscreen]
+    REPORTS[Generar reporte<br/>institucional]
+    ADMIN_TASK[Gestionar usuarios<br/>o auditoría]
+
+    LOGOUT[Cerrar sesión]
+    END([Fin]):::terminal
+
+    START --> LOGIN
+    LOGIN --> AUTH
+    AUTH -->|No| BITACORA_ERR
+    BITACORA_ERR --> LOGIN
+    AUTH -->|Sí| BITACORA1
+    BITACORA1 --> SEARCH
+
+    SEARCH --> SEARCH_DEC
+    SEARCH_DEC -->|Buscar| DO_SEARCH
+    SEARCH_DEC -->|Click anclado| OPEN_EXP
+    SEARCH_DEC -->|Menú lateral| ROL
+
+    DO_SEARCH --> EXP_EXISTS
+    EXP_EXISTS -->|No| NOT_FOUND
+    NOT_FOUND --> SEARCH
+    EXP_EXISTS -->|Sí| SHOW_RESULTS
+    SHOW_RESULTS --> OPEN_EXP
+
+    OPEN_EXP --> FILTER
+    FILTER --> SELECT_FILE
+    SELECT_FILE --> VIEWER
+
+    VIEWER -->|PDF / DOCX / RTF| VIEW_PDF
+    VIEWER -->|JPG / PNG| VIEW_IMG
+    VIEWER -->|MP3 / WAV| VIEW_AUDIO
+    VIEWER -->|MP4 / AVI| VIEW_VIDEO
+
+    VIEW_PDF --> BITACORA2
+    VIEW_IMG --> BITACORA2
+    VIEW_AUDIO --> BITACORA2
+    VIEW_VIDEO --> BITACORA2
+
+    BITACORA2 --> ROL
+
+    ROL -->|Asesor| ANCLAR
+    ROL -->|Juez / Asesor| PRES
+    ROL -->|Juez / Admin / Secretario| REPORTS
+    ROL -->|Administrador| ADMIN_TASK
+
+    ANCLAR --> SEARCH
+    PRES --> SEARCH
+    REPORTS --> SEARCH
+    ADMIN_TASK --> SEARCH
+
+    SEARCH_DEC -->|Cerrar sesión| LOGOUT
+    LOGOUT --> END
+
+    class START start
+    class LOGIN,SEARCH,SHOW_RESULTS,OPEN_EXP,FILTER,SELECT_FILE,DO_SEARCH,ANCLAR,PRES,REPORTS,ADMIN_TASK,LOGOUT,VIEW_PDF,VIEW_IMG,VIEW_AUDIO,VIEW_VIDEO action
+    class AUTH,EXP_EXISTS,SEARCH_DEC,VIEWER,ROL decision
+    class BITACORA1,BITACORA2 success
+    class NOT_FOUND,BITACORA_ERR error
+    class END terminal
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 2: PREPARACIÓN DE AUDIENCIA (ASESOR)                  -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Proceso clave · BPMN simplificado</div>
+        <h2 class="diagram-card-title">Preparación de audiencia por el Asesor</h2>
+      </div>
+      <span class="diagram-card-meta">FLUJO DE TRABAJO</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart LR
+    classDef event fill:#C9A961,stroke:#9C8345,color:#0A2E5C,stroke-width:2px
+    classDef task fill:#FAFAF7,stroke:#0A2E5C,color:#0A2E5C,stroke-width:1.5px
+    classDef gateway fill:#FFFFFF,stroke:#C9A961,color:#9C8345,stroke-width:2px
+    classDef terminal fill:#1B5E3F,stroke:#1B5E3F,color:#FAFAF7,stroke-width:2px
+
+    E_START(((Audiencia<br/>programada))):::event
+    T1[Recibir<br/>asignación]:::task
+    T2[Buscar<br/>expediente]:::task
+    T3[Revisar<br/>archivos]:::task
+    G1{¿Archivo<br/>relevante?}:::gateway
+    T4[Anclar<br/>documento]:::task
+    T5[Continuar<br/>revisión]:::task
+    G2{¿Quedan<br/>archivos?}:::gateway
+    T6[Validar<br/>selección]:::task
+    G3{¿Selección<br/>completa?}:::gateway
+    T7[Notificar<br/>al Juez]:::task
+    E_END(((Anclados<br/>listos))):::terminal
+
+    E_START --> T1
+    T1 --> T2
+    T2 --> T3
+    T3 --> G1
+    G1 -->|Sí| T4
+    G1 -->|No| T5
+    T4 --> T5
+    T5 --> G2
+    G2 -->|Sí| T3
+    G2 -->|No| T6
+    T6 --> G3
+    G3 -->|No| T3
+    G3 -->|Sí| T7
+    T7 --> E_END
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 3: PRESENTACIÓN EN AUDIENCIA                          -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Proceso clave · en sala</div>
+        <h2 class="diagram-card-title">Presentación durante la audiencia</h2>
+      </div>
+      <span class="diagram-card-meta">SALA DE AUDIENCIA</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+flowchart TD
+    classDef event fill:#C9A961,stroke:#9C8345,color:#0A2E5C,stroke-width:2px
+    classDef task fill:#FAFAF7,stroke:#0A2E5C,color:#0A2E5C,stroke-width:1.5px
+    classDef gateway fill:#FFFFFF,stroke:#C9A961,color:#9C8345,stroke-width:2px
+    classDef terminal fill:#1B5E3F,stroke:#1B5E3F,color:#FAFAF7,stroke-width:2px
+
+    A_START(((Inicio de<br/>audiencia))):::event
+    A1[Asesor abre<br/>el expediente]:::task
+    A2[Click en<br/>Presentar anclados]:::task
+    A3[Conectar a<br/>proyector]:::task
+    A4[Iniciar modo<br/>fullscreen]:::task
+    A5[Mostrar primer<br/>anclado]:::task
+    G_AUDIENCE{¿Acción<br/>del juez?}:::gateway
+    A6[Avanzar al<br/>siguiente]:::task
+    A7[Retroceder al<br/>anterior]:::task
+    A8[Saltar a<br/>específico]:::task
+    A9[Hacer zoom<br/>o pausar]:::task
+    G_END{¿Termina<br/>audiencia?}:::gateway
+    A10[Salir del modo<br/>presentación]:::task
+    A11[Registrar en<br/>bitácora]:::task
+    A_END(((Fin de<br/>audiencia))):::terminal
+
+    A_START --> A1
+    A1 --> A2
+    A2 --> A3
+    A3 --> A4
+    A4 --> A5
+    A5 --> G_AUDIENCE
+    G_AUDIENCE -->|Siguiente| A6
+    G_AUDIENCE -->|Anterior| A7
+    G_AUDIENCE -->|Específico| A8
+    G_AUDIENCE -->|Zoom/Pausa| A9
+    A6 --> G_END
+    A7 --> G_END
+    A8 --> G_END
+    A9 --> G_END
+    G_END -->|No| G_AUDIENCE
+    G_END -->|Sí| A10
+    A10 --> A11
+    A11 --> A_END
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 4: GESTIÓN DE ANCLADOS - ESTADOS                      -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Diagrama de estados</div>
+        <h2 class="diagram-card-title">Ciclo de vida del anclado</h2>
+      </div>
+      <span class="diagram-card-meta">STATE MACHINE</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+stateDiagram-v2
+    direction LR
+
+    [*] --> Disponible: documento ingresado<br/>al expediente
+
+    Disponible --> Anclado: Asesor hace click<br/>en pin
+
+    Anclado --> Disponible: Asesor desancla<br/>(sin uso)
+
+    Anclado --> EnAudiencia: Modo presentación<br/>iniciado
+
+    EnAudiencia --> Mostrado: Documento desplegado<br/>en proyector
+
+    Mostrado --> EnAudiencia: Cambio a otro<br/>anclado
+
+    EnAudiencia --> Anclado: Salir del modo<br/>presentación
+
+    Mostrado --> Archivado: Audiencia<br/>finalizada
+
+    Archivado --> [*]: Persistido en<br/>historial
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PROCESO 5: SECUENCIA DE LOGIN                                 -->
+  <!-- ============================================================ -->
+  <div class="diagram-card">
+    <div class="diagram-card-header">
+      <div class="diagram-card-title-wrap">
+        <div class="diagram-card-eyebrow">Secuencia técnica</div>
+        <h2 class="diagram-card-title">Autenticación e inicialización</h2>
+      </div>
+      <span class="diagram-card-meta">SECUENCIA</span>
+    </div>
+
+    <div class="diagram-card-body">
+      <div class="diagram-mermaid">
+        <pre class="mermaid">
+sequenceDiagram
+    actor U as Usuario
+    participant L as LoginPage
+    participant F as AuthFacade
+    participant S as AuthService
+    participant I as AuthInterceptor
+    participant API as Backend
+    participant R as Router
+    participant SH as Shell
+
+    U->>L: Ingresa credenciales
+    L->>F: login(usuario, clave)
+    F->>S: authenticate(creds)
+    S->>API: POST /auth/login
+    API-->>S: { token JWT, user, role }
+    S->>S: localStorage.setItem('token')
+    S-->>F: Signal&lt;User&gt;
+    F-->>L: estado autenticado
+
+    Note over L,R: Redirección post-login
+
+    L->>R: navigate('/busqueda')
+    R->>R: AuthGuard.canActivate()
+    R->>R: RoleGuard.canActivate()
+    R-->>SH: cargar Shell + ruta hija
+
+    SH->>F: getCurrentUser()
+    F-->>SH: { nombre, rol, despacho }
+    SH-->>U: render UI con permisos
+
+    Note over U,API: Requests siguientes con token
+
+    U->>SH: acción cualquiera
+    SH->>API: HTTP request
+    I->>I: añadir Bearer token
+    API-->>SH: respuesta
+        </pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '13px',
+      primaryColor: '#0A2E5C',
+      primaryTextColor: '#FAFAF7',
+      primaryBorderColor: '#0A2E5C',
+      lineColor: '#6E6E6A',
+      secondaryColor: '#F4ECDB',
+      tertiaryColor: '#FAFAF7',
+      actorBkg: '#0A2E5C',
+      actorBorder: '#0A2E5C',
+      actorTextColor: '#FAFAF7',
+      noteBkgColor: '#F4ECDB',
+      noteBorderColor: '#C9A961',
+      noteTextColor: '#4A4A48',
+      labelBoxBkgColor: '#C9A961',
+      labelBoxBorderColor: '#9C8345',
+      labelTextColor: '#0A2E5C'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 20,
+      htmlLabels: true,
+      useMaxWidth: true,
+      nodeSpacing: 50,
+      rankSpacing: 60
+    },
+    sequence: {
+      diagramMarginX: 32,
+      diagramMarginY: 16,
+      actorMargin: 70,
+      boxMargin: 10,
+      noteMargin: 12,
+      messageMargin: 36,
+      useMaxWidth: true
+    }
+  });
+</script>
+
+</body>
+</html>
