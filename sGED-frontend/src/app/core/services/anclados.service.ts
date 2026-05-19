@@ -1,6 +1,5 @@
 import { computed, Injectable, signal, Signal } from '@angular/core';
 import { AncladoDoc, AncladoExpediente } from '../models/anclado.model';
-import { environment } from '../../../environments/environment';
 
 const STORAGE_KEY = 'oj.anclados.v1';
 
@@ -84,27 +83,12 @@ export class AncladosService {
   private loadFromStorage(): Map<string, AncladoExpediente> {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return environment.useMocks ? this.defaultDemoAnclados() : new Map();
+      if (!raw) return new Map();
       const entries = JSON.parse(raw) as [string, AncladoExpediente][];
       return new Map(entries);
     } catch {
       return new Map();
     }
-  }
-
-  private defaultDemoAnclados(): Map<string, AncladoExpediente> {
-    const m = new Map<string, AncladoExpediente>();
-    m.set('01173-2026-00045', {
-      numeroExpediente: '01173-2026-00045',
-      juzgado: 'Juzgado Primero de Adolescentes',
-      preparedAt: new Date().toISOString(),
-      docs: [
-        { id: '1', name: 'Demanda_Inicial.pdf', type: 'pdf', size: '250880', category: 'pdf' },
-        { id: '2', name: 'Resolucion_Admision.pdf', type: 'pdf', size: '193536', category: 'pdf' },
-        { id: '3', name: 'Contestacion_Demanda.pdf', type: 'pdf', size: '319488', category: 'pdf' }
-      ]
-    });
-    return m;
   }
 
   private persist(state: Map<string, AncladoExpediente>): void {
