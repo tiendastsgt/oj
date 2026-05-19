@@ -6,6 +6,7 @@ import { AuditoriaService } from '../../../../core/services/auditoria.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AuthUser } from '../../../../core/models/auth-user.model';
 import { OjShellSection, OjShellUser } from '../../../../shared/components/oj-shell/oj-shell.types';
+import { environment } from '../../../../../environments/environment';
 import { AuditoriaListDto } from './auditoria-list.dto';
 import { AuditoriaFiltros, AuditoriaResponse, LoadState } from './auditoria-list.types';
 
@@ -50,6 +51,7 @@ export class AuditoriaListService {
 
   constructor() {
     this.initShell();
+    if (environment.useMocks) return;
     this.cargarAuditoria();
   }
 
