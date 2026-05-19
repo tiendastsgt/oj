@@ -7,6 +7,7 @@ import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.s
 import { CatalogosService } from '../../../../core/services/catalogos.service';
 import { UsuarioFormDto } from './usuario-form.dto';
 import { LoadState, CrearUsuarioRequest, ActualizarUsuarioRequest } from './usuario-form.types';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable()
 export class UsuarioFormService {
@@ -31,6 +32,7 @@ export class UsuarioFormService {
   });
 
   constructor() {
+    if (environment.useMocks) return;
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       if (params['id']) {
         this.dto.isCreation.set(false);

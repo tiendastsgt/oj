@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
 import { UsuarioDetailDto } from './usuario-detail.dto';
 import { LoadState } from './usuario-detail.types';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable()
 export class UsuarioDetailService {
@@ -17,6 +18,7 @@ export class UsuarioDetailService {
   readonly dto = new UsuarioDetailDto();
 
   constructor() {
+    if (environment.useMocks) return;
     this.route.params
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
