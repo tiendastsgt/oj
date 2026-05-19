@@ -23,6 +23,7 @@ import { DocumentoViewerService } from './documento-viewer.service';
 })
 export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterViewChecked {
   @Input() documento: Documento | null = null;
+  @Input() showClose = true;
   @Output() close = new EventEmitter<void>();
   @Output() readingMode = new EventEmitter<boolean>();
   @ViewChild('audioPlayer') audioPlayerRef?: ElementRef<HTMLAudioElement>;

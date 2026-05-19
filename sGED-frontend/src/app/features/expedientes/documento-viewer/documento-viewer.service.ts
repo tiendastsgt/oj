@@ -21,7 +21,37 @@ export class DocumentoViewerService {
     this.dto.previewAsPdf.set(false);
     this.dto.documento.set(documento);  // metadatos visibles en demo
     if (!documento) return;
-    if (environment.useMocks) return;   // sin fetch de blob en modo demo
+
+    if (environment.useMocks) {
+      this.dto.loading.set(true);
+      this.dto.error.set('');
+      const doc = this.dto.documento();
+      if (!doc) { this.dto.loading.set(false); return; }
+      const validSamples = [
+        'Demanda_Inicial.pdf', 'Resolucion_Admision.pdf', 'Contestacion_Demanda.pdf',
+        'Auto_Medida_Cautelar.pdf', 'Sentencia_Ordinario.pdf',
+        'Acta_Audiencia_Penal.pdf', 'Cedula_Notificacion.pdf'
+      ];
+      if (this.dto.isPdf() || this.dto.isWord()) {
+        const name = doc.nombreOriginal;
+        const fileName = validSamples.includes(name) ? name : 'sample-doc.pdf';
+        const mockUrl = `/assets/demo/${fileName}`;
+        this.dto.rawBlobUrl.set(mockUrl);
+        this.dto.previewAsPdf.set(this.dto.isWord());
+        this.dto.frameUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(`${mockUrl}#view=FitH`));
+      } else if (this.dto.isImage()) {
+        const mockUrl = '/assets/demo/sample.jpg';
+        this.dto.rawBlobUrl.set(mockUrl);
+        this.dto.mediaUrl.set(this.sanitizer.bypassSecurityTrustUrl(mockUrl));
+      } else if (this.dto.isAudio()) {
+        this.dto.rawBlobUrl.set('/assets/demo/sample.mp3');
+      } else if (this.dto.isVideo()) {
+        this.dto.rawBlobUrl.set('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4');
+      }
+      this.dto.loading.set(false);
+      return;
+    }
+
     if (!(this.dto.isPdf() || this.dto.isImage() || this.dto.isAudio() || this.dto.isVideo() || this.dto.isWord())) return;
 
     this.dto.loading.set(true);
@@ -80,6 +110,16 @@ export class DocumentoViewerService {
   download(): void {
     const doc = this.dto.documento();
     if (!doc) return;
+    if (environment.useMocks) {
+      const url = this.dto.rawBlobUrl();
+      if (url) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = doc.nombreOriginal ?? 'documento';
+        a.click();
+      }
+      return;
+    }
     this.documentosService.fetchContenidoBlob(doc.id, 'attachment')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

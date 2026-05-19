@@ -285,7 +285,7 @@ public class AdminUsuarioService {
             .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         usuario.setBloqueado(0);
-        // Nota: Intentos fallidos se resetean automáticamente en próximos intentos de login
+        usuario.setIntentosFallidos(0);
         usuario.setFechaBloqueo(null);
         usuario.setFechaModificacion(LocalDateTime.now());
         usuarioRepository.save(usuario);
@@ -313,7 +313,7 @@ public class AdminUsuarioService {
             .juzgado(usuario.getJuzgado() != null ? usuario.getJuzgado().getNombre() : "SIN JUZGADO")
             .activo(usuario.getActivo() != null && usuario.getActivo() == 1)
             .bloqueado(usuario.getBloqueado() != null && usuario.getBloqueado() == 1)
-            .intentosFallidos(0)
+            .intentosFallidos(usuario.getIntentosFallidos() != null ? usuario.getIntentosFallidos() : 0)
             .debeCambiarPassword(usuario.getDebeCambiarPass() != null && usuario.getDebeCambiarPass() == 1)
             .fechaCreacion(usuario.getFechaCreacion())
             .fechaModificacion(usuario.getFechaModificacion())

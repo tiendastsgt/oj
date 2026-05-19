@@ -24,9 +24,11 @@
       <button class="viewer-btn" title="Descargar" (click)="svc.download()">
         <i class="pi pi-download"></i>
       </button>
-      <button class="viewer-btn" title="Cerrar visor" (click)="close.emit()">
-        <i class="pi pi-times"></i>
-      </button>
+      @if (showClose) {
+        <button class="viewer-btn" title="Cerrar visor" (click)="close.emit()">
+          <i class="pi pi-times"></i>
+        </button>
+      }
     </div>
   </div>
 

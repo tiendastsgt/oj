@@ -51,7 +51,7 @@ public class AuthService {
     public LoginResponseData login(String username, String password, String ip) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(username);
         if (optionalUsuario.isEmpty()) {
-            recordAttempt(username, ip, false);
+            // No se registra en auth_attempt: la FK requiere que el username exista en usuario
             auditoriaService.registrar("LOGIN_FAIL", "AUTH", null, "Credenciales inválidas", ip, username);
             throw new AuthException(AuthException.AuthErrorCode.INVALID_CREDENTIALS, "Usuario o contraseña incorrectos");
         }

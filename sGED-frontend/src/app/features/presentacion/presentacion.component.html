@@ -68,7 +68,7 @@
       }
     </aside>
 
-    <!-- Stage -->
+    <!-- Stage: documentos apilados verticalmente -->
     <div class="pres-stage">
 
       @if (dto.docs().length === 0) {
@@ -81,11 +81,33 @@
           </button>
         </div>
       } @else {
-        <app-pres-viewer
-          [docs]="dto.docs()"
-          [urls]="dto.docAssetUrls()"
-          (activeIdxChange)="dto.activeDocIdx.set($event)"
-        />
+        <div class="pres-scroll">
+          @for (doc of dto.docs(); track doc.id; let i = $index) {
+            <section class="pres-doc-section" [id]="'pres-doc-' + i" [attr.data-doc-idx]="i">
+              <header class="pres-doc-section-header">
+                <span class="pres-doc-section-num mono">{{ (i + 1).toString().padStart(2, '0') }}</span>
+                <div class="pres-doc-section-info">
+                  <span class="pres-doc-section-name">{{ doc.name }}</span>
+                  <span class="pres-doc-section-meta mono">{{ doc.type | uppercase }} · {{ doc.category }}</span>
+                </div>
+                <span class="pres-doc-section-badge">Doc {{ i + 1 }} de {{ dto.total() }}</span>
+              </header>
+
+              <div class="pres-doc-frame">
+                <app-documento-viewer
+                  [documento]="toDocumento(doc)"
+                  [showClose]="false"
+                />
+              </div>
+            </section>
+          }
+
+          <div class="pres-scroll-footer">
+            <span class="pres-scroll-footer-line"></span>
+            <span class="pres-scroll-footer-text">Fin de los {{ dto.total() }} {{ dto.total() === 1 ? 'documento anclado' : 'documentos anclados' }}</span>
+            <span class="pres-scroll-footer-line"></span>
+          </div>
+        </div>
       }
 
     </div>
