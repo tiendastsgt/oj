@@ -227,112 +227,141 @@
   p { font-size: 12px; line-height: 1.5; margin: 0; }
 }
 
-/* ── STAGE (diapositiva única) ───────────────────────── */
+/* ── STAGE ───────────────────────────────────────────── */
 .pres-stage {
+  position: relative;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
   overflow: hidden;
   background: #0f1e35;
 }
 
-/* Cabecera del documento activo */
-.pres-doc-header {
-  flex-shrink: 0;
+/* ── SCROLL CONTINUO ─────────────────────────────────── */
+.pres-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 24px 32px 48px;
   display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 10px 24px;
-  background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-direction: column;
+  gap: 28px;
+
+  &::-webkit-scrollbar { width: 8px; }
+  &::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    &:hover { background: rgba(255,255,255,0.25); }
+  }
 }
 
-.pres-doc-title {
+/* ── SECCIÓN DE DOCUMENTO ────────────────────────────── */
+.pres-doc-section {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  scroll-margin-top: 16px;
+}
+
+.pres-doc-section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+  color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.pres-doc-section-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, monospace);
   font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+.pres-doc-section-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pres-doc-section-name {
+  font-size: 15px;
   font-weight: 600;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
 }
 
-.pres-doc-meta {
+.pres-doc-section-meta {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.65);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.pres-doc-section-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.04em;
   flex-shrink: 0;
 }
 
-/* Área del visor — ocupa todo el espacio disponible */
-.pres-stage-content {
-  flex: 1;
-  min-height: 0;
+/* ── DOC FRAME ───────────────────────────────────────── */
+.pres-doc-frame {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  min-height: 85vh;
 
   app-documento-viewer {
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-height: 0;
   }
 }
 
-/* Barra de navegación inferior */
-.pres-nav {
-  flex-shrink: 0;
+/* ── FOOTER ──────────────────────────────────────────── */
+.pres-scroll-footer {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 10px 24px;
-  background: rgba(10, 22, 40, 0.9);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 12px;
+  padding: 16px 8px;
+  margin-top: 8px;
 }
 
-.pres-nav-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.7);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 150ms;
-  font-family: inherit;
-
-  &:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.25);
-    color: #fff;
-  }
-  &:disabled {
-    opacity: 0.25;
-    cursor: default;
-  }
-  .ic { width: 18px; height: 18px; }
+.pres-scroll-footer-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.pres-nav-counter {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
-  min-width: 60px;
-  text-align: center;
-
-  strong { color: #fff; font-size: 16px; }
-}
-
-.pres-nav-sep {
-  margin: 0 4px;
-  color: rgba(255, 255, 255, 0.3);
+.pres-scroll-footer-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
 }
 
 /* ── EMPTY STAGE ─────────────────────────────────────── */
@@ -400,10 +429,39 @@
 
   .pres-stage { overflow: visible; background: #fff; }
 
-  .pres-doc-header { background: #fff !important; color: #000 !important; }
-  .pres-doc-title  { color: #000 !important; }
-  .pres-doc-meta   { color: #555 !important; }
+  .pres-scroll {
+    overflow: visible;
+    height: auto;
+    padding: 0;
+    gap: 0;
+    display: block;
+  }
 
-  .pres-stage-content { overflow: visible; }
-  .pres-nav { display: none !important; }
+  .pres-doc-section {
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    background: #fff;
+    page-break-before: always;
+    page-break-inside: avoid;
+    margin: 0;
+
+    &:first-child { page-break-before: auto; }
+  }
+
+  .pres-doc-section-header {
+    background: #fff !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000;
+    padding: 12px 0;
+
+    .pres-doc-section-num { background: #000; color: #fff; }
+    .pres-doc-section-name,
+    .pres-doc-section-meta,
+    .pres-doc-section-badge { color: #000 !important; }
+    .pres-doc-section-badge { background: #f0f0f0; border: 1px solid #000; }
+  }
+
+  .pres-doc-frame { min-height: auto; }
+  .pres-scroll-footer { display: none !important; }
 }

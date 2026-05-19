@@ -8,7 +8,7 @@
         <span class="pres-context-num mono">Expediente {{ dto.expedienteNum() }}</span>
         <span class="pres-context-label">
           @if (dto.total() > 0) {
-            {{ dto.total() }} {{ dto.total() === 1 ? 'documento anclado' : 'documentos anclados' }}
+            {{ dto.total() }} {{ dto.total() === 1 ? 'documento anclado' : 'documentos anclados' }} — vista combinada
           } @else {
             Sin documentos anclados
           }
@@ -18,9 +18,9 @@
 
     <div class="pres-topbar-right">
       @if (dto.total() > 0) {
-        <button type="button" class="pres-print-btn" (click)="print()" title="Imprimir documento activo">
+        <button type="button" class="pres-print-btn" (click)="print()" title="Fusionar e imprimir todos los anclados">
           <svg class="ic" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          <span>Imprimir</span>
+          <span>Imprimir todo</span>
         </button>
       }
       <button type="button" class="pres-icon-btn" title="Salir de presentación (Esc)" (click)="svc.exit()">
@@ -48,7 +48,7 @@
           type="button"
           class="pres-mini"
           [class.active]="dto.activeDocIdx() === i"
-          (click)="selectDoc(i)"
+          (click)="scrollToDoc(i)"
           [title]="doc.name"
         >
           <span class="pres-mini-num mono">{{ (i + 1).toString().padStart(2, '0') }}</span>
@@ -68,7 +68,7 @@
       }
     </aside>
 
-    <!-- Stage: un solo documento a la vez -->
+    <!-- Stage: scroll continuo con todos los documentos apilados -->
     <div class="pres-stage">
 
       @if (dto.docs().length === 0) {
@@ -81,32 +81,38 @@
           </button>
         </div>
       } @else {
-        @let activeDoc = dto.docs()[dto.activeDocIdx()];
+        <div class="pres-scroll">
+          @for (doc of dto.docs(); track doc.id; let i = $index) {
+            <section
+              class="pres-doc-section"
+              [id]="'pres-doc-' + i"
+              [attr.data-doc-idx]="i"
+            >
+              <header class="pres-doc-section-header">
+                <span class="pres-doc-section-num mono">{{ (i + 1).toString().padStart(2, '00') }}</span>
+                <div class="pres-doc-section-info">
+                  <span class="pres-doc-section-name">{{ doc.name }}</span>
+                  <span class="pres-doc-section-meta mono">{{ doc.type | uppercase }} · {{ doc.category }}</span>
+                </div>
+                <span class="pres-doc-section-badge">Doc {{ i + 1 }} de {{ dto.total() }}</span>
+              </header>
 
-        <div class="pres-doc-header">
-          <div class="pres-doc-title">{{ activeDoc.name }}</div>
-          <div class="pres-doc-meta mono">{{ activeDoc.type | uppercase }} · {{ activeDoc.category }}</div>
-        </div>
+              <div class="pres-doc-frame">
+                <app-documento-viewer
+                  [documento]="toDocumento(doc)"
+                  [showClose]="false"
+                />
+              </div>
+            </section>
+          }
 
-        <div class="pres-stage-content">
-          <app-documento-viewer
-            [documento]="toDocumento(activeDoc)"
-            [showClose]="false"
-          />
-        </div>
-
-        <div class="pres-nav">
-          <button class="pres-nav-btn" (click)="prev()" [disabled]="dto.activeDocIdx() === 0" title="Anterior (←)">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <span class="pres-nav-counter">
-            <strong>{{ (dto.activeDocIdx() + 1).toString().padStart(2, '0') }}</strong>
-            <span class="pres-nav-sep">/</span>
-            {{ dto.total() }}
-          </span>
-          <button class="pres-nav-btn" (click)="next()" [disabled]="dto.activeDocIdx() === dto.total() - 1" title="Siguiente (→)">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
-          </button>
+          <div class="pres-scroll-footer">
+            <span class="pres-scroll-footer-line"></span>
+            <span class="pres-scroll-footer-text">
+              Fin de los {{ dto.total() }} {{ dto.total() === 1 ? 'documento anclado' : 'documentos anclados' }}
+            </span>
+            <span class="pres-scroll-footer-line"></span>
+          </div>
         </div>
       }
 
