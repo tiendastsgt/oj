@@ -8,6 +8,7 @@ import { ExpedientesService } from '../../core/services/expedientes.service';
 import { AuthService } from '../../core/services/auth.service';
 import { AuditoriaService } from '../../core/services/auditoria.service';
 
+import { environment } from '../../../environments/environment';
 import { DashboardDto } from './dashboard.dto';
 
 @Injectable()
@@ -30,6 +31,7 @@ export class DashboardService {
 
   constructor() {
     this.initUserName();
+    if (environment.useMocks) return;
     this.cargarEstadisticas();
     this.observarFiltros();
     this.cargarAuditoria();

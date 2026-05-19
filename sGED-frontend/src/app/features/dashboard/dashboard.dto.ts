@@ -2,6 +2,8 @@ import { signal, computed } from '@angular/core';
 import { ExpedienteEstadisticas } from '../../core/services/expedientes.service';
 import { ExpedienteResponse } from '../../core/models/expediente.model';
 import { AuditoriaResponse } from '../../core/models/auditoria.model';
+import { MOCK_EXPEDIENTES } from '../../core/mocks/expedientes.mock';
+import { MOCK_AUDITORIA } from '../../core/mocks/auditoria.mock';
 
 export class DashboardDto {
   // ─── Identidad ───────────────────────────────────────────────
@@ -9,23 +11,21 @@ export class DashboardDto {
   today    = signal(new Date());
 
   // ─── KPI stats ───────────────────────────────────────────────
-  // Inicia en ceros: se rellenan desde la API o quedan en 0 si falla
   stats = signal<ExpedienteEstadisticas>({
-    totalExpedientes: 0,
-    pendientes:       0,
-    enProceso:        0,
-    resueltos:        0,
+    totalExpedientes: 6,
+    pendientes:       1,
+    enProceso:        4,
+    resueltos:        1,
     archivados:       0,
   });
 
   // ─── Expedientes recientes ────────────────────────────────────
-  // loading compartido: pulsea KPIs y tabla mientras carga
-  loading              = signal(true);
-  expedientesRecientes = signal<ExpedienteResponse[]>([]);
+  loading              = signal(false);
+  expedientesRecientes = signal<ExpedienteResponse[]>(MOCK_EXPEDIENTES.slice(0, 5));
   hasExpedientes       = computed(() => this.expedientesRecientes().length > 0);
 
   // ─── Actividad (auditoría) ────────────────────────────────────
-  loadingAuditoria  = signal(true);
-  actividadReciente = signal<AuditoriaResponse[]>([]);
+  loadingAuditoria  = signal(false);
+  actividadReciente = signal<AuditoriaResponse[]>(MOCK_AUDITORIA.slice(0, 5));
   hasActividad      = computed(() => this.actividadReciente().length > 0);
 }
