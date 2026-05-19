@@ -28,14 +28,33 @@ export class PresentacionComponent implements OnInit, OnDestroy {
     document.body.style.overflow = '';
   }
 
-  scrollToDoc(idx: number): void {
-    document.getElementById(`pres-doc-${idx}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  selectDoc(idx: number): void {
     this.dto.activeDocIdx.set(idx);
+  }
+
+  next(): void {
+    if (this.dto.activeDocIdx() < this.dto.total() - 1) {
+      this.dto.activeDocIdx.update(idx => idx + 1);
+    }
+  }
+
+  prev(): void {
+    if (this.dto.activeDocIdx() > 0) {
+      this.dto.activeDocIdx.update(idx => idx - 1);
+    }
   }
 
   print(): void {
     window.print();
   }
+
+  @HostListener('window:keydown.arrowRight')
+  @HostListener('window:keydown.arrowDown')
+  onNextKey(): void { this.next(); }
+
+  @HostListener('window:keydown.arrowLeft')
+  @HostListener('window:keydown.arrowUp')
+  onPrevKey(): void { this.prev(); }
 
   @HostListener('window:keydown.escape')
   onEscape(): void { this.svc.exit(); }
