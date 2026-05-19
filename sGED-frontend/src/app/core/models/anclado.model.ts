@@ -7,6 +7,7 @@ export interface AncladoDoc {
 }
 
 export interface AncladoExpediente {
+  id?: number;
   numeroExpediente: string;
   juzgado: string;
   docs: AncladoDoc[];

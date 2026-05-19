@@ -28,29 +28,7 @@ export class AuthService {
   }
 
   login(credentials: LoginRequest): Observable<LoginResponseData> {
-    if (environment.useMocks) {
-      const mockUser: LoginResponseData = {
-        token: 'demo.e30.mock',
-        username: credentials.username || 'admin.qa',
-        nombreCompleto: credentials.username === 'secretario.qa'
-          ? 'Secretario de Audiencias'
-          : 'Administrador QA',
-        rol: credentials.username === 'secretario.qa' ? 'SECRETARIO' : 'ADMINISTRADOR',
-        juzgado: 'Juzgado General de Pruebas',
-        debeCambiarPassword: false
-      };
-      this.storage.setItem(TOKEN_KEY, mockUser.token);
-      const user: AuthUser = {
-        username: mockUser.username,
-        nombreCompleto: mockUser.nombreCompleto,
-        rol: mockUser.rol,
-        juzgado: mockUser.juzgado,
-        debeCambiarPassword: mockUser.debeCambiarPassword
-      };
-      this.storage.setJson(USER_KEY, user);
-      this.currentUserSubject.next(user);
-      return of(mockUser);
-    }
+
     return this.http
       .post<ApiResponse<LoginResponseData>>(`${this.baseUrl}/auth/login`, credentials)
       .pipe(

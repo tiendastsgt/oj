@@ -9,6 +9,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { DtoInterceptor } from './core/interceptors/dto.interceptor';
 
 // Registrar locale español para pipes de Angular (date, number, etc.)
 registerLocaleData(localeEs, 'es');
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
         }
     }),
     { provide: LOCALE_ID, useValue: 'es' },
+    { provide: HTTP_INTERCEPTORS, useClass: DtoInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]
