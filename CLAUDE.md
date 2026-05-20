@@ -25,7 +25,7 @@ Dependiendo de la fase dictada por ti (el Orquestador), adopta o invoca uno de e
 | 6 | `qa.md` | **haiku** | Probar, romper y verificar. Escalar a sonnet para tests de integración. |
 | 7 | `code-reviewer.md` | **opus** | Quality gate. Auditar código, detectar bugs, asegurar mejores prácticas. |
 
-**Routing completo:** Ver `.ai/MODEL_ROUTING.md` para asignación detallada por sprint y estimación de tokens.
+**Routing completo (referencia histórica):** Ver `docs/legacy/MODEL_ROUTING.md` para asignación detallada por sprint y estimación de tokens.
 
 ## 📚 Habilidades Disponibles (Skills)
 El Orquestador y los agentes tienen acceso a guías y protocolos avanzados en la carpeta `.ai/skills/`:

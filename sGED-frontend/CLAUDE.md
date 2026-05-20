@@ -7,7 +7,6 @@
 
 ## Regla de Ejecución
 - **NO hacer planes, specs, ni documentos** antes de ejecutar. Ejecutar directamente.
-- NO escribir archivos en `docs/superpowers/`. Solo código fuente en `src/`.
 - Si tienes dudas, pregunta al usuario. No escribas un plan.
 
 ## Estándar de Arquitectura (OBLIGATORIO)
