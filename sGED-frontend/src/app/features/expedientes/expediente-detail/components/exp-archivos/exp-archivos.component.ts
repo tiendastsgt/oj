@@ -44,7 +44,6 @@ export class ExpArchivosComponent implements OnChanges {
   private readonly destroyRef    = inject(DestroyRef);
 
   protected readonly isDragging  = signal(false);
-  private dragCounter = 0;
 
   protected readonly documentos  = signal<Documento[]>([]);
   protected readonly loading     = signal(false);
@@ -86,12 +85,15 @@ export class ExpArchivosComponent implements OnChanges {
   @HostListener('dragenter', ['$event'])
   onDragEnter(event: DragEvent): void {
     event.preventDefault();
-    if (++this.dragCounter === 1) this.isDragging.set(true);
+    this.isDragging.set(true);
   }
 
-  @HostListener('dragleave')
-  onDragLeave(): void {
-    if (--this.dragCounter === 0) this.isDragging.set(false);
+  @HostListener('dragleave', ['$event'])
+  onDragLeave(event: DragEvent): void {
+    const rel = event.relatedTarget as Node | null;
+    if (!rel || !(event.currentTarget as HTMLElement).contains(rel)) {
+      this.isDragging.set(false);
+    }
   }
 
   @HostListener('dragover', ['$event'])
@@ -102,7 +104,6 @@ export class ExpArchivosComponent implements OnChanges {
   @HostListener('drop', ['$event'])
   onDrop(event: DragEvent): void {
     event.preventDefault();
-    this.dragCounter = 0;
     this.isDragging.set(false);
     const files = event.dataTransfer?.files;
     if (files?.length) this.subirArchivos(files);
