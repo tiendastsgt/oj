@@ -1,12 +1,15 @@
-# 📑 ÍNDICE MAESTRO DE DOCUMENTACIÓN - SGED
+# 📑 ÍNDICE MAESTRO DE DOCUMENTACIÓN - SGED (OBSOLETO)
 
-> ⚠️ **Este índice ha sido supersedido.** El nuevo portal de documentación unificado está en [docs/INDEX.md](./INDEX.md) con navegación por audiencia (usuarios, desarrolladores, API, operaciones).
-
-**Versión:** 1.4.0  
+**Versión:** 1.4.0 (OBSOLETO)  
 **Fecha de última actualización:** 1 mayo 2026  
-**Vigente para:** SGED v1.4.0 (producción) y superior  
+**Marcado como obsoleto:** 2026-05-19  
+**Reemplazado por:** [INDEX.md](../INDEX.md)  
 **Responsable:** Orquestador IA  
-**Estado:** ⏸️ Reemplazado (ver nuevo portal)
+**Estado:** 🔴 Obsoleto  
+
+> 🔴 **ADVERTENCIA:** Este documento es histórico. NO se debe usar para implementar cambios.  
+> El nuevo portal de documentación unificado está en [INDEX.md](../INDEX.md) con navegación por audiencia (usuarios, desarrolladores, API, operaciones).  
+> Ver `/docs/legacy/README_LEGACY.md` para contexto.
 
 ---
 

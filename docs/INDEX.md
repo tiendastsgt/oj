@@ -1,7 +1,7 @@
 # SGED — Portal de Documentación
 
 **Sistema de Gestión de Expedientes Digitales**  
-Versión: 1.2.4 | Actualizado: 2026-05-03
+Versión: 1.6.0 | Actualizado: 2026-05-19
 
 ---
 
@@ -18,21 +18,30 @@ Versión: 1.2.4 | Actualizado: 2026-05-03
 
 ## El sistema
 
-El SGED es una plataforma web para la gestión digital de expedientes judicales y sus documentos asociados. Permite a los funcionarios de los juzgados crear, buscar, visualizar y gestionar expedientes y documentos desde cualquier navegador, con control de acceso por roles y auditoría completa de todas las acciones.
+El SGED es una plataforma web para la gestión digital de expedientes judiciales y sus documentos asociados. Permite a los funcionarios de los juzgados crear, buscar, visualizar y gestionar expedientes y documentos desde cualquier navegador, con control de acceso por roles y auditoría completa de todas las acciones.
 
-**Stack:** Angular 21 + Spring Boot 3.5 + MySQL 8 + Docker Compose
+**Stack Tecnológico:**
+* **Frontend:** Angular 21 (Zoneless, Reactividad con Signals)
+* **Backend:** Java 21 + Spring Boot 3.5 + MapStruct (mapeo de DTOs)
+* **Base de Datos:** Oracle 21c (compatible con 19c) / MySQL 8
+* **Infraestructura:** Docker Compose, Nginx (Reverse Proxy + Rate Limiting + Hardening SSL)
+
+**Características Clave:**
+* 🔐 **5 Roles RBAC:** ADMINISTRADOR, SECRETARIO, AUXILIAR, CONSULTA, JUEZ.
+* 🖥️ **Modo Presentación:** Mecanismo seguro de visualización consolidada para evitar descargas no autorizadas (cumplimiento DLP).
+* 📌 **Expedientes Anclados:** Sistema frontend persistido en localStorage en la sección Hero de búsquedas.
 
 ---
 
 ## Documentación por sección
 
 ### Para usuarios
-- [Manual de Usuario](./usuarios/INDEX.md) — guía paso a paso para los 4 roles: ADMIN, SECRETARIO, AUXILIAR, CONSULTA
+- [Manual de Usuario](./usuarios/INDEX.md) — guía paso a paso para los 5 roles: ADMINISTRADOR, SECRETARIO, AUXILIAR, CONSULTA, JUEZ
   - Login, navegación, crear/editar expedientes
-  - Subir y visualizar documentos
-  - Búsqueda rápida y avanzada
-  - Dashboard de estadísticas
-  - Preguntas frecuentes y troubleshooting
+  - Subir y visualizar documentos (incluyendo Modo Presentación)
+  - Búsqueda rápida, avanzada y Expedientes Anclados
+  - Dashboard de estadísticas y visualizadores
+  - Preguntas frecuentes y resolución de problemas
 
 ### Para desarrolladores
 - [Manual Técnico](./desarrollo/INDEX.md) — arquitectura, backend, frontend, base de datos, seguridad

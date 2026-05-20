@@ -1,16 +1,16 @@
 ---
 Documento: README_LEGACY
 Proyecto: SGED
-Tipo: Documentación de Archive
-Última actualización: 2026-04-11
-Versión del documento: 1.1
+Tipo: Documentación de Archivo
+Última actualización: 2026-05-19
+Versión del documento: 1.6.0
 Estado: ⚠️ Histórico (NO USAR)
 ---
 
 # 📦 LEGACY - Documentos Históricos
 
-**Versión:** 1.1.0  
-**Última actualización:** 11 abril 2026  
+**Versión:** 1.6.0  
+**Última actualización:** 19 mayo 2026  
 **Responsable:** Agente de Documentación  
 
 ---
@@ -72,6 +72,19 @@ Esta carpeta contiene **documentos históricos y obsoletos** del proyecto SGED q
 |-----------|-----------------|-----------------|
 | `plantuml.jar` | Herramienta de utilidad; mantener aquí para referencia histórica | 2026-01-28 |
 
+### Saneamiento y Curación Masiva (19 mayo 2026)
+
+| Documento | Razón de Archivo | Fecha Archivado |
+|-----------|-----------------|-----------------|
+| `INDICE_MAESTRO_DOCUMENTACION_OBSOLETO_2026-05-19.md` | Supersedido por el portal unificado `docs/INDEX.md` | 2026-05-19 |
+| `ROADMAP_PROYECTO_SGED_OBSOLETO_2026-05-19.md` | Histórico de roadmap; reemplazado por la planificación ágil | 2026-05-19 |
+| `plan_detallado_OBSOLETO_2026-05-19.md` | Versión antigua de especificaciones; reemplazado por el portal unificado | 2026-05-19 |
+| `STACK_TECNICO_ACTUALIZADO_OBSOLETO_2026-05-19.md` | Stack antiguo; reemplazado por la configuración de Angular 21 y Spring Boot 3.5 | 2026-05-19 |
+| `MANUAL_DE_USUARIO_FINAL_OBSOLETO_2026-05-19.md` | Manual de usuario antiguo; reemplazado por el nuevo portal `/docs/usuarios/INDEX.md` | 2026-05-19 |
+| `SEGURIDAD_AUTH_IMPLEMENTATION_OBSOLETO_2026-05-19.md` | Documentación antigua de seguridad; integrada en `/docs/desarrollo/05-seguridad.md` | 2026-05-19 |
+| `.env_OBSOLETO_2026-05-19.qa` / `.github-prs-fases-1-2-3_OBSOLETO_2026-05-19.md` | Configuraciones y logs de PR obsoletos | 2026-05-19 |
+| Otros archivos sueltos y `.docx` duplicados | Unificados o eliminados de la raíz para cumplir con el protocolo de ordenamiento | 2026-05-19 |
+
 ---
 
 ## 📚 Estructura de Archivos Vigentes (Referencia)
@@ -80,14 +93,17 @@ La documentación vigente y actualizada se encuentra en:
 
 ```
 /docs
-├── general/                    ← Documentación central
-├── infra/                      ← Guías de infraestructura
-├── qa/                         ← Reportes y guías de QA
-├── smoke-tests/                ← Planes de smoke testing
-├── fases/                      ← Documentación por fase
-├── diagramas/                  ← Diagramas vigentes (PNG/PlantUML)
-├── INDICE_MAESTRO_DOCUMENTACION.md
-└── PROTOCOLO_DOCUMENTACION.md
+├── INDEX.md                     ← Portal unificado (punto de entrada principal)
+├── PROTOCOLO_DOCUMENTACION.md   ← Protocolo y ciclo de vida de documentos
+├── desarrollo/                  ← Manual técnico para desarrolladores
+├── usuarios/                    ← Manual de usuario para funcionarios
+├── operaciones/                 ← Guía de operaciones y despliegue (DevOps)
+├── api/                         ← Referencia de API y OpenAPI Specs
+├── auditorias/                  ← Reportes de calidad y auditorías UX/Código
+├── smoke-tests/                 ← Planes y reportes de smoke testing
+├── infra/                       ← Historial de guías operativas e infra
+├── qa/                          ← Historial de reportes de calidad QA
+└── fases/                       ← Historial y resúmenes de fases completadas
 ```
 
 **Los documentos antiguos aquí en legacy/ ya NO aplican.**
@@ -164,6 +180,6 @@ Si tienes dudas sobre un documento legacy:
 
 ---
 
-**Último actualizado:** 28 enero 2026  
-**Responsable:** Equipo de Documentación  
-**Próxima revisión:** 2026-02-28 (con cierre de Fase 7 formal)
+**Último actualizado:** 19 mayo 2026  
+**Responsable:** Agente de Documentación  
+**Próxima revisión:** Continua (con cada ciclo de release)
