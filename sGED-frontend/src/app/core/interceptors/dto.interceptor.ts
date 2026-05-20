@@ -91,6 +91,8 @@ export class DtoInterceptor implements HttpInterceptor {
         fileName = 'sample.jpg';
       } else if (doc?.extension === 'mp3') {
         fileName = 'sample.mp3';
+      } else if (doc?.extension === 'mp4') {
+        fileName = 'sample.mp4';
       } else {
         fileName = 'sample-doc.pdf';
       }
