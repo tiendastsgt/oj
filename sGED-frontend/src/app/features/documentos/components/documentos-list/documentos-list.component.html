@@ -22,13 +22,7 @@
             <p-button icon="pi pi-eye" severity="secondary" [text]="true" [rounded]="true"
               pTooltip="Ver" aria-label="Ver documento"
               (onClick)="ver.emit(doc)" />
-            <p-button icon="pi pi-download" severity="info" [text]="true" [rounded]="true"
-              pTooltip="Descargar" aria-label="Descargar documento"
-              (onClick)="descargar.emit(doc)" />
-            <p-button icon="pi pi-print" severity="secondary" [text]="true" [rounded]="true"
-              pTooltip="Imprimir" aria-label="Imprimir documento"
-              (onClick)="imprimir.emit(doc)" />
-            <p-button icon="pi pi-trash" severity="danger" [text]="true" [rounded]="true"
+<p-button icon="pi pi-trash" severity="danger" [text]="true" [rounded]="true"
               pTooltip="Eliminar" aria-label="Eliminar documento"
               (onClick)="eliminar.emit(doc)" />
           </div>

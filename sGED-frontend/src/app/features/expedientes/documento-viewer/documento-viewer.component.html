@@ -12,17 +12,11 @@
       </div>
     </div>
     <div class="viewer-actions">
-      <button class="viewer-btn" title="Abrir en nueva pestaña" (click)="svc.openExternal()">
-        <i class="pi pi-external-link"></i>
-      </button>
       <button class="viewer-btn" [class.active]="dto.readingModeActive()" title="Modo Lectura (Expandir)" (click)="onReadingModeToggle()">
         <i class="pi" [ngClass]="dto.readingModeActive() ? 'pi-window-minimize' : 'pi-window-maximize'"></i>
       </button>
       <button class="viewer-btn" [class.active]="dto.isFullscreen()" title="Pantalla Completa" (click)="svc.toggleFullscreen()">
         <i class="pi" [ngClass]="dto.isFullscreen() ? 'pi-window-minimize' : 'pi-arrows-alt'"></i>
-      </button>
-      <button class="viewer-btn" title="Descargar" (click)="svc.download()">
-        <i class="pi pi-download"></i>
       </button>
       @if (showClose) {
         <button class="viewer-btn" title="Cerrar visor" (click)="close.emit()">
@@ -49,9 +43,6 @@
       <i class="pi pi-exclamation-triangle"></i>
       <h4>Error al cargar</h4>
       <p>{{ dto.error() }}</p>
-      <button class="viewer-btn-action" (click)="svc.download()">
-        <i class="pi pi-download"></i> Descargar archivo
-      </button>
     </div>
   </div>
   }
@@ -66,7 +57,8 @@
   <!-- Image Viewer -->
   @if (!dto.loading() && !dto.error() && dto.isImage() && dto.mediaUrl()) {
   <div class="elite-body image-body">
-    <img [src]="dto.mediaUrl()" [alt]="documento.nombreOriginal" class="viewer-image" />
+    <img [src]="dto.mediaUrl()" [alt]="documento.nombreOriginal" class="viewer-image"
+         (contextmenu)="$event.preventDefault()" draggable="false" />
   </div>
   }
 
@@ -90,7 +82,8 @@
         <span class="audio-title">{{ documento.nombreOriginal }}</span>
         <span class="audio-ext">{{ documento.extension?.toUpperCase() }}</span>
       </div>
-      <audio #audioPlayer controls class="audio-native">
+      <audio #audioPlayer controls controlsList="nodownload noremoteplayback noplaybackrate"
+             (contextmenu)="$event.preventDefault()" class="audio-native">
         Su navegador no soporta la reproducción de audio.
       </audio>
     </div>
@@ -100,7 +93,8 @@
   <!-- Video Player -->
   @if (!dto.loading() && !dto.error() && dto.isVideo() && dto.blobReady()) {
   <div class="elite-body video-body">
-    <video #videoPlayer controls class="viewer-video">
+    <video #videoPlayer controls controlsList="nodownload noremoteplayback noplaybackrate"
+           disablePictureInPicture (contextmenu)="$event.preventDefault()" class="viewer-video">
       Su navegador no soporta la reproducción de video.
     </video>
   </div>
@@ -113,9 +107,6 @@
       <i class="pi pi-file"></i>
       <h4>Vista previa no disponible</h4>
       <p>Este formato ({{ documento.extension?.toUpperCase() }}) no se puede previsualizar en el navegador.</p>
-      <button class="viewer-btn-action" (click)="svc.download()">
-        <i class="pi pi-download"></i> Descargar archivo
-      </button>
     </div>
   </div>
   }

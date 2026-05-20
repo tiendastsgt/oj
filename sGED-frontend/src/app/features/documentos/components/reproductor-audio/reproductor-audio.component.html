@@ -1,1 +1,2 @@
-<audio [src]="url()" controls></audio>
+<audio [src]="url()" controls controlsList="nodownload noremoteplayback noplaybackrate"
+       (contextmenu)="$event.preventDefault()"></audio>

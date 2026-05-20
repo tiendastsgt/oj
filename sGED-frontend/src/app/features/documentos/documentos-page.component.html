@@ -16,8 +16,6 @@
   <app-documentos-list
     [documentos]="dto.documentos()"
     (ver)="svc.onVer($event)"
-    (descargar)="svc.onDescargar($event)"
-    (imprimir)="svc.onImprimir($event)"
     (eliminar)="svc.onEliminar($event)"
   ></app-documentos-list>
 

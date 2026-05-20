@@ -8,6 +8,7 @@ import { ToastModule } from 'primeng/toast';
 import { PrimeNG } from 'primeng/config';
 import { ConfirmationService } from 'primeng/api';
 import { AuthService } from './core/services/auth.service';
+import { PrintBlockService } from './core/services/print-block.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,8 +29,10 @@ export class AppComponent {
     private authService: AuthService,
     private router: Router,
     private primeng: PrimeNG,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    printBlock: PrintBlockService
   ) {
+    printBlock.install();
     // Configurar PrimeNG en español
     this.primeng.setTranslation({
       firstDayOfWeek: 1,

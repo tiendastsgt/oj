@@ -4,5 +4,6 @@
   <button type="button" (click)="zoomIn()">+</button>
 </div>
 <div class="image-wrapper">
-  <img [src]="url()" [style.transform]="'scale(' + zoom() + ')'" alt="Visor imagen" />
+  <img [src]="url()" [style.transform]="'scale(' + zoom() + ')'" alt="Visor imagen"
+       (contextmenu)="$event.preventDefault()" draggable="false" />
 </div>

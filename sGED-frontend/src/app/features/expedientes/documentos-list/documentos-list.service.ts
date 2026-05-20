@@ -91,17 +91,6 @@ export class DocumentosListService {
       });
   }
 
-  descargarDocumento(documento: Documento): void {
-    const url = this.documentosService.downloadDocumento(documento.id);
-    window.open(url, '_blank');
-  }
-
-  imprimirDocumento(documento: Documento): void {
-    const url = this.documentosService.streamDocumento(documento.id);
-    window.open(url, '_blank');
-    this.documentosService.registrarImpresion(documento.id).subscribe();
-  }
-
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];

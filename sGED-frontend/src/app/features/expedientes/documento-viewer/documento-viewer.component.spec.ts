@@ -80,7 +80,7 @@ describe('DocumentoViewerComponent', () => {
     expect(fixture.debugElement.query(By.css('iframe'))).toBeTruthy();
   });
 
-  it('should fall back to download + error notice when conversion fails', () => {
+  it('should show error notice (no download) when conversion fails', () => {
     documentosService.fetchContenidoBlob.and.returnValue(
       of({ url: 'blob:fallback', conversionFailed: true })
     );
@@ -88,7 +88,8 @@ describe('DocumentoViewerComponent', () => {
     component.documento = doc;
     component.ngOnChanges({ documento: new SimpleChange(null, doc, true) });
     fixture.detectChanges();
-    expect(component.error).toContain('No se pudo generar la vista previa');
     expect(fixture.debugElement.query(By.css('iframe'))).toBeFalsy();
+    const errorEl = fixture.debugElement.query(By.css('.viewer-notice.error'));
+    expect(errorEl).toBeTruthy();
   });
 });

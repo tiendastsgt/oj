@@ -17,8 +17,6 @@ import { FileSizePipe } from '../../../../shared/pipes/file-size.pipe';
 })
 export class DocumentosListComponent {
   readonly documentos = input<Documento[]>([]);
-  readonly ver        = output<Documento>();
-  readonly descargar  = output<Documento>();
-  readonly imprimir   = output<Documento>();
-  readonly eliminar   = output<Documento>();
+  readonly ver      = output<Documento>();
+  readonly eliminar = output<Documento>();
 }

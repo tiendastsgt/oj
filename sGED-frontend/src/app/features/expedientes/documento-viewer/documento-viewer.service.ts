@@ -30,25 +30,23 @@ export class DocumentoViewerService {
       .subscribe({
         next: ({ url, conversionFailed }) => {
           if (conversionFailed) {
+            URL.revokeObjectURL(url);
             this.messageService.add({
               severity: 'warn',
               summary: 'Vista previa no disponible',
-              detail: 'No se pudo previsualizar. Se descargará automáticamente.',
+              detail: 'No se pudo generar la previsualización de este documento.',
               life: 5000
             });
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = documento.nombreOriginal ?? 'documento';
-            a.click();
-            setTimeout(() => URL.revokeObjectURL(url), 5000);
-            this.dto.error.set('No se pudo generar la vista previa. Se descargó el archivo original.');
+            this.dto.error.set('No se pudo generar la vista previa de este documento.');
             this.dto.loading.set(false);
             return;
           }
           this.dto.rawBlobUrl.set(url);
           this.dto.previewAsPdf.set(this.dto.isWord());
           const showAsPdf = this.dto.isPdf() || this.dto.previewAsPdf();
-          const viewerUrl = showAsPdf ? `${url}#view=FitH` : url;
+          const viewerUrl = showAsPdf
+            ? `${url}#toolbar=0&navpanes=0&scrollbar=1&statusbar=0&messages=0&view=FitH`
+            : url;
           this.dto.frameUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(viewerUrl));
           this.dto.mediaUrl.set(this.sanitizer.bypassSecurityTrustUrl(url));
           this.dto.loading.set(false);
@@ -75,23 +73,6 @@ export class DocumentoViewerService {
     }
   }
 
-  download(): void {
-    const doc = this.dto.documento();
-    if (!doc) return;
-    this.documentosService.fetchContenidoBlob(doc.id, 'attachment')
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: ({ url }) => {
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = doc.nombreOriginal ?? 'documento';
-          a.click();
-          setTimeout(() => URL.revokeObjectURL(url), 5000);
-        },
-        error: () => {}
-      });
-  }
-
   toggleReadingMode(): void {
     this.dto.readingModeActive.update(v => !v);
   }
@@ -109,11 +90,6 @@ export class DocumentoViewerService {
       const exitMethod = document.exitFullscreen ?? (document as any).webkitExitFullscreen;
       if (exitMethod) exitMethod.call(document);
     }
-  }
-
-  openExternal(): void {
-    const url = this.dto.rawBlobUrl();
-    if (url) window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   formatSize(bytes: number | undefined): string {

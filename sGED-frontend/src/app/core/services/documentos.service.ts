@@ -58,14 +58,6 @@ export class DocumentosService {
     return `${this.baseUrl}/documentos/${id}/contenido?modo=${modo}`;
   }
 
-  downloadDocumento(id: number): string {
-    return this.getContenidoUrl(id, 'attachment');
-  }
-
-  streamDocumento(id: number): string {
-    return this.getContenidoUrl(id, 'inline');
-  }
-
   /**
    * Fetches document content as Blob via HttpClient (JWT-authenticated).
    * Returns url + conversionFailed flag (from X-SGED-Conversion-Failed header).
@@ -94,10 +86,6 @@ export class DocumentosService {
 
   eliminar(id: number): Observable<ApiResponse<void>> {
     return this.http.delete<ApiResponse<void>>(`${this.baseUrl}/documentos/${id}`);
-  }
-
-  registrarImpresion(id: number): Observable<ApiResponse<void>> {
-    return this.http.post<ApiResponse<void>>(`${this.baseUrl}/documentos/${id}/impresion`, {});
   }
 
   constructor(private http: HttpClient) {}

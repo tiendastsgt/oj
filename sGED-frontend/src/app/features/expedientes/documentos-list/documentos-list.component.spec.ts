@@ -31,12 +31,9 @@ describe('DocumentosListComponent', () => {
   ];
 
   beforeEach(async () => {
-    documentosService = jasmine.createSpyObj('DocumentosService', ['getDocumentos', 'downloadDocumento', 'streamDocumento', 'registrarImpresion', 'eliminar']);
+    documentosService = jasmine.createSpyObj('DocumentosService', ['getDocumentos', 'eliminar']);
     authService = jasmine.createSpyObj('AuthService', ['getCurrentUser']);
     documentosService.getDocumentos.and.returnValue(of({ success: true, data: mockDocs } as ApiResponse<Documento[]>));
-    documentosService.downloadDocumento.and.returnValue('http://download');
-    documentosService.streamDocumento.and.returnValue('http://inline');
-    documentosService.registrarImpresion.and.returnValue(of({ success: true }));
     documentosService.eliminar.and.returnValue(of({ success: true }));
     authService.getCurrentUser.and.returnValue({
       username: 'admin',

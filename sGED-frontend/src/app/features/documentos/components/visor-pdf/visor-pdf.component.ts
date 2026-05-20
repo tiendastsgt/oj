@@ -13,7 +13,12 @@ export class VisorPdfComponent {
   private readonly sanitizer = inject(DomSanitizer);
 
   readonly url     = input<string>('');
-  readonly safeUrl = computed<SafeResourceUrl | null>(() =>
-    this.url() ? this.sanitizer.bypassSecurityTrustResourceUrl(this.url()) : null
-  );
+  readonly safeUrl = computed<SafeResourceUrl | null>(() => {
+    const u = this.url();
+    if (!u) return null;
+    const sep = u.includes('#') ? '&' : '#';
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `${u}${sep}toolbar=0&navpanes=0&scrollbar=1&statusbar=0&messages=0`
+    );
+  });
 }

@@ -61,25 +61,9 @@ export class DocumentosPageService {
   }
 
   onVer(documento: Documento): void {
-    const ext = documento.extension.toLowerCase();
-    if (ext === 'avi' || ext === 'mov') {
-      this.onDescargar(documento);
-      return;
-    }
     this.dto.viewerType.set(documento.categoria as ViewerType);
     this.dto.viewerUrl.set(this.documentosCoreSvc.getContenidoUrl(documento.id, 'inline'));
     this.dto.selectedDocumento.set(documento);
-  }
-
-  onDescargar(documento: Documento): void {
-    window.open(this.documentosCoreSvc.getContenidoUrl(documento.id, 'attachment'), '_blank');
-  }
-
-  onImprimir(documento: Documento): void {
-    window.open(this.documentosCoreSvc.getContenidoUrl(documento.id, 'inline'), '_blank');
-    this.documentosCoreSvc.registrarImpresion(documento.id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
   }
 
   onEliminar(documento: Documento): void {
