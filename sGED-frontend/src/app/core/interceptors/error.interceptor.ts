@@ -13,12 +13,19 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        const isAuthError = error.status === 401 || error.status === 403;
         const isApiRequest = req.url.startsWith(environment.apiUrl);
-        if (isAuthError && isApiRequest) {
-          this.authService.clearSession();
-          if (this.router.url !== '/login') {
-            this.router.navigate(['/login']);
+        if (isApiRequest) {
+          if (error.status === 401) {
+            // Token inválido o expirado: limpiar sesión y redirigir a login
+            this.authService.clearSession();
+            if (this.router.url !== '/login') {
+              this.router.navigate(['/login']);
+            }
+          } else if (error.status === 403) {
+            // Autenticado pero sin permiso: NO limpiar sesión, solo redirigir
+            if (this.router.url !== '/login') {
+              this.router.navigate(['/expedientes']);
+            }
           }
         }
         return throwError(() => error);

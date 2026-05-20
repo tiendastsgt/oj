@@ -7,6 +7,8 @@ import { DTO_EXPEDIENTES } from '../dto/expedientes.dto';
 import { DTO_DOCUMENTOS_EXP1 } from '../dto/documentos.dto';
 import { DTO_TIPOS_PROCESO, DTO_ESTADOS, DTO_JUZGADOS } from '../dto/catalogos.dto';
 import { DTO_RESULTADOS_BUSQUEDA } from '../dto/busqueda.dto';
+import { DTO_USUARIOS } from '../dto/usuarios.dto';
+import { DTO_AUDITORIA } from '../dto/auditoria.dto';
 
 @Injectable()
 export class DtoInterceptor implements HttpInterceptor {
@@ -106,6 +108,32 @@ export class DtoInterceptor implements HttpInterceptor {
           })
         }))
       );
+    }
+
+    if (url.includes('/admin/usuarios') && req.method === 'GET') {
+      return of(new HttpResponse({
+        status: 200,
+        body: {
+          success: true,
+          data: {
+            content: DTO_USUARIOS,
+            pageable: { pageNumber: 0, pageSize: 20, totalPages: 1, totalElements: DTO_USUARIOS.length }
+          }
+        }
+      }));
+    }
+
+    if (url.includes('/admin/auditoria') && req.method === 'GET') {
+      return of(new HttpResponse({
+        status: 200,
+        body: {
+          success: true,
+          data: {
+            content: DTO_AUDITORIA,
+            pageable: { pageNumber: 0, pageSize: 50, totalPages: 1, totalElements: DTO_AUDITORIA.length }
+          }
+        }
+      }));
     }
 
     return next.handle(req);
