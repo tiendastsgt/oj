@@ -1,22 +1,22 @@
-Ôªø---
+---
 Documento: FASE_7_QA_EXECUTION_GUIDE
 Proyecto: SGED
-Versi√≥n del sistema: v1.2.4
-Versi√≥n del documento: 1.0
-√öltima actualizaci√≥n: 2026-05-03
+VersiÛn del sistema: v1.2.4
+VersiÛn del documento: 1.0
+⁄ltima actualizaciÛn: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ‚úÖ Vigente
+Estado: ? Vigente
 ---
 
-# GU√çA DE EJECUCI√ìN - FASE 7 QA ACCEPTANCE TESTING
+# GUÕA DE EJECUCI”N - FASE 7 QA ACCEPTANCE TESTING
 
-**Versi√≥n:** 1.0  
+**VersiÛn:** 1.0  
 **Fecha:** 2026-05-03  
 **Responsable:** Agente QA Automatizado
 
 ---
 
-## 1. PREPARACI√ìN DEL ENTORNO
+## 1. PREPARACI”N DEL ENTORNO
 
 ### 1.1 Requisitos Previos
 
@@ -44,7 +44,7 @@ choco install nodejs-lts jdk11 apache-jmeter git
 brew install node@18 openjdk@11 jmeter git
 ```
 
-### 1.2 Configuraci√≥n de Entorno QA
+### 1.2 ConfiguraciÛn de Entorno QA
 
 #### URLs del Entorno QA
 ```
@@ -55,18 +55,18 @@ Base de datos:      qa-sged-db.internal (managed by DevOps)
 
 #### Usuarios de Prueba en QA
 
-| Username | Password | Rol | Juzgado | Descripci√≥n |
+| Username | Password | Rol | Juzgado | DescripciÛn |
 |----------|----------|-----|---------|-------------|
 | admin.qa | QAPassword123! | ADMIN | N/A | Administrador sistema |
 | secretario.qa | QAPassword123! | SECRETARIO | J1 | Secretario de juzgado |
 | juez.qa | QAPassword123! | JUEZ | J1 | Juez de juzgado |
-| consulta.qa | QAPassword123! | CONSULTA_PUBLICA | N/A | Consulta p√∫blica |
+| consulta.qa | QAPassword123! | CONSULTA_PUBLICA | N/A | Consulta p˙blica |
 
 **NOTA:** Validar con DevOps que estos usuarios existen en BD QA.
 
 ---
 
-## 2. EJECUCI√ìN E2E TESTS (PLAYWRIGHT)
+## 2. EJECUCI”N E2E TESTS (PLAYWRIGHT)
 
 ### 2.1 Setup Inicial
 
@@ -77,15 +77,15 @@ cd c:\proyectos\oj\sGED-frontend\e2e-tests
 # Instalar dependencias
 npm install
 
-# Verificar instalaci√≥n de navegadores
+# Verificar instalaciÛn de navegadores
 npx playwright install
 npx playwright install-deps
 
-# Validar configuraci√≥n
+# Validar configuraciÛn
 npm test -- --dry-run
 ```
 
-### 2.2 Ejecuci√≥n Est√°ndar (Headless)
+### 2.2 EjecuciÛn Est·ndar (Headless)
 
 ```bash
 # Contra QA
@@ -107,34 +107,34 @@ BASE_URL=https://qa.sged.mx npm run test:e2e
 # =============================== 26 passed in 18m45s ==============================
 ```
 
-### 2.3 Ejecuci√≥n en Modo Headed (Ver Navegador)
+### 2.3 EjecuciÛn en Modo Headed (Ver Navegador)
 
 ```bash
-# Permite ver qu√© est√° haciendo el test
+# Permite ver quÈ est· haciendo el test
 BASE_URL=https://qa.sged.mx npm run test:e2e:headed
 
-# √ötil para debugging
+# ⁄til para debugging
 ```
 
-### 2.4 Ejecuci√≥n en Modo Debug
+### 2.4 EjecuciÛn en Modo Debug
 
 ```bash
 # Abre Inspector de Playwright
 BASE_URL=https://qa.sged.mx npm run test:e2e:debug
 
 # Luego ejecutar paso a paso:
-# - Click en "Step over" para siguiente l√≠nea
+# - Click en "Step over" para siguiente lÌnea
 # - Click en "Resume" para continuar
 # - Inspeccionar variables en consola
 ```
 
-### 2.5 Ejecuci√≥n de Test Individual
+### 2.5 EjecuciÛn de Test Individual
 
 ```bash
-# Solo F1 (Autenticaci√≥n)
+# Solo F1 (AutenticaciÛn)
 npx playwright test tests/auth.spec.ts
 
-# Solo un test espec√≠fico
+# Solo un test especÌfico
 npx playwright test tests/auth.spec.ts -g "F1.1"
 
 # Solo en Chrome
@@ -144,15 +144,15 @@ npx playwright test --project=chromium
 npx playwright test --project=firefox
 ```
 
-### 2.6 Generaci√≥n de Reportes
+### 2.6 GeneraciÛn de Reportes
 
 ```bash
-# Despu√©s de ejecutar tests
+# DespuÈs de ejecutar tests
 npx playwright show-report
 
-# Abre en navegador autom√°ticamente el reporte HTML con:
+# Abre en navegador autom·ticamente el reporte HTML con:
 # - Screenshots de fallos
-# - Video de ejecuci√≥n
+# - Video de ejecuciÛn
 # - Trace de eventos
 
 # Exportar reporte JSON (para CI/CD)
@@ -164,12 +164,12 @@ npm test -- --reporter=junit > test-results.xml
 
 ---
 
-## 3. EJECUCI√ìN LOAD TESTS (JMETER)
+## 3. EJECUCI”N LOAD TESTS (JMETER)
 
 ### 3.1 Setup Inicial
 
 ```bash
-# Descargar JMeter (si no est√° instalado)
+# Descargar JMeter (si no est· instalado)
 cd c:\proyectos\oj\sGED-backend\load-tests
 download https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.zip
 unzip apache-jmeter-5.6.3.zip
@@ -181,7 +181,7 @@ export PATH=$PATH:/path/to/apache-jmeter-5.6.3/bin
 ### 3.2 Validar Conectividad API
 
 ```bash
-# Antes de ejecutar load tests, validar que API est√° en l√≠nea
+# Antes de ejecutar load tests, validar que API est· en lÌnea
 curl -X POST https://qa.sged.mx/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin.qa","password":"QAPassword123!"}'
@@ -207,7 +207,7 @@ jmeter -t scenario-1-50users.jmx \
   -Japi.host=qa.sged.mx \
   -Japi.port=443
 
-# Duraci√≥n esperada: ~12 minutos (600s + startup)
+# DuraciÛn esperada: ~12 minutos (600s + startup)
 # Salida en consola:
 # ...
 # summary =  1800 in 00:10:15 = 175.6/sec avg= 562 min= 80 max=1800 err= 0.02%
@@ -223,7 +223,7 @@ jmeter -n -t scenario-2-100users-peak.jmx \
   -Japi.host=qa.sged.mx \
   -Japi.port=443
 
-# Duraci√≥n esperada: ~17 minutos (900s + startup)
+# DuraciÛn esperada: ~17 minutos (900s + startup)
 # Observar picos de latencia durante ramp-up (primeros 30s)
 ```
 
@@ -237,7 +237,7 @@ jmeter -n -t scenario-3-5users-30min.jmx \
   -Japi.host=qa.sged.mx \
   -Japi.port=443
 
-# ‚ö†Ô∏è NOTA: Este escenario dura 30 minutos
+# ?? NOTA: Este escenario dura 30 minutos
 # Ejecutar en background o en terminal separada
 
 # Monitor de memoria del proceso (Windows PowerShell)
@@ -246,15 +246,15 @@ Get-Process | Where-Object {$_.ProcessName -like "*java*"} | `
   Format-Table -AutoSize
 ```
 
-### 3.6 Generaci√≥n de Reportes JMeter
+### 3.6 GeneraciÛn de Reportes JMeter
 
 ```bash
-# Despu√©s de ejecutar Escenario 1
+# DespuÈs de ejecutar Escenario 1
 jmeter -g results-s1.jtl -o report-s1 -Jjmeter.reportgenerator.overall_granularity=60000
 
 # Abre report-s1/index.html en navegador
 
-# Genera gr√°ficos de:
+# Genera gr·ficos de:
 # - Response Time Over Time
 # - Active Threads Over Time
 # - Bytes Throughput Over Time
@@ -262,14 +262,14 @@ jmeter -g results-s1.jtl -o report-s1 -Jjmeter.reportgenerator.overall_granulari
 # - Error Rate Over Time
 ```
 
-### 3.7 An√°lisis de Resultados JTL
+### 3.7 An·lisis de Resultados JTL
 
 ```bash
 # Los archivos .jtl contienen datos CSV de cada muestra
 # Importarlos en herramientas como:
 # - Excel (pivot tables)
 # - Grafana (datasource CSV)
-# - An√°lisis personalizado
+# - An·lisis personalizado
 
 # Ejemplo: Extraer P95 de resultados
 # En Python:
@@ -286,9 +286,9 @@ print(f"Search P95: {p95_search}ms")
 
 ---
 
-## 4. EJECUCI√ìN BACKEND TESTS (MAVEN)
+## 4. EJECUCI”N BACKEND TESTS (MAVEN)
 
-### 4.1 Tests Unitarios + Integraci√≥n
+### 4.1 Tests Unitarios + IntegraciÛn
 
 ```bash
 cd c:\proyectos\oj\sGED-backend
@@ -310,7 +310,7 @@ cd c:\proyectos\oj\sGED-backend
 # Genera reporte en:
 # target/site/jacoco/index.html
 
-# Validar cobertura de m√≥dulos cr√≠ticos:
+# Validar cobertura de mÛdulos crÌticos:
 # - com.oj.sged.api.controller: >80%
 # - com.oj.sged.application.service: >85%
 # - com.oj.sged.infrastructure: >75%
@@ -327,9 +327,9 @@ cd c:\proyectos\oj\sGED-backend
 
 ---
 
-## 5. EJECUCI√ìN COMPLETA (Pipeline QA)
+## 5. EJECUCI”N COMPLETA (Pipeline QA)
 
-### 5.1 Script de Ejecuci√≥n Automatizada (PowerShell)
+### 5.1 Script de EjecuciÛn Automatizada (PowerShell)
 
 ```powershell
 # exec-qa-tests.ps1
@@ -351,10 +351,10 @@ $env:BASE_URL = $QA_URL
 npm run test:e2e
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "‚ùå E2E Tests fallaron" -ForegroundColor Red
+    Write-Host "? E2E Tests fallaron" -ForegroundColor Red
     exit 1
 }
-Write-Host "‚úÖ E2E Tests completados" -ForegroundColor Green
+Write-Host "? E2E Tests completados" -ForegroundColor Green
 
 # 2. LOAD TESTS (Escenario 1)
 Write-Host "[2/3] Ejecutando Load Tests (JMeter - 50 usuarios)..." -ForegroundColor Yellow
@@ -364,10 +364,10 @@ jmeter -n -t scenario-1-50users.jmx `
   -j jmeter-s1.log
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "‚ùå Load Tests fallaron" -ForegroundColor Red
+    Write-Host "? Load Tests fallaron" -ForegroundColor Red
     exit 1
 }
-Write-Host "‚úÖ Load Tests completados" -ForegroundColor Green
+Write-Host "? Load Tests completados" -ForegroundColor Green
 
 # 3. GENERAR REPORTES
 Write-Host "[3/3] Generando reportes..." -ForegroundColor Yellow
@@ -474,13 +474,13 @@ jobs:
 
 ---
 
-## 6. VALIDACI√ìN DE RESULTADOS
+## 6. VALIDACI”N DE RESULTADOS
 
 ### 6.1 Checklist E2E Tests
 
 - [ ] 26 tests ejecutados
 - [ ] 0 fallos
-- [ ] Duraci√≥n < 30 minutos
+- [ ] DuraciÛn < 30 minutos
 - [ ] No hay timeouts
 - [ ] Todos los browsers (Chromium, Firefox) pasaron
 - [ ] Reporte HTML generado
@@ -496,29 +496,29 @@ jobs:
 ### 6.3 Checklist Backend Tests
 
 - [ ] Todos los tests unitarios pasan
-- [ ] Todos los tests integraci√≥n pasan
-- [ ] Cobertura > 80% en m√≥dulos cr√≠ticos
+- [ ] Todos los tests integraciÛn pasan
+- [ ] Cobertura > 80% en mÛdulos crÌticos
 - [ ] BUILD SUCCESS en Maven
 
-### 6.4 Validaci√≥n Final
+### 6.4 ValidaciÛn Final
 
 ```bash
 # Crear archivo de resumen
 cat > QA_EXECUTION_SUMMARY.txt << EOF
-FECHA DE EJECUCI√ìN: $(date)
+FECHA DE EJECUCI”N: $(date)
 ENTORNO QA: https://qa.sged.mx
 
 E2E TESTS:
 - Total: 26
 - Pasados: 26
 - Fallidos: 0
-- Duraci√≥n: 18m 45s
+- DuraciÛn: 18m 45s
 
 LOAD TESTS (50 usuarios):
-- P95: 1.2s (< 3s) ‚úì
-- Error Rate: 0.2% (< 2%) ‚úì
+- P95: 1.2s (< 3s) ?
+- Error Rate: 0.2% (< 2%) ?
 
-ESTADO: ‚úÖ APTO PARA DESPLIEGUE
+ESTADO: ? APTO PARA DESPLIEGUE
 EOF
 
 cat QA_EXECUTION_SUMMARY.txt
@@ -530,9 +530,9 @@ cat QA_EXECUTION_SUMMARY.txt
 
 ### 7.1 E2E Tests Fallan
 
-**S√≠ntoma:** Tests con timeout en login  
-**Causa:** QA no disponible o credentials inv√°lidas  
-**Soluci√≥n:**
+**SÌntoma:** Tests con timeout en login  
+**Causa:** QA no disponible o credentials inv·lidas  
+**SoluciÛn:**
 ```bash
 # Validar conectividad
 curl -I https://qa.sged.mx
@@ -544,9 +544,9 @@ curl -X POST https://qa.sged.mx/api/v1/auth/login \
   -d '{"username":"admin.qa","password":"QAPassword123!"}'
 ```
 
-**S√≠ntoma:** Page element not found (data-testid)  
+**SÌntoma:** Page element not found (data-testid)  
 **Causa:** Frontend no tiene data-testid  
-**Soluci√≥n:**
+**SoluciÛn:**
 ```bash
 # Actualizar Page Objects para usar selectores alternativos
 # O pedir al equipo frontend que agregue data-testid
@@ -554,35 +554,35 @@ curl -X POST https://qa.sged.mx/api/v1/auth/login \
 
 ### 7.2 Load Tests Fallan
 
-**S√≠ntoma:** Connection refused  
-**Causa:** API no est√° accesible  
-**Soluci√≥n:**
+**SÌntoma:** Connection refused  
+**Causa:** API no est· accesible  
+**SoluciÛn:**
 ```bash
 # Validar URL en .jmx
-# Validar que api.sged.mx est√° en DNS
+# Validar que api.sged.mx est· en DNS
 nslookup qa.sged.mx
 
 # Validar firewall permite HTTPS
 telnet qa.sged.mx 443
 ```
 
-**S√≠ntoma:** Token extraction fails  
+**SÌntoma:** Token extraction fails  
 **Causa:** Login endpoint retorna formato diferente  
-**Soluci√≥n:**
+**SoluciÛn:**
 ```bash
 # Revisar respuesta real
 curl -v -X POST https://qa.sged.mx/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin.qa","password":"QAPassword123!"}'
 
-# Actualizar regex en .jmx seg√∫n respuesta real
+# Actualizar regex en .jmx seg˙n respuesta real
 ```
 
 ### 7.3 Memory Leaks Detectados
 
-**S√≠ntoma:** Memory crece continuamente en escenario 3  
-**Causa:** Connection pool no liberando, cache sin l√≠mite  
-**Soluci√≥n:**
+**SÌntoma:** Memory crece continuamente en escenario 3  
+**Causa:** Connection pool no liberando, cache sin lÌmite  
+**SoluciÛn:**
 ```bash
 # Recolectar heap dump
 jmap -dump:live,format=b,file=heapdump.bin <PID>
@@ -595,17 +595,17 @@ jmap -dump:live,format=b,file=heapdump.bin <PID>
 
 ## 8. REPORTE FINAL
 
-Despu√©s de completar todos los tests, generar reporte:
+DespuÈs de completar todos los tests, generar reporte:
 
 ```bash
-# Copiar QA_ACCEPTANCE_REPORT.md a ra√≠z del proyecto
+# Copiar QA_ACCEPTANCE_REPORT.md a raÌz del proyecto
 cp sGED-backend/QA_ACCEPTANCE_REPORT.md ./
 
 # Incluir en reporte:
 # - Resultados E2E (playwright-report/)
 # - Resultados Load (report-s1/, report-s2/)
-# - Logs de ejecuci√≥n (jmeter-*.log)
-# - Evidencia de validaci√≥n
+# - Logs de ejecuciÛn (jmeter-*.log)
+# - Evidencia de validaciÛn
 
 # Subir a repositorio
 git add QA_ACCEPTANCE_REPORT.md
@@ -630,5 +630,5 @@ git push origin main
 
 **Documento Preparado por:** Agente QA Automatizado  
 **Validado para:** SGED v0.0.1-SNAPSHOT  
-**√öltima Actualizaci√≥n:** 2026-05-03
+**⁄ltima ActualizaciÛn:** 2026-05-03
 

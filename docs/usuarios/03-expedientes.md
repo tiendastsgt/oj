@@ -41,7 +41,7 @@ Para crear un nuevo expediente:
    |-------|-------------|:-----------:|
    | **Numero de expediente** | Codigo judicial unico que identifica el caso. No puede repetirse en el sistema. | Si |
    | **Tipo de proceso** | Clasificacion del proceso judicial (seleccione de la lista). | Si |
-   | **Juzgado** | Organo judicial donde radica el expediente (seleccione de la lista). | Si |
+   | **Juzgado** | Organo judicial donde radica el expediente. **Nota:** Si usted es Secretario o Auxiliar, este campo estará bloqueado y autocompletado con su juzgado asignado. | Si |
    | **Estado** | Situacion actual del expediente: Activo, Archivado o Suspendido. | Si |
    | **Demandante** | Nombre de la parte demandante o accionante. | Segun configuracion |
    | **Demandado** | Nombre de la parte demandada o accionada. | Segun configuracion |
@@ -107,14 +107,14 @@ Cada expediente tiene asignado un **estado** que refleja su situacion actual. Lo
 
 ## Permisos del modulo de expedientes
 
-| Accion | ADMIN | SECRETARIO | AUXILIAR | CONSULTA |
-|--------|:-----:|:----------:|:--------:|:--------:|
-| Ver listado de expedientes | Si | Si | Si | Si |
-| Ver detalle de un expediente | Si | Si | Si | Si |
-| Crear expediente | Si | Si | Si | No |
-| Editar datos de un expediente | Si | Si | No | No |
-| Cambiar estado de un expediente | Si | Si | No | No |
-| Eliminar un expediente | Si | No | No | No |
+| Accion | ADMIN | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
+|--------|:-----:|:----------:|:--------:|:----:|:--------:|
+| Ver listado de expedientes | Si | Si | Si | Si | Si |
+| Ver detalle de un expediente | Si | Si | Si | Si | Si |
+| Crear expediente | Si | Si (auto-asignado) | Si (auto-asignado) | No | No |
+| Editar datos de un expediente | Si | Si (solo su juzgado) | No | No | No |
+| Cambiar estado de un expediente | Si | Si | No | No | No |
+| Eliminar un expediente | Si | No | No | No | No |
 
 ---
 

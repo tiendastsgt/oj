@@ -1,9 +1,9 @@
 ---
 Documento: BACKEND
 Proyecto: SGED
-Versión del sistema: v1.3.0
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versión del sistema: v1.5.0
+Versión del documento: 1.1
+Última actualización: 2026-05-19
 Estado: Vigente
 ---
 
@@ -23,7 +23,7 @@ com.oj.sged/
 │   ├── controller/                       │  7 controladores REST
 │   │   ├── AuthController.java           │  Login, logout, cambiar-password
 │   │   ├── ExpedienteController.java     │  CRUD de expedientes con RBAC
-│   │   ├── DocumentoController.java      │  Upload, descarga, eliminación de documentos
+│   │   ├── DocumentoController.java      │  Upload y eliminación de documentos (Descarga individual bloqueada por DLP)
 │   │   ├── BusquedaExpedientesController.java  │  Búsqueda avanzada con filtros
 │   │   ├── CatalogosController.java      │  Catálogos (estados, tipos, juzgados)
 │   │   ├── AuditoriaController.java      │  Consulta de registros de auditoría
@@ -162,7 +162,7 @@ El siguiente pseudocódigo muestra el flujo completo desde el controlador hasta 
 
 ```java
 // 1. CONTROLADOR — api/controller/ExpedienteController.java
-@PreAuthorize("hasAnyRole('ADMINISTRADOR','SECRETARIO','AUXILIAR')")
+@PreAuthorize("hasAnyRole('ADMINISTRADOR','SECRETARIO','AUXILIAR')") // JUEZ no tiene permiso de creación
 @PostMapping
 public ResponseEntity<ApiResponse<ExpedienteResponse>> crear(
     @Valid @RequestBody ExpedienteRequest request,   // Bean Validation ejecutado aquí

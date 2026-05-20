@@ -11,16 +11,30 @@ Al terminar de leer este capitulo usted sabra:
 
 ## 5.1 Tipos de busqueda disponibles
 
-El SGED ofrece dos modalidades de busqueda para localizar expedientes:
+El SGED ofrece dos modalidades de busqueda y una función de acceso rápido para localizar expedientes:
 
 | Modalidad | Cuando usarla |
 |-----------|---------------|
+| **Expedientes Anclados** | Para acceder instantáneamente a los expedientes y documentos que utiliza con mayor frecuencia, fijados en la parte superior de la pantalla. |
 | **Busqueda rapida** | Cuando conoce el numero exacto o parcial del expediente y quiere encontrarlo de forma inmediata. |
 | **Busqueda avanzada** | Cuando necesita filtrar expedientes por varios criterios combinados: tipo de proceso, estado, juzgado, partes del caso, rango de fechas, etc. |
 
 ---
 
-## 5.2 Busqueda rapida
+## 5.2 Expedientes Anclados (Fijar para acceso rápido)
+
+En la parte superior de la pantalla de búsqueda, encontrará la sección de **Expedientes Anclados**. Esta función le permite "fijar" documentos específicos o expedientes completos para no tener que buscarlos cada vez.
+
+1. **Cómo anclar:** Cuando visualice un documento o un expediente que considere importante, haga clic en el icono de la **chincheta** (anclar).
+2. **Cómo acceder:** Vuelva a la pantalla de búsqueda. En la parte superior (el "hero"), verá tarjetas grandes con todos sus expedientes anclados.
+3. **Cómo desanclar:** Haga clic nuevamente en la chincheta o en el icono de remover dentro de la tarjeta del expediente anclado.
+
+> [!TIP]
+> Los anclados son personales. Lo que usted ancla solo lo ve usted, y se guarda en su propio navegador. Es la forma más rápida de retomar el trabajo de los días anteriores.
+
+---
+
+## 5.3 Busqueda rapida
 
 La busqueda rapida es la forma mas directa de encontrar un expediente cuando conoce su numero:
 
@@ -40,7 +54,7 @@ La busqueda rapida es la forma mas directa de encontrar un expediente cuando con
 
 ---
 
-## 5.3 Busqueda avanzada
+## 5.4 Busqueda avanzada
 
 La busqueda avanzada permite combinar multiples criterios para obtener resultados mas precisos. Es util cuando necesita encontrar todos los expedientes de un tipo de proceso especifico, de un juzgado determinado, o dentro de un rango de fechas.
 
@@ -72,7 +86,7 @@ Para usar la busqueda avanzada:
 
 ---
 
-## 5.4 Como limpiar los filtros de busqueda
+## 5.5 Como limpiar los filtros de busqueda
 
 Despues de realizar una busqueda avanzada, para volver a ver todos los expedientes:
 
@@ -81,7 +95,7 @@ Despues de realizar una busqueda avanzada, para volver a ver todos los expedient
 
 ---
 
-## 5.5 Interpretar los resultados de la busqueda
+## 5.6 Interpretar los resultados de la busqueda
 
 Los resultados de cualquier busqueda se muestran en la misma tabla del listado de expedientes, con las siguientes columnas habituales:
 
@@ -104,7 +118,7 @@ Si la busqueda no encuentra resultados, la tabla mostrara un mensaje indicando q
 
 ---
 
-## 5.6 Paginacion de resultados
+## 5.7 Paginacion de resultados
 
 Si la busqueda devuelve muchos resultados, el sistema los muestra en paginas. Al pie de la tabla encontrara los controles de paginacion:
 
@@ -119,12 +133,12 @@ Si la busqueda devuelve muchos resultados, el sistema los muestra en paginas. Al
 
 ## Permisos del modulo de busqueda
 
-| Accion | ADMIN | SECRETARIO | AUXILIAR | CONSULTA |
-|--------|:-----:|:----------:|:--------:|:--------:|
-| Usar busqueda rapida | Si | Si | Si | Si |
-| Usar busqueda avanzada | Si | Si | Si | Si |
-| Ver resultados de busqueda | Si | Si | Si | Si |
-| Acceder al detalle de un resultado | Si | Si | Si | Si |
+| Accion | ADMIN | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
+|--------|:-----:|:----------:|:--------:|:----:|:--------:|
+| Usar busqueda rapida | Si | Si | Si | Si | Si |
+| Usar busqueda avanzada | Si | Si | Si | Si | Si |
+| Ver resultados de busqueda | Si | Si | Si | Si | Si |
+| Acceder al detalle de un resultado | Si | Si | Si | Si | Si |
 
 ---
 

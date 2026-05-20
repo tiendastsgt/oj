@@ -1,26 +1,26 @@
-﻿---
+---
 Documento: GUIA_PRUEBAS_SISTEMA
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 🧪 Guía de Prueba del Sistema SGED
+# ?? Gu�a de Prueba del Sistema SGED
 
 ## Estado Actual de las Pruebas (Mayo 2026)
 
-La plataforma SGED ha completado **7 fases** de desarrollo y QA. Ahora te ayudaré a estructurar las pruebas del sistema completo.
+La plataforma SGED ha completado **7 fases** de desarrollo y QA. Ahora te ayudar� a estructurar las pruebas del sistema completo.
 
 ---
 
-## 📋 Niveles de Prueba
+## ?? Niveles de Prueba
 
 ### 1. **Pruebas Unitarias** (Desarrollador)
-✅ **Estado**: Backend 85% cobertura, Frontend basic  
-**Ejecución**:
+? **Estado**: Backend 85% cobertura, Frontend basic  
+**Ejecuci�n**:
 ```bash
 # Backend
 cd sGED-backend
@@ -31,9 +31,9 @@ cd sGED-frontend
 npm test
 ```
 
-### 2. **Pruebas de Integración** (QA - Dev/Staging)
-✅ **Estado**: Listo en docker-compose-qa.yml  
-**Ejecución**:
+### 2. **Pruebas de Integraci�n** (QA - Dev/Staging)
+? **Estado**: Listo en docker-compose-qa.yml  
+**Ejecuci�n**:
 ```bash
 docker-compose -f docker-compose-qa.yml up -d
 sleep 30
@@ -47,11 +47,11 @@ curl -X POST http://localhost:8080/api/v1/auth/login \
   -d '{"username":"admin","password":"admin"}'
 ```
 
-### 3. **Pruebas de Secretos (_FILE pattern)** ⭐ NUEVO
-✅ **Implementado**: SecretsPropertySourceLocator  
-**Ejecución**:
+### 3. **Pruebas de Secretos (_FILE pattern)** ? NUEVO
+? **Implementado**: SecretsPropertySourceLocator  
+**Ejecuci�n**:
 
-#### Opción A: Variables Directas (simple)
+#### Opci�n A: Variables Directas (simple)
 ```bash
 export DB_PASSWORD=sged-qa-password
 export JWT_SECRET=sged-qa-jwt-secret
@@ -60,11 +60,11 @@ docker-compose -f docker-compose-qa.yml up -d
 curl http://localhost:8080/api/v1/health
 ```
 
-#### Opción B: Docker Secrets (_FILE pattern)
+#### Opci�n B: Docker Secrets (_FILE pattern)
 ```bash
 # Crear secrets files
 mkdir -p ./secrets
-echo "mi-contraseña-segura" > ./secrets/db_password.txt
+echo "mi-contrase�a-segura" > ./secrets/db_password.txt
 echo "mi-jwt-secret-muy-largo-32-caracteres" > ./secrets/jwt_secret.txt
 
 # Modificar docker-compose-qa.yml
@@ -78,21 +78,21 @@ curl http://localhost:8080/api/v1/health
 
 ---
 
-## 🔐 Inyección de Secrets: Verificación
+## ?? Inyecci�n de Secrets: Verificaci�n
 
-### Verificar que el PropertySourceLocator funcionó
+### Verificar que el PropertySourceLocator funcion�
 
 ```bash
 # 1. Ver logs del backend
 docker logs sged-backend-qa 2>&1 | grep -i "SECRETS"
 
-# Debería ver:
+# Deber�a ver:
 # [SECRETS] Loaded DB_PASSWORD from file: /run/secrets/db_password
 # [SECRETS] Loaded JWT_SECRET from file: /run/secrets/jwt_secret
 ```
 
 ```bash
-# 2. Verificar conexión a BD (implícitamente valida el password)
+# 2. Verificar conexi�n a BD (impl�citamente valida el password)
 curl -s http://localhost:8080/api/v1/health | jq .
 # {
 #   "status": "UP",
@@ -101,7 +101,7 @@ curl -s http://localhost:8080/api/v1/health | jq .
 ```
 
 ```bash
-# 3. Verificar JWT (implícitamente valida el secret)
+# 3. Verificar JWT (impl�citamente valida el secret)
 curl -X POST http://localhost:8080/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin"}' | jq .
@@ -114,11 +114,11 @@ curl -X POST http://localhost:8080/api/v1/auth/login \
 
 ---
 
-## 🧪 Plan de Pruebas por Módulo
+## ?? Plan de Pruebas por M�dulo
 
 ### Backend - Pruebas Funcionales
 
-#### 🔓 Autenticación
+#### ?? Autenticaci�n
 ```bash
 # Login
 curl -X POST http://localhost:8080/api/v1/auth/login \
@@ -138,7 +138,7 @@ curl -X GET http://localhost:8080/api/v1/expedientes
 # 401 Unauthorized
 ```
 
-#### 📄 Documentos
+#### ?? Documentos
 ```bash
 # Subir documento
 curl -X POST http://localhost:8080/api/v1/documentos/upload \
@@ -152,7 +152,7 @@ curl -X GET "http://localhost:8080/api/v1/documentos/{id}" \
   | jq .
 ```
 
-#### 📋 Expedientes
+#### ?? Expedientes
 ```bash
 # Listar
 curl -X GET http://localhost:8080/api/v1/expedientes \
@@ -169,7 +169,7 @@ curl -X POST http://localhost:8080/api/v1/expedientes \
   }' | jq .
 ```
 
-#### 🔍 Búsqueda
+#### ?? B�squeda
 ```bash
 # Full text search
 curl -X POST http://localhost:8080/api/v1/expedientes/search \
@@ -183,9 +183,9 @@ curl -X POST http://localhost:8080/api/v1/expedientes/search \
   }' | jq .
 ```
 
-#### 📊 Auditoría
+#### ?? Auditor�a
 ```bash
-# Ver logs de auditoría
+# Ver logs de auditor�a
 curl -X GET http://localhost:8080/api/v1/auditoria \
   -H "Authorization: Bearer $TOKEN" \
   | jq '.audits | .[0:3]'
@@ -215,17 +215,17 @@ npm test
 npm run e2e
 ```
 
-#### 3. Validar Compilación en Docker
+#### 3. Validar Compilaci�n en Docker
 ```bash
 # El docker-compose-qa.yml sirve el frontend via NGINX
 docker-compose -f docker-compose-qa.yml up -d
 curl http://localhost/app/
-# Debería retornar index.html compilado
+# Deber�a retornar index.html compilado
 ```
 
 ---
 
-## 🏗️ Pruebas de Arquitectura
+## ??? Pruebas de Arquitectura
 
 ### Base de Datos
 
@@ -243,7 +243,7 @@ EXIT;
 ### Reverse Proxy (NGINX)
 
 ```bash
-# Verificar configuración
+# Verificar configuraci�n
 docker exec sged-nginx-qa nginx -t
 
 # Ver logs
@@ -269,7 +269,7 @@ docker exec sged-backend-qa ping sged-nginx-qa
 
 ---
 
-## 🚨 Pruebas de Error Handling
+## ?? Pruebas de Error Handling
 
 ### Casos de Error Esperados
 
@@ -280,7 +280,7 @@ curl http://localhost:8080/api/v1/health
 # 503 Service Unavailable + circuitbreaker
 ```
 
-#### 2. JWT Inválido
+#### 2. JWT Inv�lido
 ```bash
 curl -X GET http://localhost:8080/api/v1/expedientes \
   -H "Authorization: Bearer invalid-token"
@@ -298,17 +298,17 @@ curl -X POST http://localhost:8080/api/v1/documentos/upload \
 
 #### 4. Rate Limiting
 ```bash
-# NGINX tiene límite de 20 req/s general
+# NGINX tiene l�mite de 20 req/s general
 for i in {1..100}; do
   curl -s http://localhost/api/v1/health > /dev/null &
 done
 wait
-# Algunos deberían retornar 429 Too Many Requests
+# Algunos deber�an retornar 429 Too Many Requests
 ```
 
 ---
 
-## 📊 Pruebas de Rendimiento
+## ?? Pruebas de Rendimiento
 
 ### Latencia
 
@@ -316,7 +316,7 @@ wait
 # Medir latencia del endpoint
 time curl -s http://localhost:8080/api/v1/health > /dev/null
 
-# Con múltiples requests
+# Con m�ltiples requests
 for i in {1..100}; do
   time curl -s http://localhost:8080/api/v1/health > /dev/null
 done | grep real | awk '{print $2}' | sort | uniq -c
@@ -325,7 +325,7 @@ done | grep real | awk '{print $2}' | sort | uniq -c
 ### Carga
 
 ```bash
-# Instalación necesaria
+# Instalaci�n necesaria
 # apt install apache2-utils (Linux)
 # o descargar Apache Bench
 
@@ -350,12 +350,12 @@ while true; do
   sleep 0.1
 done
 
-# La memoria NO debería aumentar continuamente
+# La memoria NO deber�a aumentar continuamente
 ```
 
 ---
 
-## 🔍 Pruebas de Secretos (Focus Area)
+## ?? Pruebas de Secretos (Focus Area)
 
 ### Scenario 1: Variables Directas
 
@@ -372,7 +372,7 @@ docker exec sged-backend-qa env | grep -E "DB_PASSWORD|JWT_SECRET"
 # JWT_SECRET=jwttest456
 
 curl http://localhost:8080/api/v1/health
-# "status": "UP" → Password correcto
+# "status": "UP" ? Password correcto
 ```
 
 ### Scenario 2: Docker Secrets (_FILE)
@@ -398,7 +398,7 @@ docker logs sged-backend-qa | grep SECRETS
 # [SECRETS] Loaded JWT_SECRET from file: /run/secrets/jwt_secret
 
 curl http://localhost:8080/api/v1/health
-# "status": "UP" → Secrets cargados correctamente
+# "status": "UP" ? Secrets cargados correctamente
 ```
 
 ### Scenario 3: Precedencia (Variable + _FILE)
@@ -414,74 +414,74 @@ echo "file-value" > ./secrets/db_password.txt
 
 docker-compose -f docker-compose-qa.yml up -d
 
-# Verificar: Debería usar la variable directa "direct-value"
+# Verificar: Deber�a usar la variable directa "direct-value"
 # Porque tiene precedencia sobre _FILE
 
 curl http://localhost:8080/api/v1/health
-# Si status=UP → usó "direct-value"
-# Si status!=UP → hay un error de precedencia
+# Si status=UP ? us� "direct-value"
+# Si status!=UP ? hay un error de precedencia
 ```
 
 ---
 
-## ✅ Checklist de Pruebas Completo
+## ? Checklist de Pruebas Completo
 
 ```
-PREPARACIÓN
-├─ [  ] Clonar repositorio
-├─ [  ] Instalar Docker + Docker Compose
-├─ [  ] Copiar .env.qa (si es necesario)
-└─ [  ] Verificar puertos disponibles (80, 443, 8080, 1521)
+PREPARACI�N
++- [  ] Clonar repositorio
++- [  ] Instalar Docker + Docker Compose
++- [  ] Copiar .env.qa (si es necesario)
++- [  ] Verificar puertos disponibles (80, 443, 8080, 1521)
 
 BACKEND - UNITARIAS
-├─ [  ] mvn test en sGED-backend
-└─ [  ] 85%+ cobertura
++- [  ] mvn test en sGED-backend
++- [  ] 85%+ cobertura
 
-BACKEND - INTEGRACIÓN
-├─ [  ] docker-compose up -d
-├─ [  ] curl /health → UP
-├─ [  ] Login funciona
-├─ [  ] CRUD expedientes funciona
-└─ [  ] Búsqueda funciona
+BACKEND - INTEGRACI�N
++- [  ] docker-compose up -d
++- [  ] curl /health ? UP
++- [  ] Login funciona
++- [  ] CRUD expedientes funciona
++- [  ] B�squeda funciona
 
 SECRETOS
-├─ [  ] Variables directas cargadas correctamente
-├─ [  ] Variables _FILE cargadas correctamente
-├─ [  ] Precedencia respetada
-└─ [  ] Docker logs muestran "[SECRETS]"
++- [  ] Variables directas cargadas correctamente
++- [  ] Variables _FILE cargadas correctamente
++- [  ] Precedencia respetada
++- [  ] Docker logs muestran "[SECRETS]"
 
 FRONTEND
-├─ [  ] npm test
-├─ [  ] npm run build
-├─ [  ] localhost/app/ carga
-└─ [  ] Formularios funcionan
++- [  ] npm test
++- [  ] npm run build
++- [  ] localhost/app/ carga
++- [  ] Formularios funcionan
 
 NETWORKING
-├─ [  ] NGINX ↔ Backend comunicación
-├─ [  ] Backend ↔ Database comunicación
-└─ [  ] Todos en mismo network
++- [  ] NGINX ? Backend comunicaci�n
++- [  ] Backend ? Database comunicaci�n
++- [  ] Todos en mismo network
 
 SEGURIDAD
-├─ [  ] JWT válido → acceso
-├─ [  ] JWT inválido → 401
-├─ [  ] Sin token → 401
-└─ [  ] Rate limiting activo
++- [  ] JWT v�lido ? acceso
++- [  ] JWT inv�lido ? 401
++- [  ] Sin token ? 401
++- [  ] Rate limiting activo
 
 RENDIMIENTO
-├─ [  ] Latencia < 500ms (p95)
-├─ [  ] No memory leaks (10min test)
-├─ [  ] Rate limit ~20req/s
-└─ [  ] CPU < 80% en carga
++- [  ] Latencia < 500ms (p95)
++- [  ] No memory leaks (10min test)
++- [  ] Rate limit ~20req/s
++- [  ] CPU < 80% en carga
 
-PRODUCCIÓN SIMULADA
-├─ [  ] docker-compose-prod.yml con secrets
-├─ [  ] Blue/Green deployment simulado
-└─ [  ] Rollback < 60 segundos
+PRODUCCI�N SIMULADA
++- [  ] docker-compose-prod.yml con secrets
++- [  ] Blue/Green deployment simulado
++- [  ] Rollback < 60 segundos
 ```
 
 ---
 
-## 📈 Reportes de Pruebas
+## ?? Reportes de Pruebas
 
 ### Template de Reporte
 
@@ -497,30 +497,30 @@ Entorno: QA
 - Coverage: 87%
 
 ## Resultado Final
-✅ LISTO PARA STAGING
+? LISTO PARA STAGING
 
 ## Issues Encontrados
-- Ninguno crítico
+- Ninguno cr�tico
 - 2 warnings menores en logs
 
 ## Recomendaciones
 - Monitorear JWT secret rotation
-- Optimizar query de búsqueda full-text
+- Optimizar query de b�squeda full-text
 ```
 
 ---
 
-## 🚀 Siguientes Pasos
+## ?? Siguientes Pasos
 
-1. **Inmediato**: Ejecutar pruebas unitarias y de integración
-2. **Hoy**: Validar inyección de secrets (ambas opciones)
+1. **Inmediato**: Ejecutar pruebas unitarias y de integraci�n
+2. **Hoy**: Validar inyecci�n de secrets (ambas opciones)
 3. **Esta semana**: Pruebas de rendimiento y carga
-4. **Próxima semana**: Deployment a Staging
-5. **Posterior**: Preparar producción
+4. **Pr�xima semana**: Deployment a Staging
+5. **Posterior**: Preparar producci�n
 
 ---
 
-## 📞 Soporte
+## ?? Soporte
 
 Si encuentras problemas:
 1. Revisar logs: `docker logs sged-backend-qa`

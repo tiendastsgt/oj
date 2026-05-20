@@ -1,9 +1,9 @@
 ---
 Documento: SEGURIDAD
 Proyecto: SGED
-Versión del sistema: v1.3.0
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versión del sistema: v1.5.0
+Versión del documento: 1.1
+Última actualización: 2026-05-19
 Estado: Vigente
 ---
 
@@ -155,32 +155,32 @@ jwt:
 
 ---
 
-## 3. Control de Acceso RBAC — 4 Roles
+## 3. Control de Acceso RBAC — 5 Roles
 
-El sistema implementa **RBAC (Role-Based Access Control)** con 4 roles fijos, definidos en la tabla `cat_rol` y aplicados mediante anotaciones `@PreAuthorize` en los controladores.
+El sistema implementa **RBAC (Role-Based Access Control)** con 5 roles fijos, definidos en la tabla `cat_rol` y aplicados mediante anotaciones `@PreAuthorize` en los controladores.
 
 ### Tabla de Permisos por Módulo y Rol
 
-| Módulo / Operación | ADMINISTRADOR | SECRETARIO | AUXILIAR | CONSULTA |
-|-------------------|:-------------:|:----------:|:--------:|:--------:|
-| **Expedientes — Listar** | SI | SI | SI | SI |
-| **Expedientes — Ver detalle** | SI | SI | SI | SI |
-| **Expedientes — Estadísticas dashboard** | SI (global) | SI (su juzgado) | SI (su juzgado) | SI (su juzgado) |
-| **Expedientes — Crear** | SI | SI | SI | NO |
-| **Expedientes — Editar** | SI | SI | NO | NO |
-| **Documentos — Listar** | SI | SI | SI | SI |
-| **Documentos — Descargar** | SI | SI | SI | SI |
-| **Documentos — Subir** | SI | SI | SI | NO |
-| **Documentos — Eliminar (soft)** | SI | SI | SI | NO |
-| **Búsqueda avanzada** | SI (global) | SI (su juzgado) | SI (su juzgado) | SI (su juzgado) |
-| **Catálogos — Consultar** | SI | SI | SI | SI |
-| **Admin — CRUD Usuarios** | SI | NO | NO | NO |
-| **Admin — Reset contraseña** | SI | NO | NO | NO |
-| **Admin — Desbloquear cuentas** | SI | NO | NO | NO |
-| **Auditoría — Consultar** | SI | NO | NO | NO |
-| **Auth — Login** | SI (público) | SI (público) | SI (público) | SI (público) |
-| **Auth — Logout** | SI | SI | SI | SI |
-| **Auth — Cambiar contraseña** | SI | SI | SI | SI |
+| Módulo / Operación | ADMINISTRADOR | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
+|-------------------|:-------------:|:----------:|:--------:|:----:|:--------:|
+| **Expedientes — Listar** | SI | SI | SI | SI | SI |
+| **Expedientes — Ver detalle** | SI | SI | SI | SI | SI |
+| **Expedientes — Estadísticas dashboard** | SI (global) | SI (su juzgado) | SI (su juzgado) | SI (su juzgado) | SI (su juzgado) |
+| **Expedientes — Crear** | SI | SI (su juzgado) | SI (su juzgado) | NO | NO |
+| **Expedientes — Editar** | SI | SI (su juzgado) | NO | NO | NO |
+| **Documentos — Listar** | SI | SI | SI | SI | SI |
+| **Documentos — Descargar individual** | NO | NO | NO | NO | NO |
+| **Documentos — Subir** | SI | SI | SI | NO | NO |
+| **Documentos — Eliminar (soft)** | SI | SI | NO | NO | NO |
+| **Búsqueda avanzada** | SI (global) | SI (su juzgado) | SI (su juzgado) | SI (su juzgado) | SI (su juzgado) |
+| **Catálogos — Consultar** | SI | SI | SI | SI | SI |
+| **Admin — CRUD Usuarios** | SI | NO | NO | NO | NO |
+| **Admin — Reset contraseña** | SI | NO | NO | NO | NO |
+| **Admin — Desbloquear cuentas** | SI | NO | NO | NO | NO |
+| **Auditoría — Consultar** | SI | NO | NO | NO | NO |
+| **Auth — Login** | SI (público) | SI (público) | SI (público) | SI (público) | SI (público) |
+| **Auth — Logout** | SI | SI | SI | SI | SI |
+| **Auth — Cambiar contraseña** | SI | SI | SI | SI | SI |
 
 ### Aislamiento de Datos por Juzgado
 
@@ -284,6 +284,7 @@ El sistema registra todas las acciones relevantes en la tabla `auditoria`. Dise�
 | `CREAR_DOCUMENTO` | DOCUMENTO | Carga de nuevo documento |
 | `DESCARGAR_DOCUMENTO` | DOCUMENTO | Descarga de documento |
 | `ELIMINAR_DOCUMENTO` | DOCUMENTO | Eliminación lógica de documento |
+| `PRESENTAR_ANCLADOS` | DOCUMENTO | Impresión consolidada mediante el Modo Presentación |
 | `CREAR_USUARIO` | USUARIO | Creación de usuario por ADMINISTRADOR |
 | `EDITAR_USUARIO` | USUARIO | Modificación de usuario |
 | `DESBLOQUEAR_USUARIO` | USUARIO | Desbloqueo de cuenta por ADMINISTRADOR |
@@ -380,6 +381,22 @@ Cuando un request no autenticado llega a una ruta protegida, Spring retorna dire
 | **Rate limiting** | No implementado | Nginx puede limitar req/s por IP |
 | **Logs de seguridad** | Logback con nivel WARN en JWT | Enviar a SIEM corporativo en producción |
 | **Rotación de tokens** | No implementada (8h fixed) | Refresh tokens para sesiones largas |
+
+## 9. Restricciones Físicas de Archivos (DLP Frontend)
+
+Para evitar la fuga de información sensible, el frontend implementa varias capas de Data Loss Prevention (DLP):
+
+1. **Bloqueo Global de Teclado (`PrintBlockService`)**:
+   Se interceptan eventos globales `keydown` para bloquear accesos directos de impresión o guardado como `Ctrl+P`, `Ctrl+S`, `Command+P`, `Command+S`, `F12`, e `ImprPant` (este último vía vaciado de portapapeles y overlays CSS).
+
+2. **Bloqueo de Menú Contextual (Clic derecho)**:
+   A través del sistema y específicamente en componentes de visualización (`reproductor-video`, `reproductor-audio`, `visor-imagen`, `visor-pdf`), se bloquea el evento `contextmenu` y se aplica `draggable="false"` a imágenes para evitar que el usuario arrastre archivos al escritorio o guarde como.
+
+3. **Restricción Nativa en HTML5**:
+   Los tags `<audio>` y `<video>` incluyen el atributo `controlsList="nodownload"` para ocultar los botones de descarga nativos del navegador.
+
+4. **Visor de PDF (`#toolbar=0&navpanes=0`)**:
+   Los iframes que renderizan PDFs nativos utilizan parámetros del viewer para esconder las barras de herramientas de Adobe Acrobat/Chrome, impidiendo el uso de los botones "Download" y "Print" internos del visor. La extracción en PDF solo es posible de manera controlada (y combinada) a través del "Modo Presentación" imprimiendo vía script interno.
 
 ---
 

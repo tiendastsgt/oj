@@ -1,63 +1,63 @@
-﻿---
+---
 Documento: TEMPLATE_PROD_SMOKE_REPORT
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# SMOKE TEST REPORT - v1.2.4 PRODUCCIÓN
+# SMOKE TEST REPORT - v1.2.4 PRODUCCI�N
 
-**Versión:** 1.2.4  
-**Fecha/Hora Ejecución:** [COMPLETAR - ej: 28 Mayo 2026, 14:30 UTC]  
-**Ambiente:** Producción (https://sged.produccion.mx)  
+**Versi�n:** 1.2.4  
+**Fecha/Hora Ejecuci�n:** [COMPLETAR - ej: 28 Mayo 2026, 14:30 UTC]  
+**Ambiente:** Producci�n (https://sged.produccion.mx)  
 **Ejecutado por:** [Agente de Testing / Nombre del QA Engineer]  
-**Duración Total:** [COMPLETAR - ej: 7 minutos 42 segundos]
+**Duraci�n Total:** [COMPLETAR - ej: 7 minutos 42 segundos]
 
 ---
 
-## 📊 RESUMEN EJECUTIVO
+## ?? RESUMEN EJECUTIVO
 
-| Métrica | Resultado | Status |
+| M�trica | Resultado | Status |
 |---------|-----------|--------|
-| **Total Tests Ejecutados** | ___ / 15+ | ✅ / ⚠️ / 🔴 |
-| **Tests Pasados** | ___ | ✅ |
-| **Tests Fallidos** | ___ | 🔴 (si > 0) |
-| **Duración** | ___ min | ⏱️ |
-| **Status General** | ✅ OK / ⚠️ WITH ISSUES / 🔴 FAILED | ❓ |
-| **Recomendación** | 🟢 PROCEED / ⚠️ MONITOR / 🔴 ROLLBACK | ❓ |
+| **Total Tests Ejecutados** | ___ / 15+ | ? / ?? / ?? |
+| **Tests Pasados** | ___ | ? |
+| **Tests Fallidos** | ___ | ?? (si > 0) |
+| **Duraci�n** | ___ min | ?? |
+| **Status General** | ? OK / ?? WITH ISSUES / ?? FAILED | ? |
+| **Recomendaci�n** | ?? PROCEED / ?? MONITOR / ?? ROLLBACK | ? |
 
 ---
 
-## 🚦 RESULTADOS CRÍTICOS (SMOKE-1, 2, 7)
+## ?? RESULTADOS CR�TICOS (SMOKE-1, 2, 7)
 
-### SMOKE-1: Autenticación (4 Roles)
+### SMOKE-1: Autenticaci�n (4 Roles)
 
 | Rol | Test | Resultado | Tiempo | Notas |
 |-----|------|-----------|--------|-------|
-| **ADMIN** | Login admin.prod | ✅ PASS / ❌ FAIL | ___ s | |
-| **SECRETARIO** | Login secretario.prod | ✅ PASS / ❌ FAIL | ___ s | |
-| **JUEZ** | Login juez.prod | ✅ PASS / ❌ FAIL | ___ s | |
-| **CONSULTA** | Login consulta.prod | ✅ PASS / ❌ FAIL | ___ s | |
+| **ADMIN** | Login admin.prod | ? PASS / ? FAIL | ___ s | |
+| **SECRETARIO** | Login secretario.prod | ? PASS / ? FAIL | ___ s | |
+| **JUEZ** | Login juez.prod | ? PASS / ? FAIL | ___ s | |
+| **CONSULTA** | Login consulta.prod | ? PASS / ? FAIL | ___ s | |
 
-**Resultado SMOKE-1:** ✅ PASS / 🔴 FAIL  
-**Acción si falla:** → ROLLBACK INMEDIATO
+**Resultado SMOKE-1:** ? PASS / ?? FAIL  
+**Acci�n si falla:** ? ROLLBACK INMEDIATO
 
 ---
 
 ### SMOKE-2: RBAC (Control de Acceso)
 
-| Test | Validación | Resultado | Notas |
+| Test | Validaci�n | Resultado | Notas |
 |------|-----------|-----------|-------|
-| ADMIN /admin/usuarios | GET retorna 200 | ✅ PASS / ❌ FAIL | |
-| ADMIN /admin/auditoria | GET retorna 200 | ✅ PASS / ❌ FAIL | |
-| SECRETARIO /admin (API) | GET retorna 403 | ✅ PASS / ❌ FAIL | |
-| CONSULTA menú | Solo "Búsqueda" visible | ✅ PASS / ❌ FAIL | |
+| ADMIN /admin/usuarios | GET retorna 200 | ? PASS / ? FAIL | |
+| ADMIN /admin/auditoria | GET retorna 200 | ? PASS / ? FAIL | |
+| SECRETARIO /admin (API) | GET retorna 403 | ? PASS / ? FAIL | |
+| CONSULTA men� | Solo "B�squeda" visible | ? PASS / ? FAIL | |
 
-**Resultado SMOKE-2:** ✅ PASS / 🔴 FAIL  
-**Acción si falla:** → ROLLBACK INMEDIATO
+**Resultado SMOKE-2:** ? PASS / ?? FAIL  
+**Acci�n si falla:** ? ROLLBACK INMEDIATO
 
 ---
 
@@ -65,24 +65,24 @@ Estado: ✅ Vigente
 
 | Endpoint | Expected | Actual | Resultado |
 |----------|----------|--------|-----------|
-| GET /api/v1/health | 200 | ___ | ✅ PASS / ❌ FAIL |
-| POST /api/v1/auth/login | 200/401 | ___ | ✅ PASS / ❌ FAIL |
+| GET /api/v1/health | 200 | ___ | ? PASS / ? FAIL |
+| POST /api/v1/auth/login | 200/401 | ___ | ? PASS / ? FAIL |
 
-**Resultado SMOKE-7:** ✅ PASS / 🔴 FAIL  
-**Acción si falla:** → ROLLBACK INMEDIATO
+**Resultado SMOKE-7:** ? PASS / ?? FAIL  
+**Acci�n si falla:** ? ROLLBACK INMEDIATO
 
 ---
 
-## ✨ RESULTADOS IMPORTANTES (SMOKE-3, 4, 5, 6)
+## ? RESULTADOS IMPORTANTES (SMOKE-3, 4, 5, 6)
 
-### SMOKE-3: Búsqueda Básica
+### SMOKE-3: B�squeda B�sica
 
 | Test | Resultado | Tiempo | Notas |
 |------|-----------|--------|-------|
-| Quick Search (busca "2024") | ✅ PASS / ⚠️ PARTIAL / ❌ FAIL | ___ s | ___ resultados |
-| Advanced Search (filtros) | ✅ PASS / ⚠️ PARTIAL / ❌ FAIL | ___ s | |
+| Quick Search (busca "2024") | ? PASS / ?? PARTIAL / ? FAIL | ___ s | ___ resultados |
+| Advanced Search (filtros) | ? PASS / ?? PARTIAL / ? FAIL | ___ s | |
 
-**Resultado SMOKE-3:** ✅ PASS / ⚠️ PARTIAL / ❌ FAIL
+**Resultado SMOKE-3:** ? PASS / ?? PARTIAL / ? FAIL
 
 ---
 
@@ -90,291 +90,291 @@ Estado: ✅ Vigente
 
 | Test | Resultado | Notas |
 |------|-----------|-------|
-| Ver documento (si existe) | ✅ PASS / ⚠️ N/A / ❌ FAIL | Sin expedientes para probar / Timeout / OK |
-| Descargar documento (si existe) | ✅ PASS / ⚠️ N/A / ❌ FAIL | Sin documentos para probar / OK |
+| Ver documento (si existe) | ? PASS / ?? N/A / ? FAIL | Sin expedientes para probar / Timeout / OK |
+| Descargar documento (si existe) | ? PASS / ?? N/A / ? FAIL | Sin documentos para probar / OK |
 
-**Resultado SMOKE-4:** ✅ PASS / ⚠️ N/A / ❌ FAIL
+**Resultado SMOKE-4:** ? PASS / ?? N/A / ? FAIL
 
 ---
 
-### SMOKE-5: Auditoría
+### SMOKE-5: Auditor�a
 
 | Test | Resultado | Notas |
 |------|-----------|-------|
-| Cargar lista auditoría | ✅ PASS / ❌ FAIL | ___ registros cargados |
-| Filtrar auditoría | ✅ PASS / ⚠️ PARTIAL / ❌ FAIL | |
+| Cargar lista auditor�a | ? PASS / ? FAIL | ___ registros cargados |
+| Filtrar auditor�a | ? PASS / ?? PARTIAL / ? FAIL | |
 
-**Resultado SMOKE-5:** ✅ PASS / ⚠️ PARTIAL / ❌ FAIL
+**Resultado SMOKE-5:** ? PASS / ?? PARTIAL / ? FAIL
 
 ---
 
-### SMOKE-6: Performance Básico
+### SMOKE-6: Performance B�sico
 
 | Test | Target | Actual | Resultado |
 |------|--------|--------|-----------|
-| Búsqueda responde | < 5s | ___ ms | ✅ PASS / ❌ FAIL |
-| Login completa | < 10s | ___ ms | ✅ PASS / ❌ FAIL |
+| B�squeda responde | < 5s | ___ ms | ? PASS / ? FAIL |
+| Login completa | < 10s | ___ ms | ? PASS / ? FAIL |
 
-**Resultado SMOKE-6:** ✅ PASS / ❌ FAIL
+**Resultado SMOKE-6:** ? PASS / ? FAIL
 
 ---
 
-## 📋 MATRIZ COMPLETA DE TESTS
+## ?? MATRIZ COMPLETA DE TESTS
 
 ```
-SMOKE-1: AUTENTICACIÓN
-├─ ✅/❌ S1.1: Login ADMIN
-├─ ✅/❌ S1.2: Login SECRETARIO
-├─ ✅/❌ S1.3: Login JUEZ
-└─ ✅/❌ S1.4: Login CONSULTA
+SMOKE-1: AUTENTICACI�N
++- ?/? S1.1: Login ADMIN
++- ?/? S1.2: Login SECRETARIO
++- ?/? S1.3: Login JUEZ
++- ?/? S1.4: Login CONSULTA
 
 SMOKE-2: RBAC
-├─ ✅/❌ S2.1: ADMIN /admin/usuarios
-├─ ✅/❌ S2.2: ADMIN /admin/auditoria
-├─ ✅/❌ S2.3: SECRETARIO bloqueado
-└─ ✅/❌ S2.4: CONSULTA menú limitado
++- ?/? S2.1: ADMIN /admin/usuarios
++- ?/? S2.2: ADMIN /admin/auditoria
++- ?/? S2.3: SECRETARIO bloqueado
++- ?/? S2.4: CONSULTA men� limitado
 
-SMOKE-3: BÚSQUEDA
-├─ ✅/❌ S3.1: Quick Search
-└─ ✅/❌ S3.2: Advanced Search
+SMOKE-3: B�SQUEDA
++- ?/? S3.1: Quick Search
++- ?/? S3.2: Advanced Search
 
 SMOKE-4: DOCUMENTOS
-├─ ✅/❌ S4.1: Ver documento
-└─ ✅/❌ S4.2: Descargar documento
++- ?/? S4.1: Ver documento
++- ?/? S4.2: Descargar documento
 
-SMOKE-5: AUDITORÍA
-├─ ✅/❌ S5.1: Cargar auditoría
-└─ ✅/❌ S5.2: Filtrar auditoría
+SMOKE-5: AUDITOR�A
++- ?/? S5.1: Cargar auditor�a
++- ?/? S5.2: Filtrar auditor�a
 
 SMOKE-6: PERFORMANCE
-├─ ✅/❌ S6.1: Búsqueda < 5s
-└─ ✅/❌ S6.2: Login < 10s
++- ?/? S6.1: B�squeda < 5s
++- ?/? S6.2: Login < 10s
 
 SMOKE-7: API HEALTH
-├─ ✅/❌ S7.1: GET /health
-└─ ✅/❌ S7.2: POST /auth/login
++- ?/? S7.1: GET /health
++- ?/? S7.2: POST /auth/login
 ```
 
 ---
 
-## 🔍 INCIDENCIAS IDENTIFICADAS
+## ?? INCIDENCIAS IDENTIFICADAS
 
 ### Incidencia #1 (Si existe)
 ```
-Severidad:    🔴 CRÍTICA / ⚠️ ALTA / 🟡 MEDIA / 🟢 BAJA
+Severidad:    ?? CR�TICA / ?? ALTA / ?? MEDIA / ?? BAJA
 Test:         [SMOKE-X.X]
-Descripción:  [Qué pasó]
+Descripci�n:  [Qu� pas�]
 Hora:         [HH:MM:SS]
 Error Message: [Mensaje de error]
 Captura:      [Adjuntar screenshot]
-Causa Raíz:   [Investigación inicial]
-Acción:       [ROLLBACK / Investigar en paralelo / Crear datos]
-Resuelta:     ✅ SÍ / ❌ NO
+Causa Ra�z:   [Investigaci�n inicial]
+Acci�n:       [ROLLBACK / Investigar en paralelo / Crear datos]
+Resuelta:     ? S� / ? NO
 ```
 
 **Resumen de Incidencias:**
 - Total: ___ incidencias
-- Críticas (ROLLBACK): ___ 
+- Cr�ticas (ROLLBACK): ___ 
 - Importantes (Monitorear): ___
 
 ---
 
-## 📈 MÉTRICAS DE RENDIMIENTO
+## ?? M�TRICAS DE RENDIMIENTO
 
-| Métrica | Valor | Target | Status |
+| M�trica | Valor | Target | Status |
 |---------|-------|--------|--------|
-| **API P95** | ___ ms | < 3s | ✅ / ❌ |
-| **API P99** | ___ ms | < 5s | ✅ / ❌ |
-| **Error Rate** | ___% | < 2% | ✅ / ❌ |
-| **Login Tiempo** | ___ ms | < 10s | ✅ / ❌ |
-| **Búsqueda Tiempo** | ___ ms | < 5s | ✅ / ❌ |
-| **Memoria Servidor** | ___ % | < 80% | ✅ / ❌ |
-| **Conexiones BD** | ___ | < 50 | ✅ / ❌ |
+| **API P95** | ___ ms | < 3s | ? / ? |
+| **API P99** | ___ ms | < 5s | ? / ? |
+| **Error Rate** | ___% | < 2% | ? / ? |
+| **Login Tiempo** | ___ ms | < 10s | ? / ? |
+| **B�squeda Tiempo** | ___ ms | < 5s | ? / ? |
+| **Memoria Servidor** | ___ % | < 80% | ? / ? |
+| **Conexiones BD** | ___ | < 50 | ? / ? |
 
 ---
 
-## 🎯 TRÁFICO EN EL MOMENTO DE EJECUCIÓN
+## ?? TR�FICO EN EL MOMENTO DE EJECUCI�N
 
 ```
-Antes de ejecutar:  0% → prod (100% en staging/qa)
-Cambio #1:         0% → 1% (Canary)  [Hora: __:__]
-Cambio #2:         1% → 10%          [Hora: __:__]
-Cambio #3:         10% → 50%         [Hora: __:__]
-Cambio #4:         50% → 100%        [Hora: __:__]
+Antes de ejecutar:  0% ? prod (100% en staging/qa)
+Cambio #1:         0% ? 1% (Canary)  [Hora: __:__]
+Cambio #2:         1% ? 10%          [Hora: __:__]
+Cambio #3:         10% ? 50%         [Hora: __:__]
+Cambio #4:         50% ? 100%        [Hora: __:__]
 ```
 
-**Status Actual del Tráfico:** [COMPLETAR]
+**Status Actual del Tr�fico:** [COMPLETAR]
 
 ---
 
-## ✅ VALIDACIÓN POR CATEGORÍA
+## ? VALIDACI�N POR CATEGOR�A
 
-### Categoría 1: Conectividad y Disponibilidad
+### Categor�a 1: Conectividad y Disponibilidad
 - [x] Sistema disponible (HTTP 200)
 - [x] API responde
 - [x] BD accesible
-- [x] Autenticación funciona
+- [x] Autenticaci�n funciona
 
-**Resultado:** ✅ OK / ⚠️ ISSUES / 🔴 FAILED
+**Resultado:** ? OK / ?? ISSUES / ?? FAILED
 
 ---
 
-### Categoría 2: Funcionalidad Crítica
-- [x] Login múltiples roles
+### Categor�a 2: Funcionalidad Cr�tica
+- [x] Login m�ltiples roles
 - [x] RBAC aplicado
-- [x] Búsqueda funciona
+- [x] B�squeda funciona
 - [x] Documentos funciona
 
-**Resultado:** ✅ OK / ⚠️ ISSUES / 🔴 FAILED
+**Resultado:** ? OK / ?? ISSUES / ?? FAILED
 
 ---
 
-### Categoría 3: Performance
+### Categor�a 3: Performance
 - [x] Respuesta < 3s P95
 - [x] Respuesta < 5s P99
 - [x] Error rate < 2%
 - [x] No memory leaks
 
-**Resultado:** ✅ OK / ⚠️ ISSUES / 🔴 FAILED
+**Resultado:** ? OK / ?? ISSUES / ?? FAILED
 
 ---
 
-### Categoría 4: Seguridad
+### Categor�a 4: Seguridad
 - [x] RBAC bloqueando acceso no autorizado
-- [x] JWT tokens válidos
+- [x] JWT tokens v�lidos
 - [x] Password temporal obligatorio (si aplica)
-- [x] Auditoría registrando
+- [x] Auditor�a registrando
 
-**Resultado:** ✅ OK / ⚠️ ISSUES / 🔴 FAILED
+**Resultado:** ? OK / ?? ISSUES / ?? FAILED
 
 ---
 
-## 🎯 RECOMENDACIÓN FINAL
+## ?? RECOMENDACI�N FINAL
 
 ### Decision Points:
 
-**Si todos tests CRÍTICOS (SMOKE-1, 2, 7) PASS:**
+**Si todos tests CR�TICOS (SMOKE-1, 2, 7) PASS:**
 ```
-🟢 RECOMENDACIÓN: PROCEDER CON INCREMENTO DE TRÁFICO
-   ├─ Cambiar a 10% inmediatamente
-   ├─ Continuar monitoreo
-   └─ Ejecutar FULL SMOKE cuando tráfico = 100%
+?? RECOMENDACI�N: PROCEDER CON INCREMENTO DE TR�FICO
+   +- Cambiar a 10% inmediatamente
+   +- Continuar monitoreo
+   +- Ejecutar FULL SMOKE cuando tr�fico = 100%
 ```
 
-**Si algún test CRÍTICO FAIL:**
+**Si alg�n test CR�TICO FAIL:**
 ```
-🔴 RECOMENDACIÓN: ROLLBACK INMEDIATO
-   ├─ Revertir deployment
-   ├─ Investigar root cause
-   ├─ Crear ticket P1
-   └─ Reintentar despliegue mañana
+?? RECOMENDACI�N: ROLLBACK INMEDIATO
+   +- Revertir deployment
+   +- Investigar root cause
+   +- Crear ticket P1
+   +- Reintentar despliegue ma�ana
 ```
 
 **Si tests IMPORTANTES (SMOKE-3-6) FAIL:**
 ```
-⚠️ RECOMENDACIÓN: CONTINUAR CON CAUTELA
-   ├─ Cambiar a 25% (no incrementar rápido)
-   ├─ Investigar en paralelo
-   ├─ Monitorear muy de cerca
-   └─ Estar listo para rollback
+?? RECOMENDACI�N: CONTINUAR CON CAUTELA
+   +- Cambiar a 25% (no incrementar r�pido)
+   +- Investigar en paralelo
+   +- Monitorear muy de cerca
+   +- Estar listo para rollback
 ```
 
 ---
 
-### 🟢 / ⚠️ / 🔴 RECOMENDACIÓN FINAL:
+### ?? / ?? / ?? RECOMENDACI�N FINAL:
 
 **[SELECCIONAR UNA]**
 
 ```
-🟢 APROBADO PARA PASAR A 100% DE TRÁFICO
-   - Todos los tests críticos pasaron
+?? APROBADO PARA PASAR A 100% DE TR�FICO
+   - Todos los tests cr�ticos pasaron
    - Sin incidencias
-   - Métricas normales
-   - Auditoría registrando
+   - M�tricas normales
+   - Auditor�a registrando
    
-⚠️ APROBADO CON MONITOREO INTENSO
-   - Tests críticos pasaron
+?? APROBADO CON MONITOREO INTENSO
+   - Tests cr�ticos pasaron
    - Algunos tests importantes fallaron (non-blocking)
-   - Investigación en progreso
-   - Incrementar tráfico lentamente
+   - Investigaci�n en progreso
+   - Incrementar tr�fico lentamente
    - Rollback listo si empeora
    
-🔴 NO APROBADO - ROLLBACK RECOMENDADO
-   - Tests críticos fallaron
-   - Sistema no está listo
-   - Revertir a versión anterior
-   - Investigar y reintenta mañana
+?? NO APROBADO - ROLLBACK RECOMENDADO
+   - Tests cr�ticos fallaron
+   - Sistema no est� listo
+   - Revertir a versi�n anterior
+   - Investigar y reintenta ma�ana
 ```
 
 ---
 
-## 📎 EVIDENCIA ADJUNTA
+## ?? EVIDENCIA ADJUNTA
 
 - [ ] playwright-report/ (HTML visual)
 - [ ] test-results.json (datos)
 - [ ] Logs del servidor (si hay errores)
 - [ ] Screenshots de fallos
-- [ ] Curl requests (si se ejecutó manual)
+- [ ] Curl requests (si se ejecut� manual)
 
 ---
 
-## 👥 COMUNICACIÓN
+## ?? COMUNICACI�N
 
-### Notificación a Equipos:
+### Notificaci�n a Equipos:
 
-**✅ Si PASS:**
+**? Si PASS:**
 ```
 To: DevOps Team, Tech Leads
-Subject: ✅ Smoke Tests PASSED v1.2.4 - Proceder con Tráfico
+Subject: ? Smoke Tests PASSED v1.2.4 - Proceder con Tr�fico
 
-El deployment v1.2.4 ha pasado validación de smoke tests.
-- Todos los tests críticos: PASS
-- Sin incidencias críticas
-- Recomendación: Cambiar tráfico a 100%
+El deployment v1.2.4 ha pasado validaci�n de smoke tests.
+- Todos los tests cr�ticos: PASS
+- Sin incidencias cr�ticas
+- Recomendaci�n: Cambiar tr�fico a 100%
 
 Adjunto: [PROD_SMOKE_REPORT_v1.2.4.md]
 ```
 
-**🔴 Si FAIL:**
+**?? Si FAIL:**
 ```
 To: DevOps Team, Backend Lead, CTO
-Subject: 🔴 ALERTA: Smoke Tests FALLARON v1.2.4 - ROLLBACK RECOMENDADO
+Subject: ?? ALERTA: Smoke Tests FALLARON v1.2.4 - ROLLBACK RECOMENDADO
 
-El deployment v1.2.4 ha fallado validación de smoke tests.
-- Test crítico FAIL: [SMOKE-X.X]
-- Incidencia: [Descripción breve]
-- Recomendación: ROLLBACK inmediato
+El deployment v1.2.4 ha fallado validaci�n de smoke tests.
+- Test cr�tico FAIL: [SMOKE-X.X]
+- Incidencia: [Descripci�n breve]
+- Recomendaci�n: ROLLBACK inmediato
 
 Adjunto: [PROD_SMOKE_REPORT_v1.2.4.md] [screenshots]
 ```
 
 ---
 
-## 📅 Timeline de Ejecución
+## ?? Timeline de Ejecuci�n
 
 ```
 T+0:   Despliegue completado (DevOps confirma)
 T+2m:  QUICK SMOKE completado
-T+2m:  Decisión (PROCEED / INVESTIGATE)
-T+5m:  Cambiar tráfico según decisión
+T+2m:  Decisi�n (PROCEED / INVESTIGATE)
+T+5m:  Cambiar tr�fico seg�n decisi�n
 T+10m: FULL SMOKE completado
-T+15m: Decisión final
-T+30m: Tráfico 100% (si todo OK)
+T+15m: Decisi�n final
+T+30m: Tr�fico 100% (si todo OK)
 T+60m: Monitoreo continuo activo
 ```
 
 ---
 
-## 🔧 INFORMACIÓN TÉCNICA
+## ?? INFORMACI�N T�CNICA
 
-### Versión Desplegada
+### Versi�n Desplegada
 ```
 Commit: [COMPLETAR - ej: a1b2c3d4]
 Tag: v1.2.4
 Branch: main/production
 Deployed by: [DevOps Engineer Name]
 Deployment Tool: [Docker / Kubernetes / Manual]
-Database Migration: ✅ Ejecutada / ❌ No ejecutada
+Database Migration: ? Ejecutada / ? No ejecutada
 ```
 
 ### Ambiente Detalles
@@ -383,12 +383,12 @@ Frontend URL: https://sged.produccion.mx
 API URL: https://sged.produccion.mx/api/v1
 Database: [Oracle 19c / PostgreSQL 14 / etc]
 Servidor: [AWS / Azure / On-premise]
-Tráfico actual: ___ %
+Tr�fico actual: ___ %
 ```
 
 ---
 
-## 📝 NOTAS ADICIONALES
+## ?? NOTAS ADICIONALES
 
 [COMPLETAR si hay observaciones]
 
@@ -396,12 +396,12 @@ Tráfico actual: ___ %
 - Incidencia X resuelta en [tiempo]
 - Se crearon datos de prueba: [detalles]
 - Se realizaron cambios post-despliegue: [detalles]
-- Próximos pasos: [si aplica]
+- Pr�ximos pasos: [si aplica]
 ```
 
 ---
 
-## ✍️ FIRMAS Y APROBACIÓN
+## ?? FIRMAS Y APROBACI�N
 
 | Rol | Nombre | Firma | Fecha/Hora |
 |-----|--------|-------|-----------|
@@ -412,7 +412,7 @@ Tráfico actual: ___ %
 ---
 
 **Documento Completado por:** [Tu nombre / Agente de Testing]  
-**Versión:** 1.0  
-**Validado para:** SGED v1.2.4 - Producción  
+**Versi�n:** 1.0  
+**Validado para:** SGED v1.2.4 - Producci�n  
 **Fecha:** 28 Mayo 2026
 

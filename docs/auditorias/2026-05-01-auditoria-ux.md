@@ -1,5 +1,13 @@
-# Auditoría UX — SGED v1.3.0
-**Fecha:** 1 mayo 2026  
+---
+Documento: AUDITORIA_UX_SPRINTS
+Proyecto: SGED
+Version: 1.6.0
+Ultima actualizacion: 2026-05-19
+Estado: Historico
+---
+
+# Auditoría UX — SGED v1.5.0
+**Fecha:** 19 mayo 2026  
 **Versión base:** `708fbb7` (snapshot pre-auditoría)  
 **Ejecutada por:** Agentes Frontend, QA, Code-Reviewer  
 **Skills aplicados:** ui-ux-pro-max, high-end-visual-design, product-design, frontend-ui-dark-ts, angular-best-practices
@@ -64,6 +72,14 @@ Se identificaron **18 hallazgos** clasificados por severidad:
 - [x] Fix: isWord + fetch gate + sanitizeFilename + profiles (`285180a`)
 - [x] Deploy VPS validado: mvn package ✅, LibreOffice instalado ✅, contenedores up ✅
 
+### Sprint UX-5: Tema Institucional (Light Theme) ✅ COMPLETADO
+**Branch:** `feature/sprint-ux-5-institucional` → merged a `main`  
+**Objetivo:** Migrar del dark theme inicial al nuevo lenguaje visual institucional (Azul cobalto + Dorado quetzal).
+- [x] Reemplazar tokens CSS genéricos por `oj-tokens.css` (Azul #0A2E5C, Dorado #C9A961).
+- [x] Adoptar tipografía oficial (Source Serif 4, Inter, JetBrains Mono).
+- [x] Implementar componente `oj-shell` global para sidebar y topbar institucionales.
+- [x] Reestilizar componentes de búsqueda, expedientes y visores a fondo papel claro (`#FAFAF7`).
+
 ## Referencia de Skills Utilizados
 
 | Skill | Ubicación | Uso principal |
@@ -71,6 +87,6 @@ Se identificaron **18 hallazgos** clasificados por severidad:
 | ui-ux-pro-max | `.ai/skills/ui-ux-pro-max/SKILL.md` | Checklist de accesibilidad, touch targets, layout |
 | high-end-visual-design | `.ai/skills/high-end-visual-design/SKILL.md` | Anti-patterns, double-bezel, motion |
 | product-design | `.ai/skills/product-design/SKILL.md` | Principios Apple, design cognitivo, crítica |
-| frontend-ui-dark-ts | `.ai/skills/frontend-ui-dark-ts/SKILL.md` | Glass patterns, dark tokens |
+| frontend-ui-dark-ts | `.ai/skills/frontend-ui-dark-ts/SKILL.md` | Evolucionado a tema claro institucional en Sprint UX-5 |
 | angular-best-practices | `.ai/skills/angular-best-practices/SKILL.md` | OnPush, Signals, lazy loading |
 | code-reviewer | `.ai/agents/code-reviewer.md` | Plan alignment, issue categorization |

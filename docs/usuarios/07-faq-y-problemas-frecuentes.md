@@ -77,8 +77,8 @@ Este capitulo reune los problemas que los usuarios reportan con mayor frecuencia
 **Solucion:**
 1. Espere al menos 15 segundos; en conexiones lentas los archivos grandes pueden tardar en cargar.
 2. Intente cerrar el visor y abrirlo nuevamente.
-3. Si el problema persiste con ese archivo especifico, intente descargarlo usando el icono de descarga y abrirlo directamente en su computadora con el programa correspondiente (Adobe Reader para PDF, Microsoft Word para .docx, etc.).
-4. Si el archivo no puede abrirse ni descargarse correctamente, es posible que el archivo este danado. Notifique al responsable del expediente para que se vuelva a subir el documento original.
+3. Si el problema persiste con ese archivo especifico, debido a las politicas de seguridad (DLP) no es posible descargarlo. Intente utilizar el **Modo Presentacion** para agregarlo a su informe consolidado.
+4. Si el archivo no puede abrirse ni consolidarse correctamente, es posible que el archivo este danado. Notifique al responsable del expediente para que se vuelva a subir el documento original.
 5. Si varios documentos presentan este problema, verifique su conexion a internet o contacte al administrador del sistema.
 
 > [!TIP]
@@ -95,12 +95,12 @@ Este capitulo reune los problemas que los usuarios reportan con mayor frecuencia
 - Esta viendo el modulo correcto pero en un expediente con un estado que no permite modificaciones.
 
 **Solucion:**
-1. Verifique su rol consultando con el administrador del sistema. Los roles **CONSULTA** no pueden crear expedientes ni subir documentos.
+1. Verifique su rol consultando con el administrador del sistema. Los roles **CONSULTA** y **JUEZ** no pueden crear expedientes ni subir documentos.
 2. Si su rol deberia permitirle esa accion (es AUXILIAR, SECRETARIO o ADMIN) pero aun asi no ve el boton, cierre sesion y vuelva a ingresar para refrescar los permisos de su sesion.
 3. Si el problema persiste, contacte al administrador del sistema para que verifique la configuracion de permisos de su cuenta.
 
 > [!NOTE]
-> Recuerde que el rol **AUXILIAR** puede crear expedientes y subir documentos, pero no puede editar ni eliminar. El rol **CONSULTA** solo puede ver y descargar, sin crear ni modificar nada.
+> Recuerde que el rol **AUXILIAR** puede crear expedientes y subir documentos, pero no puede editar ni eliminar. Los roles **CONSULTA** y **JUEZ** solo pueden ver y utilizar el Modo Presentacion, sin crear ni modificar nada. Ningun rol tiene permitido descargar archivos directamente.
 
 ---
 

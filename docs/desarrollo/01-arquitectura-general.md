@@ -1,9 +1,9 @@
 ---
 Documento: ARQUITECTURA_GENERAL
 Proyecto: SGED
-Versión del sistema: v1.3.0
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versión del sistema: v1.5.0
+Versión del documento: 1.1
+Última actualización: 2026-05-19
 Estado: Vigente
 ---
 
@@ -19,7 +19,7 @@ El sistema SGED sigue una arquitectura de 3 capas desacopladas que se comunican 
 │                                                             │
 │   ┌─────────────────────────────────────────────────────┐   │
 │   │              Angular 21 SPA (Puerto 4200)           │   │
-│   │   PrimeNG 21 · RxJS 7.8 · TypeScript 5.9           │   │
+│   │   PrimeNG 21 · Signals · Zoneless · httpResource    │   │
 │   │   AuthInterceptor · ErrorInterceptor                │   │
 │   │   AuthGuard · RoleGuard                             │   │
 │   └──────────────────┬──────────────────────────────────┘   │
@@ -172,8 +172,8 @@ Cliente Angular
 | **MapStruct en tiempo de compilación** | ModelMapper (reflexión) | MapStruct genera código Java puro en compilación. Cero reflexión en tiempo de ejecución = máximo rendimiento, crítico en el VPS de 2 GB de RAM. |
 | **MySQL 8 en VPS (táctica)** | Oracle 21c directo | Oracle requería credenciales corporativas aún no disponibles. MySQL 8 en Docker permite entregar valor de inmediato. Todo el código usa JPA/HQL estándar para migración zero-friction a Oracle. |
 | **Docker Compose** | Bare-metal / Kubernetes | El VPS Lite (2 GB RAM) no soporta un orquestador completo. Docker Compose provee aislamiento y reproducibilidad sin overhead significativo. |
-| **Angular Standalone Components** | NgModules tradicionales | Angular 21 recomienda Standalone por defecto: menos boilerplate, lazy-loading más granular, y mejor tree-shaking para el bundle final. |
-| **PrimeNG Aura Theme** | Material Design / Tailwind | PrimeNG integra con Angular de forma nativa, incluye componentes empresariales (p-table, p-dialog, p-fileUpload) sin fricción, y Aura Theme provee UI premium sin CSS customizado extenso. |
+| **Angular 21 con Signals y Zoneless** | RxJS / Zone.js tradicionales | Angular 21 permite aplicaciones 100% zoneless mejorando el rendimiento. El uso de Signals y `httpResource` simplifica la reactividad frente al exceso de RxJS, alineándose con el estándar `ARCHITECTURE.md`. |
+| **PrimeNG Aura Theme + oj-tokens.css** | Material Design / Tailwind | PrimeNG integra nativamente con Angular. Se utiliza el tema base Aura, sobre el cual se inyecta `oj-tokens.css` para aplicar el diseño institucional (Azul cobalto y Dorado quetzal) sin romper la encapsulación ni requerir CSS customizado extenso. |
 | **sessionStorage para el JWT** | localStorage / cookies | sessionStorage se vacía al cerrar el tab (menor riesgo de robo en sesiones compartidas), y es suficiente para un sistema de uso interno judicial. |
 | **BCryptPasswordEncoder** | MD5 / SHA-1 sin sal | BCrypt incluye sal aleatoria por diseño, es resistente a ataques de tabla arcoíris, y es el estándar recomendado por Spring Security. |
 

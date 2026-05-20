@@ -1,40 +1,40 @@
-Ôªø---
+---
 Documento: INDICE_FASE_6
 Proyecto: SGED
-Versi√≥n del sistema: v1.2.4
-Versi√≥n del documento: 1.0
-√öltima actualizaci√≥n: 2026-05-03
+VersiÛn del sistema: v1.2.4
+VersiÛn del documento: 1.0
+⁄ltima actualizaciÛn: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ‚úÖ Vigente
+Estado: ? Vigente
 ---
 
-# SGED Fase 6 - √çndice Completo de Entregas
+# SGED Fase 6 - Õndice Completo de Entregas
 
 **Agente**: DevOps / Infraestructura
-**Fase**: 6 - NGINX, HTTPS, Seguridad en CI y Gesti√≥n de Secretos
-**Estado**: ‚úÖ COMPLETADO
+**Fase**: 6 - NGINX, HTTPS, Seguridad en CI y GestiÛn de Secretos
+**Estado**: ? COMPLETADO
 **Fecha**: Mayo 2026
 
 ---
 
-## üì¶ Archivos Entregados
+## ?? Archivos Entregados
 
-### 1. Configuraci√≥n NGINX
+### 1. ConfiguraciÛn NGINX
 
 #### `nginx/nginx.conf` 
-- **Prop√≥sito**: Configuraci√≥n completa de NGINX para QA
+- **PropÛsito**: ConfiguraciÛn completa de NGINX para QA
 - **Contenido**:
-  - HTTP ‚Üí HTTPS redirect (301)
+  - HTTP ? HTTPS redirect (301)
   - TLS 1.2+ con ciphers fuertes
   - Headers de seguridad (HSTS, CSP, X-Frame-Options, etc.)
   - Reverse proxy a backend Spring Boot
   - Servicio de frontend Angular compilado
   - Rate limiting (API, Auth, Documentos)
-  - Protecci√≥n de rutas sensibles
+  - ProtecciÛn de rutas sensibles
   - Logging con detalles de seguridad
 
 #### `nginx/nginx-prod.conf`
-- **Prop√≥sito**: Configuraci√≥n optimizada para Producci√≥n
+- **PropÛsito**: ConfiguraciÛn optimizada para ProducciÛn
 - **Diferencias**:
   - OCSP Stapling habilitado
   - Certificados Let's Encrypt (no autofirmados)
@@ -42,16 +42,16 @@ Estado: ‚úÖ Vigente
   - Logging remoto (CloudWatch, Splunk)
   - Ciphers modernos (ECDHE, CHACHA20)
 
-### 2. Orquestaci√≥n Docker
+### 2. OrquestaciÛn Docker
 
 #### `docker-compose-qa.yml`
-- **Prop√≥sito**: Stack completo para QA
+- **PropÛsito**: Stack completo para QA
 - **Servicios**:
   - `nginx`: Reverse proxy + TLS + Frontend
   - `sged-backend`: Backend Java 21 + Spring Boot
   - `sged-frontend`: Angular compilado servido por NGINX
   - `sged-db`: Oracle/H2 (configurable)
-- **Caracter√≠sticas**:
+- **CaracterÌsticas**:
   - Certificados TLS autofirmados
   - Volumes para persistencia local
   - Logs en archivos locales
@@ -59,15 +59,15 @@ Estado: ‚úÖ Vigente
   - Red aislada
 
 #### `docker-compose-prod.yml`
-- **Prop√≥sito**: Stack para Producci√≥n
+- **PropÛsito**: Stack para ProducciÛn
 - **Diferencias**:
   - Secretos desde archivos (Vault compatible)
-  - L√≠mites de CPU/memoria
+  - LÌmites de CPU/memoria
   - Logging remoto (CloudWatch/Splunk)
   - HTTPS obligatorio con Let's Encrypt
   - BD Oracle real (no containerizada, aunque incluye placeholder)
   - Restart policy: `always`
-  - Healthchecks m√°s estrictos
+  - Healthchecks m·s estrictos
 
 ### 3. CI/CD - GitHub Actions
 
@@ -78,67 +78,67 @@ Estado: ‚úÖ Vigente
     - Reporta en GitHub Security tab
   - `build-docker-images`: Build backend + frontend
     - Push a registry (Docker Hub, ECR, etc.)
-  - `deploy-qa`: Deploy autom√°tico a QA (en develop)
+  - `deploy-qa`: Deploy autom·tico a QA (en develop)
   - `dast-zap-scan`: OWASP ZAP (nightly o manual)
-    - Escanea endpoints p√∫blicos
+    - Escanea endpoints p˙blicos
     - Detecta vulnerabilidades de runtime
 
-### 4. Documentaci√≥n de Seguridad
+### 4. DocumentaciÛn de Seguridad
 
 #### `NGINX_SECURITY_GUIDE.md`
 - **Secciones**:
   1. Generar certificados TLS (autofirmado + Let's Encrypt)
-  2. Explicaci√≥n detallada de cada header de seguridad
+  2. ExplicaciÛn detallada de cada header de seguridad
   3. Rate limiting (DDoS protection)
-  4. Configuraci√≥n segura de reverse proxy
-  5. Protecci√≥n de rutas sensibles
+  4. ConfiguraciÛn segura de reverse proxy
+  5. ProtecciÛn de rutas sensibles
   6. Logging y monitoreo
   7. Despliegue en QA/Prod
-  8. Checklist pre-producci√≥n
+  8. Checklist pre-producciÛn
   9. Referencias (OWASP, Mozilla SSL Config)
 
 #### `SECRETS_MANAGEMENT.md`
 - **Contenido**:
-  - Principios de gesti√≥n de secretos
+  - Principios de gestiÛn de secretos
   - Lista de secretos por entorno
   - GitHub Secrets (CI/CD)
-  - HashiCorp Vault (Producci√≥n)
+  - HashiCorp Vault (ProducciÛn)
   - AWS Secrets Manager (alternativa)
   - Variables de entorno (.env)
-  - Rotaci√≥n autom√°tica de secretos
-  - Auditor√≠a de acceso
-  - Herramientas de detecci√≥n (git-secrets, yamllint)
+  - RotaciÛn autom·tica de secretos
+  - AuditorÌa de acceso
+  - Herramientas de detecciÛn (git-secrets, yamllint)
   - Checklist de seguridad
 
 #### `DEPLOYMENT_GUIDE.md`
 - **Secciones**:
-  1. Preparaci√≥n pre-despliegue (certificados, .env, directorios)
-  2. Despliegue en QA (compilaci√≥n, build, docker-compose up)
-  3. Validaci√≥n (health checks, headers, API tests, persistencia)
-  4. Despliegue en Producci√≥n (pre-requisitos, secretos desde Vault)
+  1. PreparaciÛn pre-despliegue (certificados, .env, directorios)
+  2. Despliegue en QA (compilaciÛn, build, docker-compose up)
+  3. ValidaciÛn (health checks, headers, API tests, persistencia)
+  4. Despliegue en ProducciÛn (pre-requisitos, secretos desde Vault)
   5. Mantenimiento operacional (backups, logs, recargar NGINX, rotar secretos)
   6. Troubleshooting (502, timeout BD, HTTPS errors, OOM)
   7. Rollback procedures
   8. Checklist de despliegue
 
-### 5. Documentaci√≥n Operativa
+### 5. DocumentaciÛn Operativa
 
 #### `README_INFRAESTRUCTURA.md`
-- **Prop√≥sito**: Referencia r√°pida para operaciones
+- **PropÛsito**: Referencia r·pida para operaciones
 - **Contenido**:
   - Estructura de archivos
-  - Inicio r√°pido (dev, QA, Prod)
+  - Inicio r·pido (dev, QA, Prod)
   - Comandos comunes (docker-compose, certificados, secretos)
-  - Configuraci√≥n de entornos
+  - ConfiguraciÛn de entornos
   - Seguridad (HTTPS, headers, rate limiting, secrets)
   - CI/CD en GitHub Actions
   - Monitoreo y logs
   - Troubleshooting
 
 #### `OPERACIONES_DIARIAS_QUICK_REFERENCE.md`
-- **Prop√≥sito**: Gu√≠a de bolsillo para operaciones diarias
+- **PropÛsito**: GuÌa de bolsillo para operaciones diarias
 - **Contenido**:
-  - Health check r√°pido
+  - Health check r·pido
   - Ver logs
   - Restart de servicios
   - NGINX operations (validar, recargar, rate limiting)
@@ -146,185 +146,185 @@ Estado: ‚úÖ Vigente
   - BD backup/restore
   - Certificados TLS
   - Rotar secretos
-  - Troubleshooting r√°pido
+  - Troubleshooting r·pido
   - Mantenimiento mensual
   - Contactos de emergencia
 
 ### 6. Informes y Checklists
 
 #### `FASE_6_INFORME_EJECUTIVO.md`
-- **Prop√≥sito**: Resumen ejecutivo de Fase 6
+- **PropÛsito**: Resumen ejecutivo de Fase 6
 - **Contenido**:
   - Resumen de entregas
-  - Configuraci√≥n NGINX finalizada
+  - ConfiguraciÛn NGINX finalizada
   - Docker Compose (QA y Prod)
   - Seguridad en CI
-  - Gesti√≥n de secretos
-  - Documentaci√≥n operativa
+  - GestiÛn de secretos
+  - DocumentaciÛn operativa
   - Modelo de despliegue recomendado
-  - Validaci√≥n pre-producci√≥n
+  - ValidaciÛn pre-producciÛn
   - Variables por entorno
-  - Integraci√≥n con otros agentes
-  - Pr√≥ximos pasos (Fase 7+)
+  - IntegraciÛn con otros agentes
+  - PrÛximos pasos (Fase 7+)
   - Contactos
 
 #### `FASE_6_CHECKLIST_VALIDACION.md`
-- **Prop√≥sito**: Checklist exhaustivo de validaci√≥n
+- **PropÛsito**: Checklist exhaustivo de validaciÛn
 - **Secciones**:
   - Pre-despliegue (Infraestructura, Backend, Frontend, NGINX, Docker Compose)
   - Despliegue (levantamiento, health checks, seguridad, funcionalidad, persistencia, logs)
-  - Post-despliegue (documentaci√≥n, backups, monitoreo)
-  - CI/CD (workflow, validaci√≥n)
-  - Producci√≥n (pre/despliegue/post)
+  - Post-despliegue (documentaciÛn, backups, monitoreo)
+  - CI/CD (workflow, validaciÛn)
+  - ProducciÛn (pre/despliegue/post)
   - Rollback
   - Sign-off (roles y firmas)
 
 ---
 
-## üéØ Caracter√≠sticas Implementadas
+## ?? CaracterÌsticas Implementadas
 
 ### Seguridad HTTPS
-- ‚úÖ HTTP ‚Üí HTTPS redirecci√≥n obligatoria
-- ‚úÖ TLS 1.2+ (TLS 1.0/1.1 desactivados)
-- ‚úÖ Ciphers fuertes (sin RC4, 3DES, etc.)
-- ‚úÖ OCSP Stapling (Prod)
-- ‚úÖ Certificados autofirmados (QA) + Let's Encrypt (Prod)
+- ? HTTP ? HTTPS redirecciÛn obligatoria
+- ? TLS 1.2+ (TLS 1.0/1.1 desactivados)
+- ? Ciphers fuertes (sin RC4, 3DES, etc.)
+- ? OCSP Stapling (Prod)
+- ? Certificados autofirmados (QA) + Let's Encrypt (Prod)
 
 ### Headers de Seguridad
-- ‚úÖ Strict-Transport-Security (HSTS 1 a√±o)
-- ‚úÖ X-Content-Type-Options: nosniff
-- ‚úÖ X-Frame-Options: DENY
-- ‚úÖ X-XSS-Protection: 1; mode=block
-- ‚úÖ Content-Security-Policy (restrictiva)
-- ‚úÖ Referrer-Policy: no-referrer-when-downgrade
-- ‚úÖ Permissions-Policy (geo/micr√≥fono/c√°mara desactivos)
+- ? Strict-Transport-Security (HSTS 1 aÒo)
+- ? X-Content-Type-Options: nosniff
+- ? X-Frame-Options: DENY
+- ? X-XSS-Protection: 1; mode=block
+- ? Content-Security-Policy (restrictiva)
+- ? Referrer-Policy: no-referrer-when-downgrade
+- ? Permissions-Policy (geo/micrÛfono/c·mara desactivos)
 
 ### Rate Limiting
-- ‚úÖ API general: 10 req/s (burst 20)
-- ‚úÖ Auth endpoints: 5 req/s (burst 5)
-- ‚úÖ Documentos: 3 req/s (burst 3)
-- ‚úÖ Respuestas 429 Too Many Requests
+- ? API general: 10 req/s (burst 20)
+- ? Auth endpoints: 5 req/s (burst 5)
+- ? Documentos: 3 req/s (burst 3)
+- ? Respuestas 429 Too Many Requests
 
 ### Reverse Proxy
-- ‚úÖ Headers X-Forwarded-* configurados
-- ‚úÖ WebSocket support
-- ‚úÖ Connection pooling (keepalive)
-- ‚úÖ Timeouts configurables
-- ‚úÖ Buffering y compresi√≥n gzip
+- ? Headers X-Forwarded-* configurados
+- ? WebSocket support
+- ? Connection pooling (keepalive)
+- ? Timeouts configurables
+- ? Buffering y compresiÛn gzip
 
-### Protecci√≥n de Rutas
-- ‚úÖ Bloquea archivos ocultos (`.`)
-- ‚úÖ Bloquea respaldos (`~`)
-- ‚úÖ Deniega WEB-INF, META-INF
-- ‚úÖ Deniega `.xml`, `.properties`, `.yml`, etc.
+### ProtecciÛn de Rutas
+- ? Bloquea archivos ocultos (`.`)
+- ? Bloquea respaldos (`~`)
+- ? Deniega WEB-INF, META-INF
+- ? Deniega `.xml`, `.properties`, `.yml`, etc.
 
-### CI/CD - An√°lisis de Seguridad
-- ‚úÖ CodeQL SAST (Java + TypeScript)
+### CI/CD - An·lisis de Seguridad
+- ? CodeQL SAST (Java + TypeScript)
   - SQL injection, XSS, buffer overflow
   - Reporta en GitHub Security tab
-- ‚úÖ OWASP ZAP DAST (nightly/manual)
-  - Escanea endpoints p√∫blicos
+- ? OWASP ZAP DAST (nightly/manual)
+  - Escanea endpoints p˙blicos
   - Detecta clickjacking, CSRF, headers faltantes
-- ‚úÖ Docker image build y push a registry
-- ‚úÖ Tests unitarios + cobertura (JaCoCo, Karma/Jasmine)
+- ? Docker image build y push a registry
+- ? Tests unitarios + cobertura (JaCoCo, Karma/Jasmine)
 
-### Gesti√≥n de Secretos
-- ‚úÖ GitHub Secrets (CI/CD)
-- ‚úÖ HashiCorp Vault (Producci√≥n)
-- ‚úÖ AWS Secrets Manager (alternativa)
-- ‚úÖ Rotaci√≥n autom√°tica (scripts bash)
-- ‚úÖ Auditor√≠a de acceso
-- ‚úÖ Detecci√≥n de secretos expostos (git-secrets)
+### GestiÛn de Secretos
+- ? GitHub Secrets (CI/CD)
+- ? HashiCorp Vault (ProducciÛn)
+- ? AWS Secrets Manager (alternativa)
+- ? RotaciÛn autom·tica (scripts bash)
+- ? AuditorÌa de acceso
+- ? DetecciÛn de secretos expostos (git-secrets)
 
 ### Docker Compose
-- ‚úÖ QA: local, autofirmado, desarrollo
-- ‚úÖ Prod: remoto, Let's Encrypt, producci√≥n
-- ‚úÖ Health checks activos
-- ‚úÖ Volumes para persistencia
-- ‚úÖ Logging remoto (CloudWatch/Splunk)
-- ‚úÖ L√≠mites de recursos (Prod)
-- ‚úÖ Secretos desde archivos (Prod)
+- ? QA: local, autofirmado, desarrollo
+- ? Prod: remoto, Let's Encrypt, producciÛn
+- ? Health checks activos
+- ? Volumes para persistencia
+- ? Logging remoto (CloudWatch/Splunk)
+- ? LÌmites de recursos (Prod)
+- ? Secretos desde archivos (Prod)
 
 ---
 
-## üìä Matriz de Responsabilidades
+## ?? Matriz de Responsabilidades
 
 | Componente | Agente | Estado |
 |-----------|--------|--------|
-| NGINX config | ‚úÖ DevOps | Completado |
-| Docker Compose | ‚úÖ DevOps | Completado |
-| GitHub Actions CI | ‚úÖ DevOps | Actualizado |
-| TLS/Certificados | ‚úÖ DevOps | Documentado |
-| Headers seguridad | ‚úÖ DevOps | Implementado |
-| Rate limiting | ‚úÖ DevOps | Configurado |
-| CodeQL SAST | ‚úÖ DevOps | Agregado a CI |
-| OWASP ZAP DAST | ‚úÖ DevOps | Agregado a CI |
-| Gesti√≥n secretos | ‚úÖ DevOps | Documentado |
-| Gu√≠as operativas | ‚úÖ DevOps | Creadas |
+| NGINX config | ? DevOps | Completado |
+| Docker Compose | ? DevOps | Completado |
+| GitHub Actions CI | ? DevOps | Actualizado |
+| TLS/Certificados | ? DevOps | Documentado |
+| Headers seguridad | ? DevOps | Implementado |
+| Rate limiting | ? DevOps | Configurado |
+| CodeQL SAST | ? DevOps | Agregado a CI |
+| OWASP ZAP DAST | ? DevOps | Agregado a CI |
+| GestiÛn secretos | ? DevOps | Documentado |
+| GuÌas operativas | ? DevOps | Creadas |
 
 ---
 
-## üöÄ Pr√≥ximos Pasos (Fase 7)
+## ?? PrÛximos Pasos (Fase 7)
 
 - [ ] **Dockerfiles finales**:
   - Backend: JDK 21 Alpine, empaquetamiento jar
-  - Frontend: Multi-stage (build Node ‚Üí runtime NGINX)
+  - Frontend: Multi-stage (build Node ? runtime NGINX)
 - [ ] **Kubernetes** (si escala):
   - Deployment YAML
   - Service, Ingress, ConfigMap, Secret
   - HPA (autoscaling)
   - PVC (persistencia)
 - [ ] **Monitoreo y observabilidad**:
-  - Prometheus (m√©tricas)
+  - Prometheus (mÈtricas)
   - Grafana (dashboards)
   - ELK Stack o CloudWatch (logs)
   - Alertas (CPU, memoria, errores)
-- [ ] **Despliegue en producci√≥n real**:
+- [ ] **Despliegue en producciÛn real**:
   - Configurar Vault en servidor
-  - Let's Encrypt autom√°tico
+  - Let's Encrypt autom·tico
   - Backups con cronograma
   - DR/failover
 
 ---
 
-## üìã Verificaci√≥n Final
+## ?? VerificaciÛn Final
 
-### ‚úÖ Archivos de configuraci√≥n
+### ? Archivos de configuraciÛn
 - [x] nginx/nginx.conf
 - [x] nginx/nginx-prod.conf
 - [x] docker-compose-qa.yml
 - [x] docker-compose-prod.yml
 - [x] .github/workflows/ci.yml (actualizado)
 
-### ‚úÖ Documentaci√≥n de seguridad
+### ? DocumentaciÛn de seguridad
 - [x] NGINX_SECURITY_GUIDE.md
 - [x] SECRETS_MANAGEMENT.md
 - [x] DEPLOYMENT_GUIDE.md
 
-### ‚úÖ Documentaci√≥n operativa
+### ? DocumentaciÛn operativa
 - [x] README_INFRAESTRUCTURA.md
 - [x] OPERACIONES_DIARIAS_QUICK_REFERENCE.md
 
-### ‚úÖ Informes
+### ? Informes
 - [x] FASE_6_INFORME_EJECUTIVO.md
 - [x] FASE_6_CHECKLIST_VALIDACION.md
 - [x] INDICE_FASE_6.md (este archivo)
 
 ---
 
-## üéì Aprendizajes Clave
+## ?? Aprendizajes Clave
 
-1. **HTTPS es obligatorio**: Redirecci√≥n HTTP autom√°tica, certificados v√°lidos
-2. **Headers de seguridad**: No solo TLS, tambi√©n CSP, HSTS, X-Frame-Options
-3. **Rate limiting**: Protecci√≥n contra DDoS y fuerza bruta
-4. **Secretos seguros**: Nunca en c√≥digo, Vault o GitHub Secrets
+1. **HTTPS es obligatorio**: RedirecciÛn HTTP autom·tica, certificados v·lidos
+2. **Headers de seguridad**: No solo TLS, tambiÈn CSP, HSTS, X-Frame-Options
+3. **Rate limiting**: ProtecciÛn contra DDoS y fuerza bruta
+4. **Secretos seguros**: Nunca en cÛdigo, Vault o GitHub Secrets
 5. **CI/CD seguro**: CodeQL + DAST, no solo tests unitarios
-6. **Reproducibilidad**: Docker Compose id√©ntico para dev/QA/prod
-7. **Operaciones**: Documentaci√≥n = menos errores humanos
+6. **Reproducibilidad**: Docker Compose idÈntico para dev/QA/prod
+7. **Operaciones**: DocumentaciÛn = menos errores humanos
 
 ---
 
-## üìû Contacto
+## ?? Contacto
 
 **Agente DevOps/Infraestructura**
 - Email: devops@example.com
@@ -332,7 +332,7 @@ Estado: ‚úÖ Vigente
 
 **Equipo de Seguridad**
 - Email: security@example.com
-- Para: Auditor√≠a, vulnerabilidades, cumplimiento
+- Para: AuditorÌa, vulnerabilidades, cumplimiento
 
 ---
 
@@ -343,4 +343,4 @@ Estado: ‚úÖ Vigente
 
 ---
 
-**Estado Final de Fase 6**: ‚úÖ COMPLETADO Y LISTO PARA DESPLIEGUE
+**Estado Final de Fase 6**: ? COMPLETADO Y LISTO PARA DESPLIEGUE

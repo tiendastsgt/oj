@@ -1,14 +1,14 @@
-ï»¿---
+---
 Documento: FASE_6_CHECKLIST_VALIDACION
 Proyecto: SGED
-VersiÃ³n del sistema: v1.2.4
-VersiÃ³n del documento: 1.0
-Ãšltima actualizaciÃ³n: 2026-05-03
+Versión del sistema: v1.2.4
+Versión del documento: 1.0
+Última actualización: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: âœ… Vigente
+Estado: ? Vigente
 ---
 
-# Fase 6 - Checklist de ValidaciÃ³n y Despliegue
+# Fase 6 - Checklist de Validación y Despliegue
 
 ## Pre-Despliegue (QA)
 
@@ -49,7 +49,7 @@ Estado: âœ… Vigente
 - [ ] `dist/sged-frontend/` contiene index.html + assets
 
 ### NGINX
-- [ ] `nginx/nginx.conf` vÃ¡lido
+- [ ] `nginx/nginx.conf` válido
   ```bash
   docker run --rm -v $(pwd)/nginx:/etc/nginx:ro nginx:latest nginx -t
   ```
@@ -61,11 +61,11 @@ Estado: âœ… Vigente
   - `Content-Security-Policy`
 
 ### Docker Compose
-- [ ] `docker-compose-qa.yml` vÃ¡lido
+- [ ] `docker-compose-qa.yml` válido
   ```bash
   docker-compose -f docker-compose-qa.yml config > /dev/null
   ```
-- [ ] Todas las imÃ¡genes pueden ser builtdas
+- [ ] Todas las imágenes pueden ser builtdas
   ```bash
   docker-compose -f docker-compose-qa.yml build
   ```
@@ -100,7 +100,7 @@ Estado: âœ… Vigente
   curl -k -s https://localhost/app/ | grep -q "<!DOCTYPE" && echo "OK"
   ```
 
-### ValidaciÃ³n de seguridad
+### Validación de seguridad
 - [ ] HTTP redirige a HTTPS (301)
   ```bash
   curl -I http://localhost/ | grep "301\|Location: https"
@@ -118,7 +118,7 @@ Estado: âœ… Vigente
       -d '{"username":"test","password":"test"}' \
       -o /dev/null -w "%{http_code}\n" -k
   done
-  # DespuÃ©s de 5 req/s: 429
+  # Después de 5 req/s: 429
   ```
 
 ### Funcionalidad API
@@ -141,7 +141,7 @@ Estado: âœ… Vigente
   ```
 
 ### Persistencia de datos
-- [ ] Datos persisten despuÃ©s de restart
+- [ ] Datos persisten después de restart
   ```bash
   # Crear expediente
   curl -k -X POST https://localhost/api/v1/expedientes \
@@ -161,7 +161,7 @@ Estado: âœ… Vigente
   ```
 
 ### Logs
-- [ ] No hay errores crÃ­ticos en logs
+- [ ] No hay errores críticos en logs
   ```bash
   docker-compose logs | grep -i "error" | grep -v "INFO\|DEBUG"
   # No debe devolver nada
@@ -179,7 +179,7 @@ Estado: âœ… Vigente
 
 ## Post-Despliegue
 
-### DocumentaciÃ³n
+### Documentación
 - [ ] README_INFRAESTRUCTURA.md actualizado
 - [ ] NGINX_SECURITY_GUIDE.md disponible
 - [ ] DEPLOYMENT_GUIDE.md disponible
@@ -201,7 +201,7 @@ Estado: âœ… Vigente
 ### Monitoreo
 - [ ] Alertas configuradas (CPU, memoria, disk)
 - [ ] Logs centralizados (si aplica)
-- [ ] MÃ©tricas de NGINX/Backend visibles
+- [ ] Métricas de NGINX/Backend visibles
 
 ---
 
@@ -211,21 +211,21 @@ Estado: âœ… Vigente
 - [ ] CodeQL analysis job presente
 - [ ] Backend tests job exitoso
 - [ ] Frontend tests job exitoso
-- [ ] Docker build job buildea imÃ¡genes
+- [ ] Docker build job buildea imágenes
 - [ ] DAST job configurado (nightly)
 
-### ValidaciÃ³n
-- [ ] PR triggers workflow automÃ¡ticamente
+### Validación
+- [ ] PR triggers workflow automáticamente
 - [ ] Push a develop/main triggers workflow
 - [ ] Artifacts (JaCoCo, frontend-coverage) se generan
 - [ ] Fallos en tests bloquean merge a main
 
 ---
 
-## ProducciÃ³n
+## Producción
 
 ### Pre-despliegue
-- [ ] Certificado TLS vÃ¡lido (Let's Encrypt)
+- [ ] Certificado TLS válido (Let's Encrypt)
   ```bash
   openssl x509 -in /etc/letsencrypt/live/sged.example.com/fullchain.pem -noout -dates
   ```
@@ -246,7 +246,7 @@ Estado: âœ… Vigente
 ### Despliegue
 - [ ] `docker-compose-prod.yml` usa secrets correctamente
 - [ ] Logs remoto configurado (CloudWatch, Splunk)
-- [ ] Health checks mÃ¡s estrictos (retries=5)
+- [ ] Health checks más estrictos (retries=5)
 - [ ] Recursos limitados (CPU, memoria)
 
 ### Post-despliegue
@@ -254,13 +254,13 @@ Estado: âœ… Vigente
   ```bash
   curl -I http://sged.example.com/ | grep 301
   ```
-- [ ] Certificado vÃ¡lido
+- [ ] Certificado válido
   ```bash
   openssl s_client -connect sged.example.com:443 -servername sged.example.com < /dev/null | grep "Verify return code: 0"
   ```
 - [ ] Headers de seguridad presentes
 - [ ] Rate limiting activo
-- [ ] Backups automÃ¡ticos en schedule
+- [ ] Backups automáticos en schedule
 - [ ] Alertas activas
 
 ---
@@ -270,10 +270,10 @@ Estado: âœ… Vigente
 ### En caso de problemas
 1. [ ] Identificar problema (error en logs)
 2. [ ] Documentar (ticket de soporte)
-3. [ ] Revert a versiÃ³n anterior
+3. [ ] Revert a versión anterior
    ```bash
    docker-compose -f docker-compose-qa.yml down
-   # Cambiar tag en yaml: latest â†’ v1.2.0
+   # Cambiar tag en yaml: latest ? v1.2.0
    docker-compose -f docker-compose-qa.yml up -d
    ```
 4. [ ] Validar health checks

@@ -1,47 +1,47 @@
-﻿---
+---
 Documento: README_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 🎉 AGENTE DE SMOKE TESTS - IMPLEMENTACIÓN COMPLETADA
+# ?? AGENTE DE SMOKE TESTS - IMPLEMENTACI�N COMPLETADA
 ## Proyecto SGED - Enero 28, 2026
 
 ---
 
-## ✅ RESUMEN EJECUTIVO
+## ? RESUMEN EJECUTIVO
 
-Se ha completado la **especialización del Agente de Smoke Tests** para el proyecto SGED, proporcionando:
+Se ha completado la **especializaci�n del Agente de Smoke Tests** para el proyecto SGED, proporcionando:
 
 **6 documentos maestros + tests automatizados + proceso operativo**
 
-Listo para validar despliegues a Producción en menos de 20 minutos.
+Listo para validar despliegues a Producci�n en menos de 20 minutos.
 
 ---
 
-## 📊 ENTREGA
+## ?? ENTREGA
 
-| Categoría | Entregable | Estado |
+| Categor�a | Entregable | Estado |
 |-----------|-----------|--------|
-| **Documentación** | 6 archivos maestros | ✅ Completado |
-| **Tests** | 25+ test cases en Playwright | ✅ Completado |
-| **Proceso** | Timeline + GO/NO-GO definidos | ✅ Completado |
-| **Capacidad** | Decisión en < 20 minutos | ✅ Operacional |
+| **Documentaci�n** | 6 archivos maestros | ? Completado |
+| **Tests** | 25+ test cases en Playwright | ? Completado |
+| **Proceso** | Timeline + GO/NO-GO definidos | ? Completado |
+| **Capacidad** | Decisi�n en < 20 minutos | ? Operacional |
 
 ---
 
-## 📁 ARCHIVOS ENTREGADOS
+## ?? ARCHIVOS ENTREGADOS
 
-### Documentación Principal (Leer en orden)
+### Documentaci�n Principal (Leer en orden)
 
-1. **QUICK_START_SMOKE_TESTS.md** ⭐ START HERE
-   - Guía operativa rápida
-   - Cómo ejecutar tests
-   - Cómo interpretar resultados
+1. **QUICK_START_SMOKE_TESTS.md** ? START HERE
+   - Gu�a operativa r�pida
+   - C�mo ejecutar tests
+   - C�mo interpretar resultados
    - ~5 minutos de lectura
 
 2. **PLAN_SMOKE_TESTS_PRODUCCION.md**
@@ -58,80 +58,80 @@ Listo para validar despliegues a Producción en menos de 20 minutos.
 4. **TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md**
    - Plantilla para documentar resultados
    - Secciones para incidencias
-   - Matriz de decisión visual
+   - Matriz de decisi�n visual
 
-### Documentación de Referencia
+### Documentaci�n de Referencia
 
 5. **SMOKE_TESTS_ENTREGA_COMPLETADA.md**
    - Resumen administrativo
    - Capacidades del Agente
-   - Integración con otros equipos
+   - Integraci�n con otros equipos
 
 6. **INDICE_SMOKE_TESTS.md**
-   - Índice de todos los documentos
+   - �ndice de todos los documentos
    - Referencias cruzadas
-   - Guías de navegación
+   - Gu�as de navegaci�n
 
 7. **SMOKE_TESTS_RESUMEN_EJECUTIVO.md**
    - Resumen visual ejecutivo
    - Para compartir con stakeholders
 
 8. **PROXIMO_PASO_SMOKE_TESTS.md** (NEW)
-   - Instrucciones de próximos pasos
+   - Instrucciones de pr�ximos pasos
    - Tareas por rol
    - Checklist pre-lanzamiento
 
 ---
 
-## 🧪 LOS 6 FLUJOS SMOKE
+## ?? LOS 6 FLUJOS SMOKE
 
 ```
-Smoke-1: AUTENTICACIÓN (4 roles)          🔴 BLOQUEANTE
-Smoke-2: EXPEDIENTES (búsqueda+detalle)   🔴 BLOQUEANTE
-Smoke-3: DOCUMENTOS (ver+descargar)       🟡 IMPORTANTE
-Smoke-4: ADMINISTRACIÓN (usuarios)         🔴 BLOQUEANTE
-Smoke-5: AUDITORÍA (logs+filtros)         🟡 IMPORTANTE
-Smoke-6: RBAC (control de acceso)         🔴 BLOQUEANTE
-Smoke-7: API HEALTH (endpoints)           🔴 BLOQUEANTE
-Smoke-8: PERFORMANCE (latencias)          🟡 IMPORTANTE
+Smoke-1: AUTENTICACI�N (4 roles)          ?? BLOQUEANTE
+Smoke-2: EXPEDIENTES (b�squeda+detalle)   ?? BLOQUEANTE
+Smoke-3: DOCUMENTOS (ver+descargar)       ?? IMPORTANTE
+Smoke-4: ADMINISTRACI�N (usuarios)         ?? BLOQUEANTE
+Smoke-5: AUDITOR�A (logs+filtros)         ?? IMPORTANTE
+Smoke-6: RBAC (control de acceso)         ?? BLOQUEANTE
+Smoke-7: API HEALTH (endpoints)           ?? BLOQUEANTE
+Smoke-8: PERFORMANCE (latencias)          ?? IMPORTANTE
 ```
 
 **Total**: 32 test cases
 
 ---
 
-## ⏱️ TIMELINE POST-DESPLIEGUE
+## ?? TIMELINE POST-DESPLIEGUE
 
 ```
 T+0 min    DevOps: "Despliegue completado"
-T+2-5 min  → Quick Smoke (~5 min)
-T+10-15 min → Full Smoke (~15 min)  
-T+20 min   → Reporte y decisión
-T+25 min   → GO/NO-GO recomendación
-T+30 min   → Rollout o Rollback
+T+2-5 min  ? Quick Smoke (~5 min)
+T+10-15 min ? Full Smoke (~15 min)  
+T+20 min   ? Reporte y decisi�n
+T+25 min   ? GO/NO-GO recomendaci�n
+T+30 min   ? Rollout o Rollback
 ```
 
 ---
 
-## 🚦 DECISIÓN GO/NO-GO
+## ?? DECISI�N GO/NO-GO
 
 ```
-🟢 GO COMPLETO
-   └─ Todos los Smoke-1,2,4,6,7 pasan
-   └─ Proceder a 100% traffic
+?? GO COMPLETO
+   +- Todos los Smoke-1,2,4,6,7 pasan
+   +- Proceder a 100% traffic
 
-🟡 GO + MONITOREO
-   └─ Fallos en Smoke-3,5,8 (no críticos)
-   └─ Mantener vigilancia 48h
+?? GO + MONITOREO
+   +- Fallos en Smoke-3,5,8 (no cr�ticos)
+   +- Mantener vigilancia 48h
 
-🔴 NO-GO (ROLLBACK)
-   └─ Fallos en Smoke-1,2,4,6,7 (críticos)
-   └─ Activar rollback inmediato
+?? NO-GO (ROLLBACK)
+   +- Fallos en Smoke-1,2,4,6,7 (cr�ticos)
+   +- Activar rollback inmediato
 ```
 
 ---
 
-## 🛠️ EJECUTAR (TL;DR)
+## ??? EJECUTAR (TL;DR)
 
 ```bash
 # Setup (one-time)
@@ -142,7 +142,7 @@ npx playwright install
 # Inyectar credenciales desde vault
 export ADMIN_SMOKE_USER="admin_smoke_prod"
 export ADMIN_SMOKE_PASS="<from-vault>"
-# ... más variables
+# ... m�s variables
 
 # Quick Smoke (T+2-5 min)
 npm run test:smoke:quick
@@ -157,12 +157,12 @@ open playwright-report/index.html
 cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
    PROD_SMOKE_REPORT_v1.2.4_$(date +%Y%m%d_%H%M%S).md
 
-# Compartir decisión en Slack
+# Compartir decisi�n en Slack
 ```
 
 ---
 
-## 📋 CHECKLIST PRE-LANZAMIENTO
+## ?? CHECKLIST PRE-LANZAMIENTO
 
 **DevOps**:
 - [ ] Usuarios smoke en BD prod
@@ -172,7 +172,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 **QA**:
 - [ ] Playwright instalado
 - [ ] Tests verificados
-- [ ] Formación completada (30 min)
+- [ ] Formaci�n completada (30 min)
 
 **Producto**:
 - [ ] Flujos smoke aprobados
@@ -180,24 +180,24 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 ---
 
-## 🎯 CAPACIDADES
+## ?? CAPACIDADES
 
-### ✅ Puedo hacer:
+### ? Puedo hacer:
 - Ejecutar smoke tests automatizados
 - Interpretar resultados y severidades
 - Recomendar GO / NO-GO / GO+MONITOREO
 - Documentar incidencias accionables
-- Comunicar rápidamente a equipo
+- Comunicar r�pidamente a equipo
 
-### ❌ No es mi responsabilidad:
-- Cambiar código
+### ? No es mi responsabilidad:
+- Cambiar c�digo
 - Investigaciones profundas
 - Ejecutar rollback
 - Cambios de infraestructura
 
 ---
 
-## 📖 FORMACIÓN REQUERIDA
+## ?? FORMACI�N REQUERIDA
 
 **30 minutos** para ejecutar smoke tests independientemente:
 
@@ -218,13 +218,13 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 ---
 
-## 🔗 DOCUMENTACIÓN RELACIONADA
+## ?? DOCUMENTACI�N RELACIONADA
 
 **Antes del despliegue**:
 - PLAN_DESPLIEGUE_PRODUCCION.md
 - DEPLOYMENT_GUIDE.md
 
-**Después de smoke tests OK**:
+**Despu�s de smoke tests OK**:
 - MONITOREO_OPERACIONES_PRODUCCION.md (72h)
 - OPERACIONES_DIARIAS_QUICK_REFERENCE.md
 
@@ -233,23 +233,23 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 ---
 
-## 📊 ESTADÍSTICAS
+## ?? ESTAD�STICAS
 
-| Métrica | Valor |
+| M�trica | Valor |
 |---------|-------|
 | Documentos maestros | 6+ |
 | Test cases implementados | 25+ |
 | Flujos smoke | 6 (+ 2 bonus) |
-| Líneas de documentación | 4,000+ |
-| Líneas de código (tests) | 800+ |
-| Tiempo total ejecución | 20 minutos |
-| Duración de formación | 30 minutos |
+| L�neas de documentaci�n | 4,000+ |
+| L�neas de c�digo (tests) | 800+ |
+| Tiempo total ejecuci�n | 20 minutos |
+| Duraci�n de formaci�n | 30 minutos |
 | Severidades bloqueantes | 4 flujos |
 | Severidades importantes | 4 flujos |
 
 ---
 
-## 🚀 PRÓXIMOS PASOS
+## ?? PR�XIMOS PASOS
 
 ### Inmediato (Esta semana)
 
@@ -260,7 +260,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 2. QA:
    - Instalar Playwright
-   - Formación (leer documentos)
+   - Formaci�n (leer documentos)
    - Setup local
 
 3. Producto:
@@ -273,101 +273,101 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 - [ ] Team formado
 - [ ] Prueba dry-run ejecutada
 
-### Día del Despliegue
+### D�a del Despliegue
 
 - [ ] DevOps: Despliegue v1.2.4
 - [ ] QA: Smoke tests (20 min)
-- [ ] Producto: Decisión GO/NO-GO
+- [ ] Producto: Decisi�n GO/NO-GO
 - [ ] DevOps: Rollout o Rollback
 - [ ] Ops: Monitoreo 72h
 
 ---
 
-## 💬 PREGUNTAS FRECUENTES
+## ?? PREGUNTAS FRECUENTES
 
-**P: ¿Esto reemplaza la regresión completa?**  
-R: No. Smoke tests son validación mínima crítica (< 20 min). QA hace regresión después.
+**P: �Esto reemplaza la regresi�n completa?**  
+R: No. Smoke tests son validaci�n m�nima cr�tica (< 20 min). QA hace regresi�n despu�s.
 
-**P: ¿Qué pasa si falla un test?**  
-R: Depende de severidad. Si bloqueante → rollback. Si importante → monitoreo intensivo.
+**P: �Qu� pasa si falla un test?**  
+R: Depende de severidad. Si bloqueante ? rollback. Si importante ? monitoreo intensivo.
 
-**P: ¿Puedo ejecutar smoke tests en staging?**  
-R: Sí, mismo proceso. Solo cambiar BASE_URL_PROD.
+**P: �Puedo ejecutar smoke tests en staging?**  
+R: S�, mismo proceso. Solo cambiar BASE_URL_PROD.
 
-**P: ¿Quién decide GO/NO-GO?**  
-R: Product Owner + CTO basado en recomendación del Agente de Smoke Tests.
+**P: �Qui�n decide GO/NO-GO?**  
+R: Product Owner + CTO basado en recomendaci�n del Agente de Smoke Tests.
 
-**P: ¿Cuánto tiempo de setup antes de ejecutar?**  
-R: 30 minutos formación + 30 minutos setup DevOps/DB.
+**P: �Cu�nto tiempo de setup antes de ejecutar?**  
+R: 30 minutos formaci�n + 30 minutos setup DevOps/DB.
 
 ---
 
-## 📞 SOPORTE
+## ?? SOPORTE
 
 **Preguntas operativas**: Revisar QUICK_START_SMOKE_TESTS.md  
-**Problemas técnicos**: Contactar Agente de Smoke Tests (QA)  
+**Problemas t�cnicos**: Contactar Agente de Smoke Tests (QA)  
 **Necesito rollback**: Ver ROLLBACK_PLAN_PRODUCCION.md  
 **Cambios al plan**: Actualizar PLAN_SMOKE_TESTS_PRODUCCION.md
 
 ---
 
-## 🎓 PARA IMPRIMIR/COMPARTIR
+## ?? PARA IMPRIMIR/COMPARTIR
 
-**Guía Una Página** (Print-Friendly):
+**Gu�a Una P�gina** (Print-Friendly):
 ```
 [Ver este documento - es printable]
 ```
 
 **Para Slack**:
 ```
-✅ Smoke Tests v1.2.4 COMPLETADO
+? Smoke Tests v1.2.4 COMPLETADO
 
-📁 Documentación: 6 archivos maestros
-🧪 Tests: 25+ test cases implementados
-⏱️ Timeline: 20 minutos post-despliegue
-🚦 GO/NO-GO: Criterios claros definidos
+?? Documentaci�n: 6 archivos maestros
+?? Tests: 25+ test cases implementados
+?? Timeline: 20 minutos post-despliegue
+?? GO/NO-GO: Criterios claros definidos
 
-📖 Leer primero: QUICK_START_SMOKE_TESTS.md
-📅 Setup: 1-2 días antes del despliegue
-🚀 Listo para usar en v1.2.4
+?? Leer primero: QUICK_START_SMOKE_TESTS.md
+?? Setup: 1-2 d�as antes del despliegue
+?? Listo para usar en v1.2.4
 
-¿Preguntas? Ver PROXIMO_PASO_SMOKE_TESTS.md
+�Preguntas? Ver PROXIMO_PASO_SMOKE_TESTS.md
 ```
 
 ---
 
-## ✨ BENEFICIOS
+## ? BENEFICIOS
 
-✅ **Validación rápida**: Decisión en 20 minutos (vs horas de testing manual)  
-✅ **Consistencia**: Mismo proceso cada vez  
-✅ **Automatización**: Tests ejecutables sin intervención manual  
-✅ **Documentación**: Auditoria completa de cada despliegue  
-✅ **Escalabilidad**: Fácil agregar nuevos flujos  
-✅ **Confianza**: Criterios claros para go/no-go  
+? **Validaci�n r�pida**: Decisi�n en 20 minutos (vs horas de testing manual)  
+? **Consistencia**: Mismo proceso cada vez  
+? **Automatizaci�n**: Tests ejecutables sin intervenci�n manual  
+? **Documentaci�n**: Auditoria completa de cada despliegue  
+? **Escalabilidad**: F�cil agregar nuevos flujos  
+? **Confianza**: Criterios claros para go/no-go  
 
 ---
 
 ```
-╔════════════════════════════════════════════════════════════╗
-║                                                             ║
-║  ✅ AGENTE DE SMOKE TESTS - COMPLETADO                    ║
-║                                                             ║
-║  Implementación:   ✅ 100%                                 ║
-║  Documentación:    ✅ 100%                                 ║
-║  Tests:            ✅ 100%                                 ║
-║  Proceso:          ✅ 100%                                 ║
-║                                                             ║
-║  Estado: 🟢 LISTO PARA OPERACIÓN                          ║
-║                                                             ║
-║  Próximos pasos: Ver PROXIMO_PASO_SMOKE_TESTS.md         ║
-║                                                             ║
-╚════════════════════════════════════════════════════════════╝
++------------------------------------------------------------+
+�                                                             �
+�  ? AGENTE DE SMOKE TESTS - COMPLETADO                    �
+�                                                             �
+�  Implementaci�n:   ? 100%                                 �
+�  Documentaci�n:    ? 100%                                 �
+�  Tests:            ? 100%                                 �
+�  Proceso:          ? 100%                                 �
+�                                                             �
+�  Estado: ?? LISTO PARA OPERACI�N                          �
+�                                                             �
+�  Pr�ximos pasos: Ver PROXIMO_PASO_SMOKE_TESTS.md         �
+�                                                             �
++------------------------------------------------------------+
 ```
 
 ---
 
 **Implementado por**: Agente de Smoke Tests  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.2.4  
-**Estado**: ✅ OPERACIONAL  
-**Última actualización**: Enero 28, 2026, 23:59 UTC
+**Versi�n**: v1.2.4  
+**Estado**: ? OPERACIONAL  
+**�ltima actualizaci�n**: Enero 28, 2026, 23:59 UTC

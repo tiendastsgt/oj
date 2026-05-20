@@ -34,25 +34,25 @@ Estado: ✅ Vigente
 
 \### 7.1.2 Paleta de Colores
 
-\`\`\`
+`\`\`
 
 COLORES PRINCIPALES (Institucional OJ)
 
 ──────────────────────────────────────────────────────
 
-Primario (Azul institucional)
+Primario (Azul cobalto profundo)
 
 ┌────────┐
 
-│ │ #1E3A5F - Headers, botones principales
+│ │ #0A2E5C - Headers, botones principales, base
 
 └────────┘
 
-Secundario (Azul claro)
+Acento (Dorado quetzal)
 
 ┌────────┐
 
-│ │ #3B82F6 - Links, elementos interactivos
+│ │ #C9A961 - Botones primarios, destacados
 
 └────────┘
 
@@ -64,7 +64,7 @@ COLORES DE ESTADO
 
 ┌────────┐ ┌────────┐ ┌────────┐
 
-│ │ #22C55E │ │ #F59E0B │ │ #EF4444
+│ │ #1B5E3F │ │ #D6BC82 │ │ #8B2332
 
 └────────┘ └────────┘ └────────┘
 
@@ -72,7 +72,7 @@ Info
 
 ┌────────┐
 
-│ │ #3B82F6
+│ │ #1E5091
 
 └────────┘
 
@@ -80,11 +80,11 @@ COLORES NEUTROS
 
 ──────────────────────────────────────────────────────
 
-Fondo principal Fondo secundario Bordes
+Fondo papel Fondo secundario Bordes
 
 ┌────────┐ ┌────────┐ ┌────────┐
 
-│ │ #FFFFFF │ │ #F8FAFC │ │ #E2E8F0
+│ │ #FAFAF7 │ │ #F5F4EE │ │ #D8D8D2
 
 └────────┘ └────────┘ └────────┘
 
@@ -92,31 +92,33 @@ Texto principal Texto secundario
 
 ┌────────┐ ┌────────┐
 
-│ │ #1E293B │ │ #64748B
+│ │ #4A4A48 │ │ #6E6E6A
 
 └────────┘ └────────┘
 
-\`\`\`
+`\`\`
 
 \### 7.1.3 Tipografía
 
-\| Elemento \| Fuente \| Tamaño \| Peso \|
+| Elemento | Fuente | Tamaño | Peso |
 
-\|\-\-\-\-\-\-\-\-\--\|\-\-\-\-\-\-\--\|\-\-\-\-\-\-\--\|\-\-\-\-\--\|
+|----------|--------|--------|------|
 
-\| Títulos h1 \| Inter \| 24px \| 600 \|
+| Títulos h1 | Source Serif 4 | 24px | 600 |
 
-\| Títulos h2 \| Inter \| 20px \| 600 \|
+| Títulos h2 | Source Serif 4 | 20px | 600 |
 
-\| Títulos h3 \| Inter \| 16px \| 600 \|
+| Títulos h3 | Source Serif 4 | 16px | 600 |
 
-\| Texto normal \| Inter \| 14px \| 400 \|
+| Texto normal | Inter | 14px | 400 |
 
-\| Texto pequeño \| Inter \| 12px \| 400 \|
+| Texto pequeño | Inter | 12px | 400 |
 
-\| Labels \| Inter \| 14px \| 500 \|
+| Números Expediente | JetBrains Mono | 14px | 500 |
 
-\| Botones \| Inter \| 14px \| 500 \|
+| Labels | Inter | 14px | 500 |
+
+| Botones | Inter | 14px | 500 |
 
 \### 7.1.4 Componentes PrimeNG Utilizados
 

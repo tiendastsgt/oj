@@ -1,43 +1,43 @@
-﻿---
+---
 Documento: FASE_6_COMPLETADA
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 🎉 FASE 6 COMPLETADA - RESUMEN PARA EL ORQUESTADOR
+# ?? FASE 6 COMPLETADA - RESUMEN PARA EL ORQUESTADOR
 
 **Agente**: DevOps / Infraestructura
-**Fase**: 6 - NGINX, HTTPS, Seguridad en CI y Gestión de Secretos
+**Fase**: 6 - NGINX, HTTPS, Seguridad en CI y Gesti�n de Secretos
 **Fecha**: Mayo 2026
-**Status**: ✅ **COMPLETADO Y ENTREGADO**
+**Status**: ? **COMPLETADO Y ENTREGADO**
 
 ---
 
-## 📝 INFORME FINAL
+## ?? INFORME FINAL
 
-He completado con éxito la **Fase 6 del proyecto SGED**, implementando la infraestructura segura de producción. A continuación, el resumen de lo entregado:
+He completado con �xito la **Fase 6 del proyecto SGED**, implementando la infraestructura segura de producci�n. A continuaci�n, el resumen de lo entregado:
 
 ---
 
-## 📦 ENTREGABLES (16 archivos)
+## ?? ENTREGABLES (16 archivos)
 
-### 1. Configuración NGINX (2 archivos)
+### 1. Configuraci�n NGINX (2 archivos)
 
-✅ **`nginx/nginx.conf`** (350+ líneas)
-- Configuración completa para QA
-- HTTP → HTTPS redirección (301)
+? **`nginx/nginx.conf`** (350+ l�neas)
+- Configuraci�n completa para QA
+- HTTP ? HTTPS redirecci�n (301)
 - TLS 1.2+ con ciphers fuertes
 - 7 headers de seguridad implementados
 - Rate limiting (API, Auth, Documentos)
 - Reverse proxy a backend Spring Boot
 - Servicio de frontend Angular compilado
 
-✅ **`nginx/nginx-prod.conf`** (350+ líneas)
-- Versión optimizada para Producción
+? **`nginx/nginx-prod.conf`** (350+ l�neas)
+- Versi�n optimizada para Producci�n
 - OCSP Stapling habilitado
 - Certificados Let's Encrypt (no autofirmados)
 - Cache agresivo para assets
@@ -45,74 +45,74 @@ He completado con éxito la **Fase 6 del proyecto SGED**, implementando la infra
 
 ### 2. Docker Compose (2 archivos)
 
-✅ **`docker-compose-qa.yml`** (100+ líneas)
+? **`docker-compose-qa.yml`** (100+ l�neas)
 - Stack completo: NGINX + Backend + Frontend + BD
 - Certificados TLS autofirmados
 - Health checks activos
 - Volumes para persistencia
 - Red aislada
 
-✅ **`docker-compose-prod.yml`** (150+ líneas)
-- Stack producción: secretos desde archivos (Vault compatible)
-- Límites de CPU/memoria
+? **`docker-compose-prod.yml`** (150+ l�neas)
+- Stack producci�n: secretos desde archivos (Vault compatible)
+- L�mites de CPU/memoria
 - Logging remoto (CloudWatch/Splunk)
 - HTTPS obligatorio
 - Restart policy: always
 
 ### 3. CI/CD - GitHub Actions (1 archivo)
 
-✅ **`.github/workflows/ci.yml`** (ACTUALIZADO)
+? **`.github/workflows/ci.yml`** (ACTUALIZADO)
 
 Nuevos jobs agregados:
 - **codeql-analysis**: SAST (Java + TypeScript)
 - **build-docker-images**: Build backend + frontend + push
-- **deploy-qa**: Deploy automático a QA
+- **deploy-qa**: Deploy autom�tico a QA
 - **dast-zap-scan**: OWASP ZAP (nightly/manual)
 
-### 4. Documentación de Seguridad (3 archivos)
+### 4. Documentaci�n de Seguridad (3 archivos)
 
-✅ **`NGINX_SECURITY_GUIDE.md`**
+? **`NGINX_SECURITY_GUIDE.md`**
 - Generar certificados (autofirmado + Let's Encrypt)
 - Headers de seguridad explicados (HSTS, CSP, X-Frame-Options, etc.)
-- Rate limiting y protección contra DDoS
+- Rate limiting y protecci�n contra DDoS
 - Logging y monitoreo
 - Troubleshooting
-- Checklist pre-producción
+- Checklist pre-producci�n
 
-✅ **`SECRETS_MANAGEMENT.md`**
-- Principios de gestión de secretos
+? **`SECRETS_MANAGEMENT.md`**
+- Principios de gesti�n de secretos
 - GitHub Secrets (CI/CD)
-- HashiCorp Vault (Producción)
+- HashiCorp Vault (Producci�n)
 - AWS Secrets Manager (alternativa)
 - Variables de entorno (.env por entorno)
-- Rotación automática (bash scripts)
-- Auditoría de acceso
-- Herramientas de detección
+- Rotaci�n autom�tica (bash scripts)
+- Auditor�a de acceso
+- Herramientas de detecci�n
 
-✅ **`DEPLOYMENT_GUIDE.md`**
-- Paso a paso despliegue QA/Producción
-- Preparación pre-despliegue
-- Compilación de artefactos (Maven + npm)
+? **`DEPLOYMENT_GUIDE.md`**
+- Paso a paso despliegue QA/Producci�n
+- Preparaci�n pre-despliegue
+- Compilaci�n de artefactos (Maven + npm)
 - Validaciones post-despliegue
 - Troubleshooting (502, timeout, HTTPS, OOM)
 - Rollback procedures
 - Checklist de despliegue
 
-### 5. Documentación Operativa (3 archivos)
+### 5. Documentaci�n Operativa (3 archivos)
 
-✅ **`README_INFRAESTRUCTURA.md`**
+? **`README_INFRAESTRUCTURA.md`**
 - Referencia completa para DevOps
 - Estructura de archivos
-- Inicio rápido (dev, QA, Prod)
+- Inicio r�pido (dev, QA, Prod)
 - Comandos comunes
-- Configuración de entornos
+- Configuraci�n de entornos
 - Seguridad (HTTPS, headers, rate limiting)
 - CI/CD
 - Troubleshooting
 
-✅ **`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`**
-- Guía de bolsillo para on-call
-- Health check rápido
+? **`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`**
+- Gu�a de bolsillo para on-call
+- Health check r�pido
 - Ver logs
 - Restart de servicios
 - NGINX operations
@@ -121,24 +121,24 @@ Nuevos jobs agregados:
 - Rotar secretos
 - Contactos de emergencia
 
-✅ **`GUIA_TRANSICION_ENTORNOS.md`**
-- Ciclo completo: Dev → QA → Producción
-- Proceso de promoción entre entornos
+? **`GUIA_TRANSICION_ENTORNOS.md`**
+- Ciclo completo: Dev ? QA ? Producci�n
+- Proceso de promoci�n entre entornos
 - Testing en cada etapa
 - Ventanas de cambio
 - Rollback de emergencia
 - Matriz de cambio por entorno
-- Checklist de transición
+- Checklist de transici�n
 
-### 6. Informes y Análisis (5 archivos)
+### 6. Informes y An�lisis (5 archivos)
 
-✅ **`FASE_6_INFORME_EJECUTIVO.md`**
+? **`FASE_6_INFORME_EJECUTIVO.md`**
 - Resumen ejecutivo para gerencia
 - Arquitectura implementada
-- Validación pre-producción
-- Integración con otros agentes
+- Validaci�n pre-producci�n
+- Integraci�n con otros agentes
 
-✅ **`FASE_6_CHECKLIST_VALIDACION.md`**
+? **`FASE_6_CHECKLIST_VALIDACION.md`**
 - Checklist exhaustivo (pre/durante/post deploy)
 - Validaciones de seguridad
 - Health checks
@@ -146,90 +146,90 @@ Nuevos jobs agregados:
 - Persistencia de datos
 - Sign-off de roles
 
-✅ **`FASE_6_RESUMEN_VISUAL.md`**
+? **`FASE_6_RESUMEN_VISUAL.md`**
 - Diagramas ASCII de stack
 - Matriz de seguridad
 - Pipeline CI/CD visual
 - Stack de componentes
 - Matriz de secretos
 
-✅ **`INDICE_FASE_6.md`**
-- Índice completo con explicación de cada archivo
+? **`INDICE_FASE_6.md`**
+- �ndice completo con explicaci�n de cada archivo
 - Matriz de responsabilidades
-- Verificación final
+- Verificaci�n final
 - Aprendizajes clave
 
-✅ **`FASE_6_RESUMEN_CONSOLIDADO.md`**
+? **`FASE_6_RESUMEN_CONSOLIDADO.md`**
 - Resumen general executivo
-- Estadísticas de Fase 6
+- Estad�sticas de Fase 6
 - Checklist final
-- Próximos pasos
+- Pr�ximos pasos
 
 ---
 
-## 🔐 SEGURIDAD IMPLEMENTADA
+## ?? SEGURIDAD IMPLEMENTADA
 
 ### HTTPS y TLS
-- ✅ HTTP → HTTPS redirección (301)
-- ✅ TLS 1.2+ obligatorio
-- ✅ Ciphers fuertes (ECDHE, CHACHA20)
-- ✅ Certificados autofirmados (QA) + Let's Encrypt (Prod)
-- ✅ OCSP Stapling (Producción)
+- ? HTTP ? HTTPS redirecci�n (301)
+- ? TLS 1.2+ obligatorio
+- ? Ciphers fuertes (ECDHE, CHACHA20)
+- ? Certificados autofirmados (QA) + Let's Encrypt (Prod)
+- ? OCSP Stapling (Producci�n)
 
 ### Headers de Seguridad (7)
-- ✅ Strict-Transport-Security (HSTS 1 año)
-- ✅ X-Content-Type-Options: nosniff
-- ✅ X-Frame-Options: DENY
-- ✅ Content-Security-Policy (restrictiva)
-- ✅ Referrer-Policy: no-referrer-when-downgrade
-- ✅ Permissions-Policy (geo/micrófono/cámara OFF)
-- ✅ X-XSS-Protection: 1; mode=block
+- ? Strict-Transport-Security (HSTS 1 a�o)
+- ? X-Content-Type-Options: nosniff
+- ? X-Frame-Options: DENY
+- ? Content-Security-Policy (restrictiva)
+- ? Referrer-Policy: no-referrer-when-downgrade
+- ? Permissions-Policy (geo/micr�fono/c�mara OFF)
+- ? X-XSS-Protection: 1; mode=block
 
 ### Rate Limiting (DDoS Protection)
-- ✅ API general: 10 req/s (burst 20)
-- ✅ Auth: 5 req/s (burst 5) - previene fuerza bruta
-- ✅ Documentos: 3 req/s (burst 3)
+- ? API general: 10 req/s (burst 20)
+- ? Auth: 5 req/s (burst 5) - previene fuerza bruta
+- ? Documentos: 3 req/s (burst 3)
 
-### Análisis de Seguridad en CI
-- ✅ CodeQL SAST (Java + TypeScript)
-- ✅ OWASP ZAP DAST (nightly/manual)
-- ✅ Reportes en GitHub Security tab
+### An�lisis de Seguridad en CI
+- ? CodeQL SAST (Java + TypeScript)
+- ? OWASP ZAP DAST (nightly/manual)
+- ? Reportes en GitHub Security tab
 
-### Gestión de Secretos
-- ✅ GitHub Secrets (CI/CD)
-- ✅ HashiCorp Vault (Producción)
-- ✅ Rotación automática
-- ✅ Auditoría de acceso
+### Gesti�n de Secretos
+- ? GitHub Secrets (CI/CD)
+- ? HashiCorp Vault (Producci�n)
+- ? Rotaci�n autom�tica
+- ? Auditor�a de acceso
 
 ---
 
-## 🏗️ ARQUITECTURA
+## ??? ARQUITECTURA
 
 ```
-USUARIOS → HTTPS (443)
-  ↓
+USUARIOS ? HTTPS (443)
+  ?
 NGINX Reverse Proxy
-  ├─ TLS 1.2+
-  ├─ Headers seguridad
-  ├─ Rate limiting
-  ├─ Frontend Angular (dist/)
-  └─ Proxy /api/* → Backend
-      ↓
+  +- TLS 1.2+
+  +- Headers seguridad
+  +- Rate limiting
+  +- Frontend Angular (dist/)
+  +- Proxy /api/* ? Backend
+      ?
       Backend (Java 21, Spring Boot)
-      └─ Oracle Database
+      +- Oracle Database
 ```
 
 ---
 
-## 📊 ESTADÍSTICAS
+## ?? ESTAD�STICAS
 
-| Métrica | Valor |
+| M�trica | Valor |
 |---------|-------|
-| Archivos de configuración | 4 |
-| Líneas NGINX | 700+ |
-| Líneas Docker Compose | 250+ |
-| Documentos técnicos | 10 |
-| Guías operativas | 4 |
+| Archivos de configuraci�n | 4 |
+| L�neas NGINX | 700+ |
+| L�neas Docker Compose | 250+ |
+| Documentos t�cnicos | 10 |
+| Gu�as operativas | 4 |
 | Jobs CI/CD nuevos | 5 |
 | Headers de seguridad | 7 |
 | Rutas protegidas | 8+ |
@@ -237,19 +237,19 @@ NGINX Reverse Proxy
 
 ---
 
-## ✅ CUMPLIMIENTO DE REQUISITOS
+## ? CUMPLIMIENTO DE REQUISITOS
 
-Según las instrucciones iniciales, los requisitos de Fase 6 eran:
+Seg�n las instrucciones iniciales, los requisitos de Fase 6 eran:
 
-### ✅ 1. Configurar NGINX + HTTPS
-- [x] Configuración de reverse proxy
-- [x] Redirección HTTP → HTTPS
+### ? 1. Configurar NGINX + HTTPS
+- [x] Configuraci�n de reverse proxy
+- [x] Redirecci�n HTTP ? HTTPS
 - [x] TLS con ciphers fuertes
 - [x] Certificados (autofirmado + Let's Encrypt)
 - [x] Servicio de frontend Angular
 - [x] Proxy a backend Java
 
-### ✅ 2. Headers de Seguridad
+### ? 2. Headers de Seguridad
 - [x] Strict-Transport-Security
 - [x] X-Content-Type-Options
 - [x] X-Frame-Options
@@ -257,28 +257,28 @@ Según las instrucciones iniciales, los requisitos de Fase 6 eran:
 - [x] Referrer-Policy
 - [x] Permissions-Policy
 
-### ✅ 3. Seguridad en CI
+### ? 3. Seguridad en CI
 - [x] CodeQL SAST (Java + TypeScript)
 - [x] OWASP ZAP DAST (propuesta + workflow)
 - [x] GitHub Actions actualizado
 - [x] Reportes de seguridad
 
-### ✅ 4. Modelo de Despliegue
+### ? 4. Modelo de Despliegue
 - [x] Docker Compose QA
-- [x] Docker Compose Producción
-- [x] Diferenciación clara por entorno
-- [x] Orquestación de servicios
+- [x] Docker Compose Producci�n
+- [x] Diferenciaci�n clara por entorno
+- [x] Orquestaci�n de servicios
 
-### ✅ 5. Guía Operativa
-- [x] Cómo levantar el stack
-- [x] Configuración de certificados TLS
-- [x] Gestión de secretos
+### ? 5. Gu�a Operativa
+- [x] C�mo levantar el stack
+- [x] Configuraci�n de certificados TLS
+- [x] Gesti�n de secretos
 - [x] Procedimientos de deploy
 - [x] Troubleshooting
 
 ---
 
-## 🎯 CÓMO USAR FASE 6
+## ?? C�MO USAR FASE 6
 
 ### Para Despliegue QA Inmediato
 
@@ -299,33 +299,33 @@ curl -k https://localhost/health
 curl -I -k https://localhost/ | grep Strict-Transport
 ```
 
-→ **Ver**: `DEPLOYMENT_GUIDE.md` (sección QA)
+? **Ver**: `DEPLOYMENT_GUIDE.md` (secci�n QA)
 
-### Para Documentación Operativa
+### Para Documentaci�n Operativa
 
-→ **Ver**: `OPERACIONES_DIARIAS_QUICK_REFERENCE.md`
+? **Ver**: `OPERACIONES_DIARIAS_QUICK_REFERENCE.md`
 
 ### Para Seguridad
 
-→ **Ver**: `NGINX_SECURITY_GUIDE.md` y `SECRETS_MANAGEMENT.md`
+? **Ver**: `NGINX_SECURITY_GUIDE.md` y `SECRETS_MANAGEMENT.md`
 
-### Para Auditoría
+### Para Auditor�a
 
-→ **Ver**: `FASE_6_CHECKLIST_VALIDACION.md`
+? **Ver**: `FASE_6_CHECKLIST_VALIDACION.md`
 
 ---
 
-## 🚀 PRÓXIMOS PASOS (FASE 7)
+## ?? PR�XIMOS PASOS (FASE 7)
 
 - [ ] **Dockerfiles finales** (Backend Java 21 + Frontend multi-stage)
 - [ ] **Kubernetes** (si escala): Deployment, Service, Ingress, HPA
 - [ ] **Observabilidad**: Prometheus, Grafana, ELK/CloudWatch
 - [ ] **GitOps**: ArgoCD, Canary deployments
-- [ ] **Certificados automáticos**: cert-manager si Kubernetes
+- [ ] **Certificados autom�ticos**: cert-manager si Kubernetes
 
 ---
 
-## 📞 CONTACTOS
+## ?? CONTACTOS
 
 | Rol | Email | Disponibilidad |
 |-----|-------|---|
@@ -335,59 +335,59 @@ curl -I -k https://localhost/ | grep Strict-Transport
 
 ---
 
-## ✨ DESTACADOS
+## ? DESTACADOS
 
-✅ **Reproducibilidad**: Mismo docker-compose para dev/QA/prod (solo variables)
-✅ **Seguridad por capas**: HTTPS + headers + rate limiting + auditoría
-✅ **Automatización**: CI/CD hace el trabajo pesado
-✅ **Documentación exhaustiva**: 10+ guías para todas las audiencias
-✅ **Listo para producción**: Arquitectura segura y escalable
-✅ **Operabilidad**: Guías claras = menos errores
+? **Reproducibilidad**: Mismo docker-compose para dev/QA/prod (solo variables)
+? **Seguridad por capas**: HTTPS + headers + rate limiting + auditor�a
+? **Automatizaci�n**: CI/CD hace el trabajo pesado
+? **Documentaci�n exhaustiva**: 10+ gu�as para todas las audiencias
+? **Listo para producci�n**: Arquitectura segura y escalable
+? **Operabilidad**: Gu�as claras = menos errores
 
 ---
 
-## 📋 RESUMEN DE ENTREGAS
+## ?? RESUMEN DE ENTREGAS
 
-**Archivos de Configuración**: 4
-- ✅ nginx/nginx.conf
-- ✅ nginx/nginx-prod.conf
-- ✅ docker-compose-qa.yml
-- ✅ docker-compose-prod.yml
+**Archivos de Configuraci�n**: 4
+- ? nginx/nginx.conf
+- ? nginx/nginx-prod.conf
+- ? docker-compose-qa.yml
+- ? docker-compose-prod.yml
 
 **CI/CD**: 1
-- ✅ .github/workflows/ci.yml (actualizado)
+- ? .github/workflows/ci.yml (actualizado)
 
-**Documentación Seguridad**: 3
-- ✅ NGINX_SECURITY_GUIDE.md
-- ✅ SECRETS_MANAGEMENT.md
-- ✅ DEPLOYMENT_GUIDE.md
+**Documentaci�n Seguridad**: 3
+- ? NGINX_SECURITY_GUIDE.md
+- ? SECRETS_MANAGEMENT.md
+- ? DEPLOYMENT_GUIDE.md
 
-**Documentación Operativa**: 3
-- ✅ README_INFRAESTRUCTURA.md
-- ✅ OPERACIONES_DIARIAS_QUICK_REFERENCE.md
-- ✅ GUIA_TRANSICION_ENTORNOS.md
+**Documentaci�n Operativa**: 3
+- ? README_INFRAESTRUCTURA.md
+- ? OPERACIONES_DIARIAS_QUICK_REFERENCE.md
+- ? GUIA_TRANSICION_ENTORNOS.md
 
-**Informes y Análisis**: 5
-- ✅ FASE_6_INFORME_EJECUTIVO.md
-- ✅ FASE_6_CHECKLIST_VALIDACION.md
-- ✅ FASE_6_RESUMEN_VISUAL.md
-- ✅ INDICE_FASE_6.md
-- ✅ FASE_6_RESUMEN_CONSOLIDADO.md
+**Informes y An�lisis**: 5
+- ? FASE_6_INFORME_EJECUTIVO.md
+- ? FASE_6_CHECKLIST_VALIDACION.md
+- ? FASE_6_RESUMEN_VISUAL.md
+- ? INDICE_FASE_6.md
+- ? FASE_6_RESUMEN_CONSOLIDADO.md
 
 ---
 
-## 🎉 CONCLUSIÓN
+## ?? CONCLUSI�N
 
-**SGED Fase 6 está COMPLETADA y lista para ser usada.**
+**SGED Fase 6 est� COMPLETADA y lista para ser usada.**
 
 La infraestructura es:
-- ✅ **Segura**: HTTPS, headers, rate limiting, análisis de seguridad
-- ✅ **Reproducible**: Idéntica en dev/QA/prod
-- ✅ **Automatizada**: CI/CD con CodeQL + DAST
-- ✅ **Documentada**: 10+ guías exhaustivas
-- ✅ **Operacional**: Guías claras para on-call
+- ? **Segura**: HTTPS, headers, rate limiting, an�lisis de seguridad
+- ? **Reproducible**: Id�ntica en dev/QA/prod
+- ? **Automatizada**: CI/CD con CodeQL + DAST
+- ? **Documentada**: 10+ gu�as exhaustivas
+- ? **Operacional**: Gu�as claras para on-call
 
-**Está lista para desplegar en QA inmediatamente.**
+**Est� lista para desplegar en QA inmediatamente.**
 
 ---
 
@@ -398,10 +398,10 @@ La infraestructura es:
 
 ---
 
-## ¿PREGUNTAS O CAMBIOS?
+## �PREGUNTAS O CAMBIOS?
 
 Contactar a: **devops@example.com** o **oncall@example.com**
 
 ---
 
-**🎯 FASE 6: COMPLETADA ✅**
+**?? FASE 6: COMPLETADA ?**

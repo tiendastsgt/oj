@@ -1,18 +1,18 @@
-ï»¿---
+---
 Documento: OPERACIONES_DIARIAS_QUICK_REFERENCE
 Proyecto: SGED
-VersiÃ³n del sistema: v1.2.4
-VersiÃ³n del documento: 1.0
-Ãšltima actualizaciÃ³n: 2026-05-03
+Versión del sistema: v1.2.4
+Versión del documento: 1.0
+Última actualización: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: âœ… Vigente
+Estado: ? Vigente
 ---
 
 # Operaciones Diarias - SGED Infraestructura (Quick Reference)
 
 ## Monitoreo de Salud
 
-### Health Check rÃ¡pido
+### Health Check rápido
 
 ```bash
 # Todos los servicios
@@ -25,7 +25,7 @@ docker-compose -f docker-compose-qa.yml ps
 # sged-db-qa          "/bin/sh -c..."      sged-db   Up (healthy)
 ```
 
-### Ver logs Ãºltimas 50 lÃ­neas
+### Ver logs últimas 50 líneas
 
 ```bash
 # Todos
@@ -51,7 +51,7 @@ docker stats --no-stream
 
 ## Restart de Servicios
 
-### Reiniciar servicio especÃ­fico
+### Reiniciar servicio específico
 
 ```bash
 # Backend
@@ -77,7 +77,7 @@ docker-compose restart sged-backend && docker-compose logs -f sged-backend
 
 ## NGINX Operations
 
-### Validar configuraciÃ³n
+### Validar configuración
 
 ```bash
 docker exec sged-nginx-qa nginx -t
@@ -89,7 +89,7 @@ docker exec sged-nginx-qa nginx -t
 docker exec sged-nginx-qa nginx -s reload
 ```
 
-### Ver logs de acceso (Ãºltimo error)
+### Ver logs de acceso (último error)
 
 ```bash
 docker logs sged-nginx-qa | grep -i error | tail -20
@@ -102,7 +102,7 @@ for i in {1..50}; do
   curl -s -o /dev/null -w "%{http_code}" https://localhost/api/v1/auth/login -k
   echo ""
 done
-# Debe mostrar 429 despuÃ©s de 5 req/s
+# Debe mostrar 429 después de 5 req/s
 ```
 
 ---
@@ -126,7 +126,7 @@ cat /proc/sys/net/ipv4/tcp_max_syn_backlog
 curl http://localhost:8080/health
 ```
 
-### Ver properties de aplicaciÃ³n
+### Ver properties de aplicación
 
 ```bash
 docker exec sged-backend-qa env | grep -E "DB_|JWT_|SPRING_"
@@ -149,7 +149,7 @@ docker exec sged-backend-qa curl http://localhost:8080/health
 docker exec -it sged-db-qa sqlplus sged/password@localhost:1521/SGED
 ```
 
-### Backup rÃ¡pido
+### Backup rápido
 
 ```bash
 docker exec sged-db-qa sqlplus -s sys/as sysdba << EOF
@@ -171,7 +171,7 @@ EOF
 
 ## Certificados TLS
 
-### Verificar fecha de expiraciÃ³n
+### Verificar fecha de expiración
 
 ```bash
 openssl x509 -in nginx/certs/certificate.crt -noout -dates
@@ -179,7 +179,7 @@ openssl x509 -in nginx/certs/certificate.crt -noout -dates
 # notAfter=Jan  1 00:00:00 2026 GMT
 ```
 
-### Si estÃ¡ prÃ³ximo a expirar (QA)
+### Si está próximo a expirar (QA)
 
 ```bash
 openssl req -x509 -newkey rsa:4096 \
@@ -191,12 +191,12 @@ openssl req -x509 -newkey rsa:4096 \
 docker-compose restart nginx
 ```
 
-### Si estÃ¡ prÃ³ximo a expirar (Prod - Let's Encrypt)
+### Si está próximo a expirar (Prod - Let's Encrypt)
 
 ```bash
 sudo certbot renew --force-renewal
 
-# O automÃ¡tico en cron (generalmente ya configurado)
+# O automático en cron (generalmente ya configurado)
 sudo systemctl restart certbot.timer
 ```
 
@@ -222,7 +222,7 @@ docker-compose up -d
 ### Rotar DB Password
 
 ```bash
-# Generar nueva contraseÃ±a
+# Generar nueva contraseña
 NEW_PASS=$(openssl rand -base64 16)
 
 # Actualizar en BD
@@ -238,12 +238,12 @@ docker-compose restart sged-backend
 
 ---
 
-## Troubleshooting RÃ¡pido
+## Troubleshooting Rápido
 
 ### "502 Bad Gateway"
 
 ```bash
-# 1. Backend estÃ¡ Up?
+# 1. Backend está Up?
 docker-compose ps sged-backend
 
 # 2. Backend responde?
@@ -259,7 +259,7 @@ docker-compose restart sged-backend
 ### "Database Connection Timeout"
 
 ```bash
-# 1. BD estÃ¡ Up?
+# 1. BD está Up?
 docker-compose ps sged-db
 
 # 2. BD es accesible?
@@ -293,10 +293,10 @@ docker-compose restart nginx
 # 1. Ver consumo
 docker stats
 
-# 2. QuÃ© contenedor usa mÃ¡s?
+# 2. Qué contenedor usa más?
 docker ps --format "{{.Names}}" | xargs -I {} docker stats {} --no-stream
 
-# 3. Aumentar lÃ­mites en docker-compose.yml
+# 3. Aumentar límites en docker-compose.yml
 # deploy.resources.limits.memory: 8G
 
 # 4. Redeploy
@@ -328,7 +328,7 @@ EOF
 # Backup documentos
 rsync -av data/documentos "$BACKUP_DIR/"
 
-echo "âœ“ Backup completado: $BACKUP_DIR"
+echo "? Backup completado: $BACKUP_DIR"
 ```
 
 ### Restore desde backup
@@ -352,31 +352,31 @@ docker-compose up -d
 
 ---
 
-## Logs y AuditorÃ­a
+## Logs y Auditoría
 
-### Buscar en logs (fecha especÃ­fica)
+### Buscar en logs (fecha específica)
 
 ```bash
 # Errores de hoy
 docker logs sged-backend-qa | grep "$(date +%Y-%m-%d)" | grep ERROR
 
-# Errores en el Ãºltimo acceso
+# Errores en el último acceso
 docker logs sged-nginx-qa | grep "$(date +%d/%b/%Y)" | tail -20
 ```
 
-### AuditorÃ­a de cambios
+### Auditoría de cambios
 
 ```bash
-# QuiÃ©n accediÃ³ a secretos?
+# Quién accedió a secretos?
 cat ~/.bash_history | grep secret
 
-# QuiÃ©n restarteÃ³ servicios?
+# Quién restarteó servicios?
 docker events --filter 'type=container' --filter 'action=start' --since '2024-01-01T00:00:00'
 ```
 
 ---
 
-## MÃ©tricas BÃ¡sicas
+## Métricas Básicas
 
 ### Performance del API
 
@@ -398,26 +398,26 @@ ab -n 100 -c 10 https://localhost/api/v1/health
 
 ## Mantenimiento Mensual
 
-- [ ] Revisar certificados TLS (prÃ³ximas expiraciones)
+- [ ] Revisar certificados TLS (próximas expiraciones)
 - [ ] Rotar secrets (JWT, DB password)
 - [ ] Revisar alertas y logs de error
 - [ ] Backup completo de BD y documentos
 - [ ] Actualizar parches de seguridad (OS, Docker, etc.)
 - [ ] Revisar uso de disco
-- [ ] Verificar retenciÃ³n de logs
+- [ ] Verificar retención de logs
 
 ---
 
 ## Contactos de Emergencia
 
-| Problema | Contacto | TelÃ©fono |
+| Problema | Contacto | Teléfono |
 |----------|----------|----------|
-| CaÃ­da del servicio | devops@example.com | +503-xxxx-xxxx |
+| Caída del servicio | devops@example.com | +503-xxxx-xxxx |
 | Seguridad | security@example.com | +503-xxxx-xxxx |
 | BD Oracle | dba@example.com | +503-xxxx-xxxx |
 | 24/7 Emergency | on-call@example.com | +503-xxxx-xxxx |
 
 ---
 
-**Ãšltima actualizaciÃ³n**: Mayo 2026
+**Última actualización**: Mayo 2026
 **Mantenedor**: Equipo DevOps/Infraestructura

@@ -1,9 +1,9 @@
 ---
 Documento: FRONTEND
 Proyecto: SGED
-Versión del sistema: v1.3.0
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versión del sistema: v1.5.0
+Versión del documento: 1.1
+Última actualización: 2026-05-19
 Estado: Vigente
 ---
 
@@ -11,7 +11,7 @@ Estado: Vigente
 
 ## 1. Estructura de Módulos Angular
 
-El frontend está construido con **Angular 21 Standalone Components**. No se usan `NgModules` tradicionales como módulos de enrutamiento raíz; cada componente se declara standalone y las rutas usan `loadComponent()` para lazy-loading granular.
+El frontend está construido con **Angular 21 Standalone Components**, adoptando el estándar de **Signals, Zoneless Change Detection, Control Flow (`@if`/`@for`), y `httpResource`** (ver `mejoras/ARCHITECTURE.md`). No se usan `NgModules` tradicionales como módulos de enrutamiento raíz; cada componente se declara standalone y las rutas usan `loadComponent()` para lazy-loading granular.
 
 ```
 sGED-frontend/src/app/
@@ -39,7 +39,14 @@ sGED-frontend/src/app/
 │   │   ├── auditoria.model.ts
 │   │   ├── admin-usuarios.model.ts
 │   │   ├── change-password-request.model.ts
+│   │   ├── anclado.model.ts      │  AncladoDoc, AncladoExpediente — expedientes anclados (localStorage)
 │   │   └── page.model.ts         │  Page<T> — paginación de Spring Data
+│   ├── dto/                      │  DTOs de Signals — fuente de verdad reactiva por componente
+│   │   ├── catalogos.dto.ts      │  Signals para catálogos (estados, juzgados, tipos)
+│   │   ├── usuarios.dto.ts       │  Signals para usuarios en admin
+│   │   ├── auditoria.dto.ts      │  Signals para filtros y resultados de auditoría
+│   │   ├── busqueda.dto.ts       │  Signals para criterios y resultados de búsqueda
+│   │   └── documentos.dto.ts     │  Signals para lista y visor de documentos
 │   └── services/                 │  Servicios HTTP (todos providedIn: 'root' — singletons)
 │       ├── auth.service.ts       │  Login, logout, cambiar-password, isAuthenticated()
 │       ├── storage.service.ts    │  Abstracción sobre sessionStorage
@@ -48,7 +55,8 @@ sGED-frontend/src/app/
 │       ├── catalogos.service.ts
 │       ├── busqueda-expedientes.service.ts
 │       ├── auditoria.service.ts
-│       └── admin-usuarios.service.ts
+│       ├── admin-usuarios.service.ts
+│       └── anclados.service.ts   │  Gestión de expedientes anclados (localStorage, Signals)
 │
 ├── features/                     ← MÓDULOS DE FUNCIONALIDAD: Carga lazy por ruta
 │   ├── auth/                     │  Autenticación (rutas públicas)
@@ -72,10 +80,13 @@ sGED-frontend/src/app/
 │   │   ├── documentos-page.component.ts
 │   │   ├── list/documentos-list.component.ts
 │   │   ├── upload/documentos-upload.component.ts
-│   │   ├── visor-pdf/visor-pdf.component.ts        │  Render nativo de PDF en <embed>
+│   │   ├── visor-pdf/visor-pdf.component.ts        │  Render nativo de PDF bloqueado
 │   │   ├── visor-imagen/visor-imagen.component.ts
 │   │   ├── reproductor-audio/reproductor-audio.component.ts
-│   │   └── reproductor-video/reproductor-video.component.ts
+│   │   ├── reproductor-video/reproductor-video.component.ts
+│   │   └── presentacion/                           │  Módulo de Impresión/Presentación
+│   │       ├── pres-viewer/pres-viewer.component.ts
+│   │       └── pres-doc-viewer/pres-doc-viewer.component.ts
 │   │
 │   ├── busqueda/                 │  Búsqueda avanzada multi-criterio
 │   │   ├── busqueda-container/busqueda-container.component.ts
@@ -101,7 +112,12 @@ sGED-frontend/src/app/
     ├── components/
     │   ├── empty-state/empty-state.component.ts  │  Estado vacío genérico para tablas
     │   ├── kpi-card.component.ts                 │  Tarjeta de KPI para el dashboard
-    │   └── status-badge.component.ts             │  Badge de estado de expediente con color
+    │   ├── status-badge.component.ts             │  Badge de estado de expediente con color
+    │   └── oj-shell/                             │  Shell institucional (sidebar+topbar OJ)
+    │       ├── oj-shell.component.ts             │  Standalone, OnPush, @Input sections/user/title
+    │       ├── oj-shell.component.html           │  Sidebar azul cobalto + topbar institucional
+    │       ├── oj-shell.component.scss           │  :host { display:contents } + .oj-theme
+    │       └── oj-shell.types.ts                 │  OjShellNavItem, OjShellSection
     └── pipes/
         └── file-size.pipe.ts     │  Formatea bytes como KB, MB, GB
 ```
@@ -255,10 +271,13 @@ El proyecto usa **PrimeNG 21** con el tema **Aura** para lograr una interfaz pre
 | `p-badge` / `p-tag` | Estado del expediente con colores semánticos |
 | `p-toast` | Notificaciones de éxito/error no bloqueantes |
 | `p-progressBar` | Progreso de carga de archivos |
-| `p-card` | Tarjetas de KPI en el dashboard |
 | `p-menubar` | Barra de navegación principal |
 | `p-breadcrumb` | Ruta de navegación contextual |
 | `p-confirmDialog` | Confirmación antes de operaciones destructivas |
+
+### Sistema de Diseño y Tema Institucional
+
+Se utiliza **PrimeNG Aura Theme** como base de funcionalidad para los componentes. Sobre esta base, se inyecta **`oj-tokens.css`** para superponer la identidad visual oficial del Organismo Judicial (Azul Cobalto `#0A2E5C` y Dorado Quetzal `#C9A961`), logrando un diseño *light institucional* sin necesidad de un CSS customizado extenso.
 
 ### Convenciones de componentes
 
@@ -286,6 +305,7 @@ Todas las rutas se definen en `app.routes.ts` con lazy-loading:
 | `/expedientes/:id` | `ExpedienteDetailComponent` | AuthGuard | Todos |
 | `/expedientes/:id/editar` | `ExpedienteFormComponent` | AuthGuard | ADMINISTRADOR, SECRETARIO |
 | `/expedientes/:id/documentos` | `DocumentosPageComponent` | AuthGuard | Todos |
+| `/presentacion/:expedienteNum` | `PresViewerComponent` | AuthGuard | Todos |
 | `/admin/usuarios` | `UsuariosListComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |
 | `/admin/usuarios/nuevo` | `UsuarioFormComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |
 | `/admin/usuarios/:id` | `UsuarioDetailComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |

@@ -1,9 +1,9 @@
 ---
 Documento: MANUAL_TECNICO_INDEX
 Proyecto: SGED
-Versión del sistema: v1.3.0
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versión del sistema: v1.5.0
+Versión del documento: 1.1
+Última actualización: 2026-05-19
 Estado: Vigente
 ---
 
@@ -11,7 +11,7 @@ Estado: Vigente
 
 ## Descripción del Sistema
 
-El **SGED (Sistema de Gestión de Expedientes Digitales)** es una aplicación web empresarial diseñada para la administración y gestión de expedientes judiciales digitales. Permite a usuarios con diferentes roles (Administrador, Secretario, Auxiliar, Consulta) gestionar el ciclo de vida completo de expedientes y sus documentos asociados, garantizando trazabilidad, seguridad y auditabilidad en todas las operaciones.
+El **SGED (Sistema de Gestión de Expedientes Digitales)** es una aplicación web empresarial diseñada para la administración y gestión de expedientes judiciales digitales. Permite a usuarios con diferentes roles (Administrador, Secretario, Auxiliar, Juez, Consulta) gestionar el ciclo de vida completo de expedientes y sus documentos asociados, garantizando trazabilidad, seguridad y auditabilidad en todas las operaciones.
 
 El sistema sigue una arquitectura cliente-servidor desacoplada:
 - **Frontend SPA** construido con Angular 21 y PrimeNG 21, que se comunica mediante API REST.

@@ -1,100 +1,100 @@
-﻿---
+---
 Documento: AGENTE_TESTING_SMOKE_REPORT
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 📋 AGENTE DE TESTING - INFORME DE SMOKE TESTS PRODUCCIÓN
+# ?? AGENTE DE TESTING - INFORME DE SMOKE TESTS PRODUCCI�N
 
 **Fecha:** 28 Enero, 2026  
-**Versión:** v1.2.4  
-**Status:** 🟢 Listo para despliegue  
+**Versi�n:** v1.2.4  
+**Status:** ?? Listo para despliegue  
 **Responsable:** Agente de Testing
 
 ---
 
-## 🎯 RESUMEN EJECUTIVO
+## ?? RESUMEN EJECUTIVO
 
-Se ha completado la definición y preparación de **smoke tests automatizados para Producción**. El sistema está listo para validar el despliegue v1.2.4 en Producción con un conjunto mínimo pero crítico de tests que se ejecutarán en paralelo con el cambio de tráfico.
+Se ha completado la definici�n y preparaci�n de **smoke tests automatizados para Producci�n**. El sistema est� listo para validar el despliegue v1.2.4 en Producci�n con un conjunto m�nimo pero cr�tico de tests que se ejecutar�n en paralelo con el cambio de tr�fico.
 
 ### Entregables
 
-| Artefacto | Descripción | Status |
+| Artefacto | Descripci�n | Status |
 |-----------|-------------|--------|
-| **tests/smoke.spec.ts** | 15+ tests automatizados Playwright | ✅ CREADO |
-| **PLAN_SMOKE_TESTS_PRODUCCION.md** | Guía completa con timing y decisiones | ✅ CREADO |
-| **TEMPLATE_PROD_SMOKE_REPORT.md** | Template para documentar resultados | ✅ CREADO |
-| **QUICK_REF_SMOKE_TESTS.md** | Referencia rápida para DevOps | ✅ CREADO |
+| **tests/smoke.spec.ts** | 15+ tests automatizados Playwright | ? CREADO |
+| **PLAN_SMOKE_TESTS_PRODUCCION.md** | Gu�a completa con timing y decisiones | ? CREADO |
+| **TEMPLATE_PROD_SMOKE_REPORT.md** | Template para documentar resultados | ? CREADO |
+| **QUICK_REF_SMOKE_TESTS.md** | Referencia r�pida para DevOps | ? CREADO |
 
 ---
 
-## 📊 SMOKE TESTS DEFINIDOS
+## ?? SMOKE TESTS DEFINIDOS
 
-### Estructura: 7 Categorías, 15+ Tests
+### Estructura: 7 Categor�as, 15+ Tests
 
 ```
-SMOKE-1: AUTENTICACIÓN (4 tests)
-├─ Login ADMIN
-├─ Login SECRETARIO
-├─ Login JUEZ
-└─ Login CONSULTA_PUBLICA
+SMOKE-1: AUTENTICACI�N (4 tests)
++- Login ADMIN
++- Login SECRETARIO
++- Login JUEZ
++- Login CONSULTA_PUBLICA
 
 SMOKE-2: RBAC (4 tests)
-├─ ADMIN accede a /admin/usuarios
-├─ ADMIN accede a /admin/auditoria
-├─ SECRETARIO bloqueado (403)
-└─ CONSULTA menú limitado
++- ADMIN accede a /admin/usuarios
++- ADMIN accede a /admin/auditoria
++- SECRETARIO bloqueado (403)
++- CONSULTA men� limitado
 
-SMOKE-3: BÚSQUEDA (2 tests)
-├─ Quick Search
-└─ Advanced Search (con filtros)
+SMOKE-3: B�SQUEDA (2 tests)
++- Quick Search
++- Advanced Search (con filtros)
 
 SMOKE-4: DOCUMENTOS (2 tests)
-├─ Ver documento (si existe)
-└─ Descargar documento (si existe)
++- Ver documento (si existe)
++- Descargar documento (si existe)
 
-SMOKE-5: AUDITORÍA (2 tests)
-├─ Cargar auditoría
-└─ Filtrar auditoría
+SMOKE-5: AUDITOR�A (2 tests)
++- Cargar auditor�a
++- Filtrar auditor�a
 
 SMOKE-6: PERFORMANCE (2 tests)
-├─ Búsqueda < 5 segundos
-└─ Login < 10 segundos
++- B�squeda < 5 segundos
++- Login < 10 segundos
 
 SMOKE-7: API HEALTH (2 tests)
-├─ GET /health → 200
-└─ POST /auth/login → 200/401
++- GET /health ? 200
++- POST /auth/login ? 200/401
 ```
 
 **Total: 18 tests en 5-8 minutos**
 
 ---
 
-## 🚀 PLAN DE EJECUCIÓN
+## ?? PLAN DE EJECUCI�N
 
 ### Timeline Recomendado
 
 ```
-T+0 min:   "Despliegue completado" → DevOps confirm
-           Tráfico: 0% → Producción (100% en staging)
-           ├─ Verificar API responde
-           └─ Cambiar tráfico a 1% (canary)
+T+0 min:   "Despliegue completado" ? DevOps confirm
+           Tr�fico: 0% ? Producci�n (100% en staging)
+           +- Verificar API responde
+           +- Cambiar tr�fico a 1% (canary)
 
 T+2 min:   EJECUTAR QUICK SMOKE (SMOKE-1, 2, 7)
-           ├─ Si ✅ PASS → Cambiar tráfico a 10%
-           ├─ Si ❌ FAIL → ROLLBACK INMEDIATO
-           └─ Documentar resultado
+           +- Si ? PASS ? Cambiar tr�fico a 10%
+           +- Si ? FAIL ? ROLLBACK INMEDIATO
+           +- Documentar resultado
 
 T+10 min:  EJECUTAR FULL SMOKE (SMOKE-1 a 7)
-           ├─ Si ✅ PASS → Cambiar tráfico a 100%
-           ├─ Si ⚠️ PARTIAL → Cambiar tráfico a 50%
-           └─ Si 🔴 FAIL → ROLLBACK
+           +- Si ? PASS ? Cambiar tr�fico a 100%
+           +- Si ?? PARTIAL ? Cambiar tr�fico a 50%
+           +- Si ?? FAIL ? ROLLBACK
 
-T+30 min:  Tráfico 100% (si todo OK)
+T+30 min:  Tr�fico 100% (si todo OK)
 
 T+60 min:  Monitoreo continuo activo
 ```
@@ -103,40 +103,40 @@ T+60 min:  Monitoreo continuo activo
 
 ---
 
-## 📋 CRITERIOS DE DECISIÓN
+## ?? CRITERIOS DE DECISI�N
 
-### 🟢 PROCEDER (Tráfico 100%)
+### ?? PROCEDER (Tr�fico 100%)
 ```
-✅ SMOKE-1: Todos los logins OK
-✅ SMOKE-2: RBAC funciona correctamente
-✅ SMOKE-7: APIs responden (200/401)
-✅ SMOKE-3-6: Búsqueda, docs, auditoría OK
-✅ Performance: < 5s búsqueda, < 10s login
-```
-
-### ⚠️ MONITOREAR INTENSAMENTE (Tráfico 50%, máximo)
-```
-✅ SMOKE-1: Logins OK
-✅ SMOKE-2: RBAC OK
-✅ SMOKE-7: APIs OK
-❌ SMOKE-3-6: Falla en búsqueda/docs/auditoría
-→ Investigar en paralelo
-→ Estar listo para rollback
+? SMOKE-1: Todos los logins OK
+? SMOKE-2: RBAC funciona correctamente
+? SMOKE-7: APIs responden (200/401)
+? SMOKE-3-6: B�squeda, docs, auditor�a OK
+? Performance: < 5s b�squeda, < 10s login
 ```
 
-### 🔴 ROLLBACK INMEDIATO (Tráfico 0%)
+### ?? MONITOREAR INTENSAMENTE (Tr�fico 50%, m�ximo)
 ```
-❌ SMOKE-1: Algún login falla → Sistema no autenticando
-❌ SMOKE-2: RBAC no funciona → Seguridad comprometida
-❌ SMOKE-7: APIs no responden → Sistema offline
-→ Revertir a versión anterior
-→ Investigar root cause
-→ Reintentare mañana
+? SMOKE-1: Logins OK
+? SMOKE-2: RBAC OK
+? SMOKE-7: APIs OK
+? SMOKE-3-6: Falla en b�squeda/docs/auditor�a
+? Investigar en paralelo
+? Estar listo para rollback
+```
+
+### ?? ROLLBACK INMEDIATO (Tr�fico 0%)
+```
+? SMOKE-1: Alg�n login falla ? Sistema no autenticando
+? SMOKE-2: RBAC no funciona ? Seguridad comprometida
+? SMOKE-7: APIs no responden ? Sistema offline
+? Revertir a versi�n anterior
+? Investigar root cause
+? Reintentare ma�ana
 ```
 
 ---
 
-## 💻 COMANDOS DE EJECUCIÓN
+## ?? COMANDOS DE EJECUCI�N
 
 ### Para QA Engineer / DevOps
 
@@ -145,12 +145,12 @@ T+60 min:  Monitoreo continuo activo
 cd sGED-frontend\e2e-tests
 BASE_URL=https://sged.produccion.mx
 
-# Quick Smoke (2 minutos - después de 1% tráfico)
+# Quick Smoke (2 minutos - despu�s de 1% tr�fico)
 npx playwright test tests/smoke.spec.ts `
   -g "SMOKE-1|SMOKE-2|SMOKE-7" `
   --project=chromium
 
-# Full Smoke (8 minutos - después de despliegue completo)
+# Full Smoke (8 minutos - despu�s de despliegue completo)
 npx playwright test tests/smoke.spec.ts `
   --project=chromium `
   --reporter=html,json,junit
@@ -161,194 +161,194 @@ npx playwright show-report
 
 ---
 
-## 📍 UBICACIÓN DE ARCHIVOS
+## ?? UBICACI�N DE ARCHIVOS
 
 ```
 c:\proyectos\oj\
-├── sGED-frontend\e2e-tests\tests\
-│   └── smoke.spec.ts                   ← Tests automatizados (18 tests)
-│
-├── PLAN_SMOKE_TESTS_PRODUCCION.md      ← Guía completa (sección 2)
-├── TEMPLATE_PROD_SMOKE_REPORT.md       ← Template reporte (sección 3)
-├── QUICK_REF_SMOKE_TESTS.md            ← Quick reference (sección 4)
-│
-└── [Documento actual]                  ← Informe agente testing
++-- sGED-frontend\e2e-tests\tests\
+�   +-- smoke.spec.ts                   ? Tests automatizados (18 tests)
+�
++-- PLAN_SMOKE_TESTS_PRODUCCION.md      ? Gu�a completa (secci�n 2)
++-- TEMPLATE_PROD_SMOKE_REPORT.md       ? Template reporte (secci�n 3)
++-- QUICK_REF_SMOKE_TESTS.md            ? Quick reference (secci�n 4)
+�
++-- [Documento actual]                  ? Informe agente testing
 ```
 
 ---
 
-## 🎓 GUÍA RÁPIDA POR ROL
+## ?? GU�A R�PIDA POR ROL
 
 ### Para DevOps Lead
-📖 Leer: **QUICK_REF_SMOKE_TESTS.md** (2 minutos)
+?? Leer: **QUICK_REF_SMOKE_TESTS.md** (2 minutos)
 
 ```
-- Qué hacer antes de desplegar
-- Qué comando ejecutar
-- Matriz de decisión simple
-- Cuándo rollback
+- Qu� hacer antes de desplegar
+- Qu� comando ejecutar
+- Matriz de decisi�n simple
+- Cu�ndo rollback
 ```
 
 ### Para QA Engineer
-📖 Leer: **PLAN_SMOKE_TESTS_PRODUCCION.md** (15 minutos)
+?? Leer: **PLAN_SMOKE_TESTS_PRODUCCION.md** (15 minutos)
 
 ```
 - Tests definidos en detalle
-- Timing de ejecución
+- Timing de ejecuci�n
 - Respuesta ante incidencias
-- Cómo documentar resultados
+- C�mo documentar resultados
 ```
 
 ### Para Tech Lead / CTO
-📖 Leer: **Secciones 1-2 de este documento** (10 minutos)
+?? Leer: **Secciones 1-2 de este documento** (10 minutos)
 
 ```
 - Resumen de smoke tests
-- Plan de ejecución
-- Criterios de decisión
+- Plan de ejecuci�n
+- Criterios de decisi�n
 - Timeline y artefactos
 ```
 
 ---
 
-## ✅ VALIDACIONES INCLUIDAS
+## ? VALIDACIONES INCLUIDAS
 
 ### Funcionalidad
-- ✅ Autenticación: 4 roles diferentes
-- ✅ RBAC: Acceso permitido/bloqueado correcto
-- ✅ Búsqueda: Quick y advanced funcionando
-- ✅ Documentos: Ver y descargar funciona
-- ✅ Auditoría: Registra y filtra
-- ✅ Seguridad: 403 Forbidden aplicado
+- ? Autenticaci�n: 4 roles diferentes
+- ? RBAC: Acceso permitido/bloqueado correcto
+- ? B�squeda: Quick y advanced funcionando
+- ? Documentos: Ver y descargar funciona
+- ? Auditor�a: Registra y filtra
+- ? Seguridad: 403 Forbidden aplicado
 
 ### Rendimiento
-- ✅ P95 < 3 segundos (objetivo RNF-001)
-- ✅ Login < 10 segundos
-- ✅ Búsqueda < 5 segundos
+- ? P95 < 3 segundos (objetivo RNF-001)
+- ? Login < 10 segundos
+- ? B�squeda < 5 segundos
 
 ### Disponibilidad
-- ✅ API health endpoint
-- ✅ Auth endpoint
-- ✅ BD accesible
-- ✅ Servicios respondiendo
+- ? API health endpoint
+- ? Auth endpoint
+- ? BD accesible
+- ? Servicios respondiendo
 
 ---
 
-## 🚨 INCIDENCIAS PREVISTAS
+## ?? INCIDENCIAS PREVISTAS
 
 ### Si Auth falla
 ```
-Síntoma: Login no funciona
+S�ntoma: Login no funciona
 Causa probable: Credenciales, BD, JWT config
-Acción: ROLLBACK
+Acci�n: ROLLBACK
 Tiempo: < 5 minutos
 ```
 
 ### Si RBAC falla
 ```
-Síntoma: Usuario accede a /admin sin permiso
+S�ntoma: Usuario accede a /admin sin permiso
 Causa probable: Roles no asignados, security filter down
-Acción: ROLLBACK
+Acci�n: ROLLBACK
 Tiempo: < 5 minutos
 ```
 
 ### Si API cae
 ```
-Síntoma: /health retorna 500+
+S�ntoma: /health retorna 500+
 Causa probable: Server down, puerto cerrado, OOM
-Acción: ROLLBACK
+Acci�n: ROLLBACK
 Tiempo: < 5 minutos
 ```
 
-### Si búsqueda lenta
+### Si b�squeda lenta
 ```
-Síntoma: Búsqueda tarda > 5 segundos
-Causa probable: Índices, BD carga, query ineficiente
-Acción: Monitorear a 50% tráfico, investigar
+S�ntoma: B�squeda tarda > 5 segundos
+Causa probable: �ndices, BD carga, query ineficiente
+Acci�n: Monitorear a 50% tr�fico, investigar
 Tiempo: < 30 minutos para resolver
 ```
 
 ---
 
-## 📊 MATRIZ DE RIESGOS
+## ?? MATRIZ DE RIESGOS
 
-| Riesgo | Probabilidad | Impacto | Mitigación |
+| Riesgo | Probabilidad | Impacto | Mitigaci�n |
 |--------|-------------|---------|-----------|
-| Auth falla | Baja | Crítico | ROLLBACK inmediato |
-| RBAC falla | Baja | Crítico | ROLLBACK inmediato |
-| API no responde | Baja | Crítico | ROLLBACK inmediato |
-| Búsqueda lenta | Media | Medio | Monitorear 30 min |
+| Auth falla | Baja | Cr�tico | ROLLBACK inmediato |
+| RBAC falla | Baja | Cr�tico | ROLLBACK inmediato |
+| API no responde | Baja | Cr�tico | ROLLBACK inmediato |
+| B�squeda lenta | Media | Medio | Monitorear 30 min |
 | Documentos no carga | Baja | Medio | Monitorear 30 min |
-| Performance degradado | Media | Bajo | Agregar índices |
+| Performance degradado | Media | Bajo | Agregar �ndices |
 
 ---
 
-## 📝 DOCUMENTACIÓN POR FASE
+## ?? DOCUMENTACI�N POR FASE
 
 ### Pre-Despliegue
-**Checklist (devops PLAN_SMOKE_TESTS_PRODUCCION.md Sección 11):**
+**Checklist (devops PLAN_SMOKE_TESTS_PRODUCCION.md Secci�n 11):**
 ```
-☐ DevOps creó usuarios de prueba
-☐ Se crearon datos de prueba (expedientes)
-☐ DB y API accesibles
-☐ Playwright instalado
+? DevOps cre� usuarios de prueba
+? Se crearon datos de prueba (expedientes)
+? DB y API accesibles
+? Playwright instalado
 ```
 
 ### Durante Despliegue
-**Ejecución (devops QUICK_REF_SMOKE_TESTS.md):**
+**Ejecuci�n (devops QUICK_REF_SMOKE_TESTS.md):**
 ```
-☐ T+2m: QUICK SMOKE ejecutado
-☐ T+10m: FULL SMOKE ejecutado
-☐ Decisión tomada (GO/NO-GO)
-☐ Tráfico ajustado según resultado
+? T+2m: QUICK SMOKE ejecutado
+? T+10m: FULL SMOKE ejecutado
+? Decisi�n tomada (GO/NO-GO)
+? Tr�fico ajustado seg�n resultado
 ```
 
 ### Post-Despliegue
-**Documentación (usar TEMPLATE_PROD_SMOKE_REPORT.md):**
+**Documentaci�n (usar TEMPLATE_PROD_SMOKE_REPORT.md):**
 ```
-☐ Resultados completados
-☐ Incidencias documentadas
-☐ Recomendación final dada
-☐ Firmas de aprobación
+? Resultados completados
+? Incidencias documentadas
+? Recomendaci�n final dada
+? Firmas de aprobaci�n
 ```
 
 ---
 
-## 🎯 ENTREGA Y SIGUIENTE PASOS
+## ?? ENTREGA Y SIGUIENTE PASOS
 
-### Qué Entregar Cuando DevOps Diga "Despliegue Listo"
+### Qu� Entregar Cuando DevOps Diga "Despliegue Listo"
 
-1. ✅ **Ejecutar QUICK SMOKE** (2 minutos)
-   - Solo tests críticos
+1. ? **Ejecutar QUICK SMOKE** (2 minutos)
+   - Solo tests cr�ticos
    - Decidir GO/NO-GO
 
-2. ✅ **Ejecutar FULL SMOKE** (8 minutos)
+2. ? **Ejecutar FULL SMOKE** (8 minutos)
    - Todos los tests
    - Documentar resultado
 
-3. ✅ **Crear PROD_SMOKE_REPORT_v1.2.4.md**
+3. ? **Crear PROD_SMOKE_REPORT_v1.2.4.md**
    - Completar template
    - Adjuntar evidencia
    - Distribuir a equipos
 
-4. ✅ **Comunicar Decisión**
-   - ✅ OK → Proceder a 100% tráfico
-   - 🔴 FAIL → ROLLBACK
-   - ⚠️ PARTIAL → Monitorear intensamente
+4. ? **Comunicar Decisi�n**
+   - ? OK ? Proceder a 100% tr�fico
+   - ?? FAIL ? ROLLBACK
+   - ?? PARTIAL ? Monitorear intensamente
 
 ---
 
-## 📞 CONTACTOS Y ESCALACIÓN
+## ?? CONTACTOS Y ESCALACI�N
 
 ### Durante Smoke Test Execution
 
-| Situación | Contactar | Urgencia |
+| Situaci�n | Contactar | Urgencia |
 |-----------|-----------|----------|
 | SMOKE test FAIL | DevOps Lead + Backend Lead | INMEDIATA |
 | Sistema lento | QA Lead + DevOps | Alta |
 | Pregunta sobre test | QA Agent | Media |
 
-### Documentación de Escalación
+### Documentaci�n de Escalaci�n
 ```
 TO: CTO + Tech Leads
 SUBJECT: v1.2.4 Smoke Test Results - [PASS/FAIL]
@@ -357,65 +357,65 @@ BODY: Adjuntar PROD_SMOKE_REPORT_v1.2.4.md + playwright-report/
 
 ---
 
-## ✨ CARACTERÍSTICAS ESPECIALES
+## ? CARACTER�STICAS ESPECIALES
 
 ### Tests Robustos
-- ✅ Manejo de password obligatorio (si existe)
-- ✅ Retry logic para flaky tests
-- ✅ Screenshot en caso de fallo
-- ✅ Timeouts apropiados
+- ? Manejo de password obligatorio (si existe)
+- ? Retry logic para flaky tests
+- ? Screenshot en caso de fallo
+- ? Timeouts apropiados
 
 ### Reportes Detallados
-- ✅ HTML visual (playwright-report/)
-- ✅ JSON para parsing (test-results.json)
-- ✅ JUnit XML para CI/CD (junit.xml)
-- ✅ Logs estructurados
+- ? HTML visual (playwright-report/)
+- ? JSON para parsing (test-results.json)
+- ? JUnit XML para CI/CD (junit.xml)
+- ? Logs estructurados
 
 ### Facilidad de Uso
-- ✅ Comandos copy-paste listos
-- ✅ Variables de entorno configurables
-- ✅ Sin dependencias externas
-- ✅ Quick reference para todos
+- ? Comandos copy-paste listos
+- ? Variables de entorno configurables
+- ? Sin dependencias externas
+- ? Quick reference para todos
 
 ---
 
-## 🔍 VALIDACIÓN FINAL
+## ?? VALIDACI�N FINAL
 
 ### Checklist de Completitud
 
 - [x] Smoke tests definidos (18 tests)
 - [x] Tests automatizados (smoke.spec.ts)
-- [x] Plan de ejecución (timing + decisiones)
-- [x] Template de reporte (para documentación)
-- [x] Guía rápida (para DevOps)
+- [x] Plan de ejecuci�n (timing + decisiones)
+- [x] Template de reporte (para documentaci�n)
+- [x] Gu�a r�pida (para DevOps)
 - [x] Contactos y escalaciones
 - [x] Respuesta ante incidencias
 - [x] Comandos ejecutables
-- [x] Criterios de decisión claros
+- [x] Criterios de decisi�n claros
 
 ### Testing Standards Cumplidos
 
-- ✅ Cobertura: Autenticación, RBAC, Búsqueda, Docs, Auditoría, APIs
-- ✅ Automatización: 100% automatizados con Playwright
-- ✅ Tiempo: 5-8 minutos ejecución
-- ✅ Documentación: Profesional y completa
-- ✅ Decisión: Matriz clara GO/NO-GO
+- ? Cobertura: Autenticaci�n, RBAC, B�squeda, Docs, Auditor�a, APIs
+- ? Automatizaci�n: 100% automatizados con Playwright
+- ? Tiempo: 5-8 minutos ejecuci�n
+- ? Documentaci�n: Profesional y completa
+- ? Decisi�n: Matriz clara GO/NO-GO
 
 ---
 
-## 🎁 BONUS INCLUIDO
+## ?? BONUS INCLUIDO
 
 ### Para DevOps
-- Quick reference card (1 página)
+- Quick reference card (1 p�gina)
 - Comandos copiar-pegar
-- Matriz de decisión simple
+- Matriz de decisi�n simple
 - Timeline visual
 
 ### Para QA
 - Tests automatizados listos
 - Template de reporte profesional
-- Guía de respuesta a incidencias
-- Checklist pre-ejecución
+- Gu�a de respuesta a incidencias
+- Checklist pre-ejecuci�n
 
 ### Para Tech Leads
 - Plan detallado
@@ -425,50 +425,50 @@ BODY: Adjuntar PROD_SMOKE_REPORT_v1.2.4.md + playwright-report/
 
 ---
 
-## 📈 MÉTRICAS DE ÉXITO
+## ?? M�TRICAS DE �XITO
 
-Cuando los smoke tests sean ejecutados en Producción:
+Cuando los smoke tests sean ejecutados en Producci�n:
 
 **Esperado:**
-- ✅ 18 tests en ~7 minutos
-- ✅ 0 fallos críticos (SMOKE-1/2/7)
-- ✅ P95 < 3 segundos
-- ✅ Error rate < 2%
-- ✅ Tráfico a 100% en 30 minutos
+- ? 18 tests en ~7 minutos
+- ? 0 fallos cr�ticos (SMOKE-1/2/7)
+- ? P95 < 3 segundos
+- ? Error rate < 2%
+- ? Tr�fico a 100% en 30 minutos
 
 **Reporte final:**
-- 📊 PROD_SMOKE_REPORT_v1.2.4.md completado
-- 📺 playwright-report/ con evidencia visual
-- ✍️ Firmas de aprobación
+- ?? PROD_SMOKE_REPORT_v1.2.4.md completado
+- ?? playwright-report/ con evidencia visual
+- ?? Firmas de aprobaci�n
 
 ---
 
-## 🎓 CONCLUSIÓN
+## ?? CONCLUSI�N
 
-**Se ha completado la preparación de Smoke Tests para Producción v1.2.4**
+**Se ha completado la preparaci�n de Smoke Tests para Producci�n v1.2.4**
 
-✅ Sistema de validación automatizado  
-✅ Plan de ejecución documentado  
-✅ Decisiones y escalaciones claras  
-✅ Equipo listo para despliegue  
+? Sistema de validaci�n automatizado  
+? Plan de ejecuci�n documentado  
+? Decisiones y escalaciones claras  
+? Equipo listo para despliegue  
 
-**Recomendación:** Ejecutar tan pronto DevOps confirme despliegue completo.
+**Recomendaci�n:** Ejecutar tan pronto DevOps confirme despliegue completo.
 
 ---
 
-## 📚 REFERENCIAS
+## ?? REFERENCIAS
 
-| Documento | Propósito | Lectores |
+| Documento | Prop�sito | Lectores |
 |-----------|-----------|----------|
 | [sGED-frontend/e2e-tests/tests/smoke.spec.ts](sGED-frontend/e2e-tests/tests/smoke.spec.ts) | Tests automatizados | DevOps, QA |
-| [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) | Guía completa | QA, Tech Leads |
+| [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) | Gu�a completa | QA, Tech Leads |
 | [TEMPLATE_PROD_SMOKE_REPORT.md](TEMPLATE_PROD_SMOKE_REPORT.md) | Template reporte | QA |
-| [QUICK_REF_SMOKE_TESTS.md](QUICK_REF_SMOKE_TESTS.md) | Referencia rápida | DevOps |
+| [QUICK_REF_SMOKE_TESTS.md](QUICK_REF_SMOKE_TESTS.md) | Referencia r�pida | DevOps |
 
 ---
 
 **Documento Preparado por:** Agente de Testing  
-**Validado para:** SGED v1.2.4 - Producción  
+**Validado para:** SGED v1.2.4 - Producci�n  
 **Fecha:** 28 Enero, 2026  
-**Status:** 🟢 Listo para despliegue
+**Status:** ?? Listo para despliegue
 

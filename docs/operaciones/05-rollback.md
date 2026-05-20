@@ -1,8 +1,8 @@
 ---
 Documento: OPERACIONES — 05 ROLLBACK E INCIDENTES
 Proyecto: SGED
-Version: 1.0
-Ultima actualizacion: 2026-05-03
+Version: 1.6.0
+Ultima actualizacion: 2026-05-19
 Estado: Vigente
 ---
 

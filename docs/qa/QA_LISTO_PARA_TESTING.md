@@ -1,38 +1,38 @@
-Ôªø---
+---
 Documento: QA_LISTO_PARA_TESTING
 Proyecto: SGED
-Versi√≥n del sistema: v1.2.4
-Versi√≥n del documento: 1.0
-√öltima actualizaci√≥n: 2026-05-03
+VersiÛn del sistema: v1.2.4
+VersiÛn del documento: 1.0
+⁄ltima actualizaciÛn: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ‚úÖ Vigente
+Estado: ? Vigente
 ---
 
 # SGED QA - Entorno Listo para Testing
-## Fase 7: Despliegue y Validaci√≥n en QA
+## Fase 7: Despliegue y ValidaciÛn en QA
 
 **Fecha**: Mayo 2026
 **Agente**: DevOps / Infraestructura
-**Status**: ‚úÖ **LISTO PARA TESTING E2E**
+**Status**: ? **LISTO PARA TESTING E2E**
 
 ---
 
-## üìã RESUMEN EJECUTIVO
+## ?? RESUMEN EJECUTIVO
 
-El stack SGED est√° **completamente deployado en QA** con:
-- ‚úÖ NGINX reverse proxy (HTTPS + headers de seguridad)
-- ‚úÖ Backend Spring Boot (Java 21)
-- ‚úÖ Frontend Angular 21
-- ‚úÖ Base de datos (H2 en memoria o Oracle)
-- ‚úÖ Certificados TLS (autofirmados para QA)
-- ‚úÖ Health checks activos
-- ‚úÖ Logs centralizados
+El stack SGED est· **completamente deployado en QA** con:
+- ? NGINX reverse proxy (HTTPS + headers de seguridad)
+- ? Backend Spring Boot (Java 21)
+- ? Frontend Angular 21
+- ? Base de datos (H2 en memoria o Oracle)
+- ? Certificados TLS (autofirmados para QA)
+- ? Health checks activos
+- ? Logs centralizados
 
-**Est√° listo para que el Agente de Testing ejecute pruebas E2E y de carga.**
+**Est· listo para que el Agente de Testing ejecute pruebas E2E y de carga.**
 
 ---
 
-## üåê URLs DE ACCESO
+## ?? URLs DE ACCESO
 
 ### Frontend
 ```
@@ -60,36 +60,36 @@ https://localhost/api/v1/health
 
 ---
 
-## üë§ USUARIOS DE PRUEBA
+## ?? USUARIOS DE PRUEBA
 
-### Credenciales (seg√∫n application.yml del proyecto)
+### Credenciales (seg˙n application.yml del proyecto)
 
 **Administrador**
 - Usuario: `admin`
-- Contrase√±a: `admin123!` (o seg√∫n est√© configurado en BD QA)
+- ContraseÒa: `admin123!` (o seg˙n estÈ configurado en BD QA)
 - Rol: ADMINISTRADOR
 - Permisos: Acceso completo
 
 **Secretario Judicial**
 - Usuario: `secretario`
-- Contrase√±a: `secretario123!`
+- ContraseÒa: `secretario123!`
 - Rol: SECRETARIO
 - Permisos: Crear/editar expedientes, gestionar documentos
 
 **Auxiliar Judicial**
 - Usuario: `auxiliar`
-- Contrase√±a: `auxiliar123!`
+- ContraseÒa: `auxiliar123!`
 - Rol: AUXILIAR
 - Permisos: Ver/buscar expedientes, descargar documentos
 
 **Consulta (Read-only)**
 - Usuario: `consulta`
-- Contrase√±a: `consulta123!`
+- ContraseÒa: `consulta123!`
 - Rol: CONSULTA
 - Permisos: Solo lectura de expedientes
 
 ### Nota
-Las contrase√±as exactas dependen de c√≥mo est√©n precargadas en:
+Las contraseÒas exactas dependen de cÛmo estÈn precargadas en:
 - `sGED-backend/src/main/resources/db/migration/` (Flyway)
 - O directamente en la BD QA
 
@@ -97,48 +97,48 @@ Las contrase√±as exactas dependen de c√≥mo est√©n precargadas en:
 
 ---
 
-## üîç VALIDACIONES COMPLETADAS
+## ?? VALIDACIONES COMPLETADAS
 
-### ‚úÖ HTTPS y Certificados
-- [x] HTTP (80) redirige a HTTPS (443) con c√≥digo 301
+### ? HTTPS y Certificados
+- [x] HTTP (80) redirige a HTTPS (443) con cÛdigo 301
 - [x] Certificado TLS presente (autofirmado para QA)
 - [x] TLS 1.2+ activo
 - [x] Navegadores muestran advertencia de certificado no confiable (normal en QA)
 
-### ‚úÖ Headers de Seguridad
-- [x] `Strict-Transport-Security: max-age=31536000` ‚úì
-- [x] `X-Content-Type-Options: nosniff` ‚úì
-- [x] `X-Frame-Options: DENY` ‚úì
-- [x] `Content-Security-Policy: ...` ‚úì
-- [x] `Referrer-Policy: no-referrer-when-downgrade` ‚úì
+### ? Headers de Seguridad
+- [x] `Strict-Transport-Security: max-age=31536000` ?
+- [x] `X-Content-Type-Options: nosniff` ?
+- [x] `X-Frame-Options: DENY` ?
+- [x] `Content-Security-Policy: ...` ?
+- [x] `Referrer-Policy: no-referrer-when-downgrade` ?
 
-### ‚úÖ Frontend
+### ? Frontend
 - [x] Angular 21 compilado y servido desde NGINX
 - [x] index.html accesible
-- [x] Assets (JS, CSS, im√°genes) cargando
+- [x] Assets (JS, CSS, im·genes) cargando
 - [x] SPA routing funcionando (angular router)
 
-### ‚úÖ Backend
+### ? Backend
 - [x] Spring Boot 3.5.0 arrancado correctamente
 - [x] Perfil `qa` activo
 - [x] Flyway migraciones aplicadas
 - [x] Contexto de Spring cargado sin errores
 - [x] Base de datos conectada
 
-### ‚úÖ Health Checks
+### ? Health Checks
 - [x] `/api/v1/health` retorna `{"status":"UP"}` (200 OK)
 - [x] Latencia < 200ms
-- [x] Respuesta JSON v√°lida
+- [x] Respuesta JSON v·lida
 
-### ‚úÖ Rate Limiting (Anti-DDoS)
+### ? Rate Limiting (Anti-DDoS)
 - [x] API general: 10 req/s (burst 20) configurado
 - [x] Auth endpoints: 5 req/s (burst 5) configurado
 - [x] Documentos: 3 req/s (burst 3) configurado
-- [x] Respuesta 429 si se excede l√≠mite
+- [x] Respuesta 429 si se excede lÌmite
 
 ---
 
-## üìä ESTADO DE SERVICIOS
+## ?? ESTADO DE SERVICIOS
 
 ```
 docker-compose -f docker-compose-qa.yml ps
@@ -153,14 +153,14 @@ jkl012         oracle-xe:21 / h2:latest   /...                 Up (healthy)
 ### Servicio NGINX
 - **Nombre**: sged-nginx-qa
 - **Puerto**: 80, 443
-- **Vol√∫menes**: nginx.conf, certs, frontend dist
-- **Health**: HTTP (puerto 80) `/health` ‚Üí 200
+- **Vol˙menes**: nginx.conf, certs, frontend dist
+- **Health**: HTTP (puerto 80) `/health` ? 200
 
 ### Servicio Backend
 - **Nombre**: sged-backend-qa
 - **Puerto**: 8080 (interno)
-- **Vol√∫menes**: logs, documentos
-- **Health**: HTTP `:8080/health` ‚Üí 200 UP
+- **Vol˙menes**: logs, documentos
+- **Health**: HTTP `:8080/health` ? 200 UP
 
 ### Servicio Frontend
 - **Integrado con NGINX** (no es servicio separado)
@@ -169,18 +169,18 @@ jkl012         oracle-xe:21 / h2:latest   /...                 Up (healthy)
 
 ### Base de Datos
 - **QA Dev**: H2 en memoria (opcional)
-- **QA Real**: Oracle 21 XE (si est√° configurado)
-- **Migraciones**: Flyway autom√°tico al arrancar
+- **QA Real**: Oracle 21 XE (si est· configurado)
+- **Migraciones**: Flyway autom·tico al arrancar
 
 ---
 
-## üöÄ C√ìMO ACCEDER A QA
+## ?? C”MO ACCEDER A QA
 
 ### En Navegador
 1. Abrir: `https://sged-qa.example.com/app/`
 2. Ignorar advertencia de certificado (TLS autofirmado)
 3. Hacer click en "Continuar de todas formas" o similar
-4. Ver√°s login de SGED
+4. Ver·s login de SGED
 
 ### En Terminal (curl)
 ```bash
@@ -200,48 +200,48 @@ curl -k -H "Authorization: Bearer $TOKEN" \
 
 ---
 
-## üîê SEGURIDAD EN QA
+## ?? SEGURIDAD EN QA
 
 ### Variables de Entorno
-- Archivo: `.env.qa` en ra√≠z del proyecto
+- Archivo: `.env.qa` en raÌz del proyecto
 - **NO contiene credenciales productivas**
-- JWT_SECRET: valor QA √∫nico (no es el de prod)
-- BD: H2 en memoria o Oracle QA (no producci√≥n)
+- JWT_SECRET: valor QA ˙nico (no es el de prod)
+- BD: H2 en memoria o Oracle QA (no producciÛn)
 - SGT: credenciales de prueba (read-only)
 
 ### Certificados TLS
 - **Autofirmados**: No confiar en navegador (normal)
-- **V√°lidos por**: 365 d√≠as desde despliegue
+- **V·lidos por**: 365 dÌas desde despliegue
 - **Ruta**: `nginx/certs/{certificate.crt, private.key}`
-- **No usar en Producci√≥n**: Solo QA/Testing
+- **No usar en ProducciÛn**: Solo QA/Testing
 
 ### Datos de Prueba
-- **BD vac√≠a al inicio** (excepto si precargada v√≠a Flyway)
+- **BD vacÌa al inicio** (excepto si precargada vÌa Flyway)
 - **Documentos**: Volumen temporal (`data/documentos`)
-- **Usuarios**: Creados por script de initializaci√≥n
+- **Usuarios**: Creados por script de initializaciÛn
 - **Datos descartables**: QA se puede resetear completo
 
 ---
 
-## üìù LOGS Y MONITOREO
+## ?? LOGS Y MONITOREO
 
 ### Ver logs en tiempo real
 ```bash
 # Todos los servicios
 docker-compose -f docker-compose-qa.yml logs -f
 
-# Espec√≠ficamente backend
+# EspecÌficamente backend
 docker-compose -f docker-compose-qa.yml logs -f sged-backend-qa
 
-# Espec√≠ficamente NGINX
+# EspecÌficamente NGINX
 docker-compose -f docker-compose-qa.yml logs -f nginx
 ```
 
-### Ubicaci√≥n de logs persistentes
+### UbicaciÛn de logs persistentes
 ```bash
 logs/
-‚îú‚îÄ‚îÄ backend/     # Logs de Spring Boot
-‚îî‚îÄ‚îÄ nginx/       # Logs de NGINX (access + error)
++-- backend/     # Logs de Spring Boot
++-- nginx/       # Logs de NGINX (access + error)
 ```
 
 ### Buscar errores
@@ -255,33 +255,33 @@ docker logs sged-nginx-qa | grep " 5[0-9][0-9] "
 
 ---
 
-## üß™ PRUEBAS SMOKE (Validaci√≥n R√°pida)
+## ?? PRUEBAS SMOKE (ValidaciÛn R·pida)
 
-Ejecuta estas pruebas para confirmar que QA est√° funcional:
+Ejecuta estas pruebas para confirmar que QA est· funcional:
 
 ### 1. Frontend accesible
 ```bash
-curl -k -s https://localhost/app/ | grep -q "<!DOCTYPE" && echo "‚úì Frontend OK"
+curl -k -s https://localhost/app/ | grep -q "<!DOCTYPE" && echo "? Frontend OK"
 ```
 
 ### 2. API respondiendo
 ```bash
-curl -k -s https://localhost/api/v1/health | jq -r '.status' | grep -q "UP" && echo "‚úì API OK"
+curl -k -s https://localhost/api/v1/health | jq -r '.status' | grep -q "UP" && echo "? API OK"
 ```
 
 ### 3. Headers de seguridad
 ```bash
-curl -k -I https://localhost/ | grep -q "Strict-Transport-Security" && echo "‚úì HSTS OK"
-curl -k -I https://localhost/ | grep -q "X-Frame-Options" && echo "‚úì X-Frame OK"
+curl -k -I https://localhost/ | grep -q "Strict-Transport-Security" && echo "? HSTS OK"
+curl -k -I https://localhost/ | grep -q "X-Frame-Options" && echo "? X-Frame OK"
 ```
 
 ### 4. Rate limiting
 ```bash
-# Enviar 50 requests r√°pidos a un endpoint
+# Enviar 50 requests r·pidos a un endpoint
 for i in {1..50}; do 
   curl -k -s -o /dev/null -w "%{http_code} " https://localhost/api/v1/health
 done
-# Despu√©s del 5to request (aprox), deber√≠a haber 429s
+# DespuÈs del 5to request (aprox), deberÌa haber 429s
 ```
 
 ### 5. Login
@@ -294,11 +294,11 @@ curl -k -X POST https://localhost/api/v1/auth/login \
 
 ---
 
-## üêõ TROUBLESHOOTING
+## ?? TROUBLESHOOTING
 
 ### "502 Bad Gateway"
 ```bash
-# 1. Verificar que backend est√° Up
+# 1. Verificar que backend est· Up
 docker-compose -f docker-compose-qa.yml ps sged-backend-qa
 
 # 2. Ver logs del backend
@@ -313,7 +313,7 @@ docker-compose -f docker-compose-qa.yml restart sged-backend-qa
 
 ### "Database Connection Timeout"
 ```bash
-# 1. Verificar que BD est√° Up
+# 1. Verificar que BD est· Up
 docker-compose -f docker-compose-qa.yml ps sged-db-qa
 
 # 2. Ver logs de BD
@@ -328,7 +328,7 @@ docker-compose -f docker-compose-qa.yml restart sged-db-qa sged-backend-qa
 
 ### "HTTPS Certificate Error"
 ```bash
-# Certificado expirado o inv√°lido
+# Certificado expirado o inv·lido
 openssl x509 -in nginx/certs/certificate.crt -noout -dates
 
 # Regenerar si es necesario
@@ -343,38 +343,38 @@ docker-compose -f docker-compose-qa.yml restart nginx
 ```
 
 ### "CORS Error"
-NGINX est√° configurado para permitir CORS en `/api/*`. Si ves errores CORS:
-1. Verificar que `X-Forwarded-Proto`, `X-Forwarded-Host` est√°n siendo enviados por NGINX
-2. Verificar que backend Spring Security est√° configurado correctamente
+NGINX est· configurado para permitir CORS en `/api/*`. Si ves errores CORS:
+1. Verificar que `X-Forwarded-Proto`, `X-Forwarded-Host` est·n siendo enviados por NGINX
+2. Verificar que backend Spring Security est· configurado correctamente
 3. Ver logs del backend para detalles
 
 ---
 
-## üì¶ PARTICULARIDADES QA
+## ?? PARTICULARIDADES QA
 
 ### Base de Datos
-- **H2 en memoria**: Datos se pierden al detener servicios (√∫til para testing r√°pido)
-- **Oracle QA**: Si est√° configurado, requiere que Oracle est√© corriendo antes
-- **Migraciones**: Flyway se ejecuta autom√°ticamente al arrancar backend
+- **H2 en memoria**: Datos se pierden al detener servicios (˙til para testing r·pido)
+- **Oracle QA**: Si est· configurado, requiere que Oracle estÈ corriendo antes
+- **Migraciones**: Flyway se ejecuta autom·ticamente al arrancar backend
 
 ### Documentos
 - **Ruta**: `data/documentos/` (volumen Docker)
 - **Persistencia**: Persisten mientras volumen exista
-- **Limpieza**: `docker-compose down -v` borra vol√∫menes
+- **Limpieza**: `docker-compose down -v` borra vol˙menes
 
-### L√≠mites de Recursos
-- **CPU**: No configurado en QA (usa lo que est√© disponible)
+### LÌmites de Recursos
+- **CPU**: No configurado en QA (usa lo que estÈ disponible)
 - **Memoria**: No configurado en QA (ilimitado)
 - **Si hay problemas**: Ver [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md)
 
-### Secretos y Configuraci√≥n
+### Secretos y ConfiguraciÛn
 - **No hay Vault en QA**: Usa `.env.qa` local
 - **Credenciales hardcodeadas en .env.qa**: Normal para QA (NO para Prod)
-- **JWT_SECRET**: Diferente a Producci√≥n
+- **JWT_SECRET**: Diferente a ProducciÛn
 
 ---
 
-## üìû CONTACTOS PARA TESTING
+## ?? CONTACTOS PARA TESTING
 
 | Rol | Email | Disponibilidad |
 |-----|-------|---|
@@ -384,7 +384,7 @@ NGINX est√° configurado para permitir CORS en `/api/*`. Si ves errores CORS:
 | **Security** | security@example.com | 24/7 emergencias |
 | **On-call** | oncall@example.com | 24/7 |
 
-### Qu√© reportar
+### QuÈ reportar
 - Errores 502/503/500
 - Comportamiento inesperado
 - Latencia anormal
@@ -393,38 +393,38 @@ NGINX est√° configurado para permitir CORS en `/api/*`. Si ves errores CORS:
 
 ---
 
-## ‚úÖ CHECKLIST PARA AGENTE DE TESTING
+## ? CHECKLIST PARA AGENTE DE TESTING
 
 Antes de iniciar pruebas E2E:
 - [ ] Puedo acceder a https://sged-qa.example.com/app/
 - [ ] Frontend carga sin errores en consola
 - [ ] Puedo hacer login con credenciales de prueba
-- [ ] Header con usuarioactual muestra despu√©s de login
+- [ ] Header con usuarioactual muestra despuÈs de login
 - [ ] Puedo acceder a expedientes
 - [ ] Puedo crear un expediente
 - [ ] Puedo buscar expedientes
 - [ ] Puedo descargar un documento
 - [ ] Rate limiting bloquea requests excesivas (429)
-- [ ] Certificado TLS es v√°lido (aunque sea autofirmado)
+- [ ] Certificado TLS es v·lido (aunque sea autofirmado)
 
-Si todo ‚úì: **Proceder con pruebas E2E y de carga**
+Si todo ?: **Proceder con pruebas E2E y de carga**
 
 ---
 
-## üöÄ PR√ìXIMOS PASOS
+## ?? PR”XIMOS PASOS
 
 1. **Agente Testing**: Ejecuta E2E tests
 2. **Agente Testing**: Ejecuta load tests (JMeter, k6, etc.)
 3. **Agente Security**: Ejecuta security testing
 4. **Agente DevOps**: Monitorea performance
 5. **Agente Backend**: Corrige bugs encontrados
-6. **Iteraci√≥n**: Repeat hasta listo para Prod
+6. **IteraciÛn**: Repeat hasta listo para Prod
 
 ---
 
-## üìÑ DOCUMENTACI√ìN RELACIONADA
+## ?? DOCUMENTACI”N RELACIONADA
 
-- [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) - Gu√≠a de despliegue
+- [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) - GuÌa de despliegue
 - [OPERACIONES_DIARIAS_QUICK_REFERENCE.md](OPERACIONES_DIARIAS_QUICK_REFERENCE.md) - Operaciones
 - [NGINX_SECURITY_GUIDE.md](NGINX_SECURITY_GUIDE.md) - Seguridad NGINX
 - [README_INFRAESTRUCTURA.md](README_INFRAESTRUCTURA.md) - Referencia completa
@@ -438,4 +438,4 @@ Si todo ‚úì: **Proceder con pruebas E2E y de carga**
 
 ---
 
-**ESTADO**: ‚úÖ **QA LISTO PARA TESTING E2E**
+**ESTADO**: ? **QA LISTO PARA TESTING E2E**

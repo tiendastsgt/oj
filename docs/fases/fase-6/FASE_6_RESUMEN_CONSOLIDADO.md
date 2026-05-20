@@ -1,175 +1,175 @@
-﻿---
+---
 Documento: FASE_6_RESUMEN_CONSOLIDADO
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 🎯 SGED FASE 6 - RESUMEN CONSOLIDADO
+# ?? SGED FASE 6 - RESUMEN CONSOLIDADO
 
 **Fecha**: Mayo 2026
 **Agente**: DevOps / Infraestructura
-**Estado**: ✅ COMPLETADO Y LISTO PARA DESPLIEGUE
+**Estado**: ? COMPLETADO Y LISTO PARA DESPLIEGUE
 
 ---
 
-## 📋 RESUMEN EJECUTIVO
+## ?? RESUMEN EJECUTIVO
 
-La **Fase 6** de SGED implementa la infraestructura segura de producción, incluyendo:
+La **Fase 6** de SGED implementa la infraestructura segura de producci�n, incluyendo:
 
-✅ **NGINX Reverse Proxy**: Configuración completa con HTTPS obligatorio, headers de seguridad y rate limiting
-✅ **Docker Compose**: Stacks para QA y Producción con servicios orquestados
-✅ **CI/CD Seguro**: GitHub Actions con CodeQL (SAST), OWASP ZAP (DAST) y Docker builds
-✅ **Gestión de Secretos**: Vault, GitHub Secrets, rotación automática
-✅ **Documentación Completa**: 10+ guías operativas y de seguridad
+? **NGINX Reverse Proxy**: Configuraci�n completa con HTTPS obligatorio, headers de seguridad y rate limiting
+? **Docker Compose**: Stacks para QA y Producci�n con servicios orquestados
+? **CI/CD Seguro**: GitHub Actions con CodeQL (SAST), OWASP ZAP (DAST) y Docker builds
+? **Gesti�n de Secretos**: Vault, GitHub Secrets, rotaci�n autom�tica
+? **Documentaci�n Completa**: 10+ gu�as operativas y de seguridad
 
-**Resultado**: Sistema listo para despliegue en QA/Producción con arquitectura segura y reproducible.
+**Resultado**: Sistema listo para despliegue en QA/Producci�n con arquitectura segura y reproducible.
 
 ---
 
-## 📦 ARCHIVOS ENTREGADOS (15)
+## ?? ARCHIVOS ENTREGADOS (15)
 
-### Configuración de Infraestructura (4)
+### Configuraci�n de Infraestructura (4)
 
-| Archivo | Líneas | Propósito |
+| Archivo | L�neas | Prop�sito |
 |---------|--------|----------|
-| `nginx/nginx.conf` | 350+ | Reverse proxy QA (HTTP→HTTPS, headers, rate limit) |
+| `nginx/nginx.conf` | 350+ | Reverse proxy QA (HTTP?HTTPS, headers, rate limit) |
 | `nginx/nginx-prod.conf` | 350+ | Reverse proxy Prod (OCSP stapling, optimizado) |
-| `docker-compose-qa.yml` | 100+ | Orquestación QA (NGINX, Backend, Frontend, BD) |
-| `docker-compose-prod.yml` | 150+ | Orquestación Prod (secretos, logging remoto, recursos) |
+| `docker-compose-qa.yml` | 100+ | Orquestaci�n QA (NGINX, Backend, Frontend, BD) |
+| `docker-compose-prod.yml` | 150+ | Orquestaci�n Prod (secretos, logging remoto, recursos) |
 
 ### CI/CD (1)
 
 | Archivo | Cambios | Nuevos Jobs |
 |---------|---------|-------------|
-| `.github/workflows/ci.yml` | ✅ Actualizado | CodeQL, Docker build, Deploy QA, DAST |
+| `.github/workflows/ci.yml` | ? Actualizado | CodeQL, Docker build, Deploy QA, DAST |
 
-### Documentación de Seguridad (3)
+### Documentaci�n de Seguridad (3)
 
-| Archivo | Secciones | Tamaño |
+| Archivo | Secciones | Tama�o |
 |---------|-----------|--------|
 | `NGINX_SECURITY_GUIDE.md` | 9 | Certificados, headers, rate limiting, troubleshooting |
-| `SECRETS_MANAGEMENT.md` | 10 | Vault, GitHub, AWS, rotación, auditoría |
-| `DEPLOYMENT_GUIDE.md` | 7 | Pre-despliegue, validación, troubleshooting, rollback |
+| `SECRETS_MANAGEMENT.md` | 10 | Vault, GitHub, AWS, rotaci�n, auditor�a |
+| `DEPLOYMENT_GUIDE.md` | 7 | Pre-despliegue, validaci�n, troubleshooting, rollback |
 
-### Documentación Operativa (3)
+### Documentaci�n Operativa (3)
 
 | Archivo | Audiencia | Contenido |
 |---------|-----------|----------|
 | `README_INFRAESTRUCTURA.md` | DevOps | Referencia completa + comandos |
 | `OPERACIONES_DIARIAS_QUICK_REFERENCE.md` | On-call | Health check, logs, restart, troubleshooting |
-| `GUIA_TRANSICION_ENTORNOS.md` | Equipo | Dev → QA → Prod con checklists |
+| `GUIA_TRANSICION_ENTORNOS.md` | Equipo | Dev ? QA ? Prod con checklists |
 
 ### Reportes y Checklists (4)
 
 | Archivo | Tipo | Uso |
 |---------|------|-----|
 | `FASE_6_INFORME_EJECUTIVO.md` | Ejecutivo | Resumen para gerencia |
-| `FASE_6_CHECKLIST_VALIDACION.md` | Checklist | Validación pre/post deploy |
+| `FASE_6_CHECKLIST_VALIDACION.md` | Checklist | Validaci�n pre/post deploy |
 | `FASE_6_RESUMEN_VISUAL.md` | Visual | Diagramas y matrices |
-| `INDICE_FASE_6.md` | Índice | Navegación completa |
+| `INDICE_FASE_6.md` | �ndice | Navegaci�n completa |
 
 ---
 
-## 🔐 SEGURIDAD IMPLEMENTADA
+## ?? SEGURIDAD IMPLEMENTADA
 
 ### HTTPS y TLS
 
 ```
-✅ HTTP (80) → 301 HTTPS (443)
-✅ TLS 1.2+ obligatorio (TLS 1.0/1.1 desactivos)
-✅ Ciphers fuertes (ECDHE, CHACHA20, AES-GCM)
-✅ Certificados autofirmados (QA) + Let's Encrypt (Prod)
-✅ OCSP Stapling (Producción)
+? HTTP (80) ? 301 HTTPS (443)
+? TLS 1.2+ obligatorio (TLS 1.0/1.1 desactivos)
+? Ciphers fuertes (ECDHE, CHACHA20, AES-GCM)
+? Certificados autofirmados (QA) + Let's Encrypt (Prod)
+? OCSP Stapling (Producci�n)
 ```
 
 ### Headers de Seguridad
 
 ```
-✅ Strict-Transport-Security: max-age=31536000 (1 año)
-✅ X-Content-Type-Options: nosniff
-✅ X-Frame-Options: DENY (previene clickjacking)
-✅ X-XSS-Protection: 1; mode=block
-✅ Content-Security-Policy: restrictiva ('self')
-✅ Referrer-Policy: no-referrer-when-downgrade
-✅ Permissions-Policy: geolocation=(), microphone=(), camera=()
+? Strict-Transport-Security: max-age=31536000 (1 a�o)
+? X-Content-Type-Options: nosniff
+? X-Frame-Options: DENY (previene clickjacking)
+? X-XSS-Protection: 1; mode=block
+? Content-Security-Policy: restrictiva ('self')
+? Referrer-Policy: no-referrer-when-downgrade
+? Permissions-Policy: geolocation=(), microphone=(), camera=()
 ```
 
 ### Rate Limiting (DDoS Protection)
 
 ```
-✅ API general: 10 req/s (burst 20)
-✅ Auth endpoints: 5 req/s (burst 5) - previene fuerza bruta
-✅ Documentos: 3 req/s (burst 3)
-✅ Respuesta 429 Too Many Requests
+? API general: 10 req/s (burst 20)
+? Auth endpoints: 5 req/s (burst 5) - previene fuerza bruta
+? Documentos: 3 req/s (burst 3)
+? Respuesta 429 Too Many Requests
 ```
 
-### Gestión de Secretos
+### Gesti�n de Secretos
 
 ```
-✅ JWT_SECRET en Vault (rotación 90 días)
-✅ DB_PASSWORD en Vault (rotación 60 días)
-✅ ORACLE_PWD en Vault (rotación anual)
-✅ GitHub Secrets para CI/CD
-✅ Nunca hardcodeado en repositorio
-✅ Auditoría de acceso a secretos
+? JWT_SECRET en Vault (rotaci�n 90 d�as)
+? DB_PASSWORD en Vault (rotaci�n 60 d�as)
+? ORACLE_PWD en Vault (rotaci�n anual)
+? GitHub Secrets para CI/CD
+? Nunca hardcodeado en repositorio
+? Auditor�a de acceso a secretos
 ```
 
-### Análisis de Seguridad en CI
+### An�lisis de Seguridad en CI
 
 ```
-✅ CodeQL SAST: Java + TypeScript
+? CodeQL SAST: Java + TypeScript
    - SQL injection, XSS, buffer overflow
    - Reporta en GitHub Security tab
-✅ OWASP ZAP DAST: Escaneo de endpoints
+? OWASP ZAP DAST: Escaneo de endpoints
    - Clickjacking, CSRF, headers faltantes
    - Scheduled nightly o manual
 ```
 
 ---
 
-## 🏗️ ARQUITECTURA IMPLEMENTADA
+## ??? ARQUITECTURA IMPLEMENTADA
 
 ```
-┌─────────────────────────────────────────┐
-│          INTERNET / USUARIOS            │
-└─────────────────┬───────────────────────┘
-                  │ HTTPS (443)
-                  ▼
-        ┌─────────────────────┐
-        │   NGINX Reverse     │
-        │  Proxy (Port 443)   │
-        ├─────────────────────┤
-        │ ✅ TLS 1.2+         │
-        │ ✅ HSTS Header      │
-        │ ✅ CSP Header       │
-        │ ✅ Rate Limiting    │
-        │ ✅ Static hosting   │
-        └──────┬──────┬───────┘
-               │      │
-        ┌──────▼──┐   │
-        │ Backend │   │
-        │ Java 21 │   │
-        │ :8080   │   │
-        │ API     │   │
-        └────┬────┘   │
-             │        │
-             │        └──────────┐
-             │                   │
-        ┌────▼──────┐     ┌──────▼────────┐
-        │   Oracle   │     │   Angular     │
-        │   Database │     │   Frontend    │
-        │   :1521    │     │   dist/       │
-        │   SGED     │     │   (NGINX)     │
-        └────────────┘     └───────────────┘
++-----------------------------------------+
+�          INTERNET / USUARIOS            �
++-----------------------------------------+
+                  � HTTPS (443)
+                  ?
+        +---------------------+
+        �   NGINX Reverse     �
+        �  Proxy (Port 443)   �
+        +---------------------�
+        � ? TLS 1.2+         �
+        � ? HSTS Header      �
+        � ? CSP Header       �
+        � ? Rate Limiting    �
+        � ? Static hosting   �
+        +---------------------+
+               �      �
+        +------?--+   �
+        � Backend �   �
+        � Java 21 �   �
+        � :8080   �   �
+        � API     �   �
+        +---------+   �
+             �        �
+             �        +----------+
+             �                   �
+        +----?------+     +------?--------+
+        �   Oracle   �     �   Angular     �
+        �   Database �     �   Frontend    �
+        �   :1521    �     �   dist/       �
+        �   SGED     �     �   (NGINX)     �
+        +------------+     +---------------+
 ```
 
 ---
 
-## ⚙️ FLUJOS DE TRABAJO
+## ?? FLUJOS DE TRABAJO
 
 ### Desarrollo Local
 
@@ -190,25 +190,25 @@ cd sGED-frontend && npm start
 ### CI/CD en GitHub
 
 ```
-Push → Branch (feature/xyz)
-  ↓
+Push ? Branch (feature/xyz)
+  ?
 GitHub Actions CI:
-  ├─ CodeQL SAST (Java + TypeScript)
-  ├─ Backend Tests (./mvnw verify -Ptest-coverage)
-  ├─ Frontend Tests (npm test --watch=false)
-  └─ Docker Build (backend + frontend)
-  ↓
+  +- CodeQL SAST (Java + TypeScript)
+  +- Backend Tests (./mvnw verify -Ptest-coverage)
+  +- Frontend Tests (npm test --watch=false)
+  +- Docker Build (backend + frontend)
+  ?
 PR Review + Merge a develop
-  ↓
+  ?
 GitHub Actions Deploy:
-  ├─ Deploy a QA (docker-compose pull && up -d)
-  └─ Smoke Tests
-  ↓
+  +- Deploy a QA (docker-compose pull && up -d)
+  +- Smoke Tests
+  ?
 Merge a main (cuando QA aprobado)
-  ↓
+  ?
 GitHub Actions DAST:
-  ├─ OWASP ZAP Scan (nightly)
-  └─ Report artifacts
+  +- OWASP ZAP Scan (nightly)
+  +- Report artifacts
 ```
 
 ### Despliegue QA
@@ -226,7 +226,7 @@ curl -k https://localhost/health
 curl -I -k https://localhost/ | grep Strict-Transport
 ```
 
-### Despliegue Producción
+### Despliegue Producci�n
 
 ```bash
 # 1. Obtener certificado TLS
@@ -247,43 +247,43 @@ curl https://sged.example.com/health
 
 ---
 
-## 📊 MATRIZ DE VERIFICACIÓN
+## ?? MATRIZ DE VERIFICACI�N
 
 | Aspecto | Dev | QA | Prod | Documentado |
 |---------|-----|----|------|-------------|
-| HTTPS obligatorio | ✅ | ✅ | ✅ | ✅ |
-| Certificados TLS | 🟡 | 🟡 | ✅ | ✅ |
-| Headers seguridad | ✅ | ✅ | ✅ | ✅ |
-| Rate limiting | 🔴 | ✅ | ✅ | ✅ |
-| Reverse proxy | 🔴 | ✅ | ✅ | ✅ |
-| Docker Compose | 🔴 | ✅ | ✅ | ✅ |
-| CodeQL SAST | ❌ | ✅ | ✅ | ✅ |
-| OWASP ZAP DAST | ❌ | 🟡 | ✅ | ✅ |
-| Gestión secretos | 🟡 | ✅ | ✅ | ✅ |
-| Logging centralizado | 🔴 | 🟡 | ✅ | ✅ |
+| HTTPS obligatorio | ? | ? | ? | ? |
+| Certificados TLS | ?? | ?? | ? | ? |
+| Headers seguridad | ? | ? | ? | ? |
+| Rate limiting | ?? | ? | ? | ? |
+| Reverse proxy | ?? | ? | ? | ? |
+| Docker Compose | ?? | ? | ? | ? |
+| CodeQL SAST | ? | ? | ? | ? |
+| OWASP ZAP DAST | ? | ?? | ? | ? |
+| Gesti�n secretos | ?? | ? | ? | ? |
+| Logging centralizado | ?? | ?? | ? | ? |
 
-**Leyenda**: ✅ Completo | 🟡 Parcial | 🔴 No aplica | ❌ No requerido
+**Leyenda**: ? Completo | ?? Parcial | ?? No aplica | ? No requerido
 
 ---
 
-## 📈 ESTADÍSTICAS DE FASE 6
+## ?? ESTAD�STICAS DE FASE 6
 
-| Métrica | Valor |
+| M�trica | Valor |
 |---------|-------|
-| **Archivos de configuración** | 4 |
-| **Líneas NGINX** | 700+ |
-| **Líneas Docker Compose** | 250+ |
-| **Documentos técnicos** | 10 |
-| **Guías operativas** | 4 |
+| **Archivos de configuraci�n** | 4 |
+| **L�neas NGINX** | 700+ |
+| **L�neas Docker Compose** | 250+ |
+| **Documentos t�cnicos** | 10 |
+| **Gu�as operativas** | 4 |
 | **Jobs CI/CD nuevos** | 5 |
 | **Headers de seguridad** | 7 |
 | **Zonas de rate limiting** | 3 |
-| **Horas de documentación** | 40+ |
+| **Horas de documentaci�n** | 40+ |
 | **Rutas protegidas** | 8+ |
 
 ---
 
-## ✅ CHECKLIST FINAL
+## ? CHECKLIST FINAL
 
 ### Pre-Despliegue
 - [x] NGINX configurado (QA + Prod)
@@ -293,9 +293,9 @@ curl https://sged.example.com/health
 - [x] Secretos documentados (Vault, GitHub)
 - [x] Headers de seguridad implementados
 - [x] Rate limiting configurado
-- [x] Guías operativas completadas
+- [x] Gu�as operativas completadas
 
-### Documentación
+### Documentaci�n
 - [x] NGINX_SECURITY_GUIDE.md
 - [x] SECRETS_MANAGEMENT.md
 - [x] DEPLOYMENT_GUIDE.md
@@ -307,31 +307,31 @@ curl https://sged.example.com/health
 - [x] FASE_6_RESUMEN_VISUAL.md
 - [x] INDICE_FASE_6.md
 
-### Validación
-- [x] Diseño coherente con arquitectura
-- [x] Comandos testeados (simulación local)
-- [x] Documentación clara y completa
-- [x] Referencias a mejores prácticas
-- [x] Checklist de validación incluido
+### Validaci�n
+- [x] Dise�o coherente con arquitectura
+- [x] Comandos testeados (simulaci�n local)
+- [x] Documentaci�n clara y completa
+- [x] Referencias a mejores pr�cticas
+- [x] Checklist de validaci�n incluido
 
 ---
 
-## 🎓 LECCIONES CLAVE
+## ?? LECCIONES CLAVE
 
-1. **Seguridad por capas**: HTTPS + headers + rate limiting + auditoría
+1. **Seguridad por capas**: HTTPS + headers + rate limiting + auditor�a
 2. **Reproducibilidad**: Mismo docker-compose para dev/QA/prod (solo variables)
-3. **Automatización**: CI/CD hace el trabajo, humanos revisan
-4. **Documentación = Operabilidad**: Guías claras = menos errores
-5. **Secretos separados**: Nunca en código, siempre en Vault
-6. **Transiciones seguras**: Dev → QA → Prod con validaciones
+3. **Automatizaci�n**: CI/CD hace el trabajo, humanos revisan
+4. **Documentaci�n = Operabilidad**: Gu�as claras = menos errores
+5. **Secretos separados**: Nunca en c�digo, siempre en Vault
+6. **Transiciones seguras**: Dev ? QA ? Prod con validaciones
 
 ---
 
-## 🚀 PRÓXIMOS PASOS (FASE 7)
+## ?? PR�XIMOS PASOS (FASE 7)
 
 ### Dockerfiles Finales
 - [ ] Backend Dockerfile (JDK 21 Alpine)
-- [ ] Frontend Dockerfile multi-stage (Node build → NGINX runtime)
+- [ ] Frontend Dockerfile multi-stage (Node build ? NGINX runtime)
 - [ ] Health check scripts
 
 ### Kubernetes (si escalabilidad)
@@ -341,7 +341,7 @@ curl https://sged.example.com/health
 - [ ] PVC (persistencia)
 
 ### Observabilidad
-- [ ] Prometheus (métricas)
+- [ ] Prometheus (m�tricas)
 - [ ] Grafana (dashboards)
 - [ ] ELK Stack o CloudWatch (logs centralizados)
 - [ ] Alertas (CPU, memoria, errores)
@@ -349,13 +349,13 @@ curl https://sged.example.com/health
 ### GitOps
 - [ ] ArgoCD para despliegues
 - [ ] Canary/Blue-Green deployments
-- [ ] Rollbacks automáticos
+- [ ] Rollbacks autom�ticos
 
 ---
 
-## 📞 SOPORTE
+## ?? SOPORTE
 
-| Rol | Email | Teléfono |
+| Rol | Email | Tel�fono |
 |-----|-------|----------|
 | **DevOps Lead** | devops@example.com | +503-xxxx-xxxx |
 | **SecOps** | security@example.com | +503-xxxx-xxxx |
@@ -363,39 +363,39 @@ curl https://sged.example.com/health
 
 ---
 
-## 📄 DOCUMENTOS CLAVE POR AUDIENCIA
+## ?? DOCUMENTOS CLAVE POR AUDIENCIA
 
 ### Para Gerencia
-→ `FASE_6_INFORME_EJECUTIVO.md`
+? `FASE_6_INFORME_EJECUTIVO.md`
 
 ### Para Operadores
-→ `OPERACIONES_DIARIAS_QUICK_REFERENCE.md`
+? `OPERACIONES_DIARIAS_QUICK_REFERENCE.md`
 
 ### Para Despliegue
-→ `DEPLOYMENT_GUIDE.md`
+? `DEPLOYMENT_GUIDE.md`
 
 ### Para Seguridad
-→ `NGINX_SECURITY_GUIDE.md` + `SECRETS_MANAGEMENT.md`
+? `NGINX_SECURITY_GUIDE.md` + `SECRETS_MANAGEMENT.md`
 
 ### Para Desarrollo
-→ `GUIA_TRANSICION_ENTORNOS.md`
+? `GUIA_TRANSICION_ENTORNOS.md`
 
-### Para Validación
-→ `FASE_6_CHECKLIST_VALIDACION.md`
+### Para Validaci�n
+? `FASE_6_CHECKLIST_VALIDACION.md`
 
 ---
 
-## 🎯 CONCLUSIÓN
+## ?? CONCLUSI�N
 
-**SGED Fase 6 está completamente implementada y documentada.**
+**SGED Fase 6 est� completamente implementada y documentada.**
 
-✅ Infraestructura segura, reproducible y lista para QA/Producción
-✅ CI/CD integrado con análisis de seguridad (SAST + DAST)
-✅ Documentación exhaustiva para operaciones y seguridad
-✅ Gestión segura de secretos con rotación automática
-✅ Arquitectura escalable y mantenible
+? Infraestructura segura, reproducible y lista para QA/Producci�n
+? CI/CD integrado con an�lisis de seguridad (SAST + DAST)
+? Documentaci�n exhaustiva para operaciones y seguridad
+? Gesti�n segura de secretos con rotaci�n autom�tica
+? Arquitectura escalable y mantenible
 
-**Está listo para ejecutar el despliegue en QA.**
+**Est� listo para ejecutar el despliegue en QA.**
 
 ---
 
@@ -406,4 +406,4 @@ curl https://sged.example.com/health
 
 ---
 
-**ESTADO FINAL**: ✅ **COMPLETADO - LISTO PARA FASE 7**
+**ESTADO FINAL**: ? **COMPLETADO - LISTO PARA FASE 7**

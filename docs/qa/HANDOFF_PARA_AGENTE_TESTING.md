@@ -1,11 +1,11 @@
-Ôªø---
+---
 Documento: HANDOFF_PARA_AGENTE_TESTING
 Proyecto: SGED
-Versi√≥n del sistema: v1.2.4
-Versi√≥n del documento: 1.0
-√öltima actualizaci√≥n: 2026-05-03
+VersiÛn del sistema: v1.2.4
+VersiÛn del documento: 1.0
+⁄ltima actualizaciÛn: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ‚úÖ Vigente
+Estado: ? Vigente
 ---
 
 # HANDOFF: Agente Testing - SGED QA Listo
@@ -13,19 +13,19 @@ Estado: ‚úÖ Vigente
 
 ---
 
-## üéØ MISI√ìN
+## ?? MISI”N
 
-El stack SGED est√° **completamente deployado en QA** y listo para que inicies:
+El stack SGED est· **completamente deployado en QA** y listo para que inicies:
 1. **Pruebas E2E** (Cypress, Selenium, etc.)
 2. **Pruebas de Carga** (JMeter, k6, Locust)
 3. **Pruebas de Seguridad** (OWASP ZAP, etc.)
 4. **Pruebas de Rendimiento**
 
-**Status**: ‚úÖ GREEN - Proceder con testing
+**Status**: ? GREEN - Proceder con testing
 
 ---
 
-## üìç UBICACI√ìN QA
+## ?? UBICACI”N QA
 
 ### Frontend
 ```
@@ -47,7 +47,7 @@ https://localhost/api/v1/
 
 ---
 
-## üë§ CREDENCIALES DE PRUEBA (4 roles)
+## ?? CREDENCIALES DE PRUEBA (4 roles)
 
 ```bash
 # ADMINISTRADOR - Acceso total
@@ -73,32 +73,32 @@ Rol:      CONSULTA
 
 ---
 
-## ‚úÖ CHECKLIST PRE-TESTING
+## ? CHECKLIST PRE-TESTING
 
 Antes de empezar pruebas E2E, valida esto:
 
 ```bash
 # 1. Frontend carga
-curl -k https://localhost/app/ | grep -q "<!DOCTYPE" && echo "‚úì" || echo "‚úó"
+curl -k https://localhost/app/ | grep -q "<!DOCTYPE" && echo "?" || echo "?"
 
 # 2. API health
-curl -k https://localhost/api/v1/health | jq .status | grep -q "UP" && echo "‚úì" || echo "‚úó"
+curl -k https://localhost/api/v1/health | jq .status | grep -q "UP" && echo "?" || echo "?"
 
 # 3. Headers de seguridad
-curl -k -I https://localhost/ | grep -q "Strict-Transport-Security" && echo "‚úì" || echo "‚úó"
+curl -k -I https://localhost/ | grep -q "Strict-Transport-Security" && echo "?" || echo "?"
 
 # 4. Login funciona
 curl -k -X POST https://localhost/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin123!"}' \
-  | jq .token | grep -q "ey" && echo "‚úì" || echo "‚úó"
+  | jq .token | grep -q "ey" && echo "?" || echo "?"
 
-# Si todos ‚úì, proceder a pruebas
+# Si todos ?, proceder a pruebas
 ```
 
 ---
 
-## üß™ PRUEBAS E2E - SCENARIOS B√ÅSICOS
+## ?? PRUEBAS E2E - SCENARIOS B¡SICOS
 
 ### 1. Login
 ```gherkin
@@ -132,7 +132,7 @@ Scenario: Secretario crea nuevo expediente
 Scenario: Auxiliar busca expediente por caratula
   Given Estoy logged como "auxiliar"
   When Click en "Buscar Expedientes"
-  And Ingreso "Prueba E2E" en campo de b√∫squeda
+  And Ingreso "Prueba E2E" en campo de b˙squeda
   And Presiono Enter
   Then Debo ver expediente creado
   And Puedo click en expediente para ver detalles
@@ -142,9 +142,9 @@ Scenario: Auxiliar busca expediente por caratula
 ```gherkin
 Scenario: Secretario sube documento a expediente
   Given Estoy en detalle de expediente
-  When Click en "A√±adir Documento"
+  When Click en "AÒadir Documento"
   And Selecciono archivo "test_doc.pdf"
-  And Ingreso descripci√≥n "Demanda"
+  And Ingreso descripciÛn "Demanda"
   And Click en "Subir"
   Then Debo ver "Documento subido exitosamente"
   And Archivo debe aparecer en lista de documentos
@@ -156,19 +156,19 @@ Scenario: Auxiliar descarga documento
   Given Estoy en detalle de expediente con documentos
   When Click en icono descargar del documento
   Then El archivo PDF debe descargarse
-  And Contenido del PDF debe ser v√°lido
+  And Contenido del PDF debe ser v·lido
 ```
 
 ---
 
-## üöÄ PRUEBAS DE CARGA
+## ?? PRUEBAS DE CARGA
 
 ### Setup
 ```bash
 # 1. Instalar herramienta (ejemplo k6)
 npm install -g k6
 
-# 2. Script b√°sico k6
+# 2. Script b·sico k6
 cat > test_load.js << 'EOF'
 import http from 'k6/http';
 import { check, sleep } from 'k6';
@@ -218,7 +218,7 @@ EOF
 k6 run test_load.js --insecure-skip-tls-verify
 ```
 
-### M√©tricas a Monitorear
+### MÈtricas a Monitorear
 - Latencia p50, p95, p99
 - Error rate (5xx, timeouts)
 - Throughput (req/sec)
@@ -227,7 +227,7 @@ k6 run test_load.js --insecure-skip-tls-verify
 
 ---
 
-## üîí PRUEBAS DE SEGURIDAD
+## ?? PRUEBAS DE SEGURIDAD
 
 ### Headers
 ```bash
@@ -243,11 +243,11 @@ Content-Security-Policy: ...
 
 ### Rate Limiting
 ```bash
-# Enviar 50 requests r√°pidos
+# Enviar 50 requests r·pidos
 for i in {1..50}; do 
   curl -k -s -o /dev/null -w "%{http_code}\n" https://localhost/api/v1/health
 done
-# Despu√©s del 5to request aprox, debe ver 429s
+# DespuÈs del 5to request aprox, debe ver 429s
 ```
 
 ### HTTPS/TLS
@@ -262,44 +262,44 @@ openssl s_client -connect localhost:443 < /dev/null | openssl x509 -noout -dates
 
 ### SQL Injection
 ```bash
-# Intenta injection en b√∫squeda
+# Intenta injection en b˙squeda
 curl -k 'https://localhost/api/v1/expedientes?search="; DROP TABLE--'
 # Debe retornar 400 o escapar la entrada
 ```
 
 ---
 
-## üìä CU√ÅLES SON LOS LOGS Y D√ìNDE VERLOS
+## ?? CU¡LES SON LOS LOGS Y D”NDE VERLOS
 
 ### En QA Host
 ```bash
 # Ver logs de todos servicios
 docker-compose -f docker-compose-qa.yml logs -f
 
-# Espec√≠ficamente backend
+# EspecÌficamente backend
 docker-compose -f docker-compose-qa.yml logs -f sged-backend-qa
 
-# Espec√≠ficamente NGINX
+# EspecÌficamente NGINX
 docker-compose -f docker-compose-qa.yml logs -f nginx
 
 # Buscar errores
 docker logs sged-backend-qa | grep ERROR | tail -20
 ```
 
-### Ubicaci√≥n de archivos
+### UbicaciÛn de archivos
 ```
 logs/
-‚îú‚îÄ‚îÄ backend/access.log      # Requests HTTP
-‚îú‚îÄ‚îÄ backend/error.log       # Errores Spring Boot
-‚îú‚îÄ‚îÄ backend/app.log         # Logs aplicaci√≥n
-‚îî‚îÄ‚îÄ nginx/
-    ‚îú‚îÄ‚îÄ access.log          # Accesos NGINX
-    ‚îî‚îÄ‚îÄ error.log           # Errores NGINX
++-- backend/access.log      # Requests HTTP
++-- backend/error.log       # Errores Spring Boot
++-- backend/app.log         # Logs aplicaciÛn
++-- nginx/
+    +-- access.log          # Accesos NGINX
+    +-- error.log           # Errores NGINX
 ```
 
 ---
 
-## üêõ TROUBLESHOOTING R√ÅPIDO
+## ?? TROUBLESHOOTING R¡PIDO
 
 ### "502 Bad Gateway"
 ```bash
@@ -342,7 +342,7 @@ docker-compose -f docker-compose-qa.yml restart sged-db-qa sged-backend-qa
 # Verificar certificado
 openssl x509 -in nginx/certs/certificate.crt -noout -dates
 
-# Si est√° expirado, regenerar:
+# Si est· expirado, regenerar:
 openssl req -x509 -newkey rsa:4096 \
   -keyout nginx/certs/private.key \
   -out nginx/certs/certificate.crt \
@@ -354,13 +354,13 @@ docker-compose -f docker-compose-qa.yml restart nginx
 
 ---
 
-## üìù C√ìMO REPORTAR ISSUES
+## ?? C”MO REPORTAR ISSUES
 
 ### Formato de Reporte
 ```
-T√çTULO: Breve descripci√≥n del issue
+TÕTULO: Breve descripciÛn del issue
 SEVERIDAD: Critical / High / Medium / Low
-REPRODUCIBLE: S√≠ / No
+REPRODUCIBLE: SÌ / No
 
 PASOS PARA REPRODUCIR:
 1. ...
@@ -385,27 +385,27 @@ ENTORNO:
 - Usuario: [admin, secretario, etc.]
 ```
 
-### Contacto Escalaci√≥n
+### Contacto EscalaciÛn
 - **DevOps (primer nivel)**: devops@example.com / Slack #devops
-- **Backend (bugs l√≥gica)**: backend-team@example.com / Slack #backend
+- **Backend (bugs lÛgica)**: backend-team@example.com / Slack #backend
 - **Frontend (bugs UI)**: frontend-team@example.com / Slack #frontend
 - **Security (vulnerabilidades)**: security@example.com / Slack #security
 - **On-call (emergencias 24/7)**: oncall@example.com
 
 ---
 
-## üìö DOCUMENTOS RELACIONADOS
+## ?? DOCUMENTOS RELACIONADOS
 
-| Documento | Prop√≥sito |
+| Documento | PropÛsito |
 |---|---|
-| **QA_LISTO_PARA_TESTING.md** | Gu√≠a de acceso y URLs |
-| **DEPLOYMENT_GUIDE.md** | C√≥mo fue deployado |
+| **QA_LISTO_PARA_TESTING.md** | GuÌa de acceso y URLs |
+| **DEPLOYMENT_GUIDE.md** | CÛmo fue deployado |
 | **NGINX_SECURITY_GUIDE.md** | Detalles de seguridad |
-| **README_INFRAESTRUCTURA.md** | Visi√≥n general infraestructura |
+| **README_INFRAESTRUCTURA.md** | VisiÛn general infraestructura |
 
 ---
 
-## ‚ú® CASOS DE USO PARA TESTING
+## ? CASOS DE USO PARA TESTING
 
 ### Usuarios + Roles
 - [ ] Admin puede acceder a todas las secciones
@@ -429,24 +429,24 @@ ENTORNO:
 - [ ] Comentar en documento
 
 ### Performance
-- [ ] P√°gina carga en < 2 segundos
-- [ ] B√∫squeda con 1000+ expedientes funciona
-- [ ] Rate limiting bloquea despu√©s de 10 req/s
-- [ ] No hay memory leaks despu√©s de 1 hora uso
+- [ ] P·gina carga en < 2 segundos
+- [ ] B˙squeda con 1000+ expedientes funciona
+- [ ] Rate limiting bloquea despuÈs de 10 req/s
+- [ ] No hay memory leaks despuÈs de 1 hora uso
 
 ### Seguridad
-- [ ] HTTPS est√° habilitado
+- [ ] HTTPS est· habilitado
 - [ ] Headers de seguridad presentes
-- [ ] Login requiere contrase√±a v√°lida
+- [ ] Login requiere contraseÒa v·lida
 - [ ] Token JWT expira correctamente
 - [ ] SQL injection no funciona
 
 ---
 
-## üé¨ INICIO R√ÅPIDO
+## ?? INICIO R¡PIDO
 
 ```bash
-# 1. Validar QA est√° up
+# 1. Validar QA est· up
 curl -k https://localhost/api/v1/health
 
 # 2. Abrir navegador
@@ -457,7 +457,7 @@ curl -k https://localhost/api/v1/health
 # Password: admin123!
 
 # 4. Navegar por la app
-# Dashboard ‚Üí Expedientes ‚Üí Crear nuevo
+# Dashboard ? Expedientes ? Crear nuevo
 
 # 5. Si algo falla:
 # docker-compose logs -f
@@ -465,22 +465,22 @@ curl -k https://localhost/api/v1/health
 
 ---
 
-## ‚úÖ DEFINICI√ìN DE "LISTO PARA PROD"
+## ? DEFINICI”N DE "LISTO PARA PROD"
 
-Antes de pasar a Producci√≥n, validar:
+Antes de pasar a ProducciÛn, validar:
 
 - [ ] Suite E2E 100% pasando
 - [ ] Load test: p95 < 200ms, error rate < 1%
-- [ ] Security test: 0 vulnerabilidades cr√≠ticas
+- [ ] Security test: 0 vulnerabilidades crÌticas
 - [ ] Performance baseline establecido
-- [ ] Documentaci√≥n completada
-- [ ] Equipo Backend aprob√≥ calidad
-- [ ] Equipo Security aprob√≥ seguridad
+- [ ] DocumentaciÛn completada
+- [ ] Equipo Backend aprobÛ calidad
+- [ ] Equipo Security aprobÛ seguridad
 - [ ] Aprox. 50+ horas de testing completadas
 
 ---
 
 **De**: Agente DevOps/Infraestructura  
 **Para**: Agente Testing  
-**Status**: ‚úÖ **READY TO TEST**  
-**Pr√≥ximo**: Testing E2E + Load Testing (Fase 8)
+**Status**: ? **READY TO TEST**  
+**PrÛximo**: Testing E2E + Load Testing (Fase 8)

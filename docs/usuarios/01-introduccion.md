@@ -46,24 +46,27 @@ Para usar el SGED correctamente, su computadora debe contar con uno de los sigui
 
 ## 1.3 Tabla de permisos por rol
 
-El SGED tiene cuatro roles de usuario. Cada rol determina exactamente que acciones puede realizar dentro del sistema. La siguiente tabla resume los permisos generales:
+El SGED tiene cinco roles de usuario. Cada rol determina exactamente que acciones puede realizar dentro del sistema. La siguiente tabla resume los permisos generales:
 
-| Accion | ADMIN | SECRETARIO | AUXILIAR | CONSULTA |
-|--------|:-----:|:----------:|:--------:|:--------:|
-| Iniciar sesion | Si | Si | Si | Si |
-| Ver panel principal (Dashboard) | Si | Si | Si | Si |
-| Ver listado de expedientes | Si | Si | Si | Si |
-| Crear expedientes | Si | Si | Si | No |
-| Editar datos de expedientes | Si | Si | No | No |
-| Eliminar expedientes | Si | No | No | No |
-| Ver documentos de un expediente | Si | Si | Si | Si |
-| Subir documentos | Si | Si | Si | No |
-| Descargar documentos | Si | Si | Si | Si |
-| Eliminar documentos | Si | Si | No | No |
-| Usar busqueda rapida | Si | Si | Si | Si |
-| Usar busqueda avanzada | Si | Si | Si | Si |
-| Gestionar usuarios del sistema | Si | No | No | No |
-| Administrar catalogos (juzgados, tipos de proceso, estados) | Si | No | No | No |
+| Accion | ADMIN | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
+|--------|:-----:|:----------:|:--------:|:----:|:--------:|
+| Iniciar sesion | Si | Si | Si | Si | Si |
+| Ver panel principal (Dashboard) | Si | Si | Si | Si | Si |
+| Ver listado de expedientes | Si | Si | Si | Si | Si |
+| Crear expedientes | Si | Si (solo su Juzgado) | Si (solo su Juzgado) | No | No |
+| Editar datos de expedientes | Si | Si (solo su Juzgado) | No | No | No |
+| Eliminar expedientes | Si | No | No | No | No |
+| Ver documentos de un expediente | Si | Si | Si | Si | Si |
+| Subir documentos | Si | Si | Si | No | No |
+| Descargar documentos individuales | No* | No* | No* | No* | No* |
+| Eliminar documentos | Si | Si | No | No | No |
+| Imprimir todo el expediente (Modo Presentación) | Si | Si | Si | Si | Si |
+| Usar busqueda rapida | Si | Si | Si | Si | Si |
+| Usar busqueda avanzada | Si | Si | Si | Si | Si |
+| Gestionar usuarios del sistema | Si | No | No | No | No |
+| Administrar catalogos (juzgados, procesos) | Si | No | No | No | No |
+
+*(*) Por motivos de seguridad y control de la información (DLP), la descarga de documentos de forma independiente ha sido **bloqueada** globalmente. La única forma de imprimir o guardar es mediante el "Modo Presentación" consolidado.*
 
 > [!TIP]
 > Si un boton o menu no aparece en su pantalla, probablemente su rol no tiene permiso para esa accion. Esto es normal y forma parte del control de seguridad del sistema. Consulte con su supervisor si cree que necesita un permiso adicional.

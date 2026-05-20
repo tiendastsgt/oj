@@ -1,121 +1,121 @@
-﻿---
+---
 Documento: SMOKE_TESTS_RESUMEN_EJECUTIVO
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 🎉 SMOKE TESTS v1.2.4 - RESUMEN EJECUTIVO
-## Agente Especializado Lista para Despliegues en Producción
+# ?? SMOKE TESTS v1.2.4 - RESUMEN EJECUTIVO
+## Agente Especializado Lista para Despliegues en Producci�n
 
 **Fecha**: Enero 28, 2026  
-**Estado**: ✅ **COMPLETADO Y OPERACIONAL**
+**Estado**: ? **COMPLETADO Y OPERACIONAL**
 
 ---
 
-## 📊 ENTREGA COMPLETADA
+## ?? ENTREGA COMPLETADA
 
 ### Documentos Maestros (5)
 
 ```
-✅ PLAN_SMOKE_TESTS_PRODUCCION.md
-   └─ Plan integral con 6 flujos, timeline, criterios GO/NO-GO
+? PLAN_SMOKE_TESTS_PRODUCCION.md
+   +- Plan integral con 6 flujos, timeline, criterios GO/NO-GO
 
-✅ QUICK_START_SMOKE_TESTS.md  
-   └─ Guía operativa rápida para ejecución diaria
+? QUICK_START_SMOKE_TESTS.md  
+   +- Gu�a operativa r�pida para ejecuci�n diaria
 
-✅ TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
-   └─ Plantilla para documentar resultados post-smoke
+? TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
+   +- Plantilla para documentar resultados post-smoke
 
-✅ SMOKE_TESTS_ENTREGA_COMPLETADA.md
-   └─ Resumen administrativo de lo entregado
+? SMOKE_TESTS_ENTREGA_COMPLETADA.md
+   +- Resumen administrativo de lo entregado
 
-✅ INDICE_SMOKE_TESTS.md
-   └─ Índice y referencias cruzadas
+? INDICE_SMOKE_TESTS.md
+   +- �ndice y referencias cruzadas
 ```
 
 ### Tests Automatizados (25+)
 
 ```
-✅ sGED-frontend/e2e-tests/smoke.spec.ts
-   ├─ 8 describe blocks
-   ├─ 25+ test cases
-   ├─ Tags @smoke-quick y @smoke-full
-   └─ Inyección de variables de entorno
+? sGED-frontend/e2e-tests/smoke.spec.ts
+   +- 8 describe blocks
+   +- 25+ test cases
+   +- Tags @smoke-quick y @smoke-full
+   +- Inyecci�n de variables de entorno
 ```
 
 ---
 
-## 🎯 LOS 6 FLUJOS SMOKE
+## ?? LOS 6 FLUJOS SMOKE
 
-| # | Flujo | Severidad | Validación | Tests |
+| # | Flujo | Severidad | Validaci�n | Tests |
 |---|-------|-----------|-----------|-------|
-| **1** | Auth | 🔴 Bloqueante | Login/logout 4 roles | 7 |
-| **2** | Expedientes | 🔴 Bloqueante | Búsqueda y detalle | 4 |
-| **3** | Documentos | 🟡 Importante | Ver, descargar | 3 |
-| **4** | Admin Users | 🔴 Bloqueante | Panel, usuarios | 4 |
-| **5** | Auditoría | 🟡 Importante | Logs, filtros | 3 |
-| **6** | RBAC | 🔴 Bloqueante | Control acceso | 5 |
-| **7** | API Health | 🔴 Bloqueante | Endpoints | 3 |
-| **8** | Performance | 🟡 Importante | Latencias | 3 |
+| **1** | Auth | ?? Bloqueante | Login/logout 4 roles | 7 |
+| **2** | Expedientes | ?? Bloqueante | B�squeda y detalle | 4 |
+| **3** | Documentos | ?? Importante | Ver, descargar | 3 |
+| **4** | Admin Users | ?? Bloqueante | Panel, usuarios | 4 |
+| **5** | Auditor�a | ?? Importante | Logs, filtros | 3 |
+| **6** | RBAC | ?? Bloqueante | Control acceso | 5 |
+| **7** | API Health | ?? Bloqueante | Endpoints | 3 |
+| **8** | Performance | ?? Importante | Latencias | 3 |
 
 **Total**: 32 test cases
 
 ---
 
-## 📅 TIMELINE POST-DESPLIEGUE
+## ?? TIMELINE POST-DESPLIEGUE
 
 ```
 T+0 min    DevOps: "Despliegue completado v1.2.4"
-           → Validar URL, credenciales, datos de prueba
+           ? Validar URL, credenciales, datos de prueba
 
 T+2-5 min  Quick Smoke (~5 min)
-           → Smoke-1 (Auth) + Smoke-2 (Expedientes) + Smoke-4 (Admin)
-           → Si FAIL → ROLLBACK
-           → Si PASS → Continuar
+           ? Smoke-1 (Auth) + Smoke-2 (Expedientes) + Smoke-4 (Admin)
+           ? Si FAIL ? ROLLBACK
+           ? Si PASS ? Continuar
 
 T+10-15 min Full Smoke (~15 min)  
-           → Smoke-1 a Smoke-8 (todos)
-           → Evaluar resultados
+           ? Smoke-1 a Smoke-8 (todos)
+           ? Evaluar resultados
 
-T+20 min   Decisión GO/NO-GO
-           → GO: Aumentar tráfico a 100%
-           → NO-GO: Activar rollback
-           → GO+MON: Vigilancia intensiva 48h
+T+20 min   Decisi�n GO/NO-GO
+           ? GO: Aumentar tr�fico a 100%
+           ? NO-GO: Activar rollback
+           ? GO+MON: Vigilancia intensiva 48h
 ```
 
 ---
 
-## 🚦 MATRIZ GO/NO-GO
+## ?? MATRIZ GO/NO-GO
 
 ```
-┌─────────────────────────────────────────────────┐
-│           DECISIÓN POST-SMOKE                   │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│ 🟢 GO COMPLETO                                  │
-│    └─ Todos Smoke-1,2,4,6,7 PASS               │
-│    └─ Proceder a 100% traffic                  │
-│                                                  │
-│ 🟡 GO + MONITOREO 48h                          │
-│    └─ Fallos en Smoke-3,5,8 (no bloqueantes)   │
-│    └─ Mantener 50% traffic                     │
-│    └─ Backend investi fix                      │
-│                                                  │
-│ 🔴 NO-GO (ROLLBACK)                            │
-│    └─ Fallos en Smoke-1,2,4,6,7                │
-│    └─ Activar rollback inmediato               │
-│    └─ Investigar causa raíz                    │
-│                                                  │
-└─────────────────────────────────────────────────┘
++-------------------------------------------------+
+�           DECISI�N POST-SMOKE                   �
++-------------------------------------------------�
+�                                                  �
+� ?? GO COMPLETO                                  �
+�    +- Todos Smoke-1,2,4,6,7 PASS               �
+�    +- Proceder a 100% traffic                  �
+�                                                  �
+� ?? GO + MONITOREO 48h                          �
+�    +- Fallos en Smoke-3,5,8 (no bloqueantes)   �
+�    +- Mantener 50% traffic                     �
+�    +- Backend investi fix                      �
+�                                                  �
+� ?? NO-GO (ROLLBACK)                            �
+�    +- Fallos en Smoke-1,2,4,6,7                �
+�    +- Activar rollback inmediato               �
+�    +- Investigar causa ra�z                    �
+�                                                  �
++-------------------------------------------------+
 ```
 
 ---
 
-## 🛠️ CÓMO USAR
+## ??? C�MO USAR
 
 ### Setup (one-time)
 ```bash
@@ -126,7 +126,7 @@ npx playwright install
 # Inyectar credenciales desde vault
 export ADMIN_SMOKE_USER="admin_smoke_prod"
 export ADMIN_SMOKE_PASS="<from-vault>"
-# ... más variables
+# ... m�s variables
 
 # Validar datos de prueba en BD
 # (Coordinar con DevOps/DBA)
@@ -147,54 +147,54 @@ npm run test:smoke:full
 ### Reporte (T+20 min)
 ```bash
 # Rellenar: TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
-# Decisión: GO / NO-GO / GO+MON
+# Decisi�n: GO / NO-GO / GO+MON
 # Compartir en: Slack #sged-incidents
 ```
 
 ---
 
-## 📊 ESTADÍSTICAS
+## ?? ESTAD�STICAS
 
-| Métrica | Valor |
+| M�trica | Valor |
 |---------|-------|
 | Documentos entregados | 5 |
 | Test cases | 25+ |
 | Flujos smoke | 6 |
-| Duración total | 20 min |
-| Severidades críticas | 4 flujos |
+| Duraci�n total | 20 min |
+| Severidades cr�ticas | 4 flujos |
 | Severidades importantes | 4 flujos |
 
 ---
 
-## ✅ CAPACIDADES
+## ? CAPACIDADES
 
-### ✅ Puedo hacer:
+### ? Puedo hacer:
 - Ejecutar smoke tests automatizados
 - Interpretar resultados
 - Recomendar GO / NO-GO
 - Documentar incidencias
 - Escalate problemas
 
-### ❌ NO hago:
-- Cambiar código
+### ? NO hago:
+- Cambiar c�digo
 - Investigaciones profundas
 - Rollback (coordino con DevOps)
 - Cambios de infraestructura
 
 ---
 
-## 🔗 ARCHIVOS PRINCIPALES
+## ?? ARCHIVOS PRINCIPALES
 
-| Archivo | Cuándo | Duración |
+| Archivo | Cu�ndo | Duraci�n |
 |---------|--------|----------|
 | [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) | Siempre | 5 min lectura |
-| [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) | Pre-ejecución | 10 min lectura |
-| [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) | Revisión | 10 min lectura |
-| [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) | Post-ejecución | 5 min rellenar |
+| [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) | Pre-ejecuci�n | 10 min lectura |
+| [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) | Revisi�n | 10 min lectura |
+| [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) | Post-ejecuci�n | 5 min rellenar |
 
 ---
 
-## 🎓 FORMACIÓN REQUERIDA
+## ?? FORMACI�N REQUERIDA
 
 **Para ejecutar smoke tests**: 30 minutos
 
@@ -208,9 +208,9 @@ npm run test:smoke:full
 
 ---
 
-## 📋 CHECKLIST PRE-DESPLIEGUE
+## ?? CHECKLIST PRE-DESPLIEGUE
 
-- [ ] DevOps confirmó despliegue
+- [ ] DevOps confirm� despliegue
 - [ ] URL_PROD accesible
 - [ ] Usuarios smoke existen
 - [ ] Datos de prueba en BD
@@ -221,7 +221,7 @@ npm run test:smoke:full
 
 ---
 
-## 🚀 PRÓXIMO DESPLIEGUE
+## ?? PR�XIMO DESPLIEGUE
 
 1. **DevOps**:
    - Usuarios smoke + datos de prueba en BD
@@ -232,10 +232,10 @@ npm run test:smoke:full
    - Full Smoke
    - Reporte
 
-3. **Decisión**:
-   - GO → 100% traffic
-   - NO-GO → Rollback
-   - GO+MON → Vigilancia 48h
+3. **Decisi�n**:
+   - GO ? 100% traffic
+   - NO-GO ? Rollback
+   - GO+MON ? Vigilancia 48h
 
 4. **Monitoreo**:
    - [MONITOREO_OPERACIONES_PRODUCCION.md](MONITOREO_OPERACIONES_PRODUCCION.md)
@@ -243,12 +243,12 @@ npm run test:smoke:full
 
 ---
 
-## 📞 CONTACTO
+## ?? CONTACTO
 
 **Preguntas operativas?**
 - Revisar: [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md)
 
-**Problemas técnicos?**
+**Problemas t�cnicos?**
 - Contactar: Agente de Smoke Tests (QA)
 
 **Necesito rollback?**
@@ -257,24 +257,24 @@ npm run test:smoke:full
 ---
 
 ```
-╔══════════════════════════════════════════════════════╗
-║                                                      ║
-║  ✅ SMOKE TESTS v1.2.4 - LISTO                     ║
-║                                                      ║
-║  • 5 documentos maestros                            ║
-║  • 25+ test cases automatizados                     ║
-║  • 6 flujos smoke definidos                         ║
-║  • Proceso operativo claro                         ║
-║  • Matriz GO/NO-GO establecida                     ║
-║                                                      ║
-║  🟢 LISTO PARA PRIMER DESPLIEGUE                  ║
-║                                                      ║
-╚══════════════════════════════════════════════════════╝
++------------------------------------------------------+
+�                                                      �
+�  ? SMOKE TESTS v1.2.4 - LISTO                     �
+�                                                      �
+�  � 5 documentos maestros                            �
+�  � 25+ test cases automatizados                     �
+�  � 6 flujos smoke definidos                         �
+�  � Proceso operativo claro                         �
+�  � Matriz GO/NO-GO establecida                     �
+�                                                      �
+�  ?? LISTO PARA PRIMER DESPLIEGUE                  �
+�                                                      �
++------------------------------------------------------+
 ```
 
 ---
 
 **Agente**: Smoke Tests QA  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.2.4  
-**Estado**: ✅ OPERACIONAL
+**Versi�n**: v1.2.4  
+**Estado**: ? OPERACIONAL

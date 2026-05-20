@@ -1,56 +1,56 @@
-﻿---
+---
 Documento: INDICE_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 📚 ÍNDICE - DOCUMENTACIÓN DE SMOKE TESTS
-## SGED v1.2.4+ Smoke Testing en Producción
+# ?? �NDICE - DOCUMENTACI�N DE SMOKE TESTS
+## SGED v1.2.4+ Smoke Testing en Producci�n
 
 **Fecha**: Enero 28, 2026  
 **Agente**: Smoke Tests QA  
-**Estado**: ✅ Completado
+**Estado**: ? Completado
 
 ---
 
-## 📂 ARCHIVOS CREADOS/ACTUALIZADOS
+## ?? ARCHIVOS CREADOS/ACTUALIZADOS
 
-### 1. **PLAN_SMOKE_TESTS_PRODUCCION.md** ⭐
-**Ubicación**: Raíz (`/c:/proyectos/oj/`)  
+### 1. **PLAN_SMOKE_TESTS_PRODUCCION.md** ?
+**Ubicaci�n**: Ra�z (`/c:/proyectos/oj/`)  
 **Tipo**: Documento maestro  
-**Propósito**: Plan completo de smoke tests para producción
+**Prop�sito**: Plan completo de smoke tests para producci�n
 
 **Contiene**:
 - Contexto de despliegue (v1.2.4, variables, usuarios)
-- Definición detallada de 6 flujos Smoke (Smoke-1 a Smoke-6)
+- Definici�n detallada de 6 flujos Smoke (Smoke-1 a Smoke-6)
 - Timeline post-despliegue (T+0, T+2-5, T+10-15, T+20)
-- Matriz de decisión GO/NO-GO
-- Criterios de aceptación y severidades
+- Matriz de decisi�n GO/NO-GO
+- Criterios de aceptaci�n y severidades
 - Datos de prueba requeridos
 - Escalation path
 
-**Cuándo usar**: Lectura de referencia antes de ejecutar smoke tests
+**Cu�ndo usar**: Lectura de referencia antes de ejecutar smoke tests
 
 ---
 
-### 2. **smoke.spec.ts** ⭐
-**Ubicación**: `sGED-frontend/e2e-tests/smoke.spec.ts`  
+### 2. **smoke.spec.ts** ?
+**Ubicaci�n**: `sGED-frontend/e2e-tests/smoke.spec.ts`  
 **Tipo**: Tests automatizados (Playwright)  
-**Propósito**: Tests ejecutables post-despliegue
+**Prop�sito**: Tests ejecutables post-despliegue
 
 **Contiene**:
 - 8 describe blocks (Smoke-1 a Smoke-8)
 - 25+ test cases
 - Helper functions (login, logout, error checking)
-- Inyección de variables de entorno
+- Inyecci�n de variables de entorno
 - Tags para filtering (@smoke-quick, @smoke-full)
 - Manejo de timeouts y errores
 
-**Cuándo usar**: Ejecutar en T+2-5 (Quick) y T+10-15 (Full) después de despliegue
+**Cu�ndo usar**: Ejecutar en T+2-5 (Quick) y T+10-15 (Full) despu�s de despliegue
 
 **Comandos**:
 ```bash
@@ -60,24 +60,24 @@ npm run test:smoke:full    # ~12-15 minutos
 
 ---
 
-### 3. **TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md** ⭐
-**Ubicación**: Raíz (`/c:/proyectos/oj/`)  
+### 3. **TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md** ?
+**Ubicaci�n**: Ra�z (`/c:/proyectos/oj/`)  
 **Tipo**: Plantilla de reporte  
-**Propósito**: Documentar resultados de smoke tests
+**Prop�sito**: Documentar resultados de smoke tests
 
 **Contiene**:
-- Información general (versión, entorno, timestamp)
+- Informaci�n general (versi�n, entorno, timestamp)
 - Resumen ejecutivo
 - Resultados detallados por Smoke-1 a Smoke-8
-- Matriz de decisión visual
-- Sección de incidencias
-- Métricas de baseline
+- Matriz de decisi�n visual
+- Secci�n de incidencias
+- M�tricas de baseline
 - Artefactos y evidencia
-- Firmas de aprobación
+- Firmas de aprobaci�n
 
-**Cuándo usar**: Rellenar en T+20 después de ejecutar smoke tests
+**Cu�ndo usar**: Rellenar en T+20 despu�s de ejecutar smoke tests
 
-**Cómo usar**:
+**C�mo usar**:
 ```bash
 cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
    PROD_SMOKE_REPORT_v1.2.4_$(date +%Y%m%d_%H%M%S).md
@@ -86,10 +86,10 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 ---
 
-### 4. **QUICK_START_SMOKE_TESTS.md** ⭐
-**Ubicación**: Raíz (`/c:/proyectos/oj/`)  
-**Tipo**: Guía operativa rápida  
-**Propósito**: Referencia diaria para ejecución de smoke tests
+### 4. **QUICK_START_SMOKE_TESTS.md** ?
+**Ubicaci�n**: Ra�z (`/c:/proyectos/oj/`)  
+**Tipo**: Gu�a operativa r�pida  
+**Prop�sito**: Referencia diaria para ejecuci�n de smoke tests
 
 **Contiene**:
 - Resumen ejecutivo (TL;DR)
@@ -97,82 +97,82 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 - Tabla de 6 flujos smoke
 - Setup inicial (one-time)
 - Comandos listos para ejecutar
-- Cómo interpretar resultados (3 escenarios)
-- Cómo rellenar reporte
-- Matriz rápida GO/NO-GO
+- C�mo interpretar resultados (3 escenarios)
+- C�mo rellenar reporte
+- Matriz r�pida GO/NO-GO
 - Checklist pre-smoke
 - Escalation path
 - Tips y trucos
 - FAQ
 
-**Cuándo usar**: Guía principal para ejecución diaria
+**Cu�ndo usar**: Gu�a principal para ejecuci�n diaria
 
 ---
 
-### 5. **SMOKE_TESTS_ENTREGA_COMPLETADA.md** ⭐
-**Ubicación**: Raíz (`/c:/proyectos/oj/`)  
+### 5. **SMOKE_TESTS_ENTREGA_COMPLETADA.md** ?
+**Ubicaci�n**: Ra�z (`/c:/proyectos/oj/`)  
 **Tipo**: Resumen de entrega  
-**Propósito**: Documentar lo que se ha completado
+**Prop�sito**: Documentar lo que se ha completado
 
 **Contiene**:
 - Resumen ejecutivo
-- Descripción detallada de cada artefacto
+- Descripci�n detallada de cada artefacto
 - Capacidades del Agente
-- Cómo usar (flujo operativo)
+- C�mo usar (flujo operativo)
 - Matriz de severidades
-- Integración con otros equipos
-- Evolución futura
-- Checklist de completación
-- Próximos pasos
+- Integraci�n con otros equipos
+- Evoluci�n futura
+- Checklist de completaci�n
+- Pr�ximos pasos
 
-**Cuándo usar**: Referencia administrativa y handoff
+**Cu�ndo usar**: Referencia administrativa y handoff
 
 ---
 
-### 6. **INDICE_SMOKE_TESTS.md** (este archivo) ⭐
-**Ubicación**: Raíz (`/c:/proyectos/oj/`)  
-**Tipo**: Índice y registro  
-**Propósito**: Navegar entre todos los documentos de smoke tests
+### 6. **INDICE_SMOKE_TESTS.md** (este archivo) ?
+**Ubicaci�n**: Ra�z (`/c:/proyectos/oj/`)  
+**Tipo**: �ndice y registro  
+**Prop�sito**: Navegar entre todos los documentos de smoke tests
 
 **Contiene**:
 - Lista de todos los archivos
-- Descripción de cada uno
-- Cuándo usar cada archivo
+- Descripci�n de cada uno
+- Cu�ndo usar cada archivo
 - Matriz de referencias cruzadas
 - Estructura de carpetas
 
-**Cuándo usar**: Cuando necesitas encontrar un documento específico
+**Cu�ndo usar**: Cuando necesitas encontrar un documento espec�fico
 
 ---
 
-## 🗂️ ESTRUCTURA DE CARPETAS
+## ??? ESTRUCTURA DE CARPETAS
 
 ```
 /c:/proyectos/oj/
-│
-├── PLAN_SMOKE_TESTS_PRODUCCION.md          ✅ Plan maestro
-├── TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md    ✅ Plantilla reporte
-├── QUICK_START_SMOKE_TESTS.md              ✅ Guía operativa
-├── SMOKE_TESTS_ENTREGA_COMPLETADA.md       ✅ Resumen entrega
-├── INDICE_SMOKE_TESTS.md                   ✅ Este archivo
-│
-├── sGED-frontend/
-│   └── e2e-tests/
-│       └── smoke.spec.ts                   ✅ Tests Playwright
-│
-├── PLAN_DESPLIEGUE_PRODUCCION.md           (relacionado)
-├── ROLLBACK_PLAN_PRODUCCION.md             (relacionado)
-├── MONITOREO_OPERACIONES_PRODUCCION.md     (relacionado)
-├── DEPLOYMENT_GUIDE.md                     (relacionado)
-│
-└── [otros archivos del proyecto]
+�
++-- PLAN_SMOKE_TESTS_PRODUCCION.md          ? Plan maestro
++-- TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md    ? Plantilla reporte
++-- QUICK_START_SMOKE_TESTS.md              ? Gu�a operativa
++-- SMOKE_TESTS_ENTREGA_COMPLETADA.md       ? Resumen entrega
++-- INDICE_SMOKE_TESTS.md                   ? Este archivo
+�
++-- sGED-frontend/
+�   +-- e2e-tests/
+�       +-- smoke.spec.ts                   ? Tests Playwright
+�
++-- PLAN_DESPLIEGUE_PRODUCCION.md           (relacionado)
++-- ROLLBACK_PLAN_PRODUCCION.md             (relacionado)
++-- MONITOREO_OPERACIONES_PRODUCCION.md     (relacionado)
++-- DEPLOYMENT_GUIDE.md                     (relacionado)
+�
++-- [otros archivos del proyecto]
 ```
 
 ---
 
-## 📖 MATRIZ DE REFERENCIAS CRUZADAS
+## ?? MATRIZ DE REFERENCIAS CRUZADAS
 
-| Documento | Lee antes | Lee después | Relacionado con |
+| Documento | Lee antes | Lee despu�s | Relacionado con |
 |-----------|-----------|-------------|-----------------|
 | PLAN_SMOKE_TESTS_PRODUCCION.md | [nada] | smoke.spec.ts, QUICK_START | ROLLBACK_PLAN |
 | smoke.spec.ts | QUICK_START | TEMPLATE_REPORT | PLAN_SMOKE |
@@ -182,7 +182,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 ---
 
-## 🎯 GUÍA RÁPIDA DE USO
+## ?? GU�A R�PIDA DE USO
 
 ### "Voy a ejecutar smoke tests ahora"
 
@@ -191,7 +191,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 2. Valida: Checklist pre-smoke (2 min)
 3. Ejecuta: `npm run test:smoke:quick` (5 min)
 4. Ejecuta: `npm run test:smoke:full` (15 min)
-5. Relléna: [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) (5 min)
+5. Rell�na: [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md) (5 min)
 6. Comparte: En Slack #sged-incidents
 
 **Total**: ~35-40 minutos
@@ -201,7 +201,7 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 ### "Necesito entender los 6 flujos smoke"
 
 **Pasos**:
-1. Lee: [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) - Sección "FLUJOS SMOKE DEFINIDOS" (15 min)
+1. Lee: [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) - Secci�n "FLUJOS SMOKE DEFINIDOS" (15 min)
 2. Revisa: [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) - test.describe blocks (10 min)
 
 ---
@@ -214,16 +214,16 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
    - "CONTEXTO DE DESPLIEGUE"
    - "FLUJOS SMOKE DEFINIDOS"
    - "TIMELINE POST-DESPLIEGUE"
-   - "MATRIZ DE DECISIÓN GO/NO-GO"
+   - "MATRIZ DE DECISI�N GO/NO-GO"
 
 ---
 
 ### "Tengo un fallo en los smoke tests"
 
 **Pasos**:
-1. Revisa: [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) - Sección "INTERPRETAR RESULTADOS"
-2. Valida: Matriz de severidades (¿es bloqueante?)
-3. Decide: GO / NO-GO / GO+MON (según matriz)
+1. Revisa: [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) - Secci�n "INTERPRETAR RESULTADOS"
+2. Valida: Matriz de severidades (�es bloqueante?)
+3. Decide: GO / NO-GO / GO+MON (seg�n matriz)
 4. Documenta: Abre [TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md](TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md)
 
 ---
@@ -233,41 +233,41 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 **Pasos**:
 1. Abre: [ROLLBACK_PLAN_PRODUCCION.md](ROLLBACK_PLAN_PRODUCCION.md)
 2. Ejecuta plan de rollback
-3. Re-ejecuta smoke tests en versión anterior
+3. Re-ejecuta smoke tests en versi�n anterior
 4. Documenta en reporte
 
 ---
 
-## 📊 ESTADÍSTICAS DEL PROYECTO
+## ?? ESTAD�STICAS DEL PROYECTO
 
-| Métrica | Valor |
+| M�trica | Valor |
 |---------|-------|
 | **Documentos creados** | 5 |
 | **Files modificados** | 1 (smoke.spec.ts) |
 | **Test cases implementados** | 25+ |
 | **Flujos smoke definidos** | 6 |
 | **Timeline post-deploy (min)** | 20 |
-| **Líneas de documentación** | 3,500+ |
-| **Líneas de código (tests)** | 800+ |
+| **L�neas de documentaci�n** | 3,500+ |
+| **L�neas de c�digo (tests)** | 800+ |
 
 ---
 
-## 🔄 CICLO DE VIDA DE LOS DOCUMENTOS
+## ?? CICLO DE VIDA DE LOS DOCUMENTOS
 
-### Creación
-✅ Enero 28, 2026 - Agente de Smoke Tests
+### Creaci�n
+? Enero 28, 2026 - Agente de Smoke Tests
 
-### Actualización esperada
+### Actualizaci�n esperada
 - **Antes de v1.0.1**: Revisar y actualizar si hay nuevos flujos
-- **Antes de v1.2.4**: Agregar nuevos smoke tests si nuevas features críticas
+- **Antes de v1.2.4**: Agregar nuevos smoke tests si nuevas features cr�ticas
 - **Cada trimestre**: Mantener baseline de performance
 
-### Archivos que se recrean después de cada despliegue
+### Archivos que se recrean despu�s de cada despliegue
 - `PROD_SMOKE_REPORT_v1.2.4_YYYYMMDD_HHMMSS.md` (copia del template)
 
 ---
 
-## 🚀 PRÓXIMO DESPLIEGUE - CHECKLIST
+## ?? PR�XIMO DESPLIEGUE - CHECKLIST
 
 - [ ] Leer QUICK_START_SMOKE_TESTS.md
 - [ ] Validar checklist pre-smoke
@@ -276,16 +276,16 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 - [ ] Rellenar TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md
 - [ ] Compartir en Slack
 - [ ] Decidir GO / NO-GO / GO+MON
-- [ ] Transición a MONITOREO_OPERACIONES_PRODUCCION.md
+- [ ] Transici�n a MONITOREO_OPERACIONES_PRODUCCION.md
 
 ---
 
-## 📞 CONTACTO Y SOPORTE
+## ?? CONTACTO Y SOPORTE
 
 **Preguntas sobre documentos?**
 - Agente de Smoke Tests (QA)
 
-**Problemas técnicos con tests?**
+**Problemas t�cnicos con tests?**
 - Revisar playwright-report/index.html
 - Contactar DevOps si issue con URL/acceso
 
@@ -296,15 +296,15 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 ---
 
-## 🎓 PARA NUEVOS MIEMBROS DEL EQUIPO
+## ?? PARA NUEVOS MIEMBROS DEL EQUIPO
 
 **Onboarding - Smoke Tests (30 minutos)**:
 
 1. **Lectura** (15 min):
    - [SMOKE_TESTS_ENTREGA_COMPLETADA.md](SMOKE_TESTS_ENTREGA_COMPLETADA.md) - Overview
-   - [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) - Guía práctica
+   - [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) - Gu�a pr�ctica
 
-2. **Revisión de código** (10 min):
+2. **Revisi�n de c�digo** (10 min):
    - [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) - Estructura de tests
 
 3. **Dry-run** (5 min):
@@ -314,40 +314,40 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
 
 ---
 
-## ✅ CHECKLIST DE COMPLETACIÓN FINAL
+## ? CHECKLIST DE COMPLETACI�N FINAL
 
-- ✅ Plan maestro documentado
-- ✅ Tests implementados (25+ cases)
-- ✅ Plantilla de reporte lista
-- ✅ Guía operativa completa
-- ✅ 6 flujos definidos
-- ✅ Variables de entorno configurables
-- ✅ Timeline establecido
-- ✅ GO/NO-GO criterios claros
-- ✅ Escalation path definido
-- ✅ Documentación completa
-- ✅ Índice y referencias creadas
+- ? Plan maestro documentado
+- ? Tests implementados (25+ cases)
+- ? Plantilla de reporte lista
+- ? Gu�a operativa completa
+- ? 6 flujos definidos
+- ? Variables de entorno configurables
+- ? Timeline establecido
+- ? GO/NO-GO criterios claros
+- ? Escalation path definido
+- ? Documentaci�n completa
+- ? �ndice y referencias creadas
 
-**ESTADO**: 🟢 **100% COMPLETADO**
+**ESTADO**: ?? **100% COMPLETADO**
 
 ---
 
 ```
-╔════════════════════════════════════════════════════════════╗
-║  ÍNDICE SMOKE TESTS COMPLETADO                            ║
-║                                                             ║
-║  5 documentos maestros entregados                          ║
-║  25+ test cases implementados                              ║
-║  6 flujos smoke definidos                                  ║
-║  Proceso operativo documentado                             ║
-║                                                             ║
-║  Listo para primer despliegue a Producción v1.2.4          ║
-╚════════════════════════════════════════════════════════════╝
++------------------------------------------------------------+
+�  �NDICE SMOKE TESTS COMPLETADO                            �
+�                                                             �
+�  5 documentos maestros entregados                          �
+�  25+ test cases implementados                              �
+�  6 flujos smoke definidos                                  �
+�  Proceso operativo documentado                             �
+�                                                             �
+�  Listo para primer despliegue a Producci�n v1.2.4          �
++------------------------------------------------------------+
 ```
 
 ---
 
 **Creado por**: Agente de Smoke Tests  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.2.4  
-**Estado**: ✅ COMPLETADO
+**Versi�n**: v1.2.4  
+**Estado**: ? COMPLETADO

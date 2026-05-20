@@ -1,50 +1,50 @@
-﻿---
+---
 Documento: PROXIMO_PASO_SMOKE_TESTS
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 📋 INSTRUCCIONES DE PRÓXIMOS PASOS
-## Agente de Smoke Tests - Post-Implementación
+# ?? INSTRUCCIONES DE PR�XIMOS PASOS
+## Agente de Smoke Tests - Post-Implementaci�n
 
 **Fecha**: Enero 28, 2026  
-**Estado**: ✅ Implementación completada, listo para operación
+**Estado**: ? Implementaci�n completada, listo para operaci�n
 
 ---
 
-## ✅ QUÉ SE HA COMPLETADO
+## ? QU� SE HA COMPLETADO
 
-### Documentación (100%)
-- ✅ Plan maestro: `PLAN_SMOKE_TESTS_PRODUCCION.md`
-- ✅ Guía rápida: `QUICK_START_SMOKE_TESTS.md`
-- ✅ Plantilla reporte: `TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md`
-- ✅ Resumen entrega: `SMOKE_TESTS_ENTREGA_COMPLETADA.md`
-- ✅ Índice: `INDICE_SMOKE_TESTS.md`
-- ✅ Resumen ejecutivo: `SMOKE_TESTS_RESUMEN_EJECUTIVO.md`
+### Documentaci�n (100%)
+- ? Plan maestro: `PLAN_SMOKE_TESTS_PRODUCCION.md`
+- ? Gu�a r�pida: `QUICK_START_SMOKE_TESTS.md`
+- ? Plantilla reporte: `TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md`
+- ? Resumen entrega: `SMOKE_TESTS_ENTREGA_COMPLETADA.md`
+- ? �ndice: `INDICE_SMOKE_TESTS.md`
+- ? Resumen ejecutivo: `SMOKE_TESTS_RESUMEN_EJECUTIVO.md`
 
 ### Tests Automatizados (100%)
-- ✅ Script Playwright: `sGED-frontend/e2e-tests/smoke.spec.ts`
-- ✅ 25+ test cases implementados
-- ✅ 6 flujos smoke definidos
-- ✅ Tags para filtering
+- ? Script Playwright: `sGED-frontend/e2e-tests/smoke.spec.ts`
+- ? 25+ test cases implementados
+- ? 6 flujos smoke definidos
+- ? Tags para filtering
 
 ### Proceso (100%)
-- ✅ Timeline post-despliegue definido
-- ✅ Matriz GO/NO-GO establecida
-- ✅ Escalation path documentado
-- ✅ Criterios de aceptación claros
+- ? Timeline post-despliegue definido
+- ? Matriz GO/NO-GO establecida
+- ? Escalation path documentado
+- ? Criterios de aceptaci�n claros
 
 ---
 
-## 🎯 PRÓXIMAS ACCIONES (Por rol)
+## ?? PR�XIMAS ACCIONES (Por rol)
 
-### 1️⃣ DevOps - Preparación para Primer Despliegue
+### 1?? DevOps - Preparaci�n para Primer Despliegue
 
-**Tarea 1: Crear usuarios de smoke en BD Producción**
+**Tarea 1: Crear usuarios de smoke en BD Producci�n**
 
 ```sql
 -- Conectar a BD PROD
@@ -87,10 +87,10 @@ SMOKE_EXPEDIENTE_NUMERO = "EXP-2026-0001"
 SMOKE_DOCUMENTO_ID = "DOC-12345"
 ```
 
-**Tarea 3: Validar accesibilidad de Producción**
+**Tarea 3: Validar accesibilidad de Producci�n**
 
 ```bash
-# Ejecutar desde máquina QA
+# Ejecutar desde m�quina QA
 curl -I https://sged.oj.gob/login
 # Debe responder: HTTP 200 OK
 
@@ -98,21 +98,21 @@ curl -s https://sged.oj.gob/api/v1/health | jq .status
 # Debe responder: { "status": "UP" }
 ```
 
-**Tarea 4: Confirmar con QA cuando esté listo**
+**Tarea 4: Confirmar con QA cuando est� listo**
 
 Enviar mensaje a #sged-incidents:
 ```
-✅ DevOps: Usuarios smoke + datos de prueba creados en BD prod
-✅ DevOps: Variables de entorno inyectadas en CI/CD
-✅ DevOps: URL https://sged.oj.gob/ accesible
-✅ DevOps: API health check OK
+? DevOps: Usuarios smoke + datos de prueba creados en BD prod
+? DevOps: Variables de entorno inyectadas en CI/CD
+? DevOps: URL https://sged.oj.gob/ accesible
+? DevOps: API health check OK
 
 QA: Listo para ejecutar smoke tests cuando despliegue se complete
 ```
 
 ---
 
-### 2️⃣ QA / Agente Smoke Tests - Preparación para Ejecución
+### 2?? QA / Agente Smoke Tests - Preparaci�n para Ejecuci�n
 
 **Tarea 1: Setup local (one-time)**
 
@@ -125,7 +125,7 @@ npm install @playwright/test
 # Descargar navegadores
 npx playwright install
 
-# Verificar que todo está listo
+# Verificar que todo est� listo
 npx playwright test --version
 npx playwright test smoke.spec.ts --dry-run
 ```
@@ -133,7 +133,7 @@ npx playwright test smoke.spec.ts --dry-run
 **Tarea 2: Crear archivo .env.smoke-prod (NO versionado)**
 
 ```bash
-# En: .env.smoke-prod (agregar a .gitignore si no está)
+# En: .env.smoke-prod (agregar a .gitignore si no est�)
 
 BASE_URL_PROD=https://sged.oj.gob/
 ADMIN_SMOKE_USER=admin_smoke
@@ -151,7 +151,7 @@ DOCUMENTO_SMOKE_ID=DOC-12345
 **Tarea 3: Cargar archivo .env**
 
 ```bash
-# En sesión de terminal
+# En sesi�n de terminal
 source .env.smoke-prod
 # O en Windows:
 Get-Content .env.smoke-prod | ForEach-Object { $var = $_.Split('='); [Environment]::SetEnvironmentVariable($var[0], $var[1]) }
@@ -164,37 +164,37 @@ npx playwright test smoke.spec.ts --dry-run
 # Debe listar todos los tests sin ejecutarlos
 ```
 
-**Tarea 5: Leer documentación (30 min)**
+**Tarea 5: Leer documentaci�n (30 min)**
 
 - [ ] [QUICK_START_SMOKE_TESTS.md](QUICK_START_SMOKE_TESTS.md) (10 min)
-- [ ] [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) - Sección "FLUJOS SMOKE DEFINIDOS" (15 min)
+- [ ] [PLAN_SMOKE_TESTS_PRODUCCION.md](PLAN_SMOKE_TESTS_PRODUCCION.md) - Secci�n "FLUJOS SMOKE DEFINIDOS" (15 min)
 - [ ] [smoke.spec.ts](sGED-frontend/e2e-tests/smoke.spec.ts) - Revisar estructura (10 min)
 
 ---
 
-### 3️⃣ Producto/PO - Aprobación
+### 3?? Producto/PO - Aprobaci�n
 
 **Tarea: Revisar y aprobar**
 
 - [ ] Leer: [SMOKE_TESTS_RESUMEN_EJECUTIVO.md](SMOKE_TESTS_RESUMEN_EJECUTIVO.md)
-- [ ] Confirmar: Los 6 flujos smoke cubren casos críticos
+- [ ] Confirmar: Los 6 flujos smoke cubren casos cr�ticos
 - [ ] Validar: Matriz GO/NO-GO es aceptable
 - [ ] Aprobar: Uso en primer despliegue v1.2.4
 
-Enviar confirmación:
+Enviar confirmaci�n:
 ```
-✅ Producto: Flujos smoke validados
-✅ Producto: GO/NO-GO criteria aprobado
-✅ Producto: Listo para primer despliegue
+? Producto: Flujos smoke validados
+? Producto: GO/NO-GO criteria aprobado
+? Producto: Listo para primer despliegue
 ```
 
 ---
 
-## 📅 EJECUTAR SMOKE TESTS - PASO A PASO
+## ?? EJECUTAR SMOKE TESTS - PASO A PASO
 
 ### Cuando DevOps diga "Despliegue v1.2.4 completado"
 
-**T+0 minutos: Validación inicial**
+**T+0 minutos: Validaci�n inicial**
 
 ```bash
 # Verificar que URL es accesible
@@ -212,13 +212,13 @@ source .env.smoke-prod  # o cargar desde CI/CD
 ```bash
 cd sGED-frontend
 
-# Ejecutar solo tests críticos
+# Ejecutar solo tests cr�ticos
 npm run test:smoke:quick
 
 # Ver resultados en:
 # playwright-report/index.html
 
-# Decisión:
+# Decisi�n:
 #   - Si PASS: Continuar a Full Smoke
 #   - Si FAIL: Escalar a DevOps (posible rollback)
 ```
@@ -230,7 +230,7 @@ npm run test:smoke:quick
 npm run test:smoke:full
 
 # Esto ejecuta todos los 25+ test cases
-# Duración: ~12-15 minutos
+# Duraci�n: ~12-15 minutos
 
 # Ver resultados en:
 # playwright-report/index.html
@@ -245,76 +245,76 @@ cp TEMPLATE_PROD_SMOKE_REPORT_v1.2.4.md \
    PROD_SMOKE_REPORT_v1.2.4_$(date +%Y%m%d_%H%M%S).md
 
 # Rellenar con resultados:
-#   - Versión, entorno, timestamp
+#   - Versi�n, entorno, timestamp
 #   - Resultados de cada Smoke-1 a Smoke-8
 #   - Incidencias (si aplica)
-#   - Decisión: GO / NO-GO / GO+MONITOREO
+#   - Decisi�n: GO / NO-GO / GO+MONITOREO
 
 # Publicar reporte
 git add PROD_SMOKE_REPORT_v1.2.4_*.md
-git commit -m "Smoke tests v1.2.4: [DECISIÓN]"
+git commit -m "Smoke tests v1.2.4: [DECISI�N]"
 git push
 
 # Compartir en Slack
 echo "Smoke tests v1.2.4 completado: [LINK al reporte]"
 ```
 
-**T+25 minutos: Decisión**
+**T+25 minutos: Decisi�n**
 
 ```
 SI resultado = TODOS PASS:
-   → Decisión: 🟢 GO
-   → Acción: Aumentar tráfico a 100%
-   → Siguiente: MONITOREO_OPERACIONES_PRODUCCION.md
+   ? Decisi�n: ?? GO
+   ? Acci�n: Aumentar tr�fico a 100%
+   ? Siguiente: MONITOREO_OPERACIONES_PRODUCCION.md
 
-SI resultado = ALGUNOS FALLOS (no críticos):
-   → Decisión: 🟡 GO + MONITOREO
-   → Acción: Mantener 50% tráfico
-   → Siguiente: Investigación en paralelo
+SI resultado = ALGUNOS FALLOS (no cr�ticos):
+   ? Decisi�n: ?? GO + MONITOREO
+   ? Acci�n: Mantener 50% tr�fico
+   ? Siguiente: Investigaci�n en paralelo
 
-SI resultado = FALLOS CRÍTICOS:
-   → Decisión: 🔴 NO-GO
-   → Acción: Activar ROLLBACK_PLAN_PRODUCCION.md
-   → Siguiente: Investigación causa raíz
+SI resultado = FALLOS CR�TICOS:
+   ? Decisi�n: ?? NO-GO
+   ? Acci�n: Activar ROLLBACK_PLAN_PRODUCCION.md
+   ? Siguiente: Investigaci�n causa ra�z
 ```
 
 ---
 
-## 🛠️ TROUBLESHOOTING RÁPIDO
+## ??? TROUBLESHOOTING R�PIDO
 
 ### "Tests no encuentran elemento X"
-→ Puede ser que la UI cambió. Actualizar selectors en smoke.spec.ts
+? Puede ser que la UI cambi�. Actualizar selectors en smoke.spec.ts
 
 ### "Timeout en login"
-→ Verificar credenciales en .env.smoke-prod
-→ Verificar que usuario existe en BD prod
+? Verificar credenciales en .env.smoke-prod
+? Verificar que usuario existe en BD prod
 
-### "HTTP 500 en búsqueda"
-→ Verificar que expediente de prueba existe
-→ Revisar logs del backend: `docker logs sged-backend-prod`
+### "HTTP 500 en b�squeda"
+? Verificar que expediente de prueba existe
+? Revisar logs del backend: `docker logs sged-backend-prod`
 
 ### "Test ejecuta pero no valida correctamente"
-→ Abrir con `--headed --debug` para ver en tiempo real
-→ Verificar selectores en navegador
+? Abrir con `--headed --debug` para ver en tiempo real
+? Verificar selectores en navegador
 
 ---
 
-## 📞 QUIÉN HACE QUÉ
+## ?? QUI�N HACE QU�
 
-| Rol | Tarea | Cuando | Duración |
+| Rol | Tarea | Cuando | Duraci�n |
 |-----|-------|--------|----------|
 | **DevOps** | Setup BD, variables env | Antes del despliegue | 30 min |
-| **QA** | Formación y setup local | Antes del despliegue | 30 min |
+| **QA** | Formaci�n y setup local | Antes del despliegue | 30 min |
 | **QA** | Ejecutar Quick Smoke | T+2-5 min post-deploy | 5 min |
 | **QA** | Ejecutar Full Smoke | T+10-15 min post-deploy | 15 min |
 | **QA** | Rellenar reporte | T+20 min post-deploy | 5 min |
-| **Product/PO** | Decisión GO/NO-GO | T+25 min post-deploy | 5 min |
+| **Product/PO** | Decisi�n GO/NO-GO | T+25 min post-deploy | 5 min |
 | **DevOps** | Rollout o rollback | T+30 min post-deploy | - |
 | **Ops** | Monitoreo 72h | Post-smoke hasta baseline | Continuo |
 
 ---
 
-## 📋 CHECKLIST FINAL
+## ?? CHECKLIST FINAL
 
 ### Antes del Primer Despliegue
 
@@ -330,7 +330,7 @@ SI resultado = FALLOS CRÍTICOS:
 - [ ] Navegadores descargados
 - [ ] smoke.spec.ts verificado
 - [ ] .env.smoke-prod configurado
-- [ ] Formación completada (30 min)
+- [ ] Formaci�n completada (30 min)
 - [ ] Dry-run ejecutado
 
 **Producto**:
@@ -345,15 +345,15 @@ SI resultado = FALLOS CRÍTICOS:
 
 ---
 
-## 📞 CONTACTO Y ESCALATION
+## ?? CONTACTO Y ESCALATION
 
 **Preguntas operativas**:
 - Agente de Smoke Tests (QA)
 
-**Problemas técnicos**:
+**Problemas t�cnicos**:
 - DevOps + Backend Lead
 
-**Decisión GO/NO-GO**:
+**Decisi�n GO/NO-GO**:
 - Product Owner + CTO
 
 **Rollback necesario**:
@@ -361,9 +361,9 @@ SI resultado = FALLOS CRÍTICOS:
 
 ---
 
-## 🚀 LANZAMIENTO
+## ?? LANZAMIENTO
 
-**Cuando todo esté listo:**
+**Cuando todo est� listo:**
 
 1. DevOps: "Iniciar despliegue v1.2.4"
 2. QA: Ejecutar smoke tests (T+0 a T+20)
@@ -374,23 +374,23 @@ SI resultado = FALLOS CRÍTICOS:
 ---
 
 ```
-╔════════════════════════════════════════════════════════╗
-║                                                         ║
-║  ✅ AGENTE SMOKE TESTS - LISTO PARA OPERACIÓN         ║
-║                                                         ║
-║  Documentación: 100% ✅                                ║
-║  Tests: 100% ✅                                        ║
-║  Proceso: 100% ✅                                      ║
-║                                                         ║
-║  Próximos pasos: Ver secciones arriba                 ║
-║  Estimado tiempo setup: 1-2 días                      ║
-║  Estimado tiempo ejecución: 20-25 min por deploy      ║
-║                                                         ║
-╚════════════════════════════════════════════════════════╝
++--------------------------------------------------------+
+�                                                         �
+�  ? AGENTE SMOKE TESTS - LISTO PARA OPERACI�N         �
+�                                                         �
+�  Documentaci�n: 100% ?                                �
+�  Tests: 100% ?                                        �
+�  Proceso: 100% ?                                      �
+�                                                         �
+�  Pr�ximos pasos: Ver secciones arriba                 �
+�  Estimado tiempo setup: 1-2 d�as                      �
+�  Estimado tiempo ejecuci�n: 20-25 min por deploy      �
+�                                                         �
++--------------------------------------------------------+
 ```
 
 ---
 
 **Preparado por**: Agente de Smoke Tests  
 **Fecha**: Enero 28, 2026  
-**Versión**: v1.2.4
+**Versi�n**: v1.2.4

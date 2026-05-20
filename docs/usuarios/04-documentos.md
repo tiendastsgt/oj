@@ -7,7 +7,7 @@ Al terminar de leer este capitulo usted sabra:
 - Que tipos de archivo acepta el sistema y cual es el tamanio maximo permitido.
 - Como subir un nuevo documento.
 - Como usar el visor integrado para ver documentos en pantalla.
-- Como descargar un documento a su computadora.
+- Como utilizar el "Modo Presentación" para consolidar e imprimir los documentos.
 - Como eliminar un documento y las consecuencias de esta accion.
 
 ---
@@ -113,15 +113,18 @@ Para cerrar el visor y volver a la lista de documentos, haga clic en el boton de
 
 ---
 
-## 4.5 Descargar un documento
+## 4.5 Modo Presentación (Impresión y consolidación)
 
-Para guardar una copia de un documento en su computadora:
+> [!WARNING]
+> **Política de No Descarga (DLP):** Por motivos de seguridad y confidencialidad, el sistema **no permite la descarga individual** de documentos sueltos, y bloquea activamente los menús contextuales (clic derecho) e impresión de pantalla.
 
-1. En la lista de documentos, localice el documento que desea descargar.
-2. Haga clic en el icono de **Descargar** (representado por una flecha hacia abajo o una nube con flecha) en la fila del documento.
-3. Su navegador iniciara la descarga automaticamente. El archivo se guardara en la carpeta de descargas predeterminada de su computadora.
+Para extraer información del sistema o llevar el caso a una audiencia, se utiliza el **Modo Presentación**:
 
-Tambien puede descargar un documento mientras lo visualiza en el visor: busque el icono de descarga en la esquina superior del visor y hagale clic.
+1. En la pantalla principal del expediente, haga clic en el botón **Presentar anclados**.
+2. El sistema abrirá una pantalla especial de consolidación.
+3. En el panel izquierdo ("Sidebar"), verá todos los documentos PDF compatibles. Puede **arrastrar y soltar** (Drag & Drop) los elementos de la lista para **reordenar** la secuencia como desee.
+4. En el panel principal derecho, se mostrarán todas las páginas de los documentos seleccionados fluyendo de manera continua.
+5. Presione el botón **Imprimir todo (Ctrl+P)** en la barra superior. El sistema compilará todos los documentos en el orden establecido en un solo archivo PDF nativo para impresión.
 
 ---
 
@@ -149,13 +152,14 @@ Para eliminar un documento:
 
 ## Permisos del modulo de documentos
 
-| Accion | ADMIN | SECRETARIO | AUXILIAR | CONSULTA |
-|--------|:-----:|:----------:|:--------:|:--------:|
-| Ver lista de documentos de un expediente | Si | Si | Si | Si |
-| Visualizar documentos con el visor | Si | Si | Si | Si |
-| Descargar documentos | Si | Si | Si | Si |
-| Subir documentos | Si | Si | Si | No |
-| Eliminar documentos | Si | Si | No | No |
+| Accion | ADMIN | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
+|--------|:-----:|:----------:|:--------:|:----:|:--------:|
+| Ver lista de documentos de un expediente | Si | Si | Si | Si | Si |
+| Visualizar documentos con el visor | Si | Si | Si | Si | Si |
+| Modo Presentación (Imprimir consolidado) | Si | Si | Si | Si | Si |
+| Descargar documentos individuales | No | No | No | No | No |
+| Subir documentos | Si | Si | Si | No | No |
+| Eliminar documentos | Si | Si | No | No | No |
 
 ---
 

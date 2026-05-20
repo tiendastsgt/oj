@@ -1,26 +1,26 @@
-﻿---
+---
 Documento: INDICE_DOCUMENTOS_FASE_7
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 📚 ÍNDICE DE DOCUMENTOS - FASE 7 (Despliegue QA)
-## SGED: Sistema de Gestión de Expedientes Digitales
+# ?? �NDICE DE DOCUMENTOS - FASE 7 (Despliegue QA)
+## SGED: Sistema de Gesti�n de Expedientes Digitales
 
 **Fase**: 7 de 7 (Completa)  
-**Status**: ✅ **COMPLETADA - QA LISTO PARA TESTING**  
+**Status**: ? **COMPLETADA - QA LISTO PARA TESTING**  
 **Fecha**: Mayo 2026  
 
 ---
 
-## 📋 DOCUMENTOS CREADOS EN FASE 7
+## ?? DOCUMENTOS CREADOS EN FASE 7
 
 ### 1. **QA_LISTO_PARA_TESTING.md**
-- **Propósito**: Guía completa de acceso a QA para Agente de Testing
+- **Prop�sito**: Gu�a completa de acceso a QA para Agente de Testing
 - **Audiencia**: Agente Testing (principal)
 - **Contenido**:
   - URLs de acceso (frontend, API, health check)
@@ -31,48 +31,48 @@ Estado: ✅ Vigente
   - Smoke tests
   - Checklist pre-testing
 - **Secciones clave**: 
-  - 🌐 URLs, 👤 Usuarios, 🔍 Validaciones, 📊 Estado, 📝 Logs, 🐛 Troubleshooting
+  - ?? URLs, ?? Usuarios, ?? Validaciones, ?? Estado, ?? Logs, ?? Troubleshooting
 - **Lectura recomendada**: ANTES de empezar testing E2E
-- **Longitud**: ~400 líneas
+- **Longitud**: ~400 l�neas
 
 ### 2. **HANDOFF_PARA_AGENTE_TESTING.md**
-- **Propósito**: Handoff formal de DevOps a Testing
+- **Prop�sito**: Handoff formal de DevOps a Testing
 - **Audiencia**: Agente Testing (principal)
 - **Contenido**:
-  - Misión y status
+  - Misi�n y status
   - URLs de acceso
   - Credenciales de 4 roles
   - Checklist pre-testing (comandos curl)
   - Scenarios E2E en formato Gherkin
   - Scripts de pruebas de carga (k6)
   - Pruebas de seguridad (headers, rate limiting, injection)
-  - Troubleshooting rápido
-  - Cómo reportar issues
+  - Troubleshooting r�pido
+  - C�mo reportar issues
   - Casos de uso para testing
-  - Definición de "listo para Prod"
+  - Definici�n de "listo para Prod"
 - **Secciones clave**:
-  - Misión, URLs, Credenciales, Checklist, Scenarios, Load Tests, Security Tests
+  - Misi�n, URLs, Credenciales, Checklist, Scenarios, Load Tests, Security Tests
 - **Lectura recomendada**: Para ejecutar suite de testing
-- **Longitud**: ~500 líneas
+- **Longitud**: ~500 l�neas
 
 ### 3. **VERIFICACION_RAPIDA_QA.md**
-- **Propósito**: Checklist visual post-despliegue (5 minutos)
-- **Audiencia**: Operador / DevOps (verificación)
+- **Prop�sito**: Checklist visual post-despliegue (5 minutos)
+- **Audiencia**: Operador / DevOps (verificaci�n)
 - **Contenido**:
-  - 10 steps de validación
+  - 10 steps de validaci�n
   - Comandos curl para cada step
   - Resultados esperados vs errores
-  - Cómo diagnosticar problemas
+  - C�mo diagnosticar problemas
   - Template para reportar
 - **Secciones clave**:
   - Step 1-10 (servicios, HTTPS, frontend, health, headers, login, rate limiting, BD, logs, latencia)
   - Resumen visual con checkboxes
-  - Guía de troubleshooting rápido
-- **Lectura recomendada**: INMEDIATAMENTE después de deploy
-- **Longitud**: ~300 líneas
+  - Gu�a de troubleshooting r�pido
+- **Lectura recomendada**: INMEDIATAMENTE despu�s de deploy
+- **Longitud**: ~300 l�neas
 
 ### 4. **FASE_7_RESUMEN_COMPLETACION.md**
-- **Propósito**: Documento oficial de completación de Fase 7
+- **Prop�sito**: Documento oficial de completaci�n de Fase 7
 - **Audiencia**: Stakeholders, Project Manager, Agente Backend
 - **Contenido**:
   - Resumen ejecutivo
@@ -80,21 +80,21 @@ Estado: ✅ Vigente
   - Validaciones realizadas
   - Estado de cumplimiento por fase (1-7)
   - Flujo de despliegue
-  - Instrucciones de ejecución
+  - Instrucciones de ejecuci�n
   - Limitaciones y conocidos
-  - Transición a Fase 8
+  - Transici�n a Fase 8
 - **Secciones clave**:
-  - 📊 Entregables, 🎯 Objetivos, 🔄 Flujo, ✅ Validaciones, 📈 Cumplimiento
-- **Lectura recomendada**: Para aprobación y handoff
-- **Longitud**: ~400 líneas
+  - ?? Entregables, ?? Objetivos, ?? Flujo, ? Validaciones, ?? Cumplimiento
+- **Lectura recomendada**: Para aprobaci�n y handoff
+- **Longitud**: ~400 l�neas
 
 ---
 
-## 📦 ARCHIVOS DE CONFIGURACIÓN CREADOS EN FASE 7
+## ?? ARCHIVOS DE CONFIGURACI�N CREADOS EN FASE 7
 
 ### 1. **.env.qa**
-- **Propósito**: Variables de entorno para QA
-- **Ubicación**: `c:\proyectos\oj\.env.qa`
+- **Prop�sito**: Variables de entorno para QA
+- **Ubicaci�n**: `c:\proyectos\oj\.env.qa`
 - **Contenido**:
   ```
   SPRING_PROFILES_ACTIVE=qa
@@ -104,35 +104,35 @@ Estado: ✅ Vigente
   ```
 - **Uso**: Referenced en `docker-compose-qa.yml` via `--env-file`
 - **Seguridad**: Contiene credenciales QA (NO de Prod)
-- **Líneas**: ~50
+- **L�neas**: ~50
 
 ### 2. **deploy-qa.sh**
-- **Propósito**: Script automatizado de despliegue + validación
-- **Ubicación**: `c:\proyectos\oj\deploy-qa.sh`
+- **Prop�sito**: Script automatizado de despliegue + validaci�n
+- **Ubicaci�n**: `c:\proyectos\oj\deploy-qa.sh`
 - **Contenido**:
-  - Pre-deploy checks (directorios, certs, YAML válido)
-  - Generación de certificados TLS autofirmados
+  - Pre-deploy checks (directorios, certs, YAML v�lido)
+  - Generaci�n de certificados TLS autofirmados
   - docker-compose pull + up -d
-  - Esperar 60s para estabilización
-  - Post-deploy validation (HTTP→HTTPS, HTTPS, health, headers)
+  - Esperar 60s para estabilizaci�n
+  - Post-deploy validation (HTTP?HTTPS, HTTPS, health, headers)
   - Colored output para operador
   - Troubleshooting hints
-- **Ejecución**: `bash deploy-qa.sh`
+- **Ejecuci�n**: `bash deploy-qa.sh`
 - **Requisitos**: docker, docker-compose, curl, openssl, bash
-- **Líneas**: ~200+
+- **L�neas**: ~200+
 - **Tiempo**: ~3-5 minutos
 
 ---
 
-## 📚 DOCUMENTOS DE FASE 6 (Validados en Fase 7)
+## ?? DOCUMENTOS DE FASE 6 (Validados en Fase 7)
 
 ### De Referencia (Ya existen)
-| Documento | Líneas | Propósito |
+| Documento | L�neas | Prop�sito |
 |---|---|---|
-| **docker-compose-qa.yml** | 139 | Orquestación servicios QA |
+| **docker-compose-qa.yml** | 139 | Orquestaci�n servicios QA |
 | **nginx/nginx.conf** | 236 | Reverse proxy, TLS, headers, rate limiting |
-| **DEPLOYMENT_GUIDE.md** | ~400 | Guía paso-a-paso de despliegue |
-| **README_INFRAESTRUCTURA.md** | ~600 | Documentación completa infraestructura |
+| **DEPLOYMENT_GUIDE.md** | ~400 | Gu�a paso-a-paso de despliegue |
+| **README_INFRAESTRUCTURA.md** | ~600 | Documentaci�n completa infraestructura |
 | **OPERACIONES_DIARIAS_QUICK_REFERENCE.md** | ~300 | Quick-reference para operadores |
 | **NGINX_SECURITY_GUIDE.md** | ~350 | Detalles de seguridad en NGINX |
 
@@ -140,118 +140,118 @@ Todos estos archivos fueron validados en Fase 7 y confirmados como correctos.
 
 ---
 
-## 🗂️ ESTRUCTURA DE ARCHIVOS COMPLETA
+## ??? ESTRUCTURA DE ARCHIVOS COMPLETA
 
 ```
 c:\proyectos\oj\
-│
-├── 📄 .env.qa                               ← NUEVO (Fase 7)
-├── 📄 deploy-qa.sh                          ← NUEVO (Fase 7)
-├── 📄 QA_LISTO_PARA_TESTING.md              ← NUEVO (Fase 7)
-├── 📄 HANDOFF_PARA_AGENTE_TESTING.md        ← NUEVO (Fase 7)
-├── 📄 VERIFICACION_RAPIDA_QA.md             ← NUEVO (Fase 7)
-├── 📄 FASE_7_RESUMEN_COMPLETACION.md        ← NUEVO (Fase 7)
-├── 📄 INDICE_DOCUMENTOS_FASE_7.md           ← NUEVO (Este archivo)
-│
-├── 📄 docker-compose-qa.yml                 ← De Fase 6 (Validado)
-├── 📄 DEPLOYMENT_GUIDE.md                   ← De Fase 6 (Validado)
-├── 📄 README_INFRAESTRUCTURA.md             ← De Fase 6 (Validado)
-├── 📄 OPERACIONES_DIARIAS_QUICK_REFERENCE.md ← De Fase 6 (Validado)
-├── 📄 NGINX_SECURITY_GUIDE.md               ← De Fase 6 (Validado)
-│
-├── 📁 nginx/
-│   ├── nginx.conf                           ← De Fase 6 (Validado)
-│   └── certs/ (será generado por deploy-qa.sh)
-│       ├── certificate.crt                  ← Generado
-│       └── private.key                      ← Generado
-│
-├── 📁 sGED-backend/                         ← Proyecto backend
-├── 📁 sGED-frontend/                        ← Proyecto frontend
-├── 📁 auth-service/                         ← Servicio auth
-│
-└── 📁 logs/ (será creado)
-    ├── backend/
-    └── nginx/
+�
++-- ?? .env.qa                               ? NUEVO (Fase 7)
++-- ?? deploy-qa.sh                          ? NUEVO (Fase 7)
++-- ?? QA_LISTO_PARA_TESTING.md              ? NUEVO (Fase 7)
++-- ?? HANDOFF_PARA_AGENTE_TESTING.md        ? NUEVO (Fase 7)
++-- ?? VERIFICACION_RAPIDA_QA.md             ? NUEVO (Fase 7)
++-- ?? FASE_7_RESUMEN_COMPLETACION.md        ? NUEVO (Fase 7)
++-- ?? INDICE_DOCUMENTOS_FASE_7.md           ? NUEVO (Este archivo)
+�
++-- ?? docker-compose-qa.yml                 ? De Fase 6 (Validado)
++-- ?? DEPLOYMENT_GUIDE.md                   ? De Fase 6 (Validado)
++-- ?? README_INFRAESTRUCTURA.md             ? De Fase 6 (Validado)
++-- ?? OPERACIONES_DIARIAS_QUICK_REFERENCE.md ? De Fase 6 (Validado)
++-- ?? NGINX_SECURITY_GUIDE.md               ? De Fase 6 (Validado)
+�
++-- ?? nginx/
+�   +-- nginx.conf                           ? De Fase 6 (Validado)
+�   +-- certs/ (ser� generado por deploy-qa.sh)
+�       +-- certificate.crt                  ? Generado
+�       +-- private.key                      ? Generado
+�
++-- ?? sGED-backend/                         ? Proyecto backend
++-- ?? sGED-frontend/                        ? Proyecto frontend
++-- ?? auth-service/                         ? Servicio auth
+�
++-- ?? logs/ (ser� creado)
+    +-- backend/
+    +-- nginx/
 ```
 
 ---
 
-## 🎯 CÓMO NAVEGAR ESTOS DOCUMENTOS
+## ?? C�MO NAVEGAR ESTOS DOCUMENTOS
 
-### Si eres el OPERADOR que hará el deploy:
+### Si eres el OPERADOR que har� el deploy:
 1. Lee: **DEPLOYMENT_GUIDE.md** (contexto)
 2. Ejecuta: **deploy-qa.sh** (automatizado)
 3. Valida con: **VERIFICACION_RAPIDA_QA.md** (checklist)
 4. Si algo falla: Refer a troubleshooting en **QA_LISTO_PARA_TESTING.md**
 
 ### Si eres el AGENTE DE TESTING:
-1. Lee: **HANDOFF_PARA_AGENTE_TESTING.md** (misión + setup)
+1. Lee: **HANDOFF_PARA_AGENTE_TESTING.md** (misi�n + setup)
 2. Valida pre-testing: **Checklist Pre-Testing** en ese mismo doc
-3. Ejecuta scenarios E2E usando **Scenarios Básicos** del handoff
+3. Ejecuta scenarios E2E usando **Scenarios B�sicos** del handoff
 4. Ejecuta load tests usando **Scripts de Carga** del handoff
-5. Si falla algo: Usa **Troubleshooting Rápido** del handoff
+5. Si falla algo: Usa **Troubleshooting R�pido** del handoff
 
 ### Si eres PROJECT MANAGER o STAKEHOLDER:
-1. Lee: **FASE_7_RESUMEN_COMPLETACION.md** (visión general)
+1. Lee: **FASE_7_RESUMEN_COMPLETACION.md** (visi�n general)
 2. Verifica: Tabla de **Entregables Completados**
 3. Chequea: **Estado de Cumplimiento por Fase** (1-7: 100%)
-4. Aprueba transición a Fase 8: Testing E2E
+4. Aprueba transici�n a Fase 8: Testing E2E
 
 ### Si eres AGENTE BACKEND (fix bugs):
-1. Lee: **HANDOFF_PARA_AGENTE_TESTING.md** → Sección "Issues" + "Logs"
+1. Lee: **HANDOFF_PARA_AGENTE_TESTING.md** ? Secci�n "Issues" + "Logs"
 2. Accede a QA: Usa URLs y credenciales del handoff
 3. Reproduce bug en QA usando instrucciones en **Troubleshooting**
-4. Checkea logs con comandos en **Cómo ver logs**
+4. Checkea logs con comandos en **C�mo ver logs**
 
 ### Si eres AGENTE SECURITY (validar):
 1. Lee: **NGINX_SECURITY_GUIDE.md** (config)
-2. Lee: **HANDOFF_PARA_AGENTE_TESTING.md** → Sección "Pruebas de Seguridad"
+2. Lee: **HANDOFF_PARA_AGENTE_TESTING.md** ? Secci�n "Pruebas de Seguridad"
 3. Ejecuta security tests (headers, rate limiting, injection, TLS)
 4. Reporta vulnerabilidades si encuentra
 
 ---
 
-## ✅ CHECKLIST DE COMPLETACIÓN FASE 7
+## ? CHECKLIST DE COMPLETACI�N FASE 7
 
 - [x] Infraestructura QA validada (docker-compose-qa.yml, nginx.conf)
-- [x] Configuración QA creada (.env.qa)
+- [x] Configuraci�n QA creada (.env.qa)
 - [x] Script de despliegue automatizado (deploy-qa.sh)
-- [x] Documentación de testing creada (HANDOFF_PARA_AGENTE_TESTING.md)
-- [x] Documentación de acceso creada (QA_LISTO_PARA_TESTING.md)
-- [x] Verificación post-deploy documentada (VERIFICACION_RAPIDA_QA.md)
-- [x] Resumen de completación creado (FASE_7_RESUMEN_COMPLETACION.md)
-- [x] Este índice creado (INDICE_DOCUMENTOS_FASE_7.md)
+- [x] Documentaci�n de testing creada (HANDOFF_PARA_AGENTE_TESTING.md)
+- [x] Documentaci�n de acceso creada (QA_LISTO_PARA_TESTING.md)
+- [x] Verificaci�n post-deploy documentada (VERIFICACION_RAPIDA_QA.md)
+- [x] Resumen de completaci�n creado (FASE_7_RESUMEN_COMPLETACION.md)
+- [x] Este �ndice creado (INDICE_DOCUMENTOS_FASE_7.md)
 - [x] Todas las URLs documentadas
 - [x] Todas las credenciales documentadas
 - [x] Troubleshooting incluido
 - [x] Handoff a Testing formalizado
 
-**Total**: 12/12 ✅
+**Total**: 12/12 ?
 
 ---
 
-## 📊 ESTADÍSTICAS
+## ?? ESTAD�STICAS
 
-| Métrica | Valor |
+| M�trica | Valor |
 |---|---|
 | **Documentos creados en Fase 7** | 5 |
-| **Archivos de configuración nuevos** | 2 |
-| **Líneas de documentación nuevas** | ~1,500+ |
-| **Líneas de código nuevas** | ~250 (bash) |
+| **Archivos de configuraci�n nuevos** | 2 |
+| **L�neas de documentaci�n nuevas** | ~1,500+ |
+| **L�neas de c�digo nuevas** | ~250 (bash) |
 | **Archivos validados de Fase 6** | 6 |
 | **Credenciales de prueba documentadas** | 4 roles |
 | **Scenarios E2E documentados** | 5+ |
-| **Pasos de validación post-deploy** | 10 |
+| **Pasos de validaci�n post-deploy** | 10 |
 | **Comandos troubleshooting incluidos** | 20+ |
 
 ---
 
-## 🚀 PRÓXIMA FASE (Fase 8 - Testing)
+## ?? PR�XIMA FASE (Fase 8 - Testing)
 
 **Responsable**: Agente Testing  
 **Documentos necesarios**: 
-- ✅ HANDOFF_PARA_AGENTE_TESTING.md (TODO listo)
-- ✅ QA_LISTO_PARA_TESTING.md (TODO listo)
+- ? HANDOFF_PARA_AGENTE_TESTING.md (TODO listo)
+- ? QA_LISTO_PARA_TESTING.md (TODO listo)
 
 **Tareas principales**:
 - [ ] Suite E2E (Cypress/Selenium)
@@ -264,12 +264,12 @@ c:\proyectos\oj\
 **Criterio de "Listo para Prod"**:
 - E2E 100% pasando
 - Load: p95 < 200ms
-- Security: 0 vulnerabilidades críticas
-- Documentación completada
+- Security: 0 vulnerabilidades cr�ticas
+- Documentaci�n completada
 
 ---
 
-## 📞 CONTACTOS POR ROL
+## ?? CONTACTOS POR ROL
 
 | Rol | Contacto | Disponibilidad |
 |---|---|---|
@@ -282,20 +282,20 @@ c:\proyectos\oj\
 
 ---
 
-## 📝 HISTORIAL DE CAMBIOS
+## ?? HISTORIAL DE CAMBIOS
 
 ### Fase 7 (Mayo 2026)
-- ✅ Creado .env.qa
-- ✅ Creado deploy-qa.sh
-- ✅ Creado QA_LISTO_PARA_TESTING.md
-- ✅ Creado HANDOFF_PARA_AGENTE_TESTING.md
-- ✅ Creado VERIFICACION_RAPIDA_QA.md
-- ✅ Creado FASE_7_RESUMEN_COMPLETACION.md
-- ✅ Creado INDICE_DOCUMENTOS_FASE_7.md
+- ? Creado .env.qa
+- ? Creado deploy-qa.sh
+- ? Creado QA_LISTO_PARA_TESTING.md
+- ? Creado HANDOFF_PARA_AGENTE_TESTING.md
+- ? Creado VERIFICACION_RAPIDA_QA.md
+- ? Creado FASE_7_RESUMEN_COMPLETACION.md
+- ? Creado INDICE_DOCUMENTOS_FASE_7.md
 
 ---
 
-## 🎓 PARA APRENDER MÁS
+## ?? PARA APRENDER M�S
 
 **Sobre Docker Compose**:
 - docs.docker.com/compose/
@@ -318,8 +318,8 @@ c:\proyectos\oj\
 **Fecha**: Mayo 2026  
 **Proyecto**: SGED  
 **Fase**: 7 de 7  
-**Status**: ✅ COMPLETADA  
+**Status**: ? COMPLETADA  
 
 ---
 
-**¡FASE 7 COMPLETADA! QA ESTÁ LISTO PARA TESTING E2E** 🚀
+**�FASE 7 COMPLETADA! QA EST� LISTO PARA TESTING E2E** ??

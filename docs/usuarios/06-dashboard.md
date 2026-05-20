@@ -71,11 +71,11 @@ Si esta funcionalidad esta disponible en su version del sistema, aproveche estos
 
 ## Permisos del panel principal
 
-| Accion | ADMIN | SECRETARIO | AUXILIAR | CONSULTA |
-|--------|:-----:|:----------:|:--------:|:--------:|
-| Ver el panel principal | Si | Si | Si | Si |
-| Ver todos los indicadores | Si | Si | Si | Si |
-| Acceder a modulos desde el panel | Si | Si | Si | Si |
+| Accion | ADMIN | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
+|--------|:-----:|:----------:|:--------:|:----:|:--------:|
+| Ver el panel principal | Si | Si | Si | Si | Si |
+| Ver todos los indicadores | Si | Si | Si | Si | Si |
+| Acceder a modulos desde el panel | Si | Si | Si | Si | Si |
 
 > [!NOTE]
 > Todos los roles tienen acceso al panel principal. Sin embargo, los valores que muestran los indicadores pueden variar segun los permisos de cada rol: algunos roles podrian ver unicamente los expedientes o documentos a los que tienen acceso.

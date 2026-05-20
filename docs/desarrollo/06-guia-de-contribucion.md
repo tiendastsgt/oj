@@ -1,9 +1,9 @@
 ---
 Documento: GUIA_DE_CONTRIBUCION
 Proyecto: SGED
-Versión del sistema: v1.3.0
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versión del sistema: v1.5.0
+Versión del documento: 1.1
+Última actualización: 2026-05-19
 Estado: Vigente
 ---
 
@@ -394,17 +394,28 @@ log.error("Error al procesar expediente", e);
 
 6. **Constructor injection obligatorio**: No usar `@Autowired` en campos. Los beans se inyectan siempre por constructor.
 
-### Reglas del Frontend TypeScript
+### Reglas del Frontend TypeScript (Angular 21)
 
-1. **Tipos estrictos**: Prohibido el uso de `any`. Todo debe estar tipado con interfaces en `core/models/`.
+1. **Signals como única fuente de verdad**: Prohibido usar RxJS `BehaviorSubject` para el estado de la UI. Todo el estado (incluyendo el del DTO) debe ser gestionado usando Signals nativos (`signal`, `computed`).
 
-2. **Unsubscribe obligatorio**: Usar `takeUntilDestroyed()` de Angular o gestionar la desuscripción manualmente para evitar memory leaks.
+2. **Manejo de HTTP**: Utilizar el nuevo primitivo `httpResource` para las peticiones de sólo lectura (GET) en lugar de `HttpClient.get()` cuando sea posible. Para mutaciones (POST, PUT, DELETE), seguir utilizando los servicios con `HttpClient`.
 
-3. **Operaciones async en servicios**: La lógica HTTP pertenece a los servicios, no a los componentes. Los componentes solo llaman a servicios y reaccionan a observables.
+3. **Sin Zona (Zoneless)**: Todo componente nuevo debe estar adaptado a un entorno Zoneless (`provideExperimentalZonelessChangeDetection()`). Evitar cualquier dependencia en `Zone.js`.
 
-4. **PrimeNG para todos los componentes de UI**: No crear componentes de UI desde cero. Usar y componer componentes de PrimeNG existentes.
+4. **Patrón DTO-Service**: 
+   - El estado reside exclusivamente en el archivo `*.dto.ts`.
+   - La lógica (mutaciones, API calls) reside en el `*.service.ts`.
+   - El componente (`*.component.ts`) es puramente orquestador.
 
-5. **Sin estilos globales innecesarios**: Los estilos van en el `.scss` del componente correspondiente. Evitar modificar `styles.scss` global.
+5. **Identidad Institucional Obligatoria**: 
+   - El CSS reset/estilos de PrimeNG genérico están sobreecritos. 
+   - **TODOS** los componentes deben estar envueltos bajo el namespace `.oj-theme` y consumir las variables nativas (CSS custom properties) declaradas en `src/assets/oj/oj-tokens.css`. 
+   - Prohibido el uso de TailwindCSS o frameworks de utilidades ajenos.
+   - El cascarón visual (Shell) principal debe instanciarse mediante el componente compartido `OjShellComponent`.
+
+6. **Componentes PrimeNG**: No crear componentes de UI desde cero si PrimeNG ya lo provee. Adaptarlos mediante `oj-tokens.css`.
+
+7. **Tipos estrictos**: Prohibido el uso de `any`. Todo debe estar tipado con interfaces en `core/models/` o `*.types.ts`.
 
 ### Reglas de Base de Datos
 

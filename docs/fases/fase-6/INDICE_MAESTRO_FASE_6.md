@@ -1,64 +1,64 @@
-Ôªø---
+---
 Documento: INDICE_MAESTRO_FASE_6
 Proyecto: SGED
-Versi√≥n del sistema: v1.2.4
-Versi√≥n del documento: 1.0
-√öltima actualizaci√≥n: 2026-05-03
+VersiÛn del sistema: v1.2.4
+VersiÛn del documento: 1.0
+⁄ltima actualizaciÛn: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ‚úÖ Vigente
+Estado: ? Vigente
 ---
 
-# üìö √çNDICE MAESTRO - SGED FASE 6
+# ?? ÕNDICE MAESTRO - SGED FASE 6
 
-**√öltima actualizaci√≥n**: Mayo 2026
-**Estado**: ‚úÖ COMPLETADA
+**⁄ltima actualizaciÛn**: Mayo 2026
+**Estado**: ? COMPLETADA
 
 ---
 
-## üéØ DOCUMENTOS POR AUDIENCIA
+## ?? DOCUMENTOS POR AUDIENCIA
 
-### üëî Para Gerencia / Management
+### ?? Para Gerencia / Management
 
-**‚Üí [`FASE_6_INFORME_EJECUTIVO.md`](FASE_6_INFORME_EJECUTIVO.md)**
-- Resumen de entregas y caracter√≠sticas
-- Validaci√≥n pre-producci√≥n
-- Pr√≥ximos pasos
+**? [`FASE_6_INFORME_EJECUTIVO.md`](FASE_6_INFORME_EJECUTIVO.md)**
+- Resumen de entregas y caracterÌsticas
+- ValidaciÛn pre-producciÛn
+- PrÛximos pasos
 - Contactos
 
-**‚Üí [`FASE_6_RESUMEN_CONSOLIDADO.md`](FASE_6_RESUMEN_CONSOLIDADO.md)**
+**? [`FASE_6_RESUMEN_CONSOLIDADO.md`](FASE_6_RESUMEN_CONSOLIDADO.md)**
 - Resumen global de Fase 6
-- Estad√≠sticas clave
-- Matriz de verificaci√≥n
+- EstadÌsticas clave
+- Matriz de verificaciÛn
 - Lecciones aprendidas
 
-**‚Üí [`FASE_6_COMPLETADA.md`](FASE_6_COMPLETADA.md)**
-- Confirmaci√≥n de entrega
+**? [`FASE_6_COMPLETADA.md`](FASE_6_COMPLETADA.md)**
+- ConfirmaciÛn de entrega
 - Checklist de cumplimiento
 - Status final
 
 ---
 
-### üîß Para DevOps / On-Call
+### ?? Para DevOps / On-Call
 
-**INICIO R√ÅPIDO** (empezar aqu√≠ si levanta servidor)
-‚Üí [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md)
+**INICIO R¡PIDO** (empezar aquÌ si levanta servidor)
+? [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md)
 - Health check
 - Ver logs
 - Restart servicios
-- Troubleshooting r√°pido
+- Troubleshooting r·pido
 - Contactos de emergencia
 
 **REFERENCIA COMPLETA**
-‚Üí [`README_INFRAESTRUCTURA.md`](README_INFRAESTRUCTURA.md)
+? [`README_INFRAESTRUCTURA.md`](README_INFRAESTRUCTURA.md)
 - Estructura de archivos
-- Inicio r√°pido (dev, QA, Prod)
+- Inicio r·pido (dev, QA, Prod)
 - Comandos comunes
-- Configuraci√≥n de entornos
+- ConfiguraciÛn de entornos
 - Troubleshooting detallado
 
-**DESPLIEGUE Y CONFIGURACI√ìN**
-‚Üí [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md)
-- Paso a paso QA/Producci√≥n
+**DESPLIEGUE Y CONFIGURACI”N**
+? [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md)
+- Paso a paso QA/ProducciÛn
 - Pre-despliegue
 - Validaciones
 - Troubleshooting extendido
@@ -66,81 +66,81 @@ Estado: ‚úÖ Vigente
 
 ---
 
-### üîê Para Seguridad / SecOps
+### ?? Para Seguridad / SecOps
 
-**CONFIGURACI√ìN NGINX Y TLS**
-‚Üí [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md)
+**CONFIGURACI”N NGINX Y TLS**
+? [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md)
 - Generar certificados (autofirmado + Let's Encrypt)
 - Headers de seguridad (HSTS, CSP, X-Frame-Options, etc.)
 - Rate limiting
-- Protecci√≥n de rutas
+- ProtecciÛn de rutas
 - Logging y monitoreo
-- Checklist pre-producci√≥n
+- Checklist pre-producciÛn
 
-**GESTI√ìN DE SECRETOS**
-‚Üí [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md)
-- Principios de gesti√≥n de secretos
+**GESTI”N DE SECRETOS**
+? [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md)
+- Principios de gestiÛn de secretos
 - GitHub Secrets
 - HashiCorp Vault
 - AWS Secrets Manager
-- Rotaci√≥n autom√°tica
-- Auditor√≠a de acceso
+- RotaciÛn autom·tica
+- AuditorÌa de acceso
 
 ---
 
-### üë®‚Äçüíª Para Desarrolladores
+### ????? Para Desarrolladores
 
-**TRANSICI√ìN ENTRE ENTORNOS**
-‚Üí [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md)
+**TRANSICI”N ENTRE ENTORNOS**
+? [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md)
 - Ciclo de desarrollo (dev local)
-- C√≥mo promover a QA
-- C√≥mo promover a Producci√≥n
+- CÛmo promover a QA
+- CÛmo promover a ProducciÛn
 - Testing en cada etapa
 - Rollback en emergencia
-- Checklist de transici√≥n
+- Checklist de transiciÛn
 
 **INICIO LOCAL**
-‚Üí [`README_INFRAESTRUCTURA.md`](README_INFRAESTRUCTURA.md#inicio-r√°pido)
+? [`README_INFRAESTRUCTURA.md`](README_INFRAESTRUCTURA.md#inicio-r·pido)
 - Comandos Maven/npm
 - Environment variables
 - Docker Compose local
 
 ---
 
-### üìã Para Auditor√≠a / QA
+### ?? Para AuditorÌa / QA
 
-**VALIDACI√ìN EXHAUSTIVA**
-‚Üí [`FASE_6_CHECKLIST_VALIDACION.md`](FASE_6_CHECKLIST_VALIDACION.md)
+**VALIDACI”N EXHAUSTIVA**
+? [`FASE_6_CHECKLIST_VALIDACION.md`](FASE_6_CHECKLIST_VALIDACION.md)
 - Pre-despliegue (Infraestructura, Backend, Frontend, NGINX, Docker)
 - Despliegue (levantamiento, health checks, seguridad, funcionalidad)
-- Post-despliegue (documentaci√≥n, backups, monitoreo)
-- Producci√≥n (pre/durante/post)
+- Post-despliegue (documentaciÛn, backups, monitoreo)
+- ProducciÛn (pre/durante/post)
 - Sign-off de roles
 
 **RESUMEN VISUAL**
-‚Üí [`FASE_6_RESUMEN_VISUAL.md`](FASE_6_RESUMEN_VISUAL.md)
+? [`FASE_6_RESUMEN_VISUAL.md`](FASE_6_RESUMEN_VISUAL.md)
 - Estructura de archivos visual
 - Matriz de seguridad
 - Pipeline CI/CD
 - Stack de componentes
-- Comandos r√°pidos
+- Comandos r·pidos
 
 ---
 
-## üìÅ ARCHIVOS DE CONFIGURACI√ìN
+## ?? ARCHIVOS DE CONFIGURACI”N
 
 ### NGINX
 
-**`nginx/nginx.conf`** (350+ l√≠neas)
-- Configuraci√≥n para QA
-- HTTP ‚Üí HTTPS redirect
+**`nginx/nginx.conf`** (350+ lÌneas)
+- ConfiguraciÛn para QA
+- HTTP ? HTTPS redirect
 - TLS + headers de seguridad
 - Rate limiting
 - Reverse proxy
 - Servicio de frontend
 
-**`nginx/nginx-prod.conf`** (350+ l√≠neas)
-- Configuraci√≥n para Producci√≥n
+**`nginx/nginx-prod.conf`** (350+ lÌneas)
+- ConfiguraciÛn para ProducciÛn
 - OCSP Stapling
 - Ciphers optimizados
 - Cache agresivo
@@ -152,16 +152,16 @@ Estado: ‚úÖ Vigente
 
 ### Docker
 
-**`docker-compose-qa.yml`** (100+ l√≠neas)
+**`docker-compose-qa.yml`** (100+ lÌneas)
 - Stack QA completo
 - NGINX + Backend + Frontend + BD
 - Certificados autofirmados
 - Desarrollo/testing
 
-**`docker-compose-prod.yml`** (150+ l√≠neas)
-- Stack Producci√≥n
+**`docker-compose-prod.yml`** (150+ lÌneas)
+- Stack ProducciÛn
 - Secretos desde Vault
-- L√≠mites de recursos
+- LÌmites de recursos
 - Logging remoto
 - Restart: always
 
@@ -190,85 +190,85 @@ Estado: ‚úÖ Vigente
 - Valores de testing
 
 **`.env.prod`**
-- Producci√≥n (en Vault/GitHub Secrets)
-- Valores de producci√≥n
+- ProducciÛn (en Vault/GitHub Secrets)
+- Valores de producciÛn
 
 ---
 
-## üìñ DOCUMENTOS T√âCNICOS
+## ?? DOCUMENTOS T…CNICOS
 
 ### Seguridad
 
-| Documento | Prop√≥sito | Lectores |
+| Documento | PropÛsito | Lectores |
 |-----------|-----------|----------|
-| [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md) | C√≥mo configurar TLS, headers, rate limiting | SecOps, DevOps |
-| [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md) | Gesti√≥n de credenciales y secretos | DevOps, SecOps |
+| [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md) | CÛmo configurar TLS, headers, rate limiting | SecOps, DevOps |
+| [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md) | GestiÛn de credenciales y secretos | DevOps, SecOps |
 
 ### Operaciones
 
-| Documento | Prop√≥sito | Lectores |
+| Documento | PropÛsito | Lectores |
 |-----------|-----------|----------|
 | [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) | Paso a paso QA/Prod | DevOps, Release Manager |
 | [`README_INFRAESTRUCTURA.md`](README_INFRAESTRUCTURA.md) | Referencia completa | DevOps, Desarrolladores |
 | [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md) | Checklist de on-call | On-call, DevOps |
-| [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md) | Dev ‚Üí QA ‚Üí Prod | Developers, DevOps |
+| [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md) | Dev ? QA ? Prod | Developers, DevOps |
 
 ### Informes
 
-| Documento | Prop√≥sito | Lectores |
+| Documento | PropÛsito | Lectores |
 |-----------|-----------|----------|
 | [`FASE_6_INFORME_EJECUTIVO.md`](FASE_6_INFORME_EJECUTIVO.md) | Resumen ejecutivo | Gerencia, PMs |
-| [`FASE_6_CHECKLIST_VALIDACION.md`](FASE_6_CHECKLIST_VALIDACION.md) | Validaci√≥n pre/post deploy | QA, DevOps |
+| [`FASE_6_CHECKLIST_VALIDACION.md`](FASE_6_CHECKLIST_VALIDACION.md) | ValidaciÛn pre/post deploy | QA, DevOps |
 | [`FASE_6_RESUMEN_VISUAL.md`](FASE_6_RESUMEN_VISUAL.md) | Diagramas y matrices | Todos |
-| [`INDICE_FASE_6.md`](INDICE_FASE_6.md) | √çndice de entrega | Todos |
+| [`INDICE_FASE_6.md`](INDICE_FASE_6.md) | Õndice de entrega | Todos |
 | [`FASE_6_RESUMEN_CONSOLIDADO.md`](FASE_6_RESUMEN_CONSOLIDADO.md) | Resumen completo | Orquestador |
-| [`FASE_6_COMPLETADA.md`](FASE_6_COMPLETADA.md) | Confirmaci√≥n de entrega | Orquestador |
+| [`FASE_6_COMPLETADA.md`](FASE_6_COMPLETADA.md) | ConfirmaciÛn de entrega | Orquestador |
 
 ---
 
-## üîç C√ìMO ENCONTRAR LO QUE NECESITAS
+## ?? C”MO ENCONTRAR LO QUE NECESITAS
 
 ### "Necesito levantar SGED en QA ahora"
-‚Üí [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) - Secci√≥n QA
+? [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md) - SecciÛn QA
 
 ### "Me pidieron que configure HTTPS"
-‚Üí [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md) - Secci√≥n 1-2
+? [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md) - SecciÛn 1-2
 
 ### "El backend da 502 Bad Gateway"
-‚Üí [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md#troubleshooting-r√°pido)
+? [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md#troubleshooting-r·pido)
 
 ### "Necesito rotar secretos"
-‚Üí [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md) - Secci√≥n 7
+? [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md) - SecciÛn 7
 
-### "Quiero promover a Producci√≥n"
-‚Üí [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md) - Secci√≥n 3
+### "Quiero promover a ProducciÛn"
+? [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md) - SecciÛn 3
 
 ### "Necesito validar pre-despliegue"
-‚Üí [`FASE_6_CHECKLIST_VALIDACION.md`](FASE_6_CHECKLIST_VALIDACION.md)
+? [`FASE_6_CHECKLIST_VALIDACION.md`](FASE_6_CHECKLIST_VALIDACION.md)
 
 ### "Quiero un resumen ejecutivo"
-‚Üí [`FASE_6_INFORME_EJECUTIVO.md`](FASE_6_INFORME_EJECUTIVO.md)
+? [`FASE_6_INFORME_EJECUTIVO.md`](FASE_6_INFORME_EJECUTIVO.md)
 
-### "Necesito comandos r√°pidos"
-‚Üí [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md)
+### "Necesito comandos r·pidos"
+? [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md)
 
 ---
 
-## üìä ESTAD√çSTICAS DE ENTREGA
+## ?? ESTADÕSTICAS DE ENTREGA
 
-| Categor√≠a | Cantidad |
+| CategorÌa | Cantidad |
 |-----------|----------|
-| **Archivos de configuraci√≥n** | 4 |
-| **Documentos t√©cnicos** | 2 |
-| **Gu√≠as operativas** | 4 |
-| **Informes/an√°lisis** | 5 |
+| **Archivos de configuraciÛn** | 4 |
+| **Documentos tÈcnicos** | 2 |
+| **GuÌas operativas** | 4 |
+| **Informes/an·lisis** | 5 |
 | **Total de documentos** | **15** |
-| **L√≠neas de c√≥digo** | **1,500+** |
-| **L√≠neas de documentaci√≥n** | **10,000+** |
+| **LÌneas de cÛdigo** | **1,500+** |
+| **LÌneas de documentaciÛn** | **10,000+** |
 
 ---
 
-## ‚úÖ CHECKLIST DE LECTURA
+## ? CHECKLIST DE LECTURA
 
 ### Para DevOps (antes de desplegar)
 
@@ -277,13 +277,13 @@ Estado: ‚úÖ Vigente
 - [ ] Leer: [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md)
 - [ ] Tener a mano: [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md)
 
-### Para Gerencia (visi√≥n general)
+### Para Gerencia (visiÛn general)
 
 - [ ] Leer: [`FASE_6_INFORME_EJECUTIVO.md`](FASE_6_INFORME_EJECUTIVO.md)
 - [ ] Ver: [`FASE_6_RESUMEN_VISUAL.md`](FASE_6_RESUMEN_VISUAL.md)
 - [ ] Revisar: [`FASE_6_COMPLETADA.md`](FASE_6_COMPLETADA.md)
 
-### Para QA/Auditor√≠a (validaci√≥n)
+### Para QA/AuditorÌa (validaciÛn)
 
 - [ ] Usar: [`FASE_6_CHECKLIST_VALIDACION.md`](FASE_6_CHECKLIST_VALIDACION.md)
 - [ ] Revisar: [`FASE_6_RESUMEN_VISUAL.md`](FASE_6_RESUMEN_VISUAL.md)
@@ -295,31 +295,31 @@ Estado: ‚úÖ Vigente
 
 ---
 
-## üöÄ PASOS SIGUIENTES
+## ?? PASOS SIGUIENTES
 
-1. **Leer el documento apropiado** seg√∫n tu rol (ver arriba)
-2. **Revisar la configuraci√≥n** (nginx.conf, docker-compose-*.yml)
-3. **Ejecutar el checklist** de validaci√≥n
-4. **Desplegar en QA** siguiendo la gu√≠a
-5. **Monitorear** usando la gu√≠a de operaciones
+1. **Leer el documento apropiado** seg˙n tu rol (ver arriba)
+2. **Revisar la configuraciÛn** (nginx.conf, docker-compose-*.yml)
+3. **Ejecutar el checklist** de validaciÛn
+4. **Desplegar en QA** siguiendo la guÌa
+5. **Monitorear** usando la guÌa de operaciones
 
 ---
 
-## üìû SOPORTE
+## ?? SOPORTE
 
 | Pregunta | Respuesta |
 |----------|-----------|
-| ¬øC√≥mo inicio SGED localmente? | [`README_INFRAESTRUCTURA.md`](README_INFRAESTRUCTURA.md#inicio-r√°pido) |
-| ¬øC√≥mo configuro HTTPS? | [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md) |
-| ¬øC√≥mo despliego a QA? | [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md#2-despliegue-en-qa) |
-| ¬øC√≥mo despliego a Prod? | [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md#3-despliegue-en-producci√≥n) |
-| ¬øQu√© hacer si hay 502? | [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md#troubleshooting-r√°pido) |
-| ¬øC√≥mo rotar secretos? | [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md#7-rotaci√≥n-de-secretos) |
-| ¬øC√≥mo es el ciclo completo? | [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md) |
+| øCÛmo inicio SGED localmente? | [`README_INFRAESTRUCTURA.md`](README_INFRAESTRUCTURA.md#inicio-r·pido) |
+| øCÛmo configuro HTTPS? | [`NGINX_SECURITY_GUIDE.md`](NGINX_SECURITY_GUIDE.md) |
+| øCÛmo despliego a QA? | [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md#2-despliegue-en-qa) |
+| øCÛmo despliego a Prod? | [`DEPLOYMENT_GUIDE.md`](DEPLOYMENT_GUIDE.md#3-despliegue-en-producciÛn) |
+| øQuÈ hacer si hay 502? | [`OPERACIONES_DIARIAS_QUICK_REFERENCE.md`](OPERACIONES_DIARIAS_QUICK_REFERENCE.md#troubleshooting-r·pido) |
+| øCÛmo rotar secretos? | [`SECRETS_MANAGEMENT.md`](SECRETS_MANAGEMENT.md#7-rotaciÛn-de-secretos) |
+| øCÛmo es el ciclo completo? | [`GUIA_TRANSICION_ENTORNOS.md`](GUIA_TRANSICION_ENTORNOS.md) |
 
 ---
 
-## üéì REFERENCIAS
+## ?? REFERENCIAS
 
 - [OWASP Secure Headers](https://owasp.org/www-project-secure-headers/)
 - [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/)
@@ -337,4 +337,4 @@ Estado: ‚úÖ Vigente
 
 ---
 
-**ESTADO**: ‚úÖ **COMPLETADO Y LISTO PARA USAR**
+**ESTADO**: ? **COMPLETADO Y LISTO PARA USAR**

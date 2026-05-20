@@ -1,19 +1,19 @@
-﻿---
+---
 Documento: QUICK_START_PRUEBAS
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 🧪 QUICK START: Prueba el Sistema Ahora
+# ?? QUICK START: Prueba el Sistema Ahora
 
-## ⚡ Test en 5 Minutos (Opción Simple)
+## ? Test en 5 Minutos (Opci�n Simple)
 
 ```bash
-# 1. Ve a la raíz del proyecto
+# 1. Ve a la ra�z del proyecto
 cd c:\proyectos\oj
 
 # 2. Prepara variables de entorno (PowerShell)
@@ -36,11 +36,11 @@ curl http://localhost:8080/api/v1/health
 # Esperado: {"status":"UP","database":"Oracle"}
 ```
 
-✅ **¡Listo!** El sistema está corriendo.
+? **�Listo!** El sistema est� corriendo.
 
 ---
 
-## 🔐 Test de Secrets en 10 Minutos
+## ?? Test de Secrets en 10 Minutos
 
 ### Paso 1: Crear archivos de secrets
 
@@ -58,7 +58,7 @@ echo "sged-qa-jwt-secret-key-32-chars" > ./secrets/jwt_secret.txt
 
 ### Paso 2: Modificar docker-compose-qa.yml
 
-En la sección `sged-backend.environment`, cambiar:
+En la secci�n `sged-backend.environment`, cambiar:
 
 ```yaml
 # DE:
@@ -74,7 +74,7 @@ secrets:
   - db_password
   - jwt_secret
 
-# Y al final del archivo, después de networks:
+# Y al final del archivo, despu�s de networks:
 secrets:
   db_password:
     file: ./secrets/db_password.txt
@@ -93,18 +93,18 @@ docker-compose -f docker-compose-qa.yml up -d
 
 # Ver logs
 docker logs -f sged-backend-qa
-# Deberías ver: [SECRETS] Loaded DB_PASSWORD from file...
+# Deber�as ver: [SECRETS] Loaded DB_PASSWORD from file...
 
 # Validar
 curl http://localhost:8080/api/v1/health
 # {"status":"UP","database":"Oracle"}
 ```
 
-✅ **¡Secrets cargados correctamente!**
+? **�Secrets cargados correctamente!**
 
 ---
 
-## 🔓 Test de Login (15 minutos)
+## ?? Test de Login (15 minutos)
 
 ```bash
 # 1. Obtener token JWT
@@ -138,21 +138,21 @@ curl -X GET http://localhost:8080/api/v1/expedientes \
   -H "Authorization: Bearer $TOKEN" \
   | jq '.data | .[0:2]'
 
-# 4. Intentar acceder sin token (debería fallar)
+# 4. Intentar acceder sin token (deber�a fallar)
 curl -X GET http://localhost:8080/api/v1/expedientes
 # Esperado: 401 Unauthorized
 
-# 5. Intentar acceder con token inválido (debería fallar)
+# 5. Intentar acceder con token inv�lido (deber�a fallar)
 curl -X GET http://localhost:8080/api/v1/expedientes \
   -H "Authorization: Bearer invalid-token"
 # Esperado: 401 Unauthorized
 ```
 
-✅ **¡JWT funcionando correctamente!**
+? **�JWT funcionando correctamente!**
 
 ---
 
-## 📋 Test de Operaciones CRUD (20 minutos)
+## ?? Test de Operaciones CRUD (20 minutos)
 
 ```bash
 # Usar el TOKEN de antes
@@ -176,7 +176,7 @@ RESPONSE=$(curl -s -X POST http://localhost:8080/api/v1/expedientes \
 EXPEDIENTE_ID=$(echo $RESPONSE | jq -r '.id')
 echo "Expediente creado con ID: $EXPEDIENTE_ID"
 
-# 3. OBTENER expediente específico
+# 3. OBTENER expediente espec�fico
 curl -s -X GET http://localhost:8080/api/v1/expedientes/$EXPEDIENTE_ID \
   -H "Authorization: Bearer $TOKEN" | jq '.numero'
 
@@ -186,7 +186,7 @@ curl -s -X PUT http://localhost:8080/api/v1/expedientes/$EXPEDIENTE_ID \
   -H "Content-Type: application/json" \
   -d '{
     "descripcion": "Expediente actualizado",
-    "estado": "EN_REVISIÓN"
+    "estado": "EN_REVISI�N"
   }' | jq '.estado'
 
 # 5. BUSCAR expedientes
@@ -199,11 +199,11 @@ curl -s -X POST http://localhost:8080/api/v1/expedientes/search \
   }' | jq '.data | length'
 ```
 
-✅ **¡CRUD funcionando correctamente!**
+? **�CRUD funcionando correctamente!**
 
 ---
 
-## 📄 Test de Documentos (25 minutos)
+## ?? Test de Documentos (25 minutos)
 
 ```bash
 TOKEN=$(...)
@@ -224,7 +224,7 @@ echo "Documento subido con ID: $DOCUMENTO_ID"
 curl -s -X GET "http://localhost:8080/api/v1/expedientes/1/documentos" \
   -H "Authorization: Bearer $TOKEN" | jq '.data | length'
 
-# 4. OBTENER información del documento
+# 4. OBTENER informaci�n del documento
 curl -s -X GET http://localhost:8080/api/v1/documentos/$DOCUMENTO_ID/info \
   -H "Authorization: Bearer $TOKEN" | jq '.nombre'
 
@@ -233,16 +233,16 @@ curl -s -X GET http://localhost:8080/api/v1/documentos/$DOCUMENTO_ID/download \
   -H "Authorization: Bearer $TOKEN" \
   -o downloaded-document.txt
 
-# 6. Verificar que se descargó correctamente
+# 6. Verificar que se descarg� correctamente
 cat downloaded-document.txt
-# Debería mostrar: "Este es un documento de prueba"
+# Deber�a mostrar: "Este es un documento de prueba"
 ```
 
-✅ **¡Gestión de documentos funcionando!**
+? **�Gesti�n de documentos funcionando!**
 
 ---
 
-## 🔍 Test de Búsqueda (30 minutos)
+## ?? Test de B�squeda (30 minutos)
 
 ```bash
 TOKEN=$(...)
@@ -267,7 +267,7 @@ curl -s -X POST http://localhost:8080/api/v1/expedientes/search \
   -d '{
     "query": "EXP",
     "filters": {
-      "estado": ["ACTIVO", "EN_REVISIÓN"],
+      "estado": ["ACTIVO", "EN_REVISI�N"],
       "juzgado": "1er Juzgado",
       "fechaDesde": "2025-01-01",
       "fechaHasta": "2025-12-31"
@@ -284,42 +284,42 @@ curl -s -X POST http://localhost:8080/api/v1/expedientes/search \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"query": "*", "limit": 1}' | jq '.totalResults'
-# Debería ser > 0
+# Deber�a ser > 0
 ```
 
-✅ **¡Búsqueda full-text funcionando!**
+? **�B�squeda full-text funcionando!**
 
 ---
 
-## 📊 Test de Auditoría (35 minutos)
+## ?? Test de Auditor�a (35 minutos)
 
 ```bash
 TOKEN=$(...)
 
-# 1. Ver logs de auditoría
+# 1. Ver logs de auditor�a
 curl -s -X GET http://localhost:8080/api/v1/auditoria \
   -H "Authorization: Bearer $TOKEN" | jq '.audits | .[0:5]'
 
-# 2. Auditoría con filtros
+# 2. Auditor�a con filtros
 curl -s -X GET "http://localhost:8080/api/v1/auditoria?usuario=admin&accion=CREATE&limit=20" \
   -H "Authorization: Bearer $TOKEN" | jq '.audits | length'
 
-# 3. Validar que todas tus acciones están auditadas
-# - Login → AUD_LOGIN
-# - Create expediente → AUD_CREATE_EXPEDIENTE
-# - Upload documento → AUD_UPLOAD_DOCUMENTO
-# - Search → AUD_SEARCH
-# - Access recurso → AUD_ACCESS
+# 3. Validar que todas tus acciones est�n auditadas
+# - Login ? AUD_LOGIN
+# - Create expediente ? AUD_CREATE_EXPEDIENTE
+# - Upload documento ? AUD_UPLOAD_DOCUMENTO
+# - Search ? AUD_SEARCH
+# - Access recurso ? AUD_ACCESS
 
 curl -s -X GET "http://localhost:8080/api/v1/auditoria?limit=50" \
   -H "Authorization: Bearer $TOKEN" | jq '.audits[].accion' | sort | uniq -c
 ```
 
-✅ **¡Auditoría funcionando correctamente!**
+? **�Auditor�a funcionando correctamente!**
 
 ---
 
-## 🚨 Test de Errores y Edge Cases (45 minutos)
+## ?? Test de Errores y Edge Cases (45 minutos)
 
 ```bash
 TOKEN=$(...)
@@ -341,7 +341,7 @@ for i in {1..100}; do
   curl -s http://localhost/api/v1/health > /dev/null &
 done
 wait
-# Algunos requests deberían retornar 429 Too Many Requests
+# Algunos requests deber�an retornar 429 Too Many Requests
 
 # 4. Archivo muy grande
 dd if=/dev/zero of=large-file.bin bs=1M count=200
@@ -350,7 +350,7 @@ curl -X POST http://localhost:8080/api/v1/documentos/upload \
   -F "file=@large-file.bin"
 # Esperado: 413 Payload Too Large
 
-# 5. Datos inválidos
+# 5. Datos inv�lidos
 curl -X POST http://localhost:8080/api/v1/expedientes \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
@@ -358,11 +358,11 @@ curl -X POST http://localhost:8080/api/v1/expedientes \
 # Esperado: 400 Bad Request (validation error)
 ```
 
-✅ **¡Error handling funcionando!**
+? **�Error handling funcionando!**
 
 ---
 
-## 📈 Test de Rendimiento (60 minutos)
+## ?? Test de Rendimiento (60 minutos)
 
 ```bash
 TOKEN=$(...)
@@ -370,7 +370,7 @@ TOKEN=$(...)
 # 1. Latencia individual
 time curl -s http://localhost:8080/api/v1/health > /dev/null
 
-# 2. Latencia en múltiples requests
+# 2. Latencia en m�ltiples requests
 for i in {1..50}; do
   /usr/bin/time -p curl -s http://localhost:8080/api/v1/health > /dev/null 2>&1
 done | grep real | awk '{print $2}' | sort | uniq -c
@@ -389,103 +389,103 @@ for i in {1..1000}; do
 done
 wait
 
-# 4. Verificar memoria no se incrementó indefinidamente
+# 4. Verificar memoria no se increment� indefinidamente
 # Si viste incremento gradual, posible memory leak
 ```
 
-✅ **¡Rendimiento validado!**
+? **�Rendimiento validado!**
 
 ---
 
-## ✅ Checklist de Pruebas
+## ? Checklist de Pruebas
 
 ```
 BASIC HEALTH
-├─ [  ] curl /health → 200 UP
-├─ [  ] docker containers corriendo (3)
-└─ [  ] logs sin errores críticos
++- [  ] curl /health ? 200 UP
++- [  ] docker containers corriendo (3)
++- [  ] logs sin errores cr�ticos
 
 SECRETS
-├─ [  ] Variables directas cargadas
-├─ [  ] Variables _FILE cargadas
-├─ [  ] BD conectada (health check)
-└─ [  ] JWT válido
++- [  ] Variables directas cargadas
++- [  ] Variables _FILE cargadas
++- [  ] BD conectada (health check)
++- [  ] JWT v�lido
 
 AUTH
-├─ [  ] Login funciona
-├─ [  ] Token generado
-├─ [  ] Token válido protege recursos
-└─ [  ] Token inválido → 401
++- [  ] Login funciona
++- [  ] Token generado
++- [  ] Token v�lido protege recursos
++- [  ] Token inv�lido ? 401
 
 CRUD
-├─ [  ] GET expedientes
-├─ [  ] POST expediente nuevo
-├─ [  ] PUT expediente existente
-└─ [  ] Datos validados
++- [  ] GET expedientes
++- [  ] POST expediente nuevo
++- [  ] PUT expediente existente
++- [  ] Datos validados
 
 DOCUMENTS
-├─ [  ] Upload documento
-├─ [  ] Listar documentos
-├─ [  ] Download documento
-└─ [  ] Size limits respetados
++- [  ] Upload documento
++- [  ] Listar documentos
++- [  ] Download documento
++- [  ] Size limits respetados
 
 SEARCH
-├─ [  ] Full-text search funciona
-├─ [  ] Filtros aplican
-├─ [  ] Retorna resultados
-└─ [  ] Paginación funciona
++- [  ] Full-text search funciona
++- [  ] Filtros aplican
++- [  ] Retorna resultados
++- [  ] Paginaci�n funciona
 
 AUDIT
-├─ [  ] Todas las acciones auditadas
-├─ [  ] Logs contienen usuario
-├─ [  ] Timestamps correctos
-└─ [  ] Query logs funciona
++- [  ] Todas las acciones auditadas
++- [  ] Logs contienen usuario
++- [  ] Timestamps correctos
++- [  ] Query logs funciona
 
 SECURITY
-├─ [  ] Rate limiting activo
-├─ [  ] Size limits respetados
-├─ [  ] Token expiration funciona
-└─ [  ] CORS configurado correctamente
++- [  ] Rate limiting activo
++- [  ] Size limits respetados
++- [  ] Token expiration funciona
++- [  ] CORS configurado correctamente
 
 PERFORMANCE
-├─ [  ] p50 latencia < 200ms
-├─ [  ] p95 latencia < 500ms
-├─ [  ] No memory leaks (10min test)
-└─ [  ] CPU < 80% bajo carga
++- [  ] p50 latencia < 200ms
++- [  ] p95 latencia < 500ms
++- [  ] No memory leaks (10min test)
++- [  ] CPU < 80% bajo carga
 ```
 
 ---
 
-## 🎉 Resultado
+## ?? Resultado
 
 Si todos estos tests pasan:
 
-✅ **Sistema SGED v1.2.4 está LISTO PARA STAGING**
+? **Sistema SGED v1.2.4 est� LISTO PARA STAGING**
 
 ---
 
-## 📞 Troubleshooting Rápido
+## ?? Troubleshooting R�pido
 
-| Problema | Solución |
+| Problema | Soluci�n |
 |----------|----------|
 | `curl: (7) Failed to connect` | `docker-compose ps` - verificar contenedores corriendo |
-| `401 Unauthorized` | Token inválido o expirado, hacer nuevo login |
+| `401 Unauthorized` | Token inv�lido o expirado, hacer nuevo login |
 | `503 Service Unavailable` | BD no conectada, `docker logs sged-backend-qa` |
-| `413 Payload Too Large` | Archivo > 100MB, reducir tamaño |
-| `429 Too Many Requests` | Rate limit alcanzado, esperar o aumentar límite |
+| `413 Payload Too Large` | Archivo > 100MB, reducir tama�o |
+| `429 Too Many Requests` | Rate limit alcanzado, esperar o aumentar l�mite |
 | `500 Internal Server Error` | Error del servidor, ver logs |
 
 ---
 
 ```
-╔═════════════════════════════════════╗
-║  🚀 ¡COMIENZA A PROBAR AHORA! 🚀   ║
-║                                     ║
-║  Comando para empezar (5 min):      ║
-║  docker-compose up -d               ║
-║  curl localhost:8080/health         ║
-║                                     ║
-║  Luego sigue los tests de arriba    ║
-╚═════════════════════════════════════╝
++-------------------------------------+
+�  ?? �COMIENZA A PROBAR AHORA! ??   �
+�                                     �
+�  Comando para empezar (5 min):      �
+�  docker-compose up -d               �
+�  curl localhost:8080/health         �
+�                                     �
+�  Luego sigue los tests de arriba    �
++-------------------------------------+
 ```
 

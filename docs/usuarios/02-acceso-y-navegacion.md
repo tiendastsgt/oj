@@ -42,7 +42,7 @@ Si en algun momento ve la pantalla de inicio de sesion cuando estaba trabajando,
 
 ## 2.3 Descripcion del menu lateral
 
-Una vez dentro del sistema, el lado izquierdo de la pantalla muestra la **barra de navegacion lateral**. Esta barra contiene los accesos directos a los modulos del sistema.
+Una vez dentro del sistema, el lado izquierdo de la pantalla muestra la **barra de navegacion lateral** (Menu institucional). Esta barra se distingue por su color **Azul Cobalto** e iconografía en **Dorado Quetzal** y contiene los accesos directos a los modulos del sistema.
 
 Los elementos tipicos del menu lateral son:
 
@@ -56,17 +56,17 @@ Los elementos tipicos del menu lateral son:
 > [!NOTE]
 > El menu lateral solo muestra las opciones para las cuales su rol tiene permiso. Si no ve alguna opcion, es porque no esta habilitada para su nivel de acceso. Esto es un comportamiento normal del sistema.
 
-El menu lateral puede **colapsarse** para ganar espacio en pantalla. Para colapsarlo, haga clic en el icono de las tres lineas horizontales ubicado en la parte superior del menu. Para expandirlo nuevamente, haga clic en el mismo icono.
+El menu lateral puede **colapsarse** para ganar espacio en pantalla, dejando visible únicamente los iconos dorados. Para colapsarlo, haga clic en el icono de las tres lineas horizontales ubicado en la parte superior. Para expandirlo nuevamente, haga clic en el mismo icono.
 
 ---
 
 ## 2.4 Descripcion de la barra superior
 
-La **barra superior** (o cabecera) se encuentra en la parte alta de la pantalla y permanece visible en todo momento. Contiene:
+La **barra superior** (o cabecera) se encuentra en la parte alta de la pantalla y permanece visible en todo momento. Su diseno es minimalista (fondo papel) y contiene:
 
-- **Icono para colapsar/expandir el menu lateral** (extremo izquierdo): permite ganar espacio en pantalla.
-- **Nombre del sistema** (centro o izquierda): identificacion visual de la plataforma.
-- **Menu de perfil de usuario** (extremo derecho): muestra su nombre de usuario y contiene las opciones de cambio de contrasena y cierre de sesion.
+- **Escudo Institucional / Nombre del sistema** (centro o izquierda): identificacion visual oficial de la plataforma.
+- **Buscador global** (centro): barra de busqueda rapida en toda la base de expedientes.
+- **Menu de perfil de usuario** (extremo derecho): muestra sus iniciales o avatar, su nombre de usuario, y contiene las opciones de cambio de contrasena y cierre de sesion.
 
 ---
 
@@ -106,12 +106,12 @@ Cuando termine su jornada de trabajo o vaya a alejarse de su computadora por un 
 
 ## Permisos de acceso por rol
 
-| Accion | ADMIN | SECRETARIO | AUXILIAR | CONSULTA |
-|--------|:-----:|:----------:|:--------:|:--------:|
-| Iniciar sesion | Si | Si | Si | Si |
-| Cambiar contrasena propia | Si | Si | Si | Si |
-| Cerrar sesion | Si | Si | Si | Si |
-| Ver todas las opciones del menu | Si | No | No | No |
+| Accion | ADMIN | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
+|--------|:-----:|:----------:|:--------:|:----:|:--------:|
+| Iniciar sesion | Si | Si | Si | Si | Si |
+| Cambiar contrasena propia | Si | Si | Si | Si | Si |
+| Cerrar sesion | Si | Si | Si | Si | Si |
+| Ver todas las opciones del menu | Si | No | No | No | No |
 
 ---
 

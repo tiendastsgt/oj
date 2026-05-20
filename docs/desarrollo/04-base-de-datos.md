@@ -1,9 +1,9 @@
 ---
 Documento: BASE_DE_DATOS
 Proyecto: SGED
-Versión del sistema: v1.3.0
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versión del sistema: v1.5.0
+Versión del documento: 1.1
+Última actualización: 2026-05-19
 Estado: Vigente
 ---
 
@@ -132,6 +132,7 @@ Los seeds se insertan en las migraciones Flyway correspondientes.
 | 2 | SECRETARIO | Secretario judicial |
 | 3 | AUXILIAR | Auxiliar judicial |
 | 4 | CONSULTA | Usuario de solo consulta |
+| 5 | JUEZ | Usuario de visualización y presentación |
 
 ### cat_tipo_proceso (V010)
 

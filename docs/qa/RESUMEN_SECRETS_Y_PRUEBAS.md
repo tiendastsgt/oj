@@ -1,57 +1,57 @@
-﻿---
+---
 Documento: RESUMEN_SECRETS_Y_PRUEBAS
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
-# 🎯 RESUMEN: Inyección de Secrets + Pruebas del Sistema
+# ?? RESUMEN: Inyecci�n de Secrets + Pruebas del Sistema
 
-## ¿Qué se implementó?
+## �Qu� se implement�?
 
 ### 1. SecretsPropertySourceLocator (Backend Java)
-✅ **Clase**: `SecretsPropertySourceLocator.java`
-✅ **Ubicación**: `sGED-backend/src/main/java/com/oj/sged/infrastructure/config/`
-✅ **Compilación**: ✅ BUILD SUCCESS
+? **Clase**: `SecretsPropertySourceLocator.java`
+? **Ubicaci�n**: `sGED-backend/src/main/java/com/oj/sged/infrastructure/config/`
+? **Compilaci�n**: ? BUILD SUCCESS
 
-**Función**: Lee secrets desde archivos (patrón Docker) automáticamente
+**Funci�n**: Lee secrets desde archivos (patr�n Docker) autom�ticamente
 
 ```
 Backend Startup
-    ↓
+    ?
 EnvironmentPostProcessor.postProcessEnvironment()
-    ↓
+    ?
 Busca variables _FILE:
   - DB_PASSWORD_FILE=/run/secrets/db_password
   - JWT_SECRET_FILE=/run/secrets/jwt_secret
-    ↓
+    ?
 Lee contenido del archivo
-    ↓
+    ?
 Carga como DB_PASSWORD, JWT_SECRET
-    ↓
+    ?
 Spring Boot usa estos valores
-    ↓
-✅ BD conectada
-✅ JWT funciona
+    ?
+? BD conectada
+? JWT funciona
 ```
 
 ---
 
-## 🔐 Tres Formas de Inyectar Secrets
+## ?? Tres Formas de Inyectar Secrets
 
-### Opción 1: Variables Directas (QA/Dev)
+### Opci�n 1: Variables Directas (QA/Dev)
 ```yaml
 environment:
   DB_PASSWORD: "mi-password-aqui"
   JWT_SECRET: "mi-jwt-secret-aqui"
 ```
-✅ Simple  
-❌ Inseguro para producción
+? Simple  
+? Inseguro para producci�n
 
-### Opción 2: Docker Secrets (_FILE)
+### Opci�n 2: Docker Secrets (_FILE)
 ```yaml
 environment:
   DB_PASSWORD_FILE: /run/secrets/db_password
@@ -63,57 +63,57 @@ secrets:
   jwt_secret:
     file: ./secrets/jwt_secret.txt
 ```
-✅ Seguro  
-✅ Recomendado para staging/producción
+? Seguro  
+? Recomendado para staging/producci�n
 
-### Opción 3: /run/secrets/ Auto-discovery
+### Opci�n 3: /run/secrets/ Auto-discovery
 ```bash
-# Los secrets se detectan automáticamente
+# Los secrets se detectan autom�ticamente
 mkdir -p /run/secrets
 echo "password" > /run/secrets/db_password
 echo "jwt" > /run/secrets/jwt_secret
 
-# Backend los carga sin configuración adicional
+# Backend los carga sin configuraci�n adicional
 ```
-✅ Automático (Kubernetes)  
-✅ Mejor para orquestación
+? Autom�tico (Kubernetes)  
+? Mejor para orquestaci�n
 
 ---
 
-## 📋 Flujo de Validación
+## ?? Flujo de Validaci�n
 
 ```
-┌─────────────────────────────────┐
-│  docker-compose up -d            │
-└──────────┬──────────────────────┘
-           ↓
-┌─────────────────────────────────┐
-│ Backend startup                  │
-│ - SecretsPropertySourceLocator   │
-│   detecta *_FILE                 │
-│ - Lee archivos /run/secrets/     │
-│ - Carga en PropertySource        │
-└──────────┬──────────────────────┘
-           ↓
-┌─────────────────────────────────┐
-│ Spring Boot DataSource           │
-│ - Inyecta ${DB_PASSWORD}         │
-│ - Inyecta ${JWT_SECRET}          │
-└──────────┬──────────────────────┘
-           ↓
-┌─────────────────────────────────┐
-│ Verificación                     │
-│ ✅ curl /health → "UP"           │
-│ ✅ Login funciona                │
-│ ✅ JWT tokens válidos            │
-└─────────────────────────────────┘
++---------------------------------+
+�  docker-compose up -d            �
++---------------------------------+
+           ?
++---------------------------------+
+� Backend startup                  �
+� - SecretsPropertySourceLocator   �
+�   detecta *_FILE                 �
+� - Lee archivos /run/secrets/     �
+� - Carga en PropertySource        �
++---------------------------------+
+           ?
++---------------------------------+
+� Spring Boot DataSource           �
+� - Inyecta ${DB_PASSWORD}         �
+� - Inyecta ${JWT_SECRET}          �
++---------------------------------+
+           ?
++---------------------------------+
+� Verificaci�n                     �
+� ? curl /health ? "UP"           �
+� ? Login funciona                �
+� ? JWT tokens v�lidos            �
++---------------------------------+
 ```
 
 ---
 
-## 🧪 Cómo Probar
+## ?? C�mo Probar
 
-### Test Rápido (2 minutos)
+### Test R�pido (2 minutos)
 ```bash
 # 1. Preparar archivos de secrets
 mkdir -p ./secrets
@@ -128,32 +128,32 @@ sleep 30
 
 # 4. Validar
 curl http://localhost:8080/api/v1/health
-# Debería retornar: {"status":"UP", "database":"Oracle"}
+# Deber�a retornar: {"status":"UP", "database":"Oracle"}
 
 curl -X POST http://localhost:8080/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin"}'
-# Debería retornar token JWT
+# Deber�a retornar token JWT
 ```
 
 ### Test Completo (30 minutos)
 ```bash
 # Ver GUIA_PRUEBAS_SISTEMA.md para:
 # - Pruebas unitarias
-# - Pruebas de integración
+# - Pruebas de integraci�n
 # - Pruebas de rendimiento
 # - Pruebas de seguridad
 ```
 
 ---
 
-## ✅ Checklist Final
+## ? Checklist Final
 
 ### Backend
 - [x] SecretsPropertySourceLocator implementado
 - [x] spring.factories configurado
 - [x] Compila sin errores
-- [x] Soporta 3 métodos de inyección
+- [x] Soporta 3 m�todos de inyecci�n
 - [ ] Pruebas unitarias del locator
 
 ### Docker Compose
@@ -162,54 +162,54 @@ curl -X POST http://localhost:8080/api/v1/auth/login \
 - [x] Ejemplos de variables _FILE
 - [ ] docker-compose-prod.yml probado
 
-### Documentación
-- [x] GUIA_SECRETS_INYECCION.md (600+ líneas)
-- [x] GUIA_PRUEBAS_SISTEMA.md (500+ líneas)
+### Documentaci�n
+- [x] GUIA_SECRETS_INYECCION.md (600+ l�neas)
+- [x] GUIA_PRUEBAS_SISTEMA.md (500+ l�neas)
 - [x] Ejemplos de uso claros
 - [x] Troubleshooting incluido
 
 ### Testing
 - [ ] Pruebas unitarias ejecutadas
-- [ ] Pruebas de integración ejecutadas
+- [ ] Pruebas de integraci�n ejecutadas
 - [ ] Pruebas con secrets directas
 - [ ] Pruebas con secrets _FILE
 
 ---
 
-## 📊 Estado del Proyecto
+## ?? Estado del Proyecto
 
 ```
 SGED v1.2.4 - January 2026
 
-Backend:  ✅ SecretsPropertySourceLocator listo
-Frontend: ✅ Angular compilado (dist/)
-Database: ✅ Oracle con secrets seguros
-Infra:    ✅ Docker Compose QA/Prod
-Secrets:  ✅ 3 métodos soportados
-Tests:    ⏳ Listos para ejecutar
-Docs:     ✅ Guías completas
+Backend:  ? SecretsPropertySourceLocator listo
+Frontend: ? Angular compilado (dist/)
+Database: ? Oracle con secrets seguros
+Infra:    ? Docker Compose QA/Prod
+Secrets:  ? 3 m�todos soportados
+Tests:    ? Listos para ejecutar
+Docs:     ? Gu�as completas
 
 Fase 8: Production Deployment Planning
-├─ ✅ Plan de despliegue Blue/Green
-├─ ✅ Plan de rollback < 60s
-├─ ✅ Monitoreo 24/7
-├─ ✅ Runbooks operacionales
-└─ ✅ Secretos productivos
++- ? Plan de despliegue Blue/Green
++- ? Plan de rollback < 60s
++- ? Monitoreo 24/7
++- ? Runbooks operacionales
++- ? Secretos productivos
 ```
 
 ---
 
-## 🎬 Acciones Recomendadas (Hoy)
+## ?? Acciones Recomendadas (Hoy)
 
 ### Para DevOps/Infra:
 1. Revisar [GUIA_SECRETS_INYECCION.md](./GUIA_SECRETS_INYECCION.md)
 2. Probar con `docker-compose-qa.yml`
-3. Validar ambos métodos (_FILE y directo)
+3. Validar ambos m�todos (_FILE y directo)
 4. Revisar [GUIA_PRUEBAS_SISTEMA.md](./GUIA_PRUEBAS_SISTEMA.md)
 
 ### Para QA/Testing:
 1. Ejecutar suite de pruebas completa
-2. Validar cada método de inyección
+2. Validar cada m�todo de inyecci�n
 3. Probar error handling
 4. Documentar resultados
 
@@ -227,9 +227,9 @@ Fase 8: Production Deployment Planning
 
 ---
 
-## 📚 Documentación Creada (Este Sprint)
+## ?? Documentaci�n Creada (Este Sprint)
 
-| Documento | Líneas | Propósito |
+| Documento | L�neas | Prop�sito |
 |-----------|--------|----------|
 | PLAN_DESPLIEGUE_PRODUCCION.md | 550 | Blue/Green canary strategy |
 | ROLLBACK_PLAN_PRODUCCION.md | 450 | Emergency procedures |
@@ -242,44 +242,44 @@ Fase 8: Production Deployment Planning
 
 ---
 
-## 🏁 Siguiente Fase
+## ?? Siguiente Fase
 
 ```
 Fase 9: System Testing & Validation
-├─ Ejecutar GUIA_PRUEBAS_SISTEMA.md
-├─ Validar inyección de secrets
-├─ Pruebas de carga/rendimiento
-├─ Pruebas de seguridad
-└─ Preparar para Staging
++- Ejecutar GUIA_PRUEBAS_SISTEMA.md
++- Validar inyecci�n de secrets
++- Pruebas de carga/rendimiento
++- Pruebas de seguridad
++- Preparar para Staging
 
 Fase 10: Staging Deployment
-├─ Desplegar a Staging
-├─ 7 días de testing
-├─ Validación con usuarios reales
-└─ Sign-off para Producción
++- Desplegar a Staging
++- 7 d�as de testing
++- Validaci�n con usuarios reales
++- Sign-off para Producci�n
 
 Fase 11: Production Deployment
-├─ Pre-deployment checklist
-├─ Blue/Green canary rollout
-├─ 72h monitoreo intenso
-└─ Completar migración
++- Pre-deployment checklist
++- Blue/Green canary rollout
++- 72h monitoreo intenso
++- Completar migraci�n
 ```
 
 ---
 
 ```
-╔═══════════════════════════════════════════════════════╗
-║                                                       ║
-║     🎉 SISTEMA LISTO PARA TESTING Y DESPLIEGUE 🎉   ║
-║                                                       ║
-║  Backend:  ✅ Secrets inyección productiva            ║
-║  Frontend: ✅ Compilado y listo                       ║
-║  Infra:    ✅ Docker/NGINX configurado               ║
-║  Docs:     ✅ Guías operacionales completas           ║
-║  Tests:    ⏳ Listos para ejecutar                    ║
-║                                                       ║
-║  Siguiente: Ver GUIA_PRUEBAS_SISTEMA.md              ║
-║                                                       ║
-╚═══════════════════════════════════════════════════════╝
++-------------------------------------------------------+
+�                                                       �
+�     ?? SISTEMA LISTO PARA TESTING Y DESPLIEGUE ??   �
+�                                                       �
+�  Backend:  ? Secrets inyecci�n productiva            �
+�  Frontend: ? Compilado y listo                       �
+�  Infra:    ? Docker/NGINX configurado               �
+�  Docs:     ? Gu�as operacionales completas           �
+�  Tests:    ? Listos para ejecutar                    �
+�                                                       �
+�  Siguiente: Ver GUIA_PRUEBAS_SISTEMA.md              �
+�                                                       �
++-------------------------------------------------------+
 ```
 

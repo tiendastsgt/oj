@@ -1,26 +1,26 @@
-﻿---
+---
 Documento: QUICK_START_FASE_7
 Proyecto: SGED
-Versión del sistema: v1.2.4
-Versión del documento: 1.0
-Última actualización: 2026-05-03
+Versi�n del sistema: v1.2.4
+Versi�n del documento: 1.0
+�ltima actualizaci�n: 2026-05-19
 Vigente para: v1.2.4 y superiores
-Estado: ✅ Vigente
+Estado: ? Vigente
 ---
 
 # QUICK START - FASE 7 QA TESTING
 
-**Quick Reference Card para Ejecución de Fase 7**
+**Quick Reference Card para Ejecuci�n de Fase 7**
 
 ---
 
-## 🚀 EJECUCIÓN RÁPIDA (5 PASOS)
+## ?? EJECUCI�N R�PIDA (5 PASOS)
 
 ### Paso 1: Preparar Entorno (5 min)
 ```bash
 # Validar conectividad QA
 curl -I https://qa.sged.mx
-# Expected: HTTP 200 ✅
+# Expected: HTTP 200 ?
 
 # Instalar dependencias
 cd sGED-frontend\e2e-tests
@@ -34,7 +34,7 @@ npx playwright install
 BASE_URL=https://qa.sged.mx npm run test:e2e
 
 # Expected Output:
-# ✅ 26 passed in ~18-20 minutes
+# ? 26 passed in ~18-20 minutes
 ```
 
 ### Paso 3: Ejecutar Load Test - Escenario 1 (12 min)
@@ -58,17 +58,17 @@ jmeter -g results-s1.jtl -o report-s1
 start report-s1/index.html
 ```
 
-### Paso 5: Revisar Aceptación (10 min)
+### Paso 5: Revisar Aceptaci�n (10 min)
 ```bash
 # Leer reporte final
 cat sGED-backend/QA_ACCEPTANCE_REPORT.md
 
-# Expected: ✅ APROBADO PARA DESPLIEGUE
+# Expected: ? APROBADO PARA DESPLIEGUE
 ```
 
 ---
 
-## 📊 CRITERIOS DE ACEPTACIÓN
+## ?? CRITERIOS DE ACEPTACI�N
 
 | Criterio | Esperado | Tu Resultado |
 |----------|----------|--------------|
@@ -76,33 +76,33 @@ cat sGED-backend/QA_ACCEPTANCE_REPORT.md
 | **P95 (Load)** | <1.2s | _____ |
 | **Error Rate** | <0.2% | _____ |
 | **RBAC** | Funcional | _____ |
-| **Reporte** | ✅ APPROVED | _____ |
+| **Reporte** | ? APPROVED | _____ |
 
 ---
 
-## 🔑 USUARIOS DE PRUEBA EN QA
+## ?? USUARIOS DE PRUEBA EN QA
 
 ```
 admin.qa          / QAPassword123!    (ADMIN - acceso total)
 secretario.qa     / QAPassword123!    (SECRETARIO - sin admin)
-juez.qa           / QAPassword123!    (JUEZ - solo búsqueda)
-consulta.qa       / QAPassword123!    (CONSULTA - solo búsqueda)
+juez.qa           / QAPassword123!    (JUEZ - solo b�squeda)
+consulta.qa       / QAPassword123!    (CONSULTA - solo b�squeda)
 ```
 
 ---
 
-## 📁 ARCHIVOS IMPORTANTES
+## ?? ARCHIVOS IMPORTANTES
 
-| Archivo | Ubicación | Propósito |
+| Archivo | Ubicaci�n | Prop�sito |
 |---------|-----------|-----------|
-| **playwright.config.ts** | `e2e-tests/` | Configuración global |
+| **playwright.config.ts** | `e2e-tests/` | Configuraci�n global |
 | **scenario-1-50users.jmx** | `sGED-backend/load-tests/` | Load test 50 usuarios |
-| **QA_ACCEPTANCE_REPORT.md** | `sGED-backend/` | Reporte final (✅ APPROVED) |
-| **FASE_7_QA_EXECUTION_GUIDE.md** | Raíz | Guía completa |
+| **QA_ACCEPTANCE_REPORT.md** | `sGED-backend/` | Reporte final (? APPROVED) |
+| **FASE_7_QA_EXECUTION_GUIDE.md** | Ra�z | Gu�a completa |
 
 ---
 
-## ⚡ COMANDOS RÁPIDOS
+## ? COMANDOS R�PIDOS
 
 ```bash
 # E2E - Todos los tests
@@ -111,10 +111,10 @@ npm run test:e2e
 # E2E - Modo visual
 npm run test:e2e:headed
 
-# E2E - Un flujo específico
+# E2E - Un flujo espec�fico
 npx playwright test tests/auth.spec.ts
 
-# E2E - Un test específico
+# E2E - Un test espec�fico
 npx playwright test tests/auth.spec.ts -g "F1.1"
 
 # Load - Con variables custom
@@ -128,67 +128,67 @@ jmeter -n -t scenario-1-50users.jmx \
 
 ---
 
-## 🟢 SEÑALES DE ÉXITO
+## ?? SE�ALES DE �XITO
 
-✅ **E2E Tests:**
+? **E2E Tests:**
 ```
-26 passed ✅
-Duration: 18m45s ✅
-0 failed ✅
-No timeouts ✅
+26 passed ?
+Duration: 18m45s ?
+0 failed ?
+No timeouts ?
 ```
 
-✅ **Load Tests:**
+? **Load Tests:**
 ```
 Scenario 1:
-  P95: 1.2s < 3s ✅
-  Error: 0.2% < 2% ✅
-  Throughput: 125 req/min ✅
+  P95: 1.2s < 3s ?
+  Error: 0.2% < 2% ?
+  Throughput: 125 req/min ?
 ```
 
-✅ **Reporte Final:**
+? **Reporte Final:**
 ```
-🟢 APROBADO PARA DESPLIEGUE ✅
-- RNF-001 cumplido ✅
-- RBAC validado ✅
-- Auditoría funcional ✅
-- No memory leaks ✅
+?? APROBADO PARA DESPLIEGUE ?
+- RNF-001 cumplido ?
+- RBAC validado ?
+- Auditor�a funcional ?
+- No memory leaks ?
 ```
 
 ---
 
-## 🔴 SEÑALES DE ALERTA
+## ?? SE�ALES DE ALERTA
 
-❌ **E2E Tests fallan:**
-- Validar QA está en línea: `curl -I https://qa.sged.mx`
+? **E2E Tests fallan:**
+- Validar QA est� en l�nea: `curl -I https://qa.sged.mx`
 - Validar usuarios existen en BD QA
 - Ver logs: `sGED-frontend/e2e-tests/test-results/`
 
-❌ **Load Tests timeout:**
+? **Load Tests timeout:**
 - Verificar API responde: `curl https://qa.sged.mx/api/v1/auth/login`
 - Revisar firewall permite HTTPS
 - Aumentar timeout en .jmx si es necesario
 
-❌ **Reportes no generan:**
-- Validar JMeter está instalado: `jmeter --version`
+? **Reportes no generan:**
+- Validar JMeter est� instalado: `jmeter --version`
 - Validar Playwright: `npx playwright --version`
 
 ---
 
-## 📈 PRÓXIMOS PASOS DESPUÉS DE ÉXITO
+## ?? PR�XIMOS PASOS DESPU�S DE �XITO
 
-1. ✅ Obtener aprobación del Tech Lead
-2. ✅ Validar índices en BD Producción
-3. ✅ Configurar alertas (P95, error rate, memory)
-4. ✅ Desplegar a Producción (durante ventana de mantenimiento)
-5. ✅ Ejecutar smoke tests en Prod
-6. ✅ Monitorear 24 horas post-deploy
+1. ? Obtener aprobaci�n del Tech Lead
+2. ? Validar �ndices en BD Producci�n
+3. ? Configurar alertas (P95, error rate, memory)
+4. ? Desplegar a Producci�n (durante ventana de mantenimiento)
+5. ? Ejecutar smoke tests en Prod
+6. ? Monitorear 24 horas post-deploy
 
 ---
 
-## 📞 SOPORTE RÁPIDO
+## ?? SOPORTE R�PIDO
 
-| Problema | Solución |
+| Problema | Soluci�n |
 |----------|----------|
 | Test timeout | Aumentar TIMEOUT en playwright.config.ts a 60s |
 | Data-testid no encontrado | Pedir al equipo frontend que agregue data-testid |
@@ -198,24 +198,24 @@ Scenario 1:
 
 ---
 
-## 📝 CHECKLIST FINAL
+## ?? CHECKLIST FINAL
 
 - [ ] QA environment disponible (https://qa.sged.mx)
 - [ ] Usuarios de prueba existen
 - [ ] Datos de prueba existen (expedientes 2026-001, 2026-002)
 - [ ] Dependencias instaladas (npm, java, jmeter)
-- [ ] E2E Tests: 26 passed ✅
-- [ ] Load Tests: P95 < 1.2s ✅
-- [ ] Error Rate < 0.2% ✅
+- [ ] E2E Tests: 26 passed ?
+- [ ] Load Tests: P95 < 1.2s ?
+- [ ] Error Rate < 0.2% ?
 - [ ] Reportes generados (HTML, JSON)
 - [ ] QA_ACCEPTANCE_REPORT.md revisado
-- [ ] Recomendación: ✅ APROBADO PARA DESPLIEGUE
+- [ ] Recomendaci�n: ? APROBADO PARA DESPLIEGUE
 
 ---
 
-## 🎯 DURACIÓN TOTAL
+## ?? DURACI�N TOTAL
 
-| Fase | Duración | Acumulado |
+| Fase | Duraci�n | Acumulado |
 |------|----------|-----------|
 | Setup | 5 min | 5 min |
 | E2E Tests | 20 min | 25 min |
@@ -227,21 +227,21 @@ Scenario 1:
 
 ---
 
-## 🔗 DOCUMENTACIÓN COMPLETA
+## ?? DOCUMENTACI�N COMPLETA
 
-Para más detalles, ver:
-- 📖 [FASE_7_QA_EXECUTION_GUIDE.md](FASE_7_QA_EXECUTION_GUIDE.md) - Guía completa
-- 📊 [QA_ACCEPTANCE_REPORT.md](sGED-backend/QA_ACCEPTANCE_REPORT.md) - Reporte final
-- 📋 [FASE_7_RESUMEN_IMPLEMENTACION.md](FASE_7_RESUMEN_IMPLEMENTACION.md) - Resumen del trabajo
-- 📑 [INVENTARIO_ARTEFACTOS_FASE_7.md](INVENTARIO_ARTEFACTOS_FASE_7.md) - Listado completo
+Para m�s detalles, ver:
+- ?? [FASE_7_QA_EXECUTION_GUIDE.md](FASE_7_QA_EXECUTION_GUIDE.md) - Gu�a completa
+- ?? [QA_ACCEPTANCE_REPORT.md](sGED-backend/QA_ACCEPTANCE_REPORT.md) - Reporte final
+- ?? [FASE_7_RESUMEN_IMPLEMENTACION.md](FASE_7_RESUMEN_IMPLEMENTACION.md) - Resumen del trabajo
+- ?? [INVENTARIO_ARTEFACTOS_FASE_7.md](INVENTARIO_ARTEFACTOS_FASE_7.md) - Listado completo
 
 ---
 
-**¡Listo para Ejecutar Fase 7! 🚀**
+**�Listo para Ejecutar Fase 7! ??**
 
-**Resultado Esperado:** ✅ APROBADO PARA DESPLIEGUE A PRODUCCIÓN
+**Resultado Esperado:** ? APROBADO PARA DESPLIEGUE A PRODUCCI�N
 
-**Duración:** ~90 minutos
+**Duraci�n:** ~90 minutos
 
 **Validado para:** SGED v0.0.1-SNAPSHOT
 
