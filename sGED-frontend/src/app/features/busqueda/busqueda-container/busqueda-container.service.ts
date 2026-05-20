@@ -36,11 +36,6 @@ const NAV_ADMIN: OjShellSection = {
   label: 'Administración',
   items: [
     {
-      label: 'Usuarios y roles',
-      icon: 'pi pi-users',
-      route: '/admin/usuarios'
-    },
-    {
       label: 'Auditoría',
       icon: 'pi pi-history',
       route: '/admin/auditoria'
