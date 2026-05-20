@@ -1,8 +1,8 @@
 # Manual de Usuario — SGED
 ## Sistema de Gestión de Expedientes Digitales
 
-**Versión del manual:** 1.5.0
-**Fecha de emisión:** Mayo 2026
+**Versión del manual:** 1.6.0
+**Última actualización:** 2026-05-19
 **Audiencia:** Usuarios finales de todos los roles
 
 ---

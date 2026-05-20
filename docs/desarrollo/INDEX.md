@@ -1,8 +1,8 @@
 ---
 Documento: MANUAL_TECNICO_INDEX
 Proyecto: SGED
-Versión del sistema: v1.5.0
-Versión del documento: 1.1
+Versión del sistema: v1.6.0
+Versión del documento: 1.6.0
 Última actualización: 2026-05-19
 Estado: Vigente
 ---
