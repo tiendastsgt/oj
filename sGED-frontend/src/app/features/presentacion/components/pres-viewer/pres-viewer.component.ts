@@ -1,6 +1,6 @@
 import {
   AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef,
-  EventEmitter, Input, NgZone, OnChanges, OnDestroy, Output, SimpleChanges
+  NgZone, OnDestroy, effect, inject, input, output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -17,42 +17,45 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs';
   templateUrl: './pres-viewer.component.html',
   styleUrls: ['./pres-viewer.component.scss'],
 })
-export class PresViewerComponent implements AfterViewChecked, OnChanges, OnDestroy {
-  @Input({ required: true }) mergedPdfUrl: string | null = null;
-  @Input({ required: true }) pageOffsets: number[] = [];
-  @Input({ required: true }) docs: PresentacionDoc[] = [];
-  @Input() scrollTargetTick: { page: number; nonce: number } | null = null;
-  @Input() mergeState: MergeState = 'idle';
-  @Input() totalPages: number = 0;
+export class PresViewerComponent implements AfterViewChecked, OnDestroy {
+  mergedPdfUrl   = input.required<string | null>();
+  pageOffsets    = input.required<number[]>();
+  docs           = input.required<PresentacionDoc[]>();
+  scrollTargetTick = input<{ page: number; nonce: number } | null>(null);
+  mergeState     = input<MergeState>('idle');
+  totalPages     = input<number>(0);
 
-  @Output() activeDocIdxChange = new EventEmitter<number>();
+  activeDocIdxChange = output<number>();
+
+  private readonly zone = inject(NgZone);
+  private readonly el: ElementRef<HTMLElement> = inject(ElementRef);
 
   private observer?: IntersectionObserver;
   private renderAbortController = new AbortController();
   private pendingRenderUrl: string | null = null;
   private pendingScrollPage: number | null = null;
 
-  constructor(
-    private readonly zone: NgZone,
-    private readonly el: ElementRef<HTMLElement>
-  ) {}
-
-  private get pagesHost(): HTMLDivElement | null {
-    return this.el.nativeElement.querySelector<HTMLDivElement>('.pres-viewer-pages');
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['mergedPdfUrl']) {
+  constructor() {
+    effect(() => {
+      const url = this.mergedPdfUrl();
       this.cancelRender();
-      if (this.mergedPdfUrl) {
-        this.pendingRenderUrl = this.mergedPdfUrl;
+      if (url) {
+        this.pendingRenderUrl = url;
       } else {
         this.clearContainer();
       }
-    }
-    if (changes['scrollTargetTick'] && this.scrollTargetTick) {
-      this.pendingScrollPage = this.scrollTargetTick.page;
-    }
+    });
+
+    effect(() => {
+      const target = this.scrollTargetTick();
+      if (target) {
+        this.pendingScrollPage = target.page;
+      }
+    });
+  }
+
+  private get pagesHost(): HTMLDivElement | null {
+    return this.el.nativeElement.querySelector<HTMLDivElement>('.pres-viewer-pages');
   }
 
   // ngAfterViewChecked garantiza que el DOM esté actualizado antes de operar sobre él
@@ -95,7 +98,7 @@ export class PresViewerComponent implements AfterViewChecked, OnChanges, OnDestr
         .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
       if (!visible.length) return;
       const pageIdx = Number((visible[0].target as HTMLElement).dataset['pageIdx']);
-      const docIdx = findDocIdxForPage(pageIdx, this.pageOffsets);
+      const docIdx = findDocIdxForPage(pageIdx, this.pageOffsets());
       this.zone.run(() => this.activeDocIdxChange.emit(docIdx));
     }, { threshold: 0.15, rootMargin: '0px 0px -75% 0px' });
   }
@@ -129,11 +132,11 @@ export class PresViewerComponent implements AfterViewChecked, OnChanges, OnDestr
       wrapper.className = 'pres-page';
       wrapper.dataset['pageIdx'] = String(pageIdx);
 
-      const docIdx = findDocIdxForPage(pageIdx, this.pageOffsets);
-      if (this.pageOffsets[docIdx] === pageIdx && this.docs[docIdx]) {
+      const docIdx = findDocIdxForPage(pageIdx, this.pageOffsets());
+      if (this.pageOffsets()[docIdx] === pageIdx && this.docs()[docIdx]) {
         const marker = document.createElement('div');
         marker.className = 'pres-page-marker';
-        marker.textContent = this.docs[docIdx].name;
+        marker.textContent = this.docs()[docIdx].name;
         wrapper.appendChild(marker);
       }
 

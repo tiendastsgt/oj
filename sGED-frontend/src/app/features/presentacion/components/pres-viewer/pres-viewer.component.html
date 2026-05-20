@@ -1,18 +1,18 @@
 <div class="pres-viewer-scroll" #scrollHost>
-  <!-- pagesHost siempre en DOM para que @ViewChild esté disponible en ngOnChanges -->
+  <!-- pagesHost siempre en DOM para que los efectos estén disponibles en ngAfterViewChecked -->
   <div class="pres-viewer-pages" #pagesHost></div>
 
-  @if (mergedPdfUrl) {
+  @if (mergedPdfUrl()) {
     <div class="pres-scroll-footer">
       <span class="pres-scroll-footer-line"></span>
       <span class="pres-scroll-footer-text">
-        Fin del expediente — {{ totalPages }} {{ totalPages === 1 ? 'página' : 'páginas' }} en {{ docs.length }} {{ docs.length === 1 ? 'documento' : 'documentos' }}
+        Fin del expediente — {{ totalPages() }} {{ totalPages() === 1 ? 'página' : 'páginas' }} en {{ docs().length }} {{ docs().length === 1 ? 'documento' : 'documentos' }}
       </span>
       <span class="pres-scroll-footer-line"></span>
     </div>
-  } @else if (mergeState === 'loading') {
+  } @else if (mergeState() === 'loading') {
     <div class="pres-loading">Combinando expediente…</div>
-  } @else if (mergeState === 'error') {
+  } @else if (mergeState() === 'error') {
     <div class="pres-error">No se pudo combinar los documentos</div>
   }
 </div>
