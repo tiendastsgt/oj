@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { AncladosService } from '../../../core/services/anclados.service';
 import { CatalogosService } from '../../../core/services/catalogos.service';
 import { ExpedientesService } from '../../../core/services/expedientes.service';
+import { DocumentosService } from '../../../core/services/documentos.service';
 import { BusquedaExpedientesService } from '../../../core/services/busqueda-expedientes.service';
 import { AuthUser } from '../../../core/models/auth-user.model';
 import { OjShellSection, OjShellUser } from '../../../shared/components/oj-shell/oj-shell.types';
@@ -36,6 +37,7 @@ const NAV_ADMIN: OjShellSection = {
 @Injectable()
 export class ExpedienteDetailService {
   private readonly expedientesService = inject(ExpedientesService);
+  private readonly documentosService  = inject(DocumentosService);
   private readonly busquedaService    = inject(BusquedaExpedientesService);
   private readonly catalogosService   = inject(CatalogosService);
   private readonly authService        = inject(AuthService);
@@ -132,6 +134,7 @@ export class ExpedienteDetailService {
           if (response.data) {
             this.dto.state.set(LoadState.Success);
             this.dto.ancladosCount.set(this.ancladosSvc.countByExpediente(response.data.numero));
+            this.cargarDocumentos(id);
           } else {
             this.dto.state.set(LoadState.Error);
             this.dto.errorMessage.set('Expediente no encontrado');
@@ -142,6 +145,12 @@ export class ExpedienteDetailService {
           this.dto.errorMessage.set(err.error?.message ?? 'Error al cargar el expediente');
         },
       });
+  }
+
+  private cargarDocumentos(expedienteId: number): void {
+    this.documentosService.getDocumentos(expedienteId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({ next: res => this.dto.documentos.set(res.data ?? []), error: () => {} });
   }
 
   private cargarCatalogos(): void {

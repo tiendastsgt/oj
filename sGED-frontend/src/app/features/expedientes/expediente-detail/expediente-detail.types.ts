@@ -13,3 +13,10 @@ export interface ExpedienteHeaderStats {
   totalArchivos: number;
   ancladosCount: number;
 }
+
+export interface DocumentCountByTipo {
+  doc: number;
+  video: number;
+  audio: number;
+  img: number;
+}
