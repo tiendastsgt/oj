@@ -1,9 +1,14 @@
 import {
-  ChangeDetectionStrategy, Component, DestroyRef, Input, OnChanges,
+  ChangeDetectionStrategy, Component, DestroyRef, HostListener, Input, OnChanges,
   SimpleChanges, computed, inject, signal
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpEventType } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { concat } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { DocumentosService } from '../../../../../core/services/documentos.service';
 import { AncladosService } from '../../../../../core/services/anclados.service';
 import { AncladoDoc } from '../../../../../core/models/anclado.model';
@@ -24,7 +29,8 @@ function tipoDeDoc(doc: Documento): TipoFiltro {
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-exp-archivos',
   standalone: true,
-  imports: [CommonModule, DocumentoViewerComponent],
+  imports: [CommonModule, ToastModule, DocumentoViewerComponent],
+  providers: [MessageService],
   templateUrl: './exp-archivos.component.html',
   styleUrls: ['./exp-archivos.component.scss']
 })
@@ -32,9 +38,13 @@ export class ExpArchivosComponent implements OnChanges {
   @Input({ required: true }) expedienteId!: number;
   @Input({ required: true }) expedienteNumero!: string;
 
-  private readonly docsSvc    = inject(DocumentosService);
-  private readonly ancladosSvc = inject(AncladosService);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly docsSvc       = inject(DocumentosService);
+  private readonly ancladosSvc   = inject(AncladosService);
+  private readonly messageService = inject(MessageService);
+  private readonly destroyRef    = inject(DestroyRef);
+
+  protected readonly isDragging  = signal(false);
+  private dragCounter = 0;
 
   protected readonly documentos  = signal<Documento[]>([]);
   protected readonly loading     = signal(false);
@@ -72,6 +82,31 @@ export class ExpArchivosComponent implements OnChanges {
       img:   docs.filter(d => tipoDeDoc(d) === 'img').length,
     };
   });
+
+  @HostListener('dragenter', ['$event'])
+  onDragEnter(event: DragEvent): void {
+    event.preventDefault();
+    if (++this.dragCounter === 1) this.isDragging.set(true);
+  }
+
+  @HostListener('dragleave')
+  onDragLeave(): void {
+    if (--this.dragCounter === 0) this.isDragging.set(false);
+  }
+
+  @HostListener('dragover', ['$event'])
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  @HostListener('drop', ['$event'])
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.dragCounter = 0;
+    this.isDragging.set(false);
+    const files = event.dataTransfer?.files;
+    if (files?.length) this.subirArchivos(files);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['expedienteId'] && this.expedienteId > 0) {
@@ -123,6 +158,37 @@ export class ExpArchivosComponent implements OnChanges {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
     return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+  }
+
+  private subirArchivos(files: FileList): void {
+    const fileList = Array.from(files);
+    const uploads$ = fileList.map(file =>
+      this.docsSvc.uploadDocumento(this.expedienteId, file).pipe(
+        filter(ev => ev.type === HttpEventType.Response)
+      )
+    );
+
+    concat(...uploads$)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        complete: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Archivos subidos',
+            detail: `${fileList.length} archivo(s) subido(s) correctamente.`,
+            life: 4000
+          });
+          this.cargarDocumentos();
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error de subida',
+            detail: 'No se pudo subir uno o más archivos.',
+            life: 5000
+          });
+        }
+      });
   }
 
   private cargarDocumentos(): void {
