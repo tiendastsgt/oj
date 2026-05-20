@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -15,18 +15,21 @@ import { Documento } from '../../documentos/models/documento.model';
   imports: [CommonModule, TableModule, ButtonModule, CardModule, MessageModule, ProgressBarModule],
   providers: [DocumentosListService],
   templateUrl: './documentos-list.component.html',
-  styleUrls: ['./documentos-list.component.scss']
+  styleUrls: ['./documentos-list.component.scss'],
 })
-export class DocumentosListComponent implements OnChanges {
-  @Input() expedienteId = 0;
-  @Output() viewDocumento = new EventEmitter<Documento>();
+export class DocumentosListComponent {
+  expedienteId = input<number>(0);
+  viewDocumento = output<Documento>();
 
   protected svc = inject(DocumentosListService);
   protected dto = this.svc.dto;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['expedienteId'] && this.expedienteId > 0) {
-      this.svc.cargarDocumentos(this.expedienteId);
-    }
+  constructor() {
+    effect(() => {
+      const id = this.expedienteId();
+      if (id > 0) {
+        this.svc.cargarDocumentos(id);
+      }
+    });
   }
 }

@@ -1,7 +1,6 @@
 import {
   AfterViewChecked, ChangeDetectionStrategy, Component,
-  ElementRef, EventEmitter, HostListener, Input,
-  OnChanges, OnDestroy, Output, SimpleChanges, ViewChild, inject
+  ElementRef, HostListener, OnDestroy, ViewChild, effect, inject, input, output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -19,13 +18,14 @@ import { DocumentoViewerService } from './documento-viewer.service';
   imports: [CommonModule, CardModule, ButtonModule, MessageModule, ToastModule],
   providers: [DocumentoViewerService, MessageService],
   templateUrl: './documento-viewer.component.html',
-  styleUrls: ['./documento-viewer.component.scss']
+  styleUrls: ['./documento-viewer.component.scss'],
 })
-export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterViewChecked {
-  @Input() documento: Documento | null = null;
-  @Input() showClose = true;
-  @Output() close = new EventEmitter<void>();
-  @Output() readingMode = new EventEmitter<boolean>();
+export class DocumentoViewerComponent implements OnDestroy, AfterViewChecked {
+  documento = input<Documento | null>(null);
+  showClose = input<boolean>(true);
+  close = output<void>();
+  readingMode = output<boolean>();
+
   @ViewChild('audioPlayer') audioPlayerRef?: ElementRef<HTMLAudioElement>;
   @ViewChild('videoPlayer') videoPlayerRef?: ElementRef<HTMLVideoElement>;
 
@@ -33,11 +33,12 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
   protected dto = this.svc.dto;
   private mediaSrcApplied = false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['documento']) {
+  constructor() {
+    effect(() => {
+      const doc = this.documento();
       this.mediaSrcApplied = false;
-      this.svc.loadDocumento(this.documento);
-    }
+      this.svc.loadDocumento(doc);
+    });
   }
 
   ngAfterViewChecked(): void {
@@ -64,6 +65,6 @@ export class DocumentoViewerComponent implements OnChanges, OnDestroy, AfterView
   @HostListener('document:fullscreenchange')
   @HostListener('document:webkitfullscreenchange')
   onFullscreenChange(): void {
-    this.dto.isFullscreen.set(!!(document.fullscreenElement || (document as any).webkitFullscreenElement));
+    this.dto.isFullscreen.set(!!(document.fullscreenElement || (document as unknown as Record<string, Element>)['webkitFullscreenElement']));
   }
 }

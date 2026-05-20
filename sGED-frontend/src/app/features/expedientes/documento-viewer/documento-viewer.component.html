@@ -18,7 +18,7 @@
       <button class="viewer-btn" [class.active]="dto.isFullscreen()" title="Pantalla Completa" (click)="svc.toggleFullscreen()">
         <i class="pi" [ngClass]="dto.isFullscreen() ? 'pi-window-minimize' : 'pi-arrows-alt'"></i>
       </button>
-      @if (showClose) {
+      @if (showClose()) {
         <button class="viewer-btn" title="Cerrar visor" (click)="close.emit()">
           <i class="pi pi-times"></i>
         </button>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { OjShellBreadcrumbItem, OjShellSection, OjShellUser } from './oj-shell.types';
@@ -9,12 +9,12 @@ import { OjShellBreadcrumbItem, OjShellSection, OjShellUser } from './oj-shell.t
   standalone: true,
   imports: [RouterLink, RouterLinkActive, NgOptimizedImage],
   templateUrl: './oj-shell.component.html',
-  styleUrls: ['./oj-shell.component.scss']
+  styleUrls: ['./oj-shell.component.scss'],
 })
 export class OjShellComponent {
-  @Input({ required: true }) sections: OjShellSection[] = [];
-  @Input({ required: true }) title = '';
-  @Input() breadcrumb: OjShellBreadcrumbItem[] = [];
-  @Input() user: OjShellUser | null = null;
-  @Input() logoutRoute = '/login';
+  sections = input.required<OjShellSection[]>();
+  title = input.required<string>();
+  breadcrumb = input<OjShellBreadcrumbItem[]>([]);
+  user = input<OjShellUser | null>(null);
+  logoutRoute = input<string>('/login');
 }

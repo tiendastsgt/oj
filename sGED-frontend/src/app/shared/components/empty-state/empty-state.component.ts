@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -7,12 +7,12 @@ import { ButtonModule } from 'primeng/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonModule],
   templateUrl: './empty-state.component.html',
-  styleUrls: ['./empty-state.component.scss']
+  styleUrls: ['./empty-state.component.scss'],
 })
 export class EmptyStateComponent {
-  @Input() icon = 'pi pi-inbox';
-  @Input() titulo = 'Sin datos';
-  @Input() mensaje = '';
-  @Input() ctaLabel = '';
-  @Output() ctaClick = new EventEmitter<void>();
+  icon = input<string>('pi pi-inbox');
+  titulo = input<string>('Sin datos');
+  mensaje = input<string>('');
+  ctaLabel = input<string>('');
+  ctaClick = output<void>();
 }

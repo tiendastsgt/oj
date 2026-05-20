@@ -12,27 +12,27 @@
       <div class="info-grid">
         <div class="info-field">
           <span class="info-label">N° de expediente</span>
-          <span class="info-value mono">{{ expediente.numero }}</span>
+          <span class="info-value mono">{{ expediente().numero }}</span>
         </div>
         <div class="info-field">
           <span class="info-label">Tipo de proceso</span>
-          <span class="info-value">{{ tipoProcesoName || 'N/D' }}</span>
+          <span class="info-value">{{ tipoProcesoName() || 'N/D' }}</span>
         </div>
         <div class="info-field">
           <span class="info-label">Juzgado</span>
-          <span class="info-value serif">{{ juzgadoName || 'N/D' }}</span>
+          <span class="info-value serif">{{ juzgadoName() || 'N/D' }}</span>
         </div>
         <div class="info-field">
           <span class="info-label">Referencia SGT</span>
-          <span class="info-value mono">{{ expediente.referenciaSgt || 'N/D' }}</span>
+          <span class="info-value mono">{{ expediente().referenciaSgt || 'N/D' }}</span>
         </div>
         <div class="info-field">
           <span class="info-label">Fecha de ingreso</span>
-          <span class="info-value mono">{{ expediente.fechaInicio | date:'dd MMM yyyy':'':'es' | uppercase }}</span>
+          <span class="info-value mono">{{ expediente().fechaInicio | date:'dd MMM yyyy':'':'es' | uppercase }}</span>
         </div>
         <div class="info-field">
           <span class="info-label">Estado actual</span>
-          <span class="badge badge-verde">{{ estadoName || 'N/D' }}</span>
+          <span class="badge badge-verde">{{ estadoName() || 'N/D' }}</span>
         </div>
       </div>
     </div>
@@ -44,33 +44,33 @@
         <h3 class="info-card-title">Partes intervinientes</h3>
       </div>
       <div class="partes-list">
-        @if (expediente.actorPrincipal) {
+        @if (expediente().actorPrincipal) {
           <div class="parte-row parte-azul">
-            <div class="parte-avatar azul">{{ expediente.actorPrincipal | slice:0:2 | uppercase }}</div>
+            <div class="parte-avatar azul">{{ expediente().actorPrincipal | slice:0:2 | uppercase }}</div>
             <div class="parte-info">
-              <div class="parte-nombre">{{ expediente.actorPrincipal }}</div>
+              <div class="parte-nombre">{{ expediente().actorPrincipal }}</div>
               <div class="parte-rol">Actor principal</div>
             </div>
             <span class="badge badge-azul">Actor</span>
           </div>
         }
-        @if (expediente.demandado) {
+        @if (expediente().demandado) {
           <div class="parte-row parte-verde">
-            <div class="parte-avatar verde">{{ expediente.demandado | slice:0:2 | uppercase }}</div>
+            <div class="parte-avatar verde">{{ expediente().demandado | slice:0:2 | uppercase }}</div>
             <div class="parte-info">
-              <div class="parte-nombre">{{ expediente.demandado }}</div>
+              <div class="parte-nombre">{{ expediente().demandado }}</div>
               <div class="parte-rol">Demandado</div>
             </div>
             <span class="badge badge-verde">Demandado</span>
           </div>
         }
-        @if (!expediente.actorPrincipal && !expediente.demandado) {
+        @if (!expediente().actorPrincipal && !expediente().demandado) {
           <p class="partes-vacio">Sin partes registradas</p>
         }
       </div>
     </div>
 
-    <!-- Línea de tiempo (mocked con fechaInicio del expediente) -->
+    <!-- Línea de tiempo -->
     <div class="info-card">
       <div class="info-card-header">
         <div class="info-card-stripe stripe-verde"></div>
@@ -80,16 +80,16 @@
         <div class="timeline-item">
           <div class="timeline-dot dot-azul"></div>
           <div class="timeline-content">
-            <div class="timeline-fecha mono">{{ expediente.fechaInicio | date:'dd·MMM·yyyy':'':'es' | uppercase }}</div>
+            <div class="timeline-fecha mono">{{ expediente().fechaInicio | date:'dd·MMM·yyyy':'':'es' | uppercase }}</div>
             <div class="timeline-titulo">Ingreso del expediente</div>
             <div class="timeline-desc">Registro inicial en el sistema</div>
           </div>
         </div>
-        @if (expediente.fechaCreacion) {
+        @if (expediente().fechaCreacion) {
           <div class="timeline-item">
             <div class="timeline-dot dot-azul-claro"></div>
             <div class="timeline-content">
-              <div class="timeline-fecha mono">{{ expediente.fechaCreacion | date:'dd·MMM·yyyy':'':'es' | uppercase }}</div>
+              <div class="timeline-fecha mono">{{ expediente().fechaCreacion | date:'dd·MMM·yyyy':'':'es' | uppercase }}</div>
               <div class="timeline-titulo">Digitación en SGED</div>
               <div class="timeline-desc">Expediente incorporado al sistema digital</div>
             </div>
@@ -114,35 +114,35 @@
             <svg class="ic" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
           </span>
           <span class="resumen-label">Documentos</span>
-          <span class="resumen-count mono">{{ countByTipo.doc }}</span>
+          <span class="resumen-count mono">{{ countByTipo().doc }}</span>
         </div>
         <div class="resumen-item">
           <span class="resumen-icon icon-video">
             <svg class="ic" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
           </span>
           <span class="resumen-label">Video</span>
-          <span class="resumen-count mono">{{ countByTipo.video }}</span>
+          <span class="resumen-count mono">{{ countByTipo().video }}</span>
         </div>
         <div class="resumen-item">
           <span class="resumen-icon icon-audio">
             <svg class="ic" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
           </span>
           <span class="resumen-label">Audio</span>
-          <span class="resumen-count mono">{{ countByTipo.audio }}</span>
+          <span class="resumen-count mono">{{ countByTipo().audio }}</span>
         </div>
         <div class="resumen-item">
           <span class="resumen-icon icon-img">
             <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
           </span>
           <span class="resumen-label">Imágenes</span>
-          <span class="resumen-count mono">{{ countByTipo.img }}</span>
+          <span class="resumen-count mono">{{ countByTipo().img }}</span>
         </div>
         <div class="resumen-total">
           <span class="resumen-total-label">
             <svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 17v5"/><path d="M9 10.76V6a3 3 0 0 1 6 0v4.76a2 2 0 0 0 .89 1.66L19 14.5V17H5v-2.5l3.11-2.08A2 2 0 0 0 9 10.76z"/></svg>
             Anclados
           </span>
-          <span class="resumen-count mono anclados">{{ ancladosCount }}</span>
+          <span class="resumen-count mono anclados">{{ ancladosCount() }}</span>
         </div>
       </div>
     </div>
@@ -152,7 +152,7 @@
         <div class="info-card-stripe stripe-azul"></div>
         <h3 class="info-card-title" style="font-size: var(--fs-base)">Observaciones</h3>
       </div>
-      <p class="observaciones-text">{{ expediente.observaciones || 'Sin observaciones registradas.' }}</p>
+      <p class="observaciones-text">{{ expediente().observaciones || 'Sin observaciones registradas.' }}</p>
     </div>
 
   </div>

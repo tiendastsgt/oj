@@ -1,0 +1,34 @@
+<div [formGroup]="formGroup()" class="criterios-grid">
+  <!-- Fecha Desde -->
+  <div class="field-container">
+    <p-floatlabel>
+      <p-datepicker
+        id="fechaDesde"
+        formControlName="fechaDesde"
+        dateFormat="yy-mm-dd"
+        [showIcon]="true"
+        styleClass="w-full premium-input">
+      </p-datepicker>
+      <label for="fechaDesde">Fecha Desde</label>
+    </p-floatlabel>
+  </div>
+
+  <!-- Fecha Hasta -->
+  <div class="field-container">
+    <p-floatlabel>
+      <p-datepicker
+        id="fechaHasta"
+        formControlName="fechaHasta"
+        dateFormat="yy-mm-dd"
+        [showIcon]="true"
+        styleClass="w-full premium-input">
+      </p-datepicker>
+      <label for="fechaHasta">Fecha Hasta</label>
+    </p-floatlabel>
+    @if (formGroup().hasError('dateRange')) {
+      <small class="error-text">
+        La fecha desde debe ser menor o igual a la fecha hasta
+      </small>
+    }
+  </div>
+</div>

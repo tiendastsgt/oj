@@ -10,7 +10,7 @@
     </div>
 
     <nav class="oj-sidebar-nav">
-      @for (section of sections; track section.label) {
+      @for (section of sections(); track section.label) {
         <span class="oj-sidebar-section-label">{{ section.label }}</span>
         @for (item of section.items; track item.label) {
           <a
@@ -28,14 +28,14 @@
       }
     </nav>
 
-    @if (user) {
+    @if (user(); as userData) {
       <div class="oj-sidebar-user">
-        <div class="oj-sidebar-user-avatar">{{ user.initials }}</div>
+        <div class="oj-sidebar-user-avatar">{{ userData.initials }}</div>
         <div class="oj-sidebar-user-info">
-          <div class="oj-sidebar-user-name">{{ user.name }}</div>
-          <div class="oj-sidebar-user-role">{{ user.role }}</div>
+          <div class="oj-sidebar-user-name">{{ userData.name }}</div>
+          <div class="oj-sidebar-user-role">{{ userData.role }}</div>
         </div>
-        <a [routerLink]="logoutRoute" class="oj-sidebar-user-action" title="Cerrar sesión" aria-label="Cerrar sesión">
+        <a [routerLink]="logoutRoute()" class="oj-sidebar-user-action" title="Cerrar sesión" aria-label="Cerrar sesión">
           <svg class="ic" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
         </a>
       </div>
@@ -45,9 +45,9 @@
   <div class="oj-main">
     <header class="oj-topbar">
       <div class="oj-topbar-title-wrap">
-        @if (breadcrumb.length > 0) {
+        @if (breadcrumb().length > 0) {
           <div class="oj-topbar-breadcrumb">
-            @for (crumb of breadcrumb; track crumb.label; let last = $last) {
+            @for (crumb of breadcrumb(); track crumb.label; let last = $last) {
               @if (crumb.route && !last) {
                 <a [routerLink]="crumb.route">{{ crumb.label }}</a>
               } @else {
@@ -59,7 +59,7 @@
             }
           </div>
         }
-        <h1 class="oj-topbar-title">{{ title }}</h1>
+        <h1 class="oj-topbar-title">{{ title() }}</h1>
       </div>
 
       <div class="oj-topbar-actions">
