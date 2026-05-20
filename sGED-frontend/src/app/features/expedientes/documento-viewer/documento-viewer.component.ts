@@ -1,6 +1,6 @@
 import {
   AfterViewChecked, ChangeDetectionStrategy, Component,
-  ElementRef, HostListener, OnDestroy, ViewChild, effect, inject, input, output,
+  ElementRef, HostListener, OnDestroy, ViewChild, effect, inject, input, output, untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -36,8 +36,10 @@ export class DocumentoViewerComponent implements OnDestroy, AfterViewChecked {
   constructor() {
     effect(() => {
       const doc = this.documento();
-      this.mediaSrcApplied = false;
-      this.svc.loadDocumento(doc);
+      untracked(() => {
+        this.mediaSrcApplied = false;
+        this.svc.loadDocumento(doc);
+      });
     });
   }
 
