@@ -82,31 +82,36 @@ export class ExpArchivosComponent implements OnChanges {
     };
   });
 
-  @HostListener('dragenter', ['$event'])
+  @HostListener('window:dragenter', ['$event'])
   onDragEnter(event: DragEvent): void {
+    if (!event.dataTransfer?.types.includes('Files')) return;
     event.preventDefault();
     this.isDragging.set(true);
   }
 
-  @HostListener('dragleave', ['$event'])
+  @HostListener('window:dragleave', ['$event'])
   onDragLeave(event: DragEvent): void {
-    const rel = event.relatedTarget as Node | null;
-    if (!rel || !(event.currentTarget as HTMLElement).contains(rel)) {
-      this.isDragging.set(false);
-    }
+    if (event.relatedTarget !== null) return;
+    this.isDragging.set(false);
   }
 
-  @HostListener('dragover', ['$event'])
+  @HostListener('window:dragover', ['$event'])
   onDragOver(event: DragEvent): void {
+    if (!event.dataTransfer?.types.includes('Files')) return;
     event.preventDefault();
   }
 
-  @HostListener('drop', ['$event'])
+  @HostListener('window:drop', ['$event'])
   onDrop(event: DragEvent): void {
     event.preventDefault();
     this.isDragging.set(false);
     const files = event.dataTransfer?.files;
     if (files?.length) this.subirArchivos(files);
+  }
+
+  @HostListener('window:keydown.escape')
+  onEscape(): void {
+    this.isDragging.set(false);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

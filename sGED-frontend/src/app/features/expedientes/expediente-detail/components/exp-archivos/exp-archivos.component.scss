@@ -11,7 +11,7 @@
   background: rgba(59, 130, 246, 0.07);
   border: 2px dashed var(--c-azul-700, #1d4ed8);
   border-radius: var(--r-lg);
-  pointer-events: none;
+  pointer-events: auto;
   animation: dropFadeIn 0.15s ease;
 }
 
