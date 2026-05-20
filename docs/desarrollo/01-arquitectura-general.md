@@ -1,9 +1,9 @@
 ---
 Documento: ARQUITECTURA_GENERAL
 Proyecto: SGED
-Versión del sistema: v1.5.0
-Versión del documento: 1.1
-Última actualización: 2026-05-19
+Versión del sistema: v1.6.0
+Versión del documento: 1.2
+Última actualización: 2026-05-20
 Estado: Vigente
 ---
 
@@ -50,7 +50,7 @@ El sistema SGED sigue una arquitectura de 3 capas desacopladas que se comunican 
 │   │   (VPS / Táctico)  │    │   (Objetivo Corporativo)   │  │
 │   │   Dockerizado      │    │   ANSI SQL compatible      │  │
 │   └────────────────────┘    └────────────────────────────┘  │
-│              13 tablas · 14 migraciones Flyway               │
+│              13 tablas · 13 migraciones Flyway               │
 └─────────────────────────────────────────────────────────────┘
 ```
 

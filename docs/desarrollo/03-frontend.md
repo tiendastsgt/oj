@@ -1,9 +1,9 @@
 ---
 Documento: FRONTEND
 Proyecto: SGED
-Versión del sistema: v1.5.0
-Versión del documento: 1.1
-Última actualización: 2026-05-19
+Versión del sistema: v1.6.0
+Versión del documento: 1.2
+Última actualización: 2026-05-20
 Estado: Vigente
 ---
 
@@ -41,12 +41,15 @@ sGED-frontend/src/app/
 │   │   ├── change-password-request.model.ts
 │   │   ├── anclado.model.ts      │  AncladoDoc, AncladoExpediente — expedientes anclados (localStorage)
 │   │   └── page.model.ts         │  Page<T> — paginación de Spring Data
-│   ├── dto/                      │  DTOs de Signals — fuente de verdad reactiva por componente
-│   │   ├── catalogos.dto.ts      │  Signals para catálogos (estados, juzgados, tipos)
-│   │   ├── usuarios.dto.ts       │  Signals para usuarios en admin
-│   │   ├── auditoria.dto.ts      │  Signals para filtros y resultados de auditoría
-│   │   ├── busqueda.dto.ts       │  Signals para criterios y resultados de búsqueda
-│   │   └── documentos.dto.ts     │  Signals para lista y visor de documentos
+│   ├── dto/                      │  **Los DTOs son por feature, no globales**
+│   │   │   (cada componente define su propio DTO junto al componente)
+│   │   │   Ej: busqueda-container.dto.ts, expediente-detail.dto.ts
+│   │   │   Nota: Los DTOs en core/dto/ son referencias de versiones anteriores y no se usan.
+│   │   ├── catalogos.dto.ts      │  (legado) Signals para catálogos
+│   │   ├── usuarios.dto.ts       │  (legado) Signals para usuarios en admin
+│   │   ├── auditoria.dto.ts      │  (legado) Signals para filtros y resultados de auditoría
+│   │   ├── busqueda.dto.ts       │  (legado) Signals para criterios y resultados de búsqueda
+│   │   └── documentos.dto.ts     │  (legado) Signals para lista y visor de documentos
 │   └── services/                 │  Servicios HTTP (todos providedIn: 'root' — singletons)
 │       ├── auth.service.ts       │  Login, logout, cambiar-password, isAuthenticated()
 │       ├── storage.service.ts    │  Abstracción sobre sessionStorage
@@ -88,17 +91,12 @@ sGED-frontend/src/app/
 │   │       ├── pres-viewer/pres-viewer.component.ts
 │   │       └── pres-doc-viewer/pres-doc-viewer.component.ts
 │   │
-│   ├── busqueda/                 │  Búsqueda avanzada multi-criterio
+│   ├── busqueda/                 │  Búsqueda principal de expedientes
 │   │   ├── busqueda-container/busqueda-container.component.ts
-│   │   ├── busqueda-rapida/busqueda-rapida.component.ts
-│   │   ├── resultados-busqueda/resultados-busqueda.component.ts
-│   │   └── busqueda-avanzada/
-│   │       ├── busqueda-avanzada.component.ts
-│   │       └── components/          │  Sub-componentes de criterios de búsqueda
-│   │           ├── criterios-generales/
-│   │           ├── criterios-fechas/
-│   │           ├── criterios-referencia/
-│   │           └── criterios-sujetos/
+│   │   │   ├── busqueda-container.service.ts  │  Lógica de búsqueda y anclados
+│   │   │   ├── busqueda-container.dto.ts     │  Signals (query, resultados, filtros, anclados)
+│   │   │   └── components/filtros-drawer/    │  Panel lateral de filtros avanzados
+│   │   └── busqueda-rapida/               │  Componente de búsqueda rápida (legado, mantiene tests)
 │   │
 │   └── admin/                    │  Administración (requiere rol ADMINISTRADOR)
 │       ├── usuarios/
@@ -142,7 +140,7 @@ Todos los servicios de `core/services/` son singletons (`providedIn: 'root'`) y 
 | **AuthService** | `auth.service.ts` | Gestiona el ciclo de vida de la sesión: login (POST `/auth/login`), logout (POST `/auth/logout`), cambio de contraseña. Almacena token en sessionStorage y expone `currentUser$` como Observable. Verifica expiración del JWT decodificando el payload base64 en el cliente. |
 | **StorageService** | `storage.service.ts` | Abstracción sobre `sessionStorage`. Métodos: `getItem`, `setItem`, `removeItem`, `getJson<T>`, `setJson`. Permite testear la capa de sesión sin depender del navegador. |
 | **ExpedientesService** | `expedientes.service.ts` | CRUD de expedientes: listar (paginado), obtener detalle, crear, editar. Mapea respuestas `ApiResponse<T>` a observables directos. |
-| **DocumentosService** | `documentos.service.ts` | Subir documentos (multipart/form-data), listar por expediente, descargar (blob), eliminar. |
+| **DocumentosService** | `documentos.service.ts` | Subir documentos (multipart/form-data), listar por expediente, eliminar. **Nota:** La descarga individual de archivos está bloqueada por política DLP en el backend (endpoint de descarga no devuelve archivo al cliente); el acceso al contenido se realiza únicamente a través del visor integrado o del Modo Presentación. |
 | **CatalogosService** | `catalogos.service.ts` | Obtener catálogos: estados de expediente, tipos de proceso, juzgados. Los resultados se almacenan en cache local (BehaviorSubject) para evitar llamadas repetidas. |
 | **BusquedaExpedientesService** | `busqueda-expedientes.service.ts` | Búsqueda avanzada paginada: envía `BusquedaAvanzadaRequest` a `POST /busqueda/avanzada` y retorna `Page<ExpedienteBusquedaResponse>`. |
 | **AuditoriaService** | `auditoria.service.ts` | Consulta el log de auditoría paginado con filtros de fecha, usuario, acción y módulo. Solo disponible para ADMINISTRADOR. |
@@ -297,7 +295,7 @@ Todas las rutas se definen en `app.routes.ts` con lazy-loading:
 | Ruta | Componente | Guards | Rol |
 |------|-----------|--------|-----|
 | `/login` | `LoginComponent` | — | Público |
-| `/dashboard` | `DashboardComponent` | AuthGuard | Todos |
+| `/dashboard` | `DashboardComponent` | AuthGuard | Todos (no es la pantalla inicial) |
 | `/cambiar-password` | `ChangePasswordComponent` | AuthGuard | Todos |
 | `/busqueda` | `BusquedaContainerComponent` | AuthGuard | Todos |
 | `/expedientes` | `ExpedientesListComponent` | AuthGuard | Todos |
@@ -306,13 +304,14 @@ Todas las rutas se definen en `app.routes.ts` con lazy-loading:
 | `/expedientes/:id/editar` | `ExpedienteFormComponent` | AuthGuard | ADMINISTRADOR, SECRETARIO |
 | `/expedientes/:id/documentos` | `DocumentosPageComponent` | AuthGuard | Todos |
 | `/presentacion/:expedienteNum` | `PresViewerComponent` | AuthGuard | Todos |
+| `/reportes` | `ReportesComponent` | AuthGuard | Todos |
 | `/admin/usuarios` | `UsuariosListComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |
 | `/admin/usuarios/nuevo` | `UsuarioFormComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |
 | `/admin/usuarios/:id` | `UsuarioDetailComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |
 | `/admin/usuarios/:id/editar` | `UsuarioFormComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |
 | `/admin/auditoria` | `AuditoriaListComponent` | AuthGuard + RoleGuard | ADMINISTRADOR |
-| `/` | Redirect a `/dashboard` | — | — |
-| `/**` | Redirect a `/dashboard` | — | — |
+| `/` | Redirect a `/busqueda` | — | — |
+| `/**` | Redirect a `/busqueda` | — | — |
 
 **Nota:** Los guards del frontend son una medida de UX. La autorización real se aplica en el backend con `@PreAuthorize`. Un usuario con token válido pero rol incorrecto recibirá 403 del API aunque sortee el guard del frontend.
 

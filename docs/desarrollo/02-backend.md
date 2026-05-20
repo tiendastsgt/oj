@@ -1,9 +1,9 @@
 ---
 Documento: BACKEND
 Proyecto: SGED
-Versión del sistema: v1.5.0
-Versión del documento: 1.1
-Última actualización: 2026-05-19
+Versión del sistema: v1.6.0
+Versión del documento: 1.2
+Última actualización: 2026-05-20
 Estado: Vigente
 ---
 

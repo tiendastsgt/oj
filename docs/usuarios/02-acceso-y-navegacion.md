@@ -21,7 +21,7 @@ Al terminar de leer este capitulo usted sabra:
 3. En la pantalla de acceso, escriba su **nombre de usuario** en el primer campo.
 4. Escriba su **contrasena** en el segundo campo.
 5. Haga clic en el boton **Ingresar**.
-6. Si sus credenciales son correctas, el sistema lo llevara directamente al panel principal.
+6. Si sus credenciales son correctas, el sistema lo llevara directamente al panel de busqueda principal.
 
 > [!WARNING]
 > **Bloqueo de cuenta por intentos fallidos:** Si ingresa su contrasena incorrectamente **5 veces seguidas**, su cuenta quedara bloqueada automaticamente por medidas de seguridad. Cuando esto ocurre, el sistema mostrara un mensaje de cuenta bloqueada y usted no podra intentar ingresar nuevamente. Debera contactar al administrador del sistema o a su supervisor para que desbloqueen su cuenta.
@@ -42,31 +42,35 @@ Si en algun momento ve la pantalla de inicio de sesion cuando estaba trabajando,
 
 ## 2.3 Descripcion del menu lateral
 
-Una vez dentro del sistema, el lado izquierdo de la pantalla muestra la **barra de navegacion lateral** (Menu institucional). Esta barra se distingue por su color **Azul Cobalto** e iconografía en **Dorado Quetzal** y contiene los accesos directos a los modulos del sistema.
+Una vez dentro del sistema, el lado izquierdo de la pantalla muestra la **barra de navegacion lateral**. Esta barra contiene los accesos directos a los modulos del sistema y permanece visible en todo momento.
 
-Los elementos tipicos del menu lateral son:
+Los elementos del menu lateral son:
 
 | Elemento del menu | Descripcion |
 |-------------------|-------------|
-| Panel Principal | Lleva al dashboard con indicadores generales |
-| Expedientes | Acceso al listado y gestion de expedientes |
-| Catalogos | Gestion de juzgados, tipos de proceso y estados (solo ADMIN) |
-| Usuarios | Administracion de cuentas de usuario (solo ADMIN) |
+| **Busqueda de expedientes** | Pantalla principal para consultar expedientes por numero o nomenclatura |
+| **Expedientes** | Acceso al listado y gestion de expedientes |
+| **Reportes** | Generacion de reportes del sistema |
+| **Usuarios y roles** | Administracion de cuentas de usuario (solo ADMINISTRADOR) |
+| **Auditoria** | Registro de actividad del sistema (solo ADMINISTRADOR) |
+| **Dashboard** | Panel con indicadores generales de expedientes |
 
 > [!NOTE]
 > El menu lateral solo muestra las opciones para las cuales su rol tiene permiso. Si no ve alguna opcion, es porque no esta habilitada para su nivel de acceso. Esto es un comportamiento normal del sistema.
 
-El menu lateral puede **colapsarse** para ganar espacio en pantalla, dejando visible únicamente los iconos dorados. Para colapsarlo, haga clic en el icono de las tres lineas horizontales ubicado en la parte superior. Para expandirlo nuevamente, haga clic en el mismo icono.
+En la parte **inferior del menu lateral** encontrara siempre visible un panel con su informacion personal: su avatar con iniciales, su nombre completo y su rol en el sistema. Desde ahi tambien puede cerrar sesion (ver seccion 2.6).
 
 ---
 
 ## 2.4 Descripcion de la barra superior
 
-La **barra superior** (o cabecera) se encuentra en la parte alta de la pantalla y permanece visible en todo momento. Su diseno es minimalista (fondo papel) y contiene:
+La **barra superior** se encuentra en la parte alta de la pantalla y permanece visible durante la navegacion. Su diseno es minimalista y contiene:
 
-- **Escudo Institucional / Nombre del sistema** (centro o izquierda): identificacion visual oficial de la plataforma.
-- **Buscador global** (centro): barra de busqueda rapida en toda la base de expedientes.
-- **Menu de perfil de usuario** (extremo derecho): muestra sus iniciales o avatar, su nombre de usuario, y contiene las opciones de cambio de contrasena y cierre de sesion.
+- **Titulo de la seccion actual** (izquierda o centro): indica en que modulo se encuentra.
+- **Ruta de navegacion (migas de pan)**: muestra la ubicacion dentro del sistema, por ejemplo: *Consulta / Busqueda de expedientes*.
+
+> [!NOTE]
+> La barra superior es **unicamente informativa**. No contiene menus desplegables, botones de perfil ni opciones de configuracion. Todas las acciones de sesion (cambiar contrasena, cerrar sesion) se realizan desde el **menu lateral izquierdo**, no desde la barra superior.
 
 ---
 
@@ -74,9 +78,9 @@ La **barra superior** (o cabecera) se encuentra en la parte alta de la pantalla 
 
 Es recomendable cambiar su contrasena periodicamente. Para hacerlo:
 
-1. Haga clic en su **nombre de usuario** en la esquina superior derecha de la pantalla.
-2. En el menu desplegable que aparece, seleccione la opcion **Cambiar contrasena** (o similar segun la version del sistema).
-3. Se abrira un formulario con tres campos:
+1. En el **menu lateral izquierdo**, haga clic en el icono de **Configuracion** (representado por un engranaje ⚙).
+2. El sistema lo llevara a la pantalla de cambio de contrasena.
+3. Complete los tres campos del formulario:
    - **Contrasena actual:** escriba su contrasena vigente.
    - **Nueva contrasena:** escriba la contrasena que desea usar.
    - **Confirmar nueva contrasena:** escriba nuevamente la nueva contrasena para verificarla.
@@ -95,9 +99,11 @@ Es recomendable cambiar su contrasena periodicamente. Para hacerlo:
 
 Cuando termine su jornada de trabajo o vaya a alejarse de su computadora por un tiempo prolongado, cierre sesion para proteger la informacion:
 
-1. Haga clic en su **nombre de usuario** en la esquina superior derecha.
-2. En el menu desplegable, seleccione **Cerrar sesion**.
-3. El sistema lo redirigira a la pantalla de inicio de sesion.
+1. Dirijase al **panel de usuario** ubicado en la parte **inferior izquierda del menu lateral**. Ahi vera su avatar, nombre y rol.
+2. Haga clic en el **icono de salida** (flecha apuntando hacia la derecha, al lado de su nombre).
+3. El sistema le pedira confirmacion con un mensaje: *"¿Esta seguro de que desea cerrar sesion?"*.
+4. Haga clic en **Cerrar Sesion** para confirmar.
+5. El sistema lo redirigira a la pantalla de inicio de sesion.
 
 > [!WARNING]
 > No cierre simplemente la pestana del navegador sin cerrar sesion primero, especialmente si trabaja en un equipo compartido. La sesion permanece activa hasta que la cierre manualmente o transcurran las 8 horas automaticas.

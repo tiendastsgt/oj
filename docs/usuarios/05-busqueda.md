@@ -3,131 +3,134 @@
 ## Objetivo de este capitulo
 
 Al terminar de leer este capitulo usted sabra:
-- Como realizar una busqueda rapida por numero de expediente.
-- Como usar la busqueda avanzada con multiples criterios de filtrado.
-- Como interpretar los resultados que muestra el sistema.
+- Como realizar una busqueda por numero o nomenclatura de expediente.
+- Como usar los filtros avanzados para refinar resultados.
+- Como interpretar las tarjetas de resultado que muestra el sistema.
+- Como usar los expedientes anclados para acceso rapido.
 
 ---
 
 ## 5.1 Tipos de busqueda disponibles
 
-El SGED ofrece dos modalidades de busqueda y una función de acceso rápido para localizar expedientes:
+El SGED ofrece dos modalidades de busqueda y una funcion de acceso rapido:
 
 | Modalidad | Cuando usarla |
 |-----------|---------------|
-| **Expedientes Anclados** | Para acceder instantáneamente a los expedientes y documentos que utiliza con mayor frecuencia, fijados en la parte superior de la pantalla. |
-| **Busqueda rapida** | Cuando conoce el numero exacto o parcial del expediente y quiere encontrarlo de forma inmediata. |
-| **Busqueda avanzada** | Cuando necesita filtrar expedientes por varios criterios combinados: tipo de proceso, estado, juzgado, partes del caso, rango de fechas, etc. |
+| **Expedientes Anclados** | Para acceder instantaneamente a los expedientes que utiliza con mayor frecuencia, fijados en la parte superior de la pantalla. |
+| **Busqueda principal** | Cuando conoce el numero exacto o parcial del expediente, o su nomenclatura, y quiere encontrarlo de forma inmediata. |
+| **Filtros avanzados** | Cuando necesita refinar los resultados por fecha, expedientes con documentos anclados, expedientes asignados a usted, o audiencias proximas. |
 
 ---
 
-## 5.2 Expedientes Anclados (Fijar para acceso rápido)
+## 5.2 Expedientes Anclados (Fijar para acceso rapido)
 
-En la parte superior de la pantalla de búsqueda, encontrará la sección de **Expedientes Anclados**. Esta función le permite "fijar" documentos específicos o expedientes completos para no tener que buscarlos cada vez.
+En la seccion de busqueda, si tiene expedientes anclados, vera tarjetas grandes en la parte superior con la informacion de cada expediente fijado. Cada tarjeta muestra:
 
-1. **Cómo anclar:** Cuando visualice un documento o un expediente que considere importante, haga clic en el icono de la **chincheta** (anclar).
-2. **Cómo acceder:** Vuelva a la pantalla de búsqueda. En la parte superior (el "hero"), verá tarjetas grandes con todos sus expedientes anclados.
-3. **Cómo desanclar:** Haga clic nuevamente en la chincheta o en el icono de remover dentro de la tarjeta del expediente anclado.
+- Numero del expediente y juzgado.
+- Fecha de preparacion y, si aplica, fecha de audiencia proxima.
+- Lista de los primeros documentos anclados.
+- Dos botones de accion: **Ver anclados** (abre el expediente en la pestana de archivos) y **Presentar** (inicia el Modo Presentacion).
+
+**Como anclar un documento o expediente:**
+1. Cuando visualice un documento dentro de un expediente, busque el icono de **chincheta** (anclar).
+2. Haga clic en el para fijar ese documento.
+3. Al volver a la pantalla de busqueda, el expediente aparecera en la seccion "Mis anclados".
+
+**Como desanclar:**
+Haga clic nuevamente en la chincheta del documento, o utilice el control correspondiente en la tarjeta del expediente anclado.
 
 > [!TIP]
-> Los anclados son personales. Lo que usted ancla solo lo ve usted, y se guarda en su propio navegador. Es la forma más rápida de retomar el trabajo de los días anteriores.
+> Los anclados son personales y se guardan en su navegador. Solo usted los ve. Es la forma mas rapida de retomar el trabajo de dias anteriores sin necesidad de buscar nuevamente.
 
 ---
 
-## 5.3 Busqueda rapida
+## 5.3 Busqueda principal
 
-La busqueda rapida es la forma mas directa de encontrar un expediente cuando conoce su numero:
+La busqueda principal es la forma mas directa de encontrar un expediente:
 
-1. En el modulo de **Expedientes**, localice el campo de busqueda en la parte superior de la tabla (generalmente un cuadro de texto con un icono de lupa).
+1. En el modulo de **Busqueda de expedientes** (accesible desde el menu lateral), localice el campo de busqueda central en la parte superior de la pantalla.
 
 ![Interfaz de Búsqueda y Resultados](../img/listado_expedientes.png)
 
-2. Escriba el numero del expediente que desea encontrar, o una parte de el.
-3. Presione la tecla **Enter** o haga clic en el icono de lupa para ejecutar la busqueda.
-4. La tabla se actualizara mostrando unicamente los expedientes cuyo numero coincida con el texto ingresado.
+2. Escriba el numero del expediente o su nomenclatura completa o parcial. Por ejemplo: `01173-2024-00428` o simplemente `2024`.
+3. Presione la tecla **Enter** o haga clic en el boton **Buscar**.
+4. El sistema mostrara las tarjetas de resultado en la parte inferior de la pantalla.
 
 > [!TIP]
-> No necesita escribir el numero completo. Si escribe solo los primeros digitos o una parte del numero, el sistema buscara todos los expedientes que contengan ese fragmento en su numero. Por ejemplo, si escribe "2024", aparecera todo expediente que tenga "2024" en su numero.
+> No necesita escribir el numero completo. Si escribe solo una parte (por ejemplo `2024`), el sistema encontrara todos los expedientes que contengan ese fragmento. El sistema tambien muestra ejemplos de formatos validos debajo del campo de busqueda para orientarlo.
 
 > [!NOTE]
-> Para volver a ver todos los expedientes despues de una busqueda, borre el texto del campo de busqueda y presione Enter, o haga clic en el boton para limpiar el filtro si aparece disponible.
+> Para limpiar los resultados y realizar una nueva busqueda, borre el contenido del campo y presione Enter, o simplemente escriba el nuevo termino a buscar.
 
 ---
 
-## 5.4 Busqueda avanzada
+## 5.4 Filtros avanzados
 
-La busqueda avanzada permite combinar multiples criterios para obtener resultados mas precisos. Es util cuando necesita encontrar todos los expedientes de un tipo de proceso especifico, de un juzgado determinado, o dentro de un rango de fechas.
+Los filtros avanzados le permiten refinar los resultados de una busqueda ya realizada. Para usarlos:
 
-Para usar la busqueda avanzada:
+1. Realice primero una busqueda (ver seccion 5.3).
+2. En la barra de resultados que aparece, haga clic en el boton **Filtros avanzados** (icono de embudo, en la esquina derecha de la barra).
+3. Se abrira un panel lateral deslizante con los siguientes criterios:
 
-1. En el modulo de **Expedientes**, haga clic en el boton o enlace de **Busqueda avanzada** (generalmente ubicado cerca del campo de busqueda rapida, o como un boton adicional).
-2. Se desplegara un panel o formulario con los siguientes criterios de filtrado:
+| Filtro | Descripcion |
+|--------|-------------|
+| **Fecha desde** | Limita los resultados a expedientes creados a partir de esta fecha. |
+| **Fecha hasta** | Limita los resultados a expedientes creados hasta esta fecha. |
+| **Solo con anclados** | Muestra unicamente expedientes que tengan documentos anclados por usted. |
+| **Solo asignados a mi** | Muestra unicamente expedientes asociados a su juzgado o cuenta. |
+| **Audiencia proxima** | Muestra unicamente expedientes con una audiencia programada proximamente. |
 
-   | Criterio | Descripcion |
-   |----------|-------------|
-   | **Numero de expediente** | Permite buscar por numero exacto o fragmento del numero. |
-   | **Tipo de proceso** | Seleccione de la lista el tipo de proceso que desea filtrar (ej. Civil, Penal, Laboral). |
-   | **Estado** | Filtre por el estado actual del expediente: Activo, Archivado o Suspendido. |
-   | **Juzgado** | Seleccione el juzgado o tribunal donde radica el expediente. |
-   | **Demandante** | Escriba el nombre o parte del nombre de la parte demandante para filtrar. |
-   | **Demandado** | Escriba el nombre o parte del nombre de la parte demandada para filtrar. |
-   | **Fecha de inicio (desde)** | Limite los resultados a expedientes iniciados a partir de esta fecha. |
-   | **Fecha de inicio (hasta)** | Limite los resultados a expedientes iniciados hasta esta fecha. |
-
-3. Complete uno o varios de los criterios segun lo que necesite encontrar. No es obligatorio completar todos los campos; use solo los que le sean utiles.
-4. Haga clic en el boton **Buscar** o **Aplicar filtros**.
-5. El sistema mostrara en la tabla los expedientes que cumplan con todos los criterios ingresados simultaneamente.
+4. Active los criterios que necesite y haga clic en **Aplicar**.
+5. Los filtros activos se mostraran como etiquetas (chips) en la barra de resultados. Puede eliminar cualquier filtro haciendo clic en la X de su etiqueta.
 
 > [!TIP]
-> Combine criterios para afinar sus resultados. Por ejemplo, si busca expedientes de tipo "Civil" en el "Juzgado 3" con estado "Activo", complete esos tres campos y el sistema le devolvera unicamente los expedientes que cumplan las tres condiciones al mismo tiempo.
-
-> [!NOTE]
-> Los campos de texto en la busqueda avanzada (como demandante o demandado) aceptan coincidencias parciales. No necesita escribir el nombre completo; con escribir una parte del nombre es suficiente para que el sistema encuentre coincidencias.
+> Combine la busqueda por numero con los filtros para afinar aun mas sus resultados. Por ejemplo, busque `2024` y luego active "Solo con anclados" para ver solo los expedientes del 2024 que tiene preparados.
 
 ---
 
-## 5.5 Como limpiar los filtros de busqueda
+## 5.5 Como limpiar los filtros
 
-Despues de realizar una busqueda avanzada, para volver a ver todos los expedientes:
+Para quitar un filtro activo tiene dos opciones:
 
-1. Haga clic en el boton **Limpiar** o **Limpiar filtros** (generalmente ubicado junto al boton Buscar).
-2. Todos los campos del formulario se vaciaran y la tabla mostrara nuevamente todos los expedientes disponibles para su rol.
+- Haga clic en la **X** de la etiqueta del filtro que aparece en la barra de resultados.
+- Abra nuevamente el panel de filtros avanzados y haga clic en **Limpiar**.
 
 ---
 
 ## 5.6 Interpretar los resultados de la busqueda
 
-Los resultados de cualquier busqueda se muestran en la misma tabla del listado de expedientes, con las siguientes columnas habituales:
+Los resultados se muestran como **tarjetas** en la parte inferior de la pantalla. Cada tarjeta contiene:
 
-| Columna | Informacion que muestra |
-|---------|------------------------|
-| **Numero de expediente** | Codigo unico del expediente |
-| **Tipo de proceso** | Clasificacion del proceso judicial |
-| **Juzgado** | Organo judicial donde radica |
-| **Estado** | Situacion actual (Activo, Archivado, Suspendido) |
-| **Demandante** | Nombre de la parte accionante |
-| **Demandado** | Nombre de la parte accionada |
+| Elemento | Informacion que muestra |
+|----------|------------------------|
+| **Numero de expediente** | Codigo unico del expediente (en formato destacado) |
+| **Juzgado** | Organo judicial donde radica el expediente |
+| **Partes del caso** | Nombre del demandante y demandado separados por un punto |
+| **Tipo de proceso** | Clasificacion judicial (badge azul) |
+| **Estado** | Situacion actual del expediente: Activo, Archivado, Suspendido (badge verde) |
 | **Fecha de inicio** | Fecha de apertura del expediente |
-| **Acciones** | Botones para ver, editar o acceder a documentos |
+| **Indicador de anclados** | Si tiene documentos anclados de ese expediente, aparece un icono de chincheta con el conteo |
 
-Si la busqueda no encuentra resultados, la tabla mostrara un mensaje indicando que no se encontraron expedientes con los criterios ingresados. En ese caso:
+Haga clic sobre cualquier tarjeta para ingresar al detalle completo del expediente.
 
-- Verifique que los criterios escritos no tengan errores ortograficos.
-- Pruebe con criterios menos restrictivos.
+Si la busqueda no encuentra resultados, el sistema mostrara un mensaje indicando que debe ingresar un numero o nomenclatura para comenzar. En ese caso:
+
+- Verifique que no haya errores de escritura en el numero ingresado.
+- Pruebe con un fragmento mas corto del numero.
 - Si esta seguro de que el expediente existe pero no aparece, contacte al administrador del sistema.
 
 ---
 
 ## 5.7 Paginacion de resultados
 
-Si la busqueda devuelve muchos resultados, el sistema los muestra en paginas. Al pie de la tabla encontrara los controles de paginacion:
+Si la busqueda devuelve muchos resultados, el sistema los muestra en paginas. Al pie de las tarjetas encontrara los controles de paginacion:
 
 - Flechas para avanzar o retroceder de pagina.
-- Numero de pagina actual y total de paginas.
-- En algunos casos, un selector para elegir cuantos resultados mostrar por pagina.
+- Numeros de pagina para saltar directamente a una pagina especifica.
+- Indicador de resultados: *"Mostrando X–Y de Z resultados"*.
 
 > [!TIP]
-> Si los resultados son demasiados, agregue mas criterios a la busqueda avanzada para reducir la cantidad y encontrar mas rapidamente lo que busca.
+> Si los resultados son demasiados, active filtros avanzados para reducir la cantidad y encontrar mas rapidamente lo que busca.
 
 ---
 
@@ -135,10 +138,11 @@ Si la busqueda devuelve muchos resultados, el sistema los muestra en paginas. Al
 
 | Accion | ADMIN | SECRETARIO | AUXILIAR | JUEZ | CONSULTA |
 |--------|:-----:|:----------:|:--------:|:----:|:--------:|
-| Usar busqueda rapida | Si | Si | Si | Si | Si |
-| Usar busqueda avanzada | Si | Si | Si | Si | Si |
+| Usar busqueda principal | Si | Si | Si | Si | Si |
+| Usar filtros avanzados | Si | Si | Si | Si | Si |
 | Ver resultados de busqueda | Si | Si | Si | Si | Si |
 | Acceder al detalle de un resultado | Si | Si | Si | Si | Si |
+| Usar expedientes anclados | Si | Si | Si | Si | Si |
 
 ---
 
