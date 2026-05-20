@@ -1,6 +1,6 @@
 import {
-  AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef,
-  NgZone, OnDestroy, effect, inject, input, output,
+  ChangeDetectionStrategy, Component, ElementRef,
+  NgZone, OnDestroy, effect, inject, input, output, untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as pdfjsLib from 'pdfjs-dist';
@@ -17,7 +17,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs';
   templateUrl: './pres-viewer.component.html',
   styleUrls: ['./pres-viewer.component.scss'],
 })
-export class PresViewerComponent implements AfterViewChecked, OnDestroy {
+export class PresViewerComponent implements OnDestroy {
   mergedPdfUrl   = input.required<string | null>();
   pageOffsets    = input.required<number[]>();
   docs           = input.required<PresentacionDoc[]>();
@@ -32,46 +32,30 @@ export class PresViewerComponent implements AfterViewChecked, OnDestroy {
 
   private observer?: IntersectionObserver;
   private renderAbortController = new AbortController();
-  private pendingRenderUrl: string | null = null;
-  private pendingScrollPage: number | null = null;
 
   constructor() {
     effect(() => {
       const url = this.mergedPdfUrl();
       this.cancelRender();
+      this.clearContainer();
       if (url) {
-        this.pendingRenderUrl = url;
-      } else {
-        this.clearContainer();
+        untracked(() => this.zone.runOutsideAngular(() => this.renderMergedPdf(url)));
       }
     });
 
     effect(() => {
       const target = this.scrollTargetTick();
       if (target) {
-        this.pendingScrollPage = target.page;
+        untracked(() => {
+          const el = this.el.nativeElement.querySelector(`[data-page-idx="${target.page}"]`);
+          el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
       }
     });
   }
 
   private get pagesHost(): HTMLDivElement | null {
     return this.el.nativeElement.querySelector<HTMLDivElement>('.pres-viewer-pages');
-  }
-
-  // ngAfterViewChecked garantiza que el DOM esté actualizado antes de operar sobre él
-  ngAfterViewChecked(): void {
-    if (this.pendingRenderUrl) {
-      const url = this.pendingRenderUrl;
-      this.pendingRenderUrl = null;
-      this.clearContainer();
-      this.zone.runOutsideAngular(() => this.renderMergedPdf(url));
-    }
-    if (this.pendingScrollPage !== null) {
-      const page = this.pendingScrollPage;
-      this.pendingScrollPage = null;
-      const el = this.el.nativeElement.querySelector(`[data-page-idx="${page}"]`);
-      el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   }
 
   ngOnDestroy(): void {
