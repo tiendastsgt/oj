@@ -110,6 +110,13 @@ export class DtoInterceptor implements HttpInterceptor {
       );
     }
 
+    const usuarioIdMatch = url.match(/\/admin\/usuarios\/(\d+)$/);
+    if (usuarioIdMatch && req.method === 'GET') {
+      const id = Number(usuarioIdMatch[1]);
+      const usuario = DTO_USUARIOS.find(u => u.id === id) ?? DTO_USUARIOS[0];
+      return of(new HttpResponse({ status: 200, body: { success: true, data: usuario } }));
+    }
+
     if (url.includes('/admin/usuarios') && req.method === 'GET') {
       return of(new HttpResponse({
         status: 200,
@@ -121,6 +128,10 @@ export class DtoInterceptor implements HttpInterceptor {
           }
         }
       }));
+    }
+
+    if (url.match(/\/admin\/usuarios\/\d+$/) && (req.method === 'PUT' || req.method === 'POST')) {
+      return of(new HttpResponse({ status: 200, body: { success: true, data: null } }));
     }
 
     if (url.includes('/admin/auditoria') && req.method === 'GET') {

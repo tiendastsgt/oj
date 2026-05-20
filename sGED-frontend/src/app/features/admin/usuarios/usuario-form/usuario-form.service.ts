@@ -4,15 +4,36 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AdminUsuariosService } from '../../../../core/services/admin-usuarios.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { CatalogosService } from '../../../../core/services/catalogos.service';
+import { AuthUser } from '../../../../core/models/auth-user.model';
+import { OjShellSection, OjShellUser } from '../../../../shared/components/oj-shell/oj-shell.types';
 import { UsuarioFormDto } from './usuario-form.dto';
 import { LoadState, CrearUsuarioRequest, ActualizarUsuarioRequest } from './usuario-form.types';
+
+const NAV_CONSULTA: OjShellSection = {
+  label: 'Consulta',
+  items: [{ label: 'Búsqueda de expedientes', icon: 'pi pi-search', route: '/busqueda' }]
+};
+const NAV_ANALISIS: OjShellSection = {
+  label: 'Análisis',
+  items: [{ label: 'Reportes', icon: 'pi pi-chart-bar', route: '/reportes' }]
+};
+const NAV_ADMIN: OjShellSection = {
+  label: 'Administración',
+  items: [
+    { label: 'Usuarios y roles', icon: 'pi pi-users',   route: '/admin/usuarios' },
+    { label: 'Auditoría',        icon: 'pi pi-history', route: '/admin/auditoria' }
+  ]
+};
+
 @Injectable()
 export class UsuarioFormService {
   private readonly destroyRef   = inject(DestroyRef);
   private readonly route        = inject(ActivatedRoute);
   private readonly router       = inject(Router);
   private readonly adminSvc     = inject(AdminUsuariosService);
+  private readonly authSvc      = inject(AuthService);
   private readonly msgSvc       = inject(MessageService);
   private readonly catalogosSvc = inject(CatalogosService);
   private readonly fb           = inject(FormBuilder);
@@ -30,6 +51,7 @@ export class UsuarioFormService {
   });
 
   constructor() {
+    this.initShell();
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       if (params['id']) {
         this.dto.isCreation.set(false);
@@ -143,5 +165,27 @@ export class UsuarioFormService {
   isFieldInvalid(fieldName: string): boolean {
     const field = this.form.get(fieldName);
     return !!(field && field.invalid && field.touched);
+  }
+
+  private initShell(): void {
+    const user = this.authSvc.getCurrentUser();
+    if (user) {
+      this.dto.shellUser.set(this.toShellUser(user));
+      this.dto.shellSections.set(this.buildSections(user));
+    }
+  }
+
+  private toShellUser(user: AuthUser): OjShellUser {
+    const parts = user.nombreCompleto.trim().split(' ');
+    const initials = parts.length >= 2
+      ? `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase()
+      : user.nombreCompleto.slice(0, 2).toUpperCase();
+    return { name: user.nombreCompleto, role: user.rol, initials };
+  }
+
+  private buildSections(user: AuthUser): OjShellSection[] {
+    const sections: OjShellSection[] = [NAV_CONSULTA, NAV_ANALISIS];
+    if (user.rol === 'ADMINISTRADOR') sections.push(NAV_ADMIN);
+    return sections;
   }
 }

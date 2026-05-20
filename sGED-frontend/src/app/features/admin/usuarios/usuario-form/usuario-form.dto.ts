@@ -1,5 +1,7 @@
 import { signal, computed } from '@angular/core';
+import { OjShellBreadcrumbItem, OjShellSection, OjShellUser } from '../../../../shared/components/oj-shell/oj-shell.types';
 import { LoadState, RolOption, JuzgadoOption } from './usuario-form.types';
+
 export const ROLES_ESTATICOS: RolOption[] = [
   { label: 'ADMINISTRADOR', value: 1 },
   { label: 'SECRETARIO',    value: 2 },
@@ -17,4 +19,13 @@ export class UsuarioFormDto {
   roles        = signal<RolOption[]>(ROLES_ESTATICOS);
   submitting   = signal<boolean>(false);
   errorMessage = signal<string>('');
+
+  shellSections = signal<OjShellSection[]>([]);
+  shellUser     = signal<OjShellUser | null>(null);
+
+  readonly breadcrumb: OjShellBreadcrumbItem[] = [
+    { label: 'Administración' },
+    { label: 'Usuarios y roles', route: '/admin/usuarios' },
+    { label: 'Formulario' }
+  ];
 }

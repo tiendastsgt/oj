@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
-import { CardModule } from 'primeng/card';
 import { MessageService } from 'primeng/api';
+import { OjShellComponent } from '../../../../shared/components/oj-shell/oj-shell.component';
 import { UsuarioFormService } from './usuario-form.service';
 
 @Component({
@@ -14,7 +12,7 @@ import { UsuarioFormService } from './usuario-form.service';
   styleUrls: ['./usuario-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, ToastModule, CardModule],
+  imports: [CommonModule, ReactiveFormsModule, ToastModule, OjShellComponent],
   providers: [UsuarioFormService, MessageService],
 })
 export class UsuarioFormComponent {

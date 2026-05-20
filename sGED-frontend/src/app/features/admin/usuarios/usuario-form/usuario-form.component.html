@@ -1,122 +1,179 @@
-<div class="fade-in">
-  <div class="page-header-actions mb-6">
-    <div>
-      <h1 class="page-title">{{ dto.isCreation() ? 'Crear Nuevo Usuario' : 'Editar Usuario' }}</h1>
-      <p class="subtitle">{{ dto.isCreation() ? 'Complete los datos para registrar una nueva cuenta' : 'Modifique los datos del usuario seleccionado' }}</p>
-    </div>
-    <button class="btn btn-secondary" (click)="svc.cancelar()">
-      <i class="pi pi-arrow-left"></i> Volver
-    </button>
-  </div>
+<app-oj-shell
+  [sections]="dto.shellSections()"
+  [title]="dto.isCreation() ? 'Nuevo usuario' : 'Editar usuario'"
+  [breadcrumb]="dto.breadcrumb"
+  [user]="dto.shellUser()">
 
-  <div class="card glass-panel shadow-lg" style="max-width: 800px;">
-    <div class="card-header">
-      <div class="section-title">
-        <i class="pi pi-user-edit"></i> {{ dto.isCreation() ? 'DATOS DE LA CUENTA' : 'DATOS DEL USUARIO' }}
+  <!-- ADMIN HEADER -->
+  <section class="admin-header">
+    <div class="admin-header-info">
+      <div class="admin-header-eyebrow">
+        <span class="admin-header-eyebrow-dot"></span>
+        Gestión institucional
       </div>
+      <h2 class="admin-header-title">
+        {{ dto.isCreation() ? 'Crear nuevo usuario' : 'Editar usuario' }}
+      </h2>
+      <p class="admin-header-desc">
+        {{ dto.isCreation()
+          ? 'Complete los datos para registrar una nueva cuenta en el sistema.'
+          : 'Modifique los datos del usuario seleccionado.' }}
+      </p>
     </div>
-    <div class="card-body" style="padding: var(--space-6);">
-      <form [formGroup]="svc.form" (ngSubmit)="svc.guardar()">
-        @if (dto.isCreation()) {
-        <div class="form-field mb-4">
-          <label class="form-label" htmlFor="username"><i class="pi pi-at"></i> Username *</label>
-          <input type="text" id="username" class="form-input" placeholder="Ej: juan.perez" formControlName="username" />
+    <button type="button" class="btn-back" (click)="svc.cancelar()">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Volver
+    </button>
+  </section>
+
+  <!-- FORM AREA -->
+  <div class="form-wrap">
+    <form [formGroup]="svc.form" (ngSubmit)="svc.guardar()" class="form-card" autocomplete="off">
+
+      @if (dto.isLoading()) {
+        <div class="form-loading">
+          <i class="pi pi-spin pi-spinner"></i> Cargando datos...
+        </div>
+      }
+
+      <!-- USERNAME (solo creación) -->
+      @if (dto.isCreation()) {
+        <div class="form-field">
+          <label class="field-label" for="username">
+            <i class="pi pi-at field-icon"></i> Username <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="username"
+            class="field-input"
+            [class.field-input--error]="svc.isFieldInvalid('username')"
+            placeholder="Ej: juan.perez"
+            formControlName="username"
+          />
           @if (svc.isFieldInvalid('username')) {
-          <div class="field-error">
-            @if (svc.form.get('username')?.errors?.['required'])  { <span>El username es requerido</span> }
-            @if (svc.form.get('username')?.errors?.['minlength']) { <span>Mínimo 3 caracteres</span> }
-            @if (svc.form.get('username')?.errors?.['maxlength']) { <span>Máximo 50 caracteres</span> }
-          </div>
+            <div class="field-error">
+              @if (svc.form.get('username')?.errors?.['required'])  { <span>El username es requerido</span> }
+              @if (svc.form.get('username')?.errors?.['minlength']) { <span>Mínimo 3 caracteres</span> }
+              @if (svc.form.get('username')?.errors?.['maxlength']) { <span>Máximo 50 caracteres</span> }
+            </div>
           }
         </div>
-        }
+      }
 
-        <div class="form-field mb-4">
-          <label class="form-label" htmlFor="nombreCompleto"><i class="pi pi-user"></i> Nombre Completo *</label>
-          <input type="text" id="nombreCompleto" class="form-input" placeholder="Nombre y apellidos" formControlName="nombreCompleto" />
-          @if (svc.isFieldInvalid('nombreCompleto')) {
+      <!-- NOMBRE COMPLETO -->
+      <div class="form-field">
+        <label class="field-label" for="nombreCompleto">
+          <i class="pi pi-user field-icon"></i> Nombre completo <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="nombreCompleto"
+          class="field-input"
+          [class.field-input--error]="svc.isFieldInvalid('nombreCompleto')"
+          placeholder="Nombre y apellidos"
+          formControlName="nombreCompleto"
+        />
+        @if (svc.isFieldInvalid('nombreCompleto')) {
           <div class="field-error">
             @if (svc.form.get('nombreCompleto')?.errors?.['required'])  { <span>El nombre completo es requerido</span> }
             @if (svc.form.get('nombreCompleto')?.errors?.['minlength']) { <span>Mínimo 5 caracteres</span> }
             @if (svc.form.get('nombreCompleto')?.errors?.['maxlength']) { <span>Máximo 150 caracteres</span> }
           </div>
-          }
-        </div>
+        }
+      </div>
 
-        <div class="form-field mb-4">
-          <label class="form-label" htmlFor="email"><i class="pi pi-envelope"></i> Email *</label>
-          <input type="email" id="email" class="form-input" placeholder="correo@oj.gob.gt" formControlName="email" />
-          @if (svc.isFieldInvalid('email')) {
+      <!-- EMAIL -->
+      <div class="form-field">
+        <label class="field-label" for="email">
+          <i class="pi pi-envelope field-icon"></i> Correo electrónico <span class="required">*</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          class="field-input"
+          [class.field-input--error]="svc.isFieldInvalid('email')"
+          placeholder="correo@oj.gob.gt"
+          formControlName="email"
+        />
+        @if (svc.isFieldInvalid('email')) {
           <div class="field-error">
-            @if (svc.form.get('email')?.errors?.['required'])  { <span>El email es requerido</span> }
-            @if (svc.form.get('email')?.errors?.['email'])     { <span>Email inválido</span> }
+            @if (svc.form.get('email')?.errors?.['required'])  { <span>El correo es requerido</span> }
+            @if (svc.form.get('email')?.errors?.['email'])     { <span>Correo inválido</span> }
             @if (svc.form.get('email')?.errors?.['maxlength']) { <span>Máximo 100 caracteres</span> }
           </div>
+        }
+      </div>
+
+      <!-- ROL + JUZGADO -->
+      <div class="form-row">
+        <div class="form-field">
+          <label class="field-label" for="rolId">
+            <i class="pi pi-shield field-icon"></i> Rol <span class="required">*</span>
+          </label>
+          <select id="rolId" class="field-input field-select" [class.field-input--error]="svc.isFieldInvalid('rolId')" formControlName="rolId">
+            <option value="">Seleccionar rol</option>
+            @for (rol of dto.roles(); track rol.value) {
+              <option [value]="rol.value">{{ rol.label }}</option>
+            }
+          </select>
+          @if (svc.isFieldInvalid('rolId')) {
+            <div class="field-error"><span>El rol es requerido</span></div>
           }
         </div>
 
-        <div class="grid-2 mb-4">
-          <div class="form-field">
-            <label class="form-label" htmlFor="rolId"><i class="pi pi-shield"></i> Rol *</label>
-            <select id="rolId" formControlName="rolId" class="form-input form-select">
-              <option value="">Seleccionar rol</option>
-              @for (rol of dto.roles(); track rol.value) {
-              <option [value]="rol.value">{{ rol.label }}</option>
-              }
-            </select>
-            @if (svc.isFieldInvalid('rolId')) {
-            <div class="field-error">
-              @if (svc.form.get('rolId')?.errors?.['required']) { <span>El rol es requerido</span> }
-            </div>
-            }
-          </div>
-          <div class="form-field">
-            <label class="form-label" htmlFor="juzgadoId"><i class="pi pi-building"></i> Juzgado *</label>
-            <select id="juzgadoId" formControlName="juzgadoId" class="form-input form-select">
-              <option value="">Seleccionar juzgado</option>
-              @for (juzgado of dto.juzgados(); track juzgado.value) {
+        <div class="form-field">
+          <label class="field-label" for="juzgadoId">
+            <i class="pi pi-building field-icon"></i> Despacho asignado <span class="required">*</span>
+          </label>
+          <select id="juzgadoId" class="field-input field-select" [class.field-input--error]="svc.isFieldInvalid('juzgadoId')" formControlName="juzgadoId">
+            <option value="">Seleccionar despacho</option>
+            @for (juzgado of dto.juzgados(); track juzgado.value) {
               <option [value]="juzgado.value">{{ juzgado.label }}</option>
-              }
-            </select>
-            @if (svc.isFieldInvalid('juzgadoId')) {
-            <div class="field-error">
-              @if (svc.form.get('juzgadoId')?.errors?.['required']) { <span>El juzgado es requerido</span> }
-            </div>
             }
-          </div>
+          </select>
+          @if (svc.isFieldInvalid('juzgadoId')) {
+            <div class="field-error"><span>El despacho es requerido</span></div>
+          }
         </div>
+      </div>
 
-        @if (!dto.isCreation()) {
-        <div class="grid-2 mb-6">
+      <!-- ESTADO + BLOQUEO (solo edición) -->
+      @if (!dto.isCreation()) {
+        <div class="form-row">
           <div class="form-field">
-            <label class="form-label" htmlFor="activo"><i class="pi pi-check-circle"></i> Estado</label>
-            <select id="activo" formControlName="activo" class="form-input form-select">
+            <label class="field-label" for="activo">
+              <i class="pi pi-check-circle field-icon"></i> Estado
+            </label>
+            <select id="activo" class="field-input field-select" formControlName="activo">
               <option [value]="true">Activo</option>
               <option [value]="false">Inactivo</option>
             </select>
           </div>
           <div class="form-field">
-            <label class="form-label" htmlFor="bloqueado"><i class="pi pi-lock"></i> Bloqueo</label>
-            <select id="bloqueado" formControlName="bloqueado" class="form-input form-select">
+            <label class="field-label" for="bloqueado">
+              <i class="pi pi-lock field-icon"></i> Bloqueo
+            </label>
+            <select id="bloqueado" class="field-input field-select" formControlName="bloqueado">
               <option [value]="false">Desbloqueado</option>
               <option [value]="true">Bloqueado</option>
             </select>
           </div>
         </div>
-        }
+      }
 
-        <div class="flex gap-3" style="border-top: 1px solid var(--border); padding-top: var(--space-6);">
-          <button type="submit" class="btn btn-primary" [disabled]="!svc.form.valid || dto.submitting()">
-            <i class="pi" [ngClass]="dto.submitting() ? 'pi-spin pi-spinner' : 'pi-check'"></i>
-            {{ dto.isCreation() ? 'Crear Usuario' : 'Guardar Cambios' }}
-          </button>
-          <button type="button" class="btn btn-secondary" (click)="svc.cancelar()">
-            <i class="pi pi-times"></i> Cancelar
-          </button>
-        </div>
-      </form>
-    </div>
+      <!-- FOOTER ACTIONS -->
+      <div class="form-footer">
+        <button type="submit" class="btn-primary" [disabled]="!svc.form.valid || dto.submitting()">
+          <i class="pi" [class.pi-spin]="dto.submitting()" [class.pi-spinner]="dto.submitting()" [class.pi-check]="!dto.submitting()"></i>
+          {{ dto.isCreation() ? 'Crear usuario' : 'Guardar cambios' }}
+        </button>
+        <button type="button" class="btn-ghost" (click)="svc.cancelar()">
+          <i class="pi pi-times"></i> Cancelar
+        </button>
+      </div>
+
+    </form>
   </div>
-</div>
 
-<p-toast></p-toast>
+  <p-toast></p-toast>
+</app-oj-shell>
