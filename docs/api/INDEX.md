@@ -1,7 +1,11 @@
 # SGED API — Guía de integración
 
 **Base URL:** `https://{host}/api/v1`  
-**Versión:** 1.2.4  
+**Versión:** 1.6.0  
+**Fecha de última actualización:** 2026-05-19  
+**Vigente para:** SGED v1.6.0 o superior  
+**Responsable:** Backend Team  
+**Estado:** ✅ Vigente  
 **Especificación completa:** [openapi.yaml](./openapi.yaml)
 
 Esta guía cubre los conceptos fundamentales para integrar con la API REST del Sistema de Gestión de Expedientes Digitales (SGED): autenticación, paginación, formato de respuesta, manejo de errores y control de acceso por rol.
@@ -153,22 +157,22 @@ La API usa códigos HTTP estándar. Cuando ocurre un error, `success` es `false`
 
 ## Control de acceso por rol
 
-El sistema tiene 4 roles. Cada rol tiene un conjunto de operaciones permitidas:
+El sistema tiene 5 roles. Cada rol tiene un conjunto de operaciones permitidas:
 
-| Rol          | Consultar expedientes | Crear / editar expedientes | Subir / eliminar documentos | Administrar usuarios y auditoría |
-|--------------|-----------------------|----------------------------|-----------------------------|----------------------------------|
-| `CONSULTA`   | Si                    | No                         | No                          | No                               |
-| `AUXILIAR`   | Si                    | No                         | Solo subir (no eliminar)    | No                               |
-| `SECRETARIO` | Si                    | Si                         | Si (subir y eliminar)       | No                               |
-| `ADMIN`      | Si                    | Si                         | Si (subir y eliminar)       | Si (acceso total)                |
+| Rol            | Consultar expedientes | Crear / editar expedientes | Subir / eliminar documentos | Administrar usuarios y auditoría |
+|----------------|-----------------------|----------------------------|-----------------------------|----------------------------------|
+| `CONSULTA`     | Si                    | No                         | No                          | No                               |
+| `JUEZ`         | Si                    | No                         | No                          | No                               |
+| `AUXILIAR`     | Si                    | No                         | Solo subir (no eliminar)    | No                               |
+| `SECRETARIO`   | Si                    | Si                         | Si (subir y eliminar)       | No                               |
+| `ADMINISTRADOR`| Si                    | Si                         | Si (subir y eliminar)       | Si (acceso total)                |
 
 ### Notas de acceso
 
 - **Catálogos** (`/catalogos/*`) y **estadísticas** (`/expedientes/estadisticas`) son accesibles para todos los roles autenticados.
-- **Búsqueda** rápida y avanzada es accesible para todos los roles autenticados.
-- **Visualizar y descargar documentos** (`/documentos/{id}/contenido`, `/stream`) es accesible para todos los roles autenticados.
-- **Generar PDF para impresión** (`/documentos/{id}/impresion`) requiere AUXILIAR, SECRETARIO o ADMIN.
-- **Administración de usuarios** (`/admin/usuarios/*`) y **auditoría** (`/admin/auditoria/*`) son exclusivos de ADMIN.
+- **Búsqueda** rápida, avanzada y **Expedientes Anclados** son accesibles para todos los roles autenticados.
+- **Visualización y DLP (Modo Presentación):** En cumplimiento de las políticas de prevención de fuga de información (DLP), las descargas de documentos directas están restringidas. La visualización consolidada y generación de PDF para impresión segura mediante `/documentos/{id}/impresion` está permitida según las matrices de permisos de rol (JUEZ, AUXILIAR, SECRETARIO, ADMINISTRADOR).
+- **Administración de usuarios** (`/admin/usuarios/*`) y **auditoría** (`/admin/auditoria/*`) son exclusivos de ADMINISTRADOR.
 - Si tu rol no tiene acceso a un recurso, recibirás `403 Forbidden` con el mensaje `"Acceso denegado: rol insuficiente"`.
 
 El rol del usuario autenticado se retorna en el campo `data.rol` de la respuesta de login y determina qué operaciones puede realizar durante la sesión.

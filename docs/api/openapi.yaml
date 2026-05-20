@@ -5,14 +5,14 @@ info:
     API REST del Sistema de Gestión de Expedientes Digitales.
 
     Gestiona expedientes judiciales y sus documentos asociados, con control de acceso
-    por roles (ADMIN, SECRETARIO, AUXILIAR, CONSULTA) y auditoría completa de acciones.
+    por roles (ADMINISTRADOR, SECRETARIO, AUXILIAR, CONSULTA, JUEZ) y auditoría completa de acciones.
 
     ## Autenticación
     Todos los endpoints (excepto `/auth/login`) requieren un token JWT en el header:
     ```
     Authorization: Bearer <token>
     ```
-  version: "1.2.4"
+  version: "1.6.0"
   contact:
     name: Equipo SGED
 
