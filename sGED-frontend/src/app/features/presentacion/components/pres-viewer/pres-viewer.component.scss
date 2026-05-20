@@ -68,14 +68,14 @@
   position: absolute;
   inset: 0;
   line-height: 1.0;
-  user-select: text;
+  user-select: none;
+  pointer-events: none;
   overflow: hidden;
 
   > span {
     color: transparent;
     position: absolute;
     white-space: pre;
-    cursor: text;
     transform-origin: 0 0;
   }
 }
