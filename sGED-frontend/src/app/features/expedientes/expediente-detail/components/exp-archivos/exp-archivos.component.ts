@@ -108,7 +108,7 @@ export class ExpArchivosComponent implements OnChanges {
       size: String(doc.tamanio),
       category: doc.categoria
     };
-    this.ancladosSvc.toggle(this.expedienteNumero, ancladoDoc);
+    this.ancladosSvc.toggle(this.expedienteNumero, ancladoDoc, this.expedienteId);
   }
 
   protected isAnclado(doc: Documento): boolean {

@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { AncladosService } from '../../../core/services/anclados.service';
 import { CatalogosService } from '../../../core/services/catalogos.service';
 import { ExpedientesService } from '../../../core/services/expedientes.service';
+import { BusquedaExpedientesService } from '../../../core/services/busqueda-expedientes.service';
 import { AuthUser } from '../../../core/models/auth-user.model';
 import { OjShellSection, OjShellUser } from '../../../shared/components/oj-shell/oj-shell.types';
 import { Documento } from '../../documentos/models/documento.model';
@@ -35,6 +36,7 @@ const NAV_ADMIN: OjShellSection = {
 @Injectable()
 export class ExpedienteDetailService {
   private readonly expedientesService = inject(ExpedientesService);
+  private readonly busquedaService    = inject(BusquedaExpedientesService);
   private readonly catalogosService   = inject(CatalogosService);
   private readonly authService        = inject(AuthService);
   private readonly ancladosSvc        = inject(AncladosService);
@@ -51,15 +53,18 @@ export class ExpedienteDetailService {
       this.dto.mode.set(tab);
     }
 
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (!id) {
-      this.dto.state.set(LoadState.Error);
-      this.dto.errorMessage.set('Expediente inválido');
-      return;
-    }
+    const rawId = this.route.snapshot.paramMap.get('id') ?? '';
+    const id = Number(rawId);
     this.initShell();
     this.cargarCatalogos();
-    this.cargarExpediente(id);
+    if (Number.isInteger(id) && id > 0) {
+      this.cargarExpediente(id);
+    } else if (rawId) {
+      this.resolverPorNumero(rawId);
+    } else {
+      this.dto.state.set(LoadState.Error);
+      this.dto.errorMessage.set('Expediente inválido');
+    }
   }
 
   canEdit(): boolean {
@@ -94,6 +99,27 @@ export class ExpedienteDetailService {
 
   setReadingMode(active: boolean): void {
     this.dto.readingModeActive.set(active);
+  }
+
+  private resolverPorNumero(numero: string): void {
+    this.dto.state.set(LoadState.Loading);
+    this.busquedaService.buscarRapida(numero, { page: 0, size: 5 })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          const found = res.data?.content?.find(e => e.numero === numero && e.id != null);
+          if (found?.id) {
+            this.cargarExpediente(found.id);
+          } else {
+            this.dto.state.set(LoadState.Error);
+            this.dto.errorMessage.set('Expediente no encontrado');
+          }
+        },
+        error: () => {
+          this.dto.state.set(LoadState.Error);
+          this.dto.errorMessage.set('Error al buscar el expediente');
+        }
+      });
   }
 
   private cargarExpediente(id: number): void {

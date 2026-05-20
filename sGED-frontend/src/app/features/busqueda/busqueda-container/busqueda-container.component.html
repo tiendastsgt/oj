@@ -59,7 +59,7 @@
 
       <div class="anclados-grid">
         @for (anc of dto.anclados(); track anc.numeroExpediente) {
-          <article class="anclado-card" [routerLink]="['/expedientes', anc.numeroExpediente]">
+          <article class="anclado-card" [routerLink]="['/expedientes', anc.id ?? anc.numeroExpediente]">
             <div class="anclado-header">
               <span class="anclado-num">{{ anc.numeroExpediente }}</span>
               <span class="anclado-pin-badge">
@@ -95,7 +95,7 @@
             </div>
             <div class="anclado-actions" (click)="$event.stopPropagation()">
               <a class="anclado-btn anclado-btn-ver"
-                 [routerLink]="['/expedientes', anc.numeroExpediente]"
+                 [routerLink]="['/expedientes', anc.id ?? anc.numeroExpediente]"
                  [queryParams]="{ tab: 'archivos' }">
                 <svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 Ver anclados

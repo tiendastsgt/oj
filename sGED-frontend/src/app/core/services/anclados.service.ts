@@ -12,7 +12,7 @@ export class AncladosService {
     Array.from(this._state().values())
   );
 
-  toggle(expedienteNum: string, doc: AncladoDoc): boolean {
+  toggle(expedienteNum: string, doc: AncladoDoc, expedienteId?: number): boolean {
     const next = new Map(this._state());
     const exp = next.get(expedienteNum);
 
@@ -33,9 +33,12 @@ export class AncladosService {
 
     const existing = next.get(expedienteNum);
     if (existing) {
-      next.set(expedienteNum, { ...existing, docs: [...existing.docs, doc] });
+      const updated = { ...existing, docs: [...existing.docs, doc] };
+      if (expedienteId && !existing.id) updated.id = expedienteId;
+      next.set(expedienteNum, updated);
     } else {
       next.set(expedienteNum, {
+        id: expedienteId,
         numeroExpediente: expedienteNum,
         juzgado: '',
         docs: [doc],
