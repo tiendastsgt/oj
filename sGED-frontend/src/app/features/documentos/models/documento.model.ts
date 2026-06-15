@@ -8,6 +8,7 @@ export interface Documento {
   tamanio: number;
   mimeType: string;
   extension: string;
+  orden?: number;
   categoria: string;
   usuarioCreacion: string;
   fechaCreacion: string;

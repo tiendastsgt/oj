@@ -52,6 +52,10 @@ export class ExpArchivosComponent implements OnChanges {
   protected readonly soloAnclados = signal(false);
   protected readonly selectedDoc = signal<Documento | null>(null);
 
+  // Reordenamiento por arrastre (drag & drop nativo) de la lista de archivos.
+  protected readonly dragSrcId  = signal<number | null>(null);
+  protected readonly dragOverId = signal<number | null>(null);
+
   protected readonly docsVista = computed(() => {
     const tipo   = this.tipoFiltro();
     const q      = this.busqueda().toLowerCase();
@@ -126,6 +130,71 @@ export class ExpArchivosComponent implements OnChanges {
 
   protected closeViewer(): void {
     this.selectedDoc.set(null);
+  }
+
+  // Reordenamiento por arrastre.
+  // Se opera sobre IDs (no indices) para que el reordenamiento sea
+  // correcto incluso cuando hay filtros activos sobre la lista.
+  protected onItemDragStart(event: DragEvent, doc: Documento): void {
+    this.dragSrcId.set(doc.id);
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', String(doc.id));
+    }
+  }
+
+  protected onItemDragOver(event: DragEvent, doc: Documento): void {
+    if (this.dragSrcId() === null) return; // ignorar arrastres ajenos (p. ej. subida de archivos)
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.dragSrcId() !== doc.id) this.dragOverId.set(doc.id);
+  }
+
+  protected onItemDragLeave(doc: Documento): void {
+    if (this.dragOverId() === doc.id) this.dragOverId.set(null);
+  }
+
+  protected onItemDrop(event: DragEvent, doc: Documento): void {
+    if (this.dragSrcId() === null) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const from = this.dragSrcId();
+    this.dragOverId.set(null);
+    this.dragSrcId.set(null);
+    if (from === null || from === doc.id) return;
+    this.reordenar(from, doc.id);
+  }
+
+  protected onItemDragEnd(): void {
+    this.dragSrcId.set(null);
+    this.dragOverId.set(null);
+  }
+
+  private reordenar(srcId: number, targetId: number): void {
+    const prev = this.documentos();
+    const docs = [...prev];
+    const from = docs.findIndex(d => d.id === srcId);
+    const to   = docs.findIndex(d => d.id === targetId);
+    if (from < 0 || to < 0 || from === to) return;
+    const [moved] = docs.splice(from, 1);
+    docs.splice(to, 0, moved);
+    this.documentos.set(docs); // actualizacion optimista
+
+    // Persistir el nuevo orden; si falla, restaurar el orden anterior.
+    this.docsSvc.reordenarDocumentos(this.expedienteId, docs.map(d => d.id))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => { if (res.data) this.documentos.set(res.data); },
+        error: () => {
+          this.documentos.set(prev);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'No se pudo guardar el orden',
+            detail: 'Se restauro el orden anterior.',
+            life: 4000
+          });
+        }
+      });
   }
 
   protected setTipo(tipo: TipoFiltro): void {

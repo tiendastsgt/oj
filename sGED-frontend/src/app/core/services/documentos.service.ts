@@ -46,6 +46,17 @@ export class DocumentosService {
     );
   }
 
+  /**
+   * Persiste el nuevo orden de los documentos de un expediente.
+   * @param ordenIds ids de los documentos en el orden deseado (posicion = orden).
+   */
+  reordenarDocumentos(expedienteId: number, ordenIds: number[]): Observable<ApiResponse<Documento[]>> {
+    return this.http.put<ApiResponse<Documento[]>>(
+      `${this.baseUrl}/expedientes/${expedienteId}/documentos/orden`,
+      { ordenIds }
+    );
+  }
+
   getDocumento(id: number): Observable<ApiResponse<Documento>> {
     return this.obtenerDetalle(id);
   }
