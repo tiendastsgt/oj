@@ -1,8 +1,8 @@
-import paramiko, time
+import time
 
-client = paramiko.SSHClient()
-client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-client.connect('51.161.32.204', port=52022, username='ubuntu', password='ElyLov10$', timeout=120)
+from _vps import connect
+
+client = connect(timeout=120)
 
 def run(cmd, label, wait=20):
     print(f'\n=== {label} ===')
