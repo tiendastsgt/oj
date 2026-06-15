@@ -1,14 +1,7 @@
-import paramiko
+from _vps import connect
 
 def fix():
-    hostname = '51.161.32.204'
-    port = 52022
-    username = 'ubuntu'
-    password = 'ElyLov10$'
-
-    client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(hostname, port=port, username=username, password=password)
+    client = connect()
 
     commands = [
         "sudo apt-get install -y unzip",

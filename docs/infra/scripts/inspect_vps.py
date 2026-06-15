@@ -1,17 +1,8 @@
-import paramiko
-import sys
+from _vps import connect
 
 def ssh_execute_and_dump():
-    hostname = '51.161.32.204'
-    port = 52022
-    username = 'ubuntu'
-    password = 'ElyLov10$'
-
-    client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
     try:
-        client.connect(hostname, port=port, username=username, password=password, timeout=10)
+        client = connect(timeout=10)
         print("Connected successfully.")
         
         commands = [

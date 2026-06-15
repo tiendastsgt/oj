@@ -1,8 +1,6 @@
-import paramiko, json
+from _vps import connect
 
-client = paramiko.SSHClient()
-client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-client.connect('51.161.32.204', port=52022, username='ubuntu', password='ElyLov10$', timeout=30)
+client = connect(timeout=30)
 
 def run(cmd, label):
     print(f'\n=== {label} ===')

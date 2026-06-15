@@ -1,8 +1,8 @@
-import paramiko, json, time
+import json
 
-client = paramiko.SSHClient()
-client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-client.connect('51.161.32.204', port=52022, username='ubuntu', password='ElyLov10$', timeout=30)
+from _vps import connect, qa_login_json
+
+client = connect(timeout=30)
 
 def run(cmd, label):
     print(f'\n=== {label} ===')
@@ -17,7 +17,7 @@ def run(cmd, label):
 stdin, stdout, stderr = client.exec_command(
     'curl -s -X POST http://localhost:8086/api/v1/auth/login '
     '-H "Content-Type: application/json" '
-    "-d '{\"username\":\"admin.qa\",\"password\":\"QAPassword123!\"}'"
+    f"-d '{qa_login_json()}'"
 )
 token = json.loads(stdout.read().decode())['data']['token']
 print(f'Token OK: {token[:30]}...')
