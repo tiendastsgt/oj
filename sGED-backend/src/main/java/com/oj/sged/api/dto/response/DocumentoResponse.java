@@ -17,6 +17,7 @@ public class DocumentoResponse {
     private Long tamanio;
     private String mimeType;
     private String extension;
+    private Long orden;
     private String categoria;
     private String usuarioCreacion;
     private LocalDateTime fechaCreacion;

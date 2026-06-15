@@ -82,6 +82,7 @@ class DocumentoServiceTest {
 
         when(expedienteRepository.findById(1L)).thenReturn(Optional.of(expediente));
         when(validationService.getExtension("doc.pdf")).thenReturn("pdf");
+        when(documentoRepository.findMaxOrdenByExpedienteId(1L)).thenReturn(0L);
         when(documentoRepository.save(any(Documento.class))).thenAnswer(invocation -> {
             Documento doc = invocation.getArgument(0);
             if (doc.getId() == null) {
@@ -134,13 +135,59 @@ class DocumentoServiceTest {
         Expediente expediente = buildExpediente(2L, 10L);
         Documento documento = buildDocumento(expediente, 20L, false);
         when(expedienteRepository.findById(2L)).thenReturn(Optional.of(expediente));
-        when(documentoRepository.findAllByExpedienteIdAndEliminadoFalse(2L)).thenReturn(List.of(documento));
+        when(documentoRepository.findAllByExpedienteIdAndEliminadoFalseOrderByOrdenAscIdAsc(2L))
+            .thenReturn(List.of(documento));
         when(documentoMapper.toResponse(documento)).thenReturn(DocumentoResponse.builder().id(20L).build());
 
         List<DocumentoResponse> response = documentoService.listarPorExpediente(2L);
 
         assertEquals(1, response.size());
-        verify(documentoRepository).findAllByExpedienteIdAndEliminadoFalse(2L);
+        verify(documentoRepository).findAllByExpedienteIdAndEliminadoFalseOrderByOrdenAscIdAsc(2L);
+    }
+
+    @Test
+    void reordenar_updatesOrdenAndAudits() {
+        setAuthentication("admin", "ROLE_ADMINISTRADOR");
+        Expediente expediente = buildExpediente(7L, 10L);
+        Documento doc1 = buildDocumento(expediente, 71L, false);
+        Documento doc2 = buildDocumento(expediente, 72L, false);
+        doc1.setOrden(0L);
+        doc2.setOrden(1L);
+        when(expedienteRepository.findById(7L)).thenReturn(Optional.of(expediente));
+        when(documentoRepository.findAllByExpedienteIdAndEliminadoFalseOrderByOrdenAscIdAsc(7L))
+            .thenReturn(new java.util.ArrayList<>(List.of(doc1, doc2)));
+        when(documentoRepository.saveAll(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(documentoMapper.toResponse(any(Documento.class)))
+            .thenAnswer(invocation -> {
+                Documento d = invocation.getArgument(0);
+                return DocumentoResponse.builder().id(d.getId()).orden(d.getOrden()).build();
+            });
+
+        List<DocumentoResponse> response = documentoService.reordenar(7L, List.of(72L, 71L), "10.0.0.8");
+
+        // El primero de la lista recibida debe quedar con orden 0.
+        assertEquals(72L, response.get(0).getId());
+        assertEquals(0L, doc2.getOrden());
+        assertEquals(1L, doc1.getOrden());
+        verify(documentoRepository).saveAll(any());
+        verify(auditoriaService).registrar(
+            eq("REORDENAR_DOCUMENTOS"), eq("EXPEDIENTE"), eq(7L),
+            eq("Reordenamiento manual de documentos"), eq("10.0.0.8")
+        );
+    }
+
+    @Test
+    void reordenar_idsMismatch_throwsValidation() {
+        setAuthentication("admin", "ROLE_ADMINISTRADOR");
+        Expediente expediente = buildExpediente(8L, 10L);
+        Documento doc1 = buildDocumento(expediente, 81L, false);
+        when(expedienteRepository.findById(8L)).thenReturn(Optional.of(expediente));
+        when(documentoRepository.findAllByExpedienteIdAndEliminadoFalseOrderByOrdenAscIdAsc(8L))
+            .thenReturn(new java.util.ArrayList<>(List.of(doc1)));
+
+        assertThrows(com.oj.sged.shared.exception.InvalidReferenceException.class,
+            () -> documentoService.reordenar(8L, List.of(81L, 999L), "10.0.0.9"));
+        verify(documentoRepository, never()).saveAll(any());
     }
 
     @Test

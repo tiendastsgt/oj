@@ -59,6 +59,10 @@ public class Documento {
     @Column(name = "extension", nullable = false, length = 10)
     private String extension;
 
+    /** Orden manual del documento dentro del expediente (menor = primero). */
+    @Column(name = "orden", nullable = false)
+    private Long orden;
+
     @Column(name = "usuario_creacion", nullable = false, length = 50)
     private String usuarioCreacion;
 
@@ -81,6 +85,9 @@ public class Documento {
         }
         if (eliminado == null) {
             eliminado = false;
+        }
+        if (orden == null) {
+            orden = 0L;
         }
     }
 

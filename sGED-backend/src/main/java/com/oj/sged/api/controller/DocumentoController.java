@@ -1,9 +1,11 @@
 package com.oj.sged.api.controller;
 
+import com.oj.sged.api.dto.request.ReordenarDocumentosRequest;
 import com.oj.sged.api.dto.response.ApiResponse;
 import com.oj.sged.api.dto.response.DocumentoResponse;
 import com.oj.sged.application.service.DocumentoService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +62,18 @@ public class DocumentoController {
         DocumentoResponse response = documentoService.cargarDocumento(expedienteId, file, tipoDocumentoId, getClientIp(request));
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.ok("Documento cargado exitosamente", response));
+    }
+
+    @PutMapping("/expedientes/{id}/documentos/orden")
+    @PreAuthorize("hasAnyRole('ADMINISTRADOR','SECRETARIO','AUXILIAR')")
+    public ResponseEntity<ApiResponse<List<DocumentoResponse>>> reordenar(
+        @PathVariable("id") Long expedienteId,
+        @Valid @RequestBody ReordenarDocumentosRequest request,
+        HttpServletRequest httpRequest
+    ) {
+        List<DocumentoResponse> documentos =
+            documentoService.reordenar(expedienteId, request.getOrdenIds(), getClientIp(httpRequest));
+        return ResponseEntity.ok(ApiResponse.ok("Orden actualizado", documentos));
     }
 
     @GetMapping("/documentos/{id}")
