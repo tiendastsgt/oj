@@ -14,7 +14,12 @@ import os
 import sys
 import urllib.request
 
-API = os.environ.get("VPS_API_BASE") or f"http://{os.environ['VPS_HOST']}:8086/api/v1"
+API = os.environ.get("VPS_API_BASE")
+if not API:
+    vps_host = os.environ.get("VPS_HOST")
+    if not vps_host:
+        sys.exit("Falta VPS_HOST en el entorno (o define VPS_API_BASE directamente).")
+    API = f"http://{vps_host}:8086/api/v1"
 QA_USER = os.environ.get("QA_USER", "admin.qa")
 QA_PASSWORD = os.environ.get("QA_PASSWORD")
 DOCS_DIR = os.environ.get(
