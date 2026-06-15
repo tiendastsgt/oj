@@ -65,8 +65,43 @@ public class DocumentoService {
     public List<DocumentoResponse> listarPorExpediente(Long expedienteId) {
         Expediente expediente = validarExpedienteExiste(expedienteId);
         validarAccesoExpediente(expediente);
-        return documentoRepository.findAllByExpedienteIdAndEliminadoFalse(expedienteId)
+        return documentoRepository.findAllByExpedienteIdAndEliminadoFalseOrderByOrdenAscIdAsc(expedienteId)
             .stream()
+            .map(documentoMapper::toResponse)
+            .toList();
+    }
+
+    @Transactional
+    public List<DocumentoResponse> reordenar(Long expedienteId, List<Long> ordenIds, String ip) {
+        Expediente expediente = validarExpedienteExiste(expedienteId);
+        validarAccesoExpediente(expediente);
+
+        List<Documento> documentos =
+            documentoRepository.findAllByExpedienteIdAndEliminadoFalseOrderByOrdenAscIdAsc(expedienteId);
+
+        // Validar que los ids recibidos correspondan exactamente a los documentos del expediente.
+        java.util.Set<Long> idsExpediente = documentos.stream()
+            .map(Documento::getId)
+            .collect(java.util.stream.Collectors.toSet());
+        java.util.Set<Long> idsRecibidos = new java.util.HashSet<>(ordenIds);
+        if (!idsExpediente.equals(idsRecibidos)) {
+            throw new com.oj.sged.shared.exception.InvalidReferenceException(
+                List.of("La lista de orden no coincide con los documentos del expediente"));
+        }
+
+        java.util.Map<Long, Documento> porId = documentos.stream()
+            .collect(java.util.stream.Collectors.toMap(Documento::getId, d -> d));
+        for (int i = 0; i < ordenIds.size(); i++) {
+            porId.get(ordenIds.get(i)).setOrden((long) i);
+        }
+        documentoRepository.saveAll(documentos);
+
+        auditoriaService.registrar("REORDENAR_DOCUMENTOS", "EXPEDIENTE", expedienteId,
+            "Reordenamiento manual de documentos", ip);
+        logger.info("operation=document_reorder expedienteId={} total={}", expedienteId, ordenIds.size());
+
+        return documentos.stream()
+            .sorted(java.util.Comparator.comparing(Documento::getOrden).thenComparing(Documento::getId))
             .map(documentoMapper::toResponse)
             .toList();
     }
@@ -85,6 +120,7 @@ public class DocumentoService {
         }
 
         String username = SecurityUtil.getCurrentUsername().orElse("ANONIMO");
+        long siguienteOrden = documentoRepository.findMaxOrdenByExpedienteId(expedienteId) + 1;
         Documento documento = Documento.builder()
             .expediente(expediente)
             .tipoDocumento(tipoDocumento)
@@ -94,6 +130,7 @@ public class DocumentoService {
             .tamanio(file.getSize())
             .mimeType(file.getContentType())
             .extension(extension)
+            .orden(siguienteOrden)
             .usuarioCreacion(username)
             .fechaCreacion(LocalDateTime.now())
             .eliminado(false)

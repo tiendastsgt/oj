@@ -73,6 +73,7 @@ superpowers/
 
 # AI assistant metadata
 .gemini/
+.claude/settings.local.json
 
 # Test output artifacts (regenerable)
 sGED-frontend/test_out*.txt

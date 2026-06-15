@@ -169,57 +169,72 @@ public class DbDataInitializer implements CommandLineRunner {
         log.info("Semillando expedientes de prueba con documentos reales...");
         ensurePhysicalStorage();
 
-        // Mapa de tipos de documento cacheado para evitar 21 queries en el loop
+        // Mapa de tipos de documento cacheado para evitar queries repetidas en el loop
         Map<String, CatTipoDocumento> tipos = new HashMap<>();
         tipoDocumentoRepository.findAll().forEach(t -> tipos.put(t.getNombre(), t));
 
-        // E1 — Civil ordinario (ACTIVO) — 5 docs (todos con contenido judicial realista)
+        // Todos los documentos sembrados son decretos judiciales reales (20 archivos
+        // en src/main/resources/seed-samples/), por lo que se clasifican con el tipo
+        // de documento "Decreto" (Grupo 2 — Resoluciones del tribunal).
+        CatTipoDocumento decreto = tipos.get("Decreto");
+
+        // E1 — Civil (ACTIVO) — 3 decretos
         Expediente e1 = createExpediente("01173-2026-00045", procesos.get("CIVIL"), juzgado, activo,
-            "Juicio Ordinario de Daños y Perjuicios");
-        createDocumento(e1, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
-        createDocumento(e1, tipos.get("Auto"), "Resolucion_Admision.pdf", "pdf");
-        createDocumento(e1, tipos.get("Contestación de demanda"), "Contestacion_Demanda.pdf", "pdf");
-        createDocumento(e1, tipos.get("Cédula de notificación"), "Cedula_Notificacion.pdf", "pdf");
-        createDocumento(e1, tipos.get("Sentencia"), "Sentencia_Ordinario.pdf", "pdf");
+            "Juicio Ordinario Civil — Decretos de trámite");
+        createDocumento(e1, decreto, "Decreto - Juzgado Civil.pdf", "civil_juzgado.pdf", "pdf");
+        createDocumento(e1, decreto, "Decreto - Juzgado Civil II.pdf", "civil_juzgado_2.pdf", "pdf");
+        createDocumento(e1, decreto, "Decreto - Juzgado de Paz Civil.pdf", "civil_paz.pdf", "pdf");
 
-        // E2 — Penal con multimedia COMPLETO (ACTIVO) — 6 docs
+        // E2 — Penal (ACTIVO) — 2 decretos
         Expediente e2 = createExpediente("01108-2026-01234", procesos.get("PENAL"), juzgado, activo,
-            "Proceso Penal por Estafa Propia");
-        createDocumento(e2, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
-        createDocumento(e2, tipos.get("Auto"), "Auto_Medida_Cautelar.pdf", "pdf");
-        createDocumento(e2, tipos.get("Acta de audiencia"), "Audiencia_Primera_Declaracion.mp3", "mp3");
-        createDocumento(e2, tipos.get("Prueba multimedia"), "Reconstruccion_Hechos.mp4", "mp4");
-        createDocumento(e2, tipos.get("Prueba documental"), "Foto_Escena.jpg", "jpg");
-        createDocumento(e2, tipos.get("Acta de declaración"), "Acta_Audiencia_Penal.pdf", "pdf");
+            "Proceso Penal — Decretos de juzgado y sala");
+        createDocumento(e2, decreto, "Decreto - Juzgado Penal.doc", "penal_juzgado.doc", "doc");
+        createDocumento(e2, decreto, "Decreto - Sala Penal.doc", "penal_sala.doc", "doc");
 
-        // E3 — Laboral (ACTIVO) — 3 docs
-        Expediente e3 = createExpediente("01024-2026-00088", procesos.get("LABORAL"), juzgado, activo,
-            "Juicio Ordinario Laboral por Despido Injustificado");
-        createDocumento(e3, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
-        createDocumento(e3, tipos.get("Acta de audiencia"), "Acta_Audiencia_Penal.pdf", "pdf");
-        createDocumento(e3, tipos.get("Sentencia"), "Sentencia_Ordinario.pdf", "pdf");
+        // E3 — Penal / Extorsión (PENDIENTE) — 2 decretos
+        Expediente e3 = createExpediente("01108-2026-02050", procesos.get("PENAL"), juzgado, pendiente,
+            "Proceso Penal por Extorsión — Decretos y prórroga");
+        createDocumento(e3, decreto, "Decreto - Extorsiones.doc", "penal_extorsiones.doc", "doc");
+        createDocumento(e3, decreto, "Decreto - Prórroga Extorsiones.pdf", "penal_extorsiones_prorroga.pdf", "pdf");
 
-        // E4 — Familia / Alimentos (ACTIVO) — 3 docs
-        Expediente e4 = createExpediente("01044-2026-00321", procesos.get("FAMILIA"), juzgado, activo,
-            "Pensión Alimenticia Provisional");
-        createDocumento(e4, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
-        createDocumento(e4, tipos.get("Auto"), "Resolucion_Admision.pdf", "pdf");
-        createDocumento(e4, tipos.get("Cédula de notificación"), "Cedula_Notificacion.pdf", "pdf");
+        // E4 — Laboral (ACTIVO) — 1 decreto
+        Expediente e4 = createExpediente("01024-2026-00088", procesos.get("LABORAL"), juzgado, activo,
+            "Juicio Ordinario Laboral — Decreto de trámite");
+        createDocumento(e4, decreto, "Decreto - Juzgado Laboral.pdf", "laboral_juzgado.pdf", "pdf");
 
-        // E5 — Femicidio (PENDIENTE) — 3 docs con multimedia clave
-        Expediente e5 = createExpediente("01069-2026-00012", procesos.get("FEMICIDIO"), juzgado, pendiente,
-            "Femicidio en grado de tentativa — Decreto 22-2008");
-        createDocumento(e5, tipos.get("Demanda"), "Demanda_Inicial.pdf", "pdf");
-        createDocumento(e5, tipos.get("Prueba documental"), "Foto_Escena.jpg", "jpg");
-        createDocumento(e5, tipos.get("Prueba multimedia"), "Audiencia_Primera_Declaracion.mp3", "mp3");
+        // E5 — Familia (ACTIVO) — 3 decretos
+        Expediente e5 = createExpediente("01044-2026-00321", procesos.get("FAMILIA"), juzgado, activo,
+            "Proceso de Familia — Decretos de juzgado y sala");
+        createDocumento(e5, decreto, "Decreto - Juzgado de Familia.pdf", "familia_juzgado.pdf", "pdf");
+        createDocumento(e5, decreto, "Decreto - Sala de Familia.pdf", "familia_sala.pdf", "pdf");
+        createDocumento(e5, decreto, "Decreto - Sala de Familia II.pdf", "familia_sala_2.pdf", "pdf");
 
-        // E6 — Mercantil ejecución (CERRADO) — 2 docs
-        Expediente e6 = createExpediente("01075-2025-00992", procesos.get("MERCANTIL"), juzgado, cerrado,
-            "Ejecución Mercantil por Cobro de Pagaré");
-        createDocumento(e6, tipos.get("Memorial general"), "Demanda_Inicial.pdf", "pdf");
-        createDocumento(e6, tipos.get("Sentencia"), "Sentencia_Ordinario.pdf", "pdf");
+        // E6 — Niñez y Adolescencia (PENDIENTE) — 2 decretos
+        Expediente e6 = createExpediente("01066-2026-00150", procesos.get("NINEZ"), juzgado, pendiente,
+            "Niñez y Adolescencia — Decretos de juzgado y adolescentes en conflicto");
+        createDocumento(e6, decreto, "Decreto - Juzgado de Niñez.doc", "ninez_juzgado.doc", "doc");
+        createDocumento(e6, decreto, "Decreto - Adolescentes en Conflicto.pdf", "ninez_adolescentes.pdf", "pdf");
 
-        log.info("Sembrados 6 expedientes con 22 documentos físicos reales.");
+        // E7 — Femicidio y VCM (PENDIENTE) — 2 decretos
+        Expediente e7 = createExpediente("01069-2026-00012", procesos.get("FEMICIDIO"), juzgado, pendiente,
+            "Femicidio y VCM — Decretos de juzgado y sala (Decreto 22-2008)");
+        createDocumento(e7, decreto, "Decreto - Juzgado de Femicidio.doc", "femicidio_juzgado.doc", "doc");
+        createDocumento(e7, decreto, "Decreto - Sala de Femicidio.doc", "femicidio_sala.doc", "doc");
+
+        // E8 — Contencioso Administrativo (ACTIVO) — 2 decretos
+        Expediente e8 = createExpediente("01180-2026-00077", procesos.get("CONTENCIOSO"), juzgado, activo,
+            "Contencioso Administrativo — Decretos de sala y materia aduanera");
+        createDocumento(e8, decreto, "Decreto - Sala Contencioso Administrativo.doc", "contencioso_sala.doc", "doc");
+        createDocumento(e8, decreto, "Decreto - Materia Aduanera.doc", "contencioso_aduanera.doc", "doc");
+
+        // E9 — Económico Coactivo (CERRADO) — 3 decretos
+        Expediente e9 = createExpediente("01075-2025-00992", procesos.get("ECONOMICO"), juzgado, cerrado,
+            "Económico Coactivo — Decretos tributario, de cuentas y coactivo");
+        createDocumento(e9, decreto, "Decreto - Sala Tributaria.pdf", "economico_tributaria.pdf", "pdf");
+        createDocumento(e9, decreto, "Decreto - Juzgado de Cuentas.doc", "economico_cuentas.doc", "doc");
+        createDocumento(e9, decreto, "Decreto - Económico Coactivo.doc", "economico_coactivo.doc", "doc");
+
+        log.info("Sembrados 9 expedientes con 20 decretos físicos reales.");
     }
 
     private Expediente createExpediente(String numero, CatTipoProceso tipo, CatJuzgado juzgado, CatEstado estado, String desc) {
@@ -236,13 +251,18 @@ public class DbDataInitializer implements CommandLineRunner {
     }
 
     /**
-     * Crea un documento copiando el archivo de muestra correspondiente desde
-     * el classpath (src/main/resources/seed-samples/sample.<ext>) hacia el
+     * Crea un documento copiando el decreto real correspondiente desde el
+     * classpath (src/main/resources/seed-samples/<classpathName>) hacia el
      * directorio de storage. Funciona en Windows, Docker y entornos de test.
+     *
+     * @param nombreOriginal nombre visible del documento en la UI.
+     * @param classpathName  nombre físico (ASCII seguro) del archivo en el classpath.
+     * @param ext            extensión real del archivo (pdf, doc).
      */
-    private void createDocumento(Expediente e, CatTipoDocumento tipo, String nombreOriginal, String ext) {
-        String storageName = "seed_" + System.currentTimeMillis() + "_" + nombreOriginal;
-        long tamanio = copySampleToStorage(nombreOriginal, ext, storageName);
+    private void createDocumento(Expediente e, CatTipoDocumento tipo, String nombreOriginal,
+                                 String classpathName, String ext) {
+        String storageName = "seed_" + System.currentTimeMillis() + "_" + classpathName;
+        long tamanio = copySampleToStorage(classpathName, storageName);
 
         documentoRepository.save(Documento.builder()
             .expediente(e)
@@ -260,18 +280,14 @@ public class DbDataInitializer implements CommandLineRunner {
     }
 
     /**
-     * Copia el archivo correspondiente desde el classpath al directorio de
-     * storage. Primero intenta buscar por nombre original de archivo,
-     * si no existe, busca el sample genérico de la extensión.
+     * Copia el archivo real desde el classpath (seed-samples/) al directorio de
+     * storage usando su nombre físico ASCII. Si no existe, registra una
+     * advertencia y devuelve 0 sin abortar el semillado.
      */
-    private long copySampleToStorage(String nombreOriginal, String ext, String storageName) {
-        ClassPathResource resource = new ClassPathResource(SAMPLES_CLASSPATH + nombreOriginal);
+    private long copySampleToStorage(String classpathName, String storageName) {
+        ClassPathResource resource = new ClassPathResource(SAMPLES_CLASSPATH + classpathName);
         if (!resource.exists()) {
-            String sampleName = "sample." + ext.toLowerCase(Locale.ROOT);
-            resource = new ClassPathResource(SAMPLES_CLASSPATH + sampleName);
-        }
-        if (!resource.exists()) {
-            log.warn("Sample no encontrado en classpath para: {} o extensión {}", nombreOriginal, ext);
+            log.warn("Decreto seed no encontrado en classpath: {}", classpathName);
             return 0L;
         }
         try {

@@ -81,8 +81,16 @@
         <button
           type="button"
           class="doc-item"
+          draggable="true"
           [class.active]="selectedDoc()?.id === doc.id"
+          [class.is-dragging]="dragSrcId() === doc.id"
+          [class.is-drag-over]="dragOverId() === doc.id"
           (click)="selectDoc(doc)"
+          (dragstart)="onItemDragStart($event, doc)"
+          (dragover)="onItemDragOver($event, doc)"
+          (dragleave)="onItemDragLeave(doc)"
+          (drop)="onItemDrop($event, doc)"
+          (dragend)="onItemDragEnd()"
         >
           <div class="doc-item-icon tipo-{{ getTipoIcon(doc) }}">
             @if (getTipoIcon(doc) === 'video') {

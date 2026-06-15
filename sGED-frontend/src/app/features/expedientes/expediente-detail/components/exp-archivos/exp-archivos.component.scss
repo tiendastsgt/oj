@@ -243,6 +243,11 @@
 
   &:hover { background: var(--c-fondo-alt); }
   &.active { background: var(--c-azul-50); border-left: 3px solid var(--c-azul-800); padding-left: calc(var(--sp-3) - 3px); }
+
+  /* Reordenamiento por arrastre */
+  &:active { cursor: grabbing; }
+  &.is-dragging { opacity: 0.45; }
+  &.is-drag-over { box-shadow: inset 0 2px 0 0 var(--c-azul-800); background: var(--c-azul-50); }
 }
 
 .doc-item-icon {
